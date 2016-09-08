@@ -1,28 +1,49 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page session="true" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <html>
-<body onload='document.loginForm.username.focus();'>
-	<h3>PASSI</h3>
 
-	<c:if test="${not empty error}"><div>${error}</div></c:if>
-	<c:if test="${not empty message}"><div>${message}</div></c:if>
+<head>
+<title>Passi&nbsp;&nbsp;&bull;&nbsp;&nbsp;Login</title>
 
-	<form name='login' action="<c:url value='/login' />" method='POST'>
-		<table>
-			<tr>
-				<td>UserName:</td>
-				<td><input type='text' name='username' value=''></td>
-			</tr>
-			<tr>
-				<td>Password:</td>
-				<td><input type='password' name='password' /></td>
-			</tr>
-			<tr>
-				<td colspan='2'><input name="submit" type="submit" value="submit" /></td>
-			</tr>
-		</table>
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-	</form>
+<meta name="author" content="Mika Ropponen" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- bootstrap libraries -->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+
+<body onload="document.login.username.focus();">
+	<div class="container" style="text-align: center; font: normal 12px Consolas;">
+		<div class="row">
+			<div class="col-sm-offset-5 col-sm-2">
+				<h1>PASSI</h1><br />
+				<h4>Kirjaudu sisään</h4>
+				<c:if test="${not empty error}"><p style="color: red">${error}</p></c:if>
+				<c:if test="${not empty message}"><p style="color: green">${message}</p></c:if>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-offset-5 col-sm-2">
+				<form role="form" class="form-horizontal" name="login" action="<c:url value='/login' />" method="post">
+				<input class="form-control" type="text" name="username" value="" placeholder="Käyttäjänimi" autocomplete="off" style="text-align: center !important;" />
+				<br />
+				<input class="form-control" type="password" name="password" placeholder="Salasana" autocomplete="off" style="text-align: center !important;" />
+				<br />
+				<input class="btn btn-default form-control login-submit" name="submit" type="submit" value="KIRJAUDU" />
+				<br />
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				</form>
+				<span style="color: #696969;">Username: Donald<br />Password: Trump</span>
+			</div>			
+		</div>		
+	</div>
 </body>
 </html>
