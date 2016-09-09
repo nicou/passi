@@ -8,12 +8,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>PASSI</title>
 </head>
 <body>
 <h3>PASSI</h3>
-<p>Tervetuloa <c:out value="${user}" />... käyttöoikeutesi on <c:out value="${role == 'ROLE_ADMIN' ? 'ADMIN' : 'USER'}" /></p>
+<p>Tervetuloa <c:out value="${user}" />. Käyttöoikeutesi on <c:out value="${role == 'ROLE_ADMIN' ? 'ADMIN' : 'USER'}" />.</p>
 <c:url value="/logout" var="logoutUrl" />
 <form id="logout" action="${logoutUrl}" method="post" >
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />

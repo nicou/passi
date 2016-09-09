@@ -65,7 +65,6 @@ public class PassiController {
 		ModelAndView model = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String user = auth.getName();
-		System.out.println(user);
 		model.addObject("role", dao.getRole(user));
 		model.addObject("user", user);
 		model.setViewName("index");
