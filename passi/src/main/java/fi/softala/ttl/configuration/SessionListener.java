@@ -7,12 +7,12 @@ public class SessionListener implements HttpSessionListener {
 
 	@Override
 	public void sessionCreated(HttpSessionEvent event) {
-		System.out.println("=== Session started ===");
+		System.out.println("==== New Session Started ====");
 		event.getSession().setMaxInactiveInterval(30 * 60);
 	}
 
 	@Override
 	public void sessionDestroyed(HttpSessionEvent event) {
-		System.out.println("=== Session destroy ===");
+		System.out.println("=== Old Session Destroyed ===");
 	}
 }
