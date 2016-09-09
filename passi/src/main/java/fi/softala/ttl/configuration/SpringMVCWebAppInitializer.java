@@ -1,5 +1,9 @@
 package fi.softala.ttl.configuration;
 
+/**
+ * @author Mika Ropponen
+ */
+
 import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;

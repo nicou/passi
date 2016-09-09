@@ -1,5 +1,9 @@
 package fi.softala.ttl.model;
 
+/**
+ * @author Mika Ropponen
+ */
+
 public class User {
 	
 	private String username;

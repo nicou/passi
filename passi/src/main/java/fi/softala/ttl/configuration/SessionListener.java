@@ -1,5 +1,9 @@
 package fi.softala.ttl.configuration;
 
+/**
+ * @author Mika Ropponen
+ */
+
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 

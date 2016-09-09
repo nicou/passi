@@ -1,5 +1,9 @@
 package fi.softala.ttl.dao;
 
+/**
+ * @author Mika Ropponen
+ */
+
 import javax.inject.Inject;
 
 import org.springframework.jdbc.core.JdbcTemplate;

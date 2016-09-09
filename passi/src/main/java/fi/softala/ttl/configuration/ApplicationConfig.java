@@ -1,5 +1,9 @@
 package fi.softala.ttl.configuration;
 
+/**
+ * @author Mika Ropponen
+ */
+
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
