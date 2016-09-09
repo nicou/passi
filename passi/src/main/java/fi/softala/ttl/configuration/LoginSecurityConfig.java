@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
@@ -43,22 +45,32 @@ public class LoginSecurityConfig extends WebSecurityConfigurerAdapter {
 		filter.setEncoding("UTF-8");
 		filter.setForceEncoding(true);
 		http.addFilterBefore(filter, CsrfFilter.class);
-
-		http.authorizeRequests().anyRequest().authenticated().antMatchers("/index").hasRole("ADMIN").anyRequest()
-				.permitAll().and().formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/index")
-				.failureUrl("/login?error").usernameParameter("username").passwordParameter("password").and().logout()
-				.logoutSuccessUrl("/login?logout").invalidateHttpSession(true).deleteCookies("remove");
-
-		http.sessionManagement().sessionAuthenticationErrorUrl("/login").invalidSessionUrl("/login");
-
-		/*
-		 * old config http .authorizeRequests().antMatchers("/index").access(
-		 * "hasRole('ROLE_USER')").and().formLogin()
-		 * .loginPage("/login").defaultSuccessUrl("/index").failureUrl(
-		 * "/login?error")
-		 * .usernameParameter("username").passwordParameter("password").and().
-		 * logout() .logoutSuccessUrl("/login?logout");
-		 */
-
+		
+		http.csrf().csrfTokenRepository(csrfTokenRepository());
+		
+		http.authorizeRequests().anyRequest().authenticated()
+				.antMatchers("/login", "/error").permitAll()
+				.antMatchers("/index").hasRole("ADMIN").anyRequest().permitAll()
+				.and()
+				.formLogin().loginPage("/login").permitAll()
+					.defaultSuccessUrl("/index")
+					.failureUrl("/login?error")
+					.usernameParameter("username")
+					.passwordParameter("password")
+					.and()
+					.logout().logoutSuccessUrl("/login?logout")
+					.invalidateHttpSession(true)
+					.deleteCookies("JSESSIONID")
+					.and()
+					.sessionManagement()
+					.maximumSessions(1)
+					.expiredUrl("/error");
+					// .sessionAuthenticationErrorUrl("/error")	
+	}
+	
+	private CsrfTokenRepository csrfTokenRepository() { 
+	    HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository(); 
+	    repository.setSessionAttributeName("_csrf");
+	    return repository; 
 	}
 }

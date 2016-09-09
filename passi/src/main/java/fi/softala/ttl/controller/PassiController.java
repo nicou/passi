@@ -25,7 +25,7 @@ import fi.softala.ttl.dao.PassiDAO;
 public class PassiController {
 
 	final static Logger logger = LoggerFactory.getLogger(PassiController.class);
-	
+
 	@Inject
 	private PassiDAO dao;
 
@@ -36,7 +36,7 @@ public class PassiController {
 	public void setDao(PassiDAO dao) {
 		this.dao = dao;
 	}
-	
+
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
 	public ModelAndView init() {
 		ModelAndView model = new ModelAndView();
@@ -45,8 +45,7 @@ public class PassiController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ModelAndView loginPage(
-			@RequestParam(value = "error", required = false) String error,
+	public ModelAndView loginPage(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout) {
 		ModelAndView model = new ModelAndView();
 		if (error != null) {
@@ -54,8 +53,8 @@ public class PassiController {
 		}
 		if (logout != null) {
 			model.addObject("message", "Olet kirjautunut ulos");
-		}	
-		model.setViewName("login");	
+		}
+		model.setViewName("login");
 		return model;
 	}
 
@@ -67,6 +66,13 @@ public class PassiController {
 		model.addObject("role", dao.getRole(user));
 		model.addObject("user", user);
 		model.setViewName("index");
+		return model;
+	}
+
+	@RequestMapping(value = "/expired", method = RequestMethod.GET)
+	public ModelAndView expiredPage() {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("expired");
 		return model;
 	}
 }

@@ -5,8 +5,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-<html>
+<%
+int timeout = session.getMaxInactiveInterval();
+String contextPath = request.getContextPath();
+response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
+%>
 
+<!DOCTYPE html>
+<html>
 <head>
 <title>Passi&nbsp;&nbsp;&bull;&nbsp;&nbsp;Login</title>
 
@@ -24,7 +30,7 @@
 	<div class="container" style="text-align: center; font: normal 12px Consolas;">
 		<div class="row">
 			<div class="col-sm-offset-5 col-sm-2">
-				<h1>PASSI</h1><br />
+				<h1>PASSI</h1>
 				<h4>Kirjaudu sisään</h4>
 				<c:if test="${not empty error}"><p style="color: red">${error}</p></c:if>
 				<c:if test="${not empty message}"><p style="color: green">${message}</p></c:if>
@@ -41,7 +47,9 @@
 				<br />
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				</form>
-				<span style="color: #696969;">Username: Donald<br />Password: Trump</span>
+				<div style="color: #696969; display: inline-block; padding-top: 15px; text-align: left;">
+					Username: Donald<br />Password: Trump
+				</div>
 			</div>			
 		</div>		
 	</div>
