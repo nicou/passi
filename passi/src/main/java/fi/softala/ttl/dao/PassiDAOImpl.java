@@ -1,8 +1,7 @@
-package fi.softala.ttl.dao;
-
 /**
  * @author Mika Ropponen
  */
+package fi.softala.ttl.dao;
 
 import javax.inject.Inject;
 

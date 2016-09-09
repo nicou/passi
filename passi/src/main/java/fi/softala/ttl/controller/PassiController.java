@@ -1,8 +1,7 @@
-package fi.softala.ttl.controller;
-
 /**
  * @author Mika Ropponen
  */
+package fi.softala.ttl.controller;
 
 import javax.inject.Inject;
 
