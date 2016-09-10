@@ -27,9 +27,9 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 </head>
 
 <body onload="document.login.username.focus();">
-	<div class="container" style="text-align: center; font: normal 12px Consolas;">
+	<div class="container-fluid" style="text-align: center !important; font: normal 12px Consolas;">
 		<div class="row">
-			<div class="col-sm-offset-5 col-sm-2">
+			<div class="col-sm-12">
 				<h1>PASSI</h1>
 				<h4>Kirjaudu sisään</h4>
 				<c:if test="${not empty error}"><p style="color: red">${error}</p></c:if>
@@ -37,13 +37,13 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-offset-5 col-sm-2">
+			<div class="col-sm-12" style="text-align: center !important;">
 				<form role="form" class="form-horizontal" name="login" action="<c:url value='/login' />" method="post">
-				<input class="form-control" type="text" name="username" value="" placeholder="Käyttäjänimi" autocomplete="off" style="text-align: center !important;" />
+				<input class="form-control" type="text" name="username" value="" placeholder="Käyttäjänimi" autocomplete="off" style="display: inline-block; margin: 10px; max-width: 200px; text-align: center !important;" />
 				<br />
-				<input class="form-control" type="password" name="password" placeholder="Salasana" autocomplete="off" style="text-align: center !important;" />
+				<input class="form-control" type="password" name="password" placeholder="Salasana" autocomplete="off" style="display: inline-block; margin: 10px; max-width: 200px; text-align: center !important;" />
 				<br />
-				<input class="btn btn-default form-control login-submit" name="submit" type="submit" value="KIRJAUDU" />
+				<input class="btn btn-default form-control login-submit" name="submit" type="submit" value="KIRJAUDU" style="max-width: 200px; margin: 10px;" />
 				<br />
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				</form>
