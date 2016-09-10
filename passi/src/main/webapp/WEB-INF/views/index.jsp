@@ -30,6 +30,23 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 	<h3>PASSI</h3>
 	<p>Tervetuloa Työkykypassiin, <c:out value="${user}" />!</p>
 	<p>Käyttöoikeutesi on <c:out value="${role == 'ROLE_ADMIN' ? 'ADMIN' : 'USER'}" /></p>
+	
+	<div>
+		<form action="upload?${_csrf.parameterName}=${_csrf.token}" method="POST" enctype="multipart/form-data">
+		File to upload<br />
+		<input type="file" name="file" style="display: inline;" /><br />
+		Name<br />
+		<input type="text" name="name" /><br />
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+		<input type="submit" value="Upload" />
+		</form>	
+		<p>
+		<c:if test="${not empty feedback}">
+		<c:out value="${feedback}" />
+		</c:if>
+		</p>
+	</div>
+	
 	<div>
 		<c:url value="/logout" var="logoutUrl" />
 		<form id="logout" action="${logoutUrl}" method="post" >
