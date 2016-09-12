@@ -3,7 +3,6 @@
  */
 package fi.softala.ttl.configuration;
 
-// connection pool
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,10 +23,17 @@ import org.springframework.web.servlet.view.JstlView;
 @PropertySource("classpath:data.properties")
 @Import(value = { LoginSecurityConfig.class })
 public class ApplicationConfig {
-	
+
 	@Autowired
 	private Environment env;
-	
+
+	@Bean(name = "multipartResolver")
+	public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver cmr = new CommonsMultipartResolver();
+		cmr.setMaxUploadSize(-1);
+		return cmr;
+	}
+
 	@Bean
 	public InternalResourceViewResolver viewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -36,14 +42,7 @@ public class ApplicationConfig {
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
 	}
-	
-	@Bean(name = "multipartResolver")
-	public CommonsMultipartResolver multipartResolver() {
-		CommonsMultipartResolver cmr = new CommonsMultipartResolver();
-		cmr.setMaxUploadSize(100000);
-		return cmr;
-	}
-	
+
 	@Bean(name = "dataSource")
 	public BasicDataSource dataSource() {
 		BasicDataSource ds = new BasicDataSource();
