@@ -33,8 +33,8 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 	
 	<div>
 		<!-- ?${_csrf.parameterName}=${_csrf.token} -->
-		<form action="upload?${_csrf.parameterName}=${_csrf.token}" method="POST" enctype="multipart/form-data">
-		<!--  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> -->
+		<form action="upload" method="POST" enctype="multipart/form-data">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<input type="hidden" name="name" value="image.jpg" />
 		<input type="file" name="file" style="display: inline;" /><br />		
 		<input type="submit" value="Tallenna" />

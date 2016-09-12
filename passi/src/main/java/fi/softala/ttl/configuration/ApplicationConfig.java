@@ -21,18 +21,11 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @ComponentScan({ "fi.softala.ttl.*" })
 @PropertySource("classpath:data.properties")
-@Import(value = { LoginSecurityConfig.class })
+@Import(value = { SecurityConfig.class })
 public class ApplicationConfig {
 
 	@Autowired
 	private Environment env;
-
-	@Bean(name = "multipartResolver")
-	public CommonsMultipartResolver multipartResolver() {
-		CommonsMultipartResolver cmr = new CommonsMultipartResolver();
-		cmr.setMaxUploadSize(-1);
-		return cmr;
-	}
 
 	@Bean
 	public InternalResourceViewResolver viewResolver() {
@@ -42,6 +35,20 @@ public class ApplicationConfig {
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
 	}
+
+	@Bean(name = "filterMultipartResolver")
+	public CommonsMultipartResolver filterMultipartResolver() {
+		CommonsMultipartResolver filterMultipartResolver = new CommonsMultipartResolver();
+		filterMultipartResolver.setDefaultEncoding("UTF-8");
+		// resolver.setMaxUploadSize(512000);
+		return filterMultipartResolver;
+	}
+
+	/*
+	 * @Bean(name = "multipartResolver") public CommonsMultipartResolver
+	 * multipartResolver() { CommonsMultipartResolver cmr = new
+	 * CommonsMultipartResolver(); cmr.setMaxUploadSize(-1); return cmr; }
+	 */
 
 	@Bean(name = "dataSource")
 	public BasicDataSource dataSource() {
