@@ -32,13 +32,15 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 	<p>Käyttöoikeutesi on <c:out value="${role == 'ROLE_ADMIN' ? 'ADMIN' : 'USER'}" /></p>
 	
 	<div>
-		<!-- ?${_csrf.parameterName}=${_csrf.token} -->
-		<form action="upload" method="POST" enctype="multipart/form-data">
+	
+		<div style="text-align: left; display: inline-block;">
+		<form action="upload" method="POST" enctype="multipart/form-data"> <!-- ?${_csrf.parameterName}=${_csrf.token} -->
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<input type="hidden" name="name" value="image.jpg" />
-		<input type="file" name="file" style="display: inline;" /><br />		
+		<input type="file" name="file" style="display: inline;" /><br /><br />		
 		<input type="submit" value="Tallenna" />
 		</form>
+		</div>
 		
 		<p>
 		<img src="<c:url value='/download/external' />" style="height: 100px; width: 100px; margin: 15px;" />
