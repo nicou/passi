@@ -15,17 +15,18 @@ import java.net.URLConnection;
 import java.nio.charset.Charset;
 
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.core.io.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,9 +35,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fi.softala.ttl.dao.PassiDAO;
 
+@EnableWebMvc
 @Controller
 @Scope("session")
 @SessionAttributes({ "user" })
@@ -49,7 +53,10 @@ public class PassiController {
 	private static final String TOMCAT_IMG = System.getProperty(TOMCAT_HOME_PROPERTY);
 
 	private static final String EXTERNAL_FILE = "C:\\Users\\Mika\\Documents\\env\\apache-tomcat-8.0.36\\image\\image.jpg";
-
+	
+	@Autowired
+    ServletContext context; 
+	
 	@Inject
 	private PassiDAO dao;
 
@@ -60,9 +67,6 @@ public class PassiController {
 	public void setDao(PassiDAO dao) {
 		this.dao = dao;
 	}
-
-	@Value("C:\\Users\\Mika\\Documents\\env\\apache-tomcat-8.0.36\\image\\moai.jpg")
-	private Resource resource;
 
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
 	public ModelAndView init() {
@@ -86,10 +90,11 @@ public class PassiController {
 	}
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public ModelAndView homePage() throws IOException {
+	public ModelAndView homePage(@ModelAttribute("message") String message) throws IOException {
 		ModelAndView model = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String user = auth.getName();
+		model.addObject("message", message);
 		model.addObject("role", dao.getRole(user));
 		model.addObject("user", user);
 		model.setViewName("index");
@@ -105,7 +110,10 @@ public class PassiController {
 
 	@ResponseBody
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public ModelAndView uploadFileHandler(@RequestParam("name") String name, @RequestParam("file") MultipartFile file) {
+	public ModelAndView uploadFileHandler(
+			@RequestParam("name") String name,
+			@RequestParam("file") MultipartFile file,
+			final RedirectAttributes ra) {
 		ModelAndView model = new ModelAndView();
 		String message = "";
 		if (!file.isEmpty()) {
@@ -127,8 +135,8 @@ public class PassiController {
 		} else {
 			message = "Kuvatiedosto oli tyhjä";
 		}
-		model.addObject("message", message);
-		model.setViewName("index");
+		ra.addFlashAttribute("message", message);
+		model.setViewName("redirect:/index");
 		return model;
 	}
 

@@ -43,6 +43,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 		</div>
 		
 		<p>
+		<!-- /download/external -->
 		<img src="<c:url value='/download/external' />" style="height: 100px; width: 100px; margin: 15px;" />
         </p>
 		
