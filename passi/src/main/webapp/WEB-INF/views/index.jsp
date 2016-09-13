@@ -14,7 +14,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <!DOCTYPE html>
 <html>
 <head>
-<title>Passi&nbsp;&nbsp;&bull;&nbsp;&nbsp;Index</title>
+<title>Työkykypassi&nbsp;&bull;&nbsp;Etusivu</title>
 
 <meta name="author" content="Mika Ropponen" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -24,38 +24,77 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value="/static/css/index.css" />">
 </head>
 <body>
-<div class="container" style="text-align: center; font: normal 14px Consolas;">
-	<h3>PASSI</h3>
-	<p>Tervetuloa Työkykypassiin, <c:out value="${user}" />!</p>
-	<p>Käyttöoikeutesi on <c:out value="${role == 'ROLE_ADMIN' ? 'ADMIN' : 'USER'}" /></p>
-	
-	<div>
-	
-		<div style="text-align: left; display: inline-block;">
-		<form action="upload" method="POST" enctype="multipart/form-data"> <!-- ?${_csrf.parameterName}=${_csrf.token} -->
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-		<input type="hidden" name="name" value="image.jpg" />
-		<input type="file" name="file" style="display: inline;" /><br /><br />		
-		<input type="submit" value="Tallenna" />
-		</form>
+	<nav class="navbar navbar-static-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+			</div>
+			<!-- close navbar-header -->
+			<div id="navbar" class="navbar-collapse collapse text-center">
+				<ul class="nav navbar-nav">
+					<li><a href="" class="">Ryhmät</a></li>
+					<li><a href="" class="">Opiskelijat</a></li>
+					<li><a href="" class="">Lisätiedot</a></li>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
 		</div>
-		
-		<p>
-		<!-- /download/external -->
-		<img src="<c:url value='/download/external' />" style="height: 100px; width: 100px; margin: 15px;" />
-        </p>
-		
-		<p>
-		<c:if test="${not empty message}">
-			<c:out value="${message}" />
-		</c:if>
-		</p>
-		
+		<!-- close container -->
+	</nav>
+	<!-- close navigation -->
+
+	<!--<div class="col-xs-12">
+                <div class="row">
+                  <div class="container-fluid col-xs-12">
+                    <div id="lisaaryhmabutton">Lisää ryhmä</div>
+                  </div>
+                  <div class="container col-xs-12 grouplistcontainer">
+                    <div class="col-xs-4 col-sm-5 col-md-6">
+                      <ul id="grouplist">
+                        <li>Ryhmä 1</li>
+                        <li>Ryhmä 2</li>
+                        <li>Ryhmä japesoft</li>
+                        <li>Ryhmä nyberg</li>
+                        <li>Ryhmä Kuumostus</li>
+                        <li>Ryhmä Nollaus</li>
+                        <li>Ryhmä No hmm tuota</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>-->
+
+	<!-- Huom! Tarvitaan määrittelyt -->
+	<div id="services" class="container-fluid text-center">
+		<h2></h2>
+		<br>
+		<div class="row slideanim">
+			<div class="panelcontainer col-sm-4">
+				<span class="glyphicon glyphicon-user logo-large"></span>
+				<h2>Ryhmät</h2>
+				<p>Selaa omia ryhmiäsi</p>
+			</div>
+			<div class="panelcontainer col-sm-4">
+				<span class="glyphicon glyphicon-education logo-medium"></span>
+				<h2>Opiskelijat</h2>
+				<p>Selaa opiskelijoitasi</p>
+			</div>
+			<div class="panelcontainer col-sm-4">
+				<span class="glyphicon glyphicon-plus logo-small"></span>
+				<h2>Lisää Ryhmä</h2>
+				<p>Lisää uusi ryhmä</p>
+			</div>
+		</div>
 	</div>
-	
-	<div>
+	<div style="margin: 100px;">
 		<c:url value="/logout" var="logoutUrl" />
 		<form id="logout" action="${logoutUrl}" method="post" >
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -64,6 +103,5 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 		<a href="javascript:document.getElementById('logout').submit()">Kirjaudu ulos</a>
 		</c:if>
 	</div>
-</div>
 </body>
 </html>

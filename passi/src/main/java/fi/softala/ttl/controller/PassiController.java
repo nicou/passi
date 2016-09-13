@@ -3,20 +3,13 @@
  */
 package fi.softala.ttl.controller;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URLConnection;
-import java.nio.charset.Charset;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,9 +18,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,20 +34,15 @@ import fi.softala.ttl.dao.PassiDAO;
 @EnableWebMvc
 @Controller
 @Scope("session")
-@SessionAttributes({ "user" })
+@SessionAttributes({"user"})
 public class PassiController {
 
 	final static Logger logger = LoggerFactory.getLogger(PassiController.class);
-
-	// Image upload and download variables
 	private static final String TOMCAT_HOME_PROPERTY = "catalina.home";
 	private static final String TOMCAT_IMG = System.getProperty(TOMCAT_HOME_PROPERTY);
-
-	private static final String EXTERNAL_FILE = "C:\\Users\\Mika\\Documents\\env\\apache-tomcat-8.0.36\\image\\image.jpg";
-	
+	// private static final String EXTERNAL_IMG_FILE = "C:\\Users\\Mika\\Documents\\env\\apache-tomcat-8.0.36\\image\\image.jpg";
 	@Autowired
-    ServletContext context; 
-	
+	ServletContext context;
 	@Inject
 	private PassiDAO dao;
 
@@ -68,7 +54,7 @@ public class PassiController {
 		this.dao = dao;
 	}
 
-	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
+	@RequestMapping(value = {"/"}, method = RequestMethod.GET)
 	public ModelAndView init() {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("login");
@@ -76,7 +62,8 @@ public class PassiController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ModelAndView loginPage(@RequestParam(value = "error", required = false) String error,
+	public ModelAndView loginPage(
+			@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout) {
 		ModelAndView model = new ModelAndView();
 		if (error != null) {
@@ -129,7 +116,8 @@ public class PassiController {
 				stream.close();
 				message = "Kuvan tallennus onnistui";
 				logger.info("Server File Location: " + serverFile.getAbsolutePath());
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				message = "Kuvan tallennus ei onnistunut";
 			}
 		} else {
@@ -140,11 +128,12 @@ public class PassiController {
 		return model;
 	}
 
+	/*
 	@RequestMapping(value = "/download/{type}", method = RequestMethod.GET)
 	public void downloadFile(HttpServletResponse response, @PathVariable("type") String type) throws IOException {
-		File file = new File(EXTERNAL_FILE);
+		File file = new File(EXTERNAL_IMG_FILE);
 		if (!file.exists()) {
-			String errorMessage = "Sorry. The file you are looking for does not exist";
+			String errorMessage = "Tiedostoa ei löydy";
 			System.out.println(errorMessage);
 			OutputStream outputStream = response.getOutputStream();
 			outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
@@ -153,7 +142,7 @@ public class PassiController {
 		}
 		String mimeType = URLConnection.guessContentTypeFromName(file.getName());
 		if (mimeType == null) {
-			System.out.println("mimetype is not detectable, will take default");
+			System.out.println("MIME tunnistamaton");
 			mimeType = "application/octet-stream";
 		}
 		System.out.println("mimetype : " + mimeType);
@@ -163,4 +152,5 @@ public class PassiController {
 		InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
 		FileCopyUtils.copy(inputStream, response.getOutputStream());
 	}
+	*/
 }

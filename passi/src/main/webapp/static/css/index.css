@@ -1,0 +1,78 @@
+/*Navbar styles*/
+
+.navbar-toggle {
+	color: #ccc;
+}
+
+#grouplist {
+	margin-top: 30%;
+	margin-left: 10%;
+	line-height: 3em;
+}
+
+#grouplist>li {
+	font-size: 20px;
+	list-style: none;
+}
+
+#grouplist>li:hover {
+	transition: .5s;
+	transform: translateX(15px);
+}
+
+#lisaaryhmabutton {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin-right: 5%;
+	margin-top: 20%;
+	padding: 30px;
+}
+
+.navbar-static-top {
+	width: 100%;
+	height: 5em;
+	background-color: #1abc9c;
+}
+
+.navbar .navbar-nav {
+	float: none;
+	display: inline-block;
+	padding: 0;
+}
+
+.navbar .navbar-nav a {
+	color: rgb(50, 50, 50);
+	padding-top: 0em;
+	width: 13em;
+}
+
+.navbar .navbar-nav a:hover {
+	color: #feffff;
+	background-color: rgba(225, 225, 225, 0);
+}
+
+.navbar .navbar-collapse {
+	text-align: center;
+}
+
+.navbar p {
+	padding: 2em;
+}
+
+.navbar-static-top .navbar-toggle .icon-bar {
+	display: block;
+	background-color: rgb(50, 50, 50);
+	width: 30px;
+	height: 4px;
+}
+
+.glyphicon {
+	font-size: 50px;
+}
+
+.panelcontainer:hover {
+	background-color: #ccc;
+	padding: 20px;
+	transition: .5s;
+}
