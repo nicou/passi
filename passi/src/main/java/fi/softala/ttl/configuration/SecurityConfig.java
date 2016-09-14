@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/index").hasRole("ADMIN").anyRequest().permitAll()
 				.and()
 				.formLogin().loginPage("/login").permitAll()
-					.defaultSuccessUrl("/index")
+					.defaultSuccessUrl("/init")
 					.failureUrl("/login?error")
 					.usernameParameter("username")
 					.passwordParameter("password")

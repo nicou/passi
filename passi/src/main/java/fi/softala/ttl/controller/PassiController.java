@@ -6,7 +6,7 @@ package fi.softala.ttl.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -30,19 +30,23 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fi.softala.ttl.dao.PassiDAO;
+import fi.softala.ttl.model.Group;
+import fi.softala.ttl.model.Student;
 
 @EnableWebMvc
 @Controller
 @Scope("session")
-@SessionAttributes({"user"})
+@SessionAttributes({"user", "groups", "groupStudents", "selectedGroup", "selectedStudent"})
 public class PassiController {
 
 	final static Logger logger = LoggerFactory.getLogger(PassiController.class);
 	private static final String TOMCAT_HOME_PROPERTY = "catalina.home";
 	private static final String TOMCAT_IMG = System.getProperty(TOMCAT_HOME_PROPERTY);
 	// private static final String EXTERNAL_IMG_FILE = "C:\\Users\\Mika\\Documents\\env\\apache-tomcat-8.0.36\\image\\image.jpg";
+	
 	@Autowired
 	ServletContext context;
+	
 	@Inject
 	private PassiDAO dao;
 
@@ -54,14 +58,7 @@ public class PassiController {
 		this.dao = dao;
 	}
 
-	@RequestMapping(value = {"/"}, method = RequestMethod.GET)
-	public ModelAndView init() {
-		ModelAndView model = new ModelAndView();
-		model.setViewName("login");
-		return model;
-	}
-
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
 	public ModelAndView loginPage(
 			@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout) {
@@ -75,14 +72,31 @@ public class PassiController {
 		model.setViewName("login");
 		return model;
 	}
-
+	
+	@RequestMapping(value = {"/init"}, method = RequestMethod.GET)
+	public ModelAndView init(final RedirectAttributes redirectAttributes) {
+		ModelAndView model = new ModelAndView();
+		redirectAttributes.addFlashAttribute("selectedGroup", new Group());
+		redirectAttributes.addFlashAttribute("selectedStudent", new Student());
+		redirectAttributes.addFlashAttribute("groupStudents", new ArrayList<Student>());		
+		model.setViewName("redirect:/index");
+		return model;
+	}
+	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public ModelAndView homePage(@ModelAttribute("message") String message) throws IOException {
+	public ModelAndView homePage(
+			@ModelAttribute("message") String message,
+			@ModelAttribute("groupStudents") ArrayList<Student> groupStudents,
+			@ModelAttribute("selectedStudent") Student selectedStudent,
+			@ModelAttribute("selectedGroup") Group selectedGroup) {
 		ModelAndView model = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String user = auth.getName();
 		model.addObject("message", message);
-		model.addObject("role", dao.getRole(user));
+		model.addObject("groupStudents", groupStudents);
+		model.addObject("selectedStudent", selectedStudent);
+		model.addObject("selectedGroup", selectedGroup);
+		model.addObject("groups", dao.getGroups());
 		model.addObject("user", user);
 		model.setViewName("index");
 		return model;
@@ -92,6 +106,42 @@ public class PassiController {
 	public ModelAndView expiredPage() {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("expired");
+		return model;
+	}
+
+	@RequestMapping(value = "/getGroupStudents", method = RequestMethod.POST)
+	public ModelAndView getGroupStudents(
+			@RequestParam int groupID,
+			@ModelAttribute("groups") ArrayList<Group> groups,
+			@ModelAttribute("selectedGroup") Group selectedGroup,
+			final RedirectAttributes redirectAttributes) {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("redirect:/index");
+		redirectAttributes.addFlashAttribute("groupStudents", dao.getGroupStudents(groupID));
+		for (Group group : groups) {
+			if (group.getGroupID() == groupID) {
+				redirectAttributes.addFlashAttribute("selectedGroup", group);
+				break;
+			}
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/selectStudent", method = RequestMethod.POST)
+	public ModelAndView selectMemeber(
+			@RequestParam int studentID,
+			@ModelAttribute("groupStudents") ArrayList<Student> groupStudents,
+			@ModelAttribute("selectedStudent") Student selectedStudent,
+			@ModelAttribute("selectedGroup") Group selectedGroup,
+			final RedirectAttributes redirectAttributes) {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("redirect:/index");
+		for (Student student : groupStudents) {
+			if (student.getStudentID() == studentID) {
+				redirectAttributes.addFlashAttribute("selectedStudent", student);
+			}
+		}
+		redirectAttributes.addFlashAttribute("groupStudents", dao.getGroupStudents(selectedGroup.getGroupID()));
 		return model;
 	}
 
