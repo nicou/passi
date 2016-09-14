@@ -32,6 +32,15 @@ public class Student implements Serializable {
 		this.school = school;
 		this.email = email;
 	}
+	
+	public void reset() {
+		this.studentID = 0;
+		this.username = "";
+		this.firstname = "";
+		this.lastname = "";
+		this.school = "";
+		this.email = "";
+	}
 
 	public int getStudentID() {
 		return studentID;

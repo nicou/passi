@@ -114,6 +114,7 @@ public class PassiController {
 			@RequestParam int groupID,
 			@ModelAttribute("groups") ArrayList<Group> groups,
 			@ModelAttribute("selectedGroup") Group selectedGroup,
+			@ModelAttribute("selectedStudent") Student selectedStudent,
 			final RedirectAttributes redirectAttributes) {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("redirect:/index");
@@ -124,6 +125,8 @@ public class PassiController {
 				break;
 			}
 		}
+		selectedStudent.reset();
+		redirectAttributes.addFlashAttribute("selectedStudent", selectedStudent);
 		return model;
 	}
 	
