@@ -14,10 +14,10 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <!DOCTYPE html>
 <html>
 <head>
-<title>Työkykypassi&nbsp;&bull;&nbsp;Hallintasivu</title>
-
 <meta name="author" content="Roope Heinonen, Mika Ropponen" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Työkykypassi&nbsp;&bull;&nbsp;Hallintasivu</title>
 
 <!-- CSS -->
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
@@ -36,6 +36,9 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
 
+<jsp:include page="header.jsp" />
+
+<!--
 <nav class="navbar navbar-default">
   	<div class="container-fluid">
     	<div class="navbar-header">
@@ -68,6 +71,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     	</div>
   	</div>
 </nav>
+-->
 
 <div class="container-fluid">
   	<div class="page-header text-left">
