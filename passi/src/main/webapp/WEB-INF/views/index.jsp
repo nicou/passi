@@ -48,10 +48,10 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     	</div>
     	<div class="collapse navbar-collapse" id="myNavbar">
       		<ul class="nav navbar-nav">
-        		<li class="active"><a href="index.jsp">Etusivu</a></li>
-        		<li><a href="group.jsp">Ryhmät</a></li>
-        		<li><a href="member.jsp">Jäsenet</a></li>
-        		<li><a href="rating.jsp">Arviointi</a></li>
+        		<li class="active"><a href="/pageChange?page=index">Etusivu</a></li>
+        		<li><a href="/pageChange?page=group">Ryhmät</a></li>
+        		<li><a href="/pageChange?page=member">Jäsenet</a></li>
+        		<li><a href="/pageChange?page=rating">Arviointi</a></li>
      		</ul>
       		<ul class="nav navbar-nav navbar-right">
         		<li>
