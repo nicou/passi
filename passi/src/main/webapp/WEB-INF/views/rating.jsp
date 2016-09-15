@@ -17,7 +17,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <meta name="author" content="Roope Heinonen, Mika Ropponen" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>Työkykypassi&nbsp;&bull;&nbsp;Hallintasivu</title>
+<title>Työkykypassi&nbsp;&bull;&nbsp;Jäsenhallinta</title>
 
 <!-- CSS -->
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
@@ -44,14 +44,14 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
         	<span class="icon-bar"></span>
         	<span class="icon-bar"></span>
       		</button>
-      		<a class="navbar-brand" href="#">Hallintasivu</a>
+      		<a class="navbar-brand" href="#">Arviointi</a>
     	</div>
     	<div class="collapse navbar-collapse" id="myNavbar">
       		<ul class="nav navbar-nav">
-        		<li class="active"><a href="index.jsp">Etusivu</a></li>
+        		<li><a href="index.jsp">Etusivu</a></li>
         		<li><a href="group.jsp">Ryhmät</a></li>
         		<li><a href="member.jsp">Jäsenet</a></li>
-        		<li><a href="rating.jsp">Arviointi</a></li>
+        		<li class="active"><a href="rating.jsp">Arviointi</a></li>
      		</ul>
       		<ul class="nav navbar-nav navbar-right">
         		<li>
@@ -70,7 +70,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <div class="container-fluid">
   	<div class="page-header text-left">
-    	<h2>Hallintasivu</h2>
+    	<h2>Ryhmähallinta</h2>
   	</div>
 </div>
 

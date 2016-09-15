@@ -36,8 +36,37 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
 
-<!-- Page header import -->
-<jsp:include page="header.jsp" />
+<nav class="navbar navbar-default">
+  	<div class="container-fluid">
+    	<div class="navbar-header">
+      		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+       		<span class="icon-bar"></span>
+        	<span class="icon-bar"></span>
+        	<span class="icon-bar"></span>
+      		</button>
+      		<a class="navbar-brand" href="#">Ryhmähallinta</a>
+    	</div>
+    	<div class="collapse navbar-collapse" id="myNavbar">
+      		<ul class="nav navbar-nav">
+        		<li><a href="index.jsp">Etusivu</a></li>
+        		<li class="active"><a href="group.jsp">Ryhmät</a></li>
+        		<li><a href="member.jsp">Jäsenet</a></li>
+        		<li><a href="rating.jsp">Arviointi</a></li>
+     		</ul>
+      		<ul class="nav navbar-nav navbar-right">
+        		<li>
+        		<c:url value="/logout" var="logoutUrl" />
+        		<form id="logout" action="${logoutUrl}" method="post">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				</form>
+				<c:if test="${pageContext.request.userPrincipal.name != null}">
+        			<a href="javascript:document.getElementById('logout').submit()"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Kirjaudu ulos</a>
+				</c:if>
+        		</li>
+      		</ul>
+    	</div>
+  	</div>
+</nav>
 
 <div class="container-fluid">
   	<div class="page-header text-left">
