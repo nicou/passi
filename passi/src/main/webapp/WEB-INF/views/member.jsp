@@ -44,14 +44,14 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
         	<span class="icon-bar"></span>
         	<span class="icon-bar"></span>
       		</button>
-      		<a class="navbar-brand" href="#">Jäsenhallinta</a>
+      		<a class="navbar-brand" href="#">Hallintasivut</a>
     	</div>
     	<div class="collapse navbar-collapse" id="myNavbar">
       		<ul class="nav navbar-nav">
-        		<li><a href="index.jsp">Etusivu</a></li>
-        		<li><a href="group.jsp">Ryhmät</a></li>
-        		<li class="active"><a href="member.jsp">Jäsenet</a></li>
-        		<li><a href="rating.jsp">Arviointi</a></li>
+        		<li><a href="<c:url value="/page/index" />">Tietohaku</a></li>
+        		<li><a href="<c:url value="/page/group" />">Ryhmät</a></li>
+        		<li class="active"><a href="<c:url value="/page/member" />">Jäsenet</a></li>
+        		<li><a href="<c:url value="/page/rating" />">Arviointi</a></li>
      		</ul>
       		<ul class="nav navbar-nav navbar-right">
         		<li>
@@ -70,7 +70,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <div class="container-fluid">
   	<div class="page-header text-left">
-    	<h2>Ryhmähallinta</h2>
+    	<h2>Jäsenet</h2>
   	</div>
 </div>
 

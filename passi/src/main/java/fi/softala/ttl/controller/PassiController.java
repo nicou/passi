@@ -103,7 +103,7 @@ public class PassiController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/pageChange", method = RequestMethod.GET)
+	@RequestMapping(value = "/page/{page}", method = RequestMethod.GET)
 	public ModelAndView pageChange(
 			@PathVariable("page") String page) {
 		ModelAndView model = new ModelAndView();
