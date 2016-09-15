@@ -17,8 +17,8 @@
     	</div>
     	<div class="collapse navbar-collapse" id="myNavbar">
       		<ul class="nav navbar-nav">
-        		<li class="active"><a href="#">Etusivu</a></li>
-        		<li><a href="#">Ryhmät</a></li>
+        		<li class="active"><a href="index.jsp">Etusivu</a></li>
+        		<li><a href="group.jsp">Ryhmät</a></li>
         		<li><a href="#">Jäsenet</a></li>
         		<li><a href="#">Ohjaus</a></li>
         		<li><a href="#">Tiedot</a></li>
