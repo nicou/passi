@@ -17,7 +17,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <meta name="author" content="Roope Heinonen, Mika Ropponen" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>Työkykypassi&nbsp;&bull;&nbsp;Jäsenhallinta</title>
+<title>Työkykypassi&nbsp;&bull;&nbsp;Arviointi</title>
 
 <!-- CSS -->
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
@@ -36,6 +36,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
 
+<!-- Header embedded with currentPage parameter [/WEB-INF/views/pagename.jsp] -->
 <jsp:include page="header.jsp">
 	<jsp:param name="currentPage" value="${pageContext.request.servletPath}" />
 </jsp:include>
@@ -60,6 +61,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   	</div>
 </div>
 
+<!-- Script -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="<c:url value="/static/script/index.js" />"></script>
