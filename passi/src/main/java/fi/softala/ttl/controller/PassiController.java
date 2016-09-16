@@ -37,7 +37,7 @@ import fi.softala.ttl.model.Student;
 @EnableWebMvc
 @Controller
 @Scope("session")
-@SessionAttributes({"user", "groups", "groupStudents", "selectedGroup", "selectedStudent"})
+@SessionAttributes({"user", "groups", "groupStudents", "selectedGroup", "selectedStudent", "defaultGroup"})
 public class PassiController {
 
 	final static Logger logger = LoggerFactory.getLogger(PassiController.class);

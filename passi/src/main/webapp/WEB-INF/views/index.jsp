@@ -63,7 +63,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       		</form>
     	</div>
     	<div class="col-sm-4 text-left">
-      		<h3 class="cursor-default">Opiskelijat</h3>
+      		<h3 class="cursor-default">Jäsenet</h3>
       		<c:choose>
       			<c:when test="${not empty groupStudents}">
       				<table class="table table-hover">
