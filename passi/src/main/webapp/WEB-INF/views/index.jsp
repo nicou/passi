@@ -14,7 +14,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="author" content="Roope Heinonen, Mika Ropponen" />
+<meta name="author" content="Mika Ropponen, Roope Heinonen" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>Työkykypassi&nbsp;&bull;&nbsp;Hallintasivu</title>
@@ -99,6 +99,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   	</div>
 </div>
 
+<!-- Script -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="<c:url value="/static/script/index.js" />"></script>
