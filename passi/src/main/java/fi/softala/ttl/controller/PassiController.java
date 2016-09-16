@@ -43,7 +43,6 @@ public class PassiController {
 	final static Logger logger = LoggerFactory.getLogger(PassiController.class);
 	private static final String TOMCAT_HOME_PROPERTY = "catalina.home";
 	private static final String TOMCAT_IMG = System.getProperty(TOMCAT_HOME_PROPERTY);
-	// private static final String EXTERNAL_IMG_FILE = "C:\\Users\\Mika\\Documents\\env\\apache-tomcat-8.0.36\\image\\image.jpg";
 	
 	@Autowired
 	ServletContext context;
@@ -103,9 +102,9 @@ public class PassiController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/page/{page}", method = RequestMethod.GET)
-	public ModelAndView pageChange(
-			@PathVariable("page") String page) {
+	@RequestMapping(value = "/index/{page}", method = RequestMethod.GET)
+	public ModelAndView pageNavigation(
+			@PathVariable(value = "page") String page) {
 		ModelAndView model = new ModelAndView();
 		model.setViewName(page);
 		return model;

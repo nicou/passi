@@ -49,8 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().csrfTokenRepository(csrfTokenRepository());
 		
 		http.authorizeRequests().anyRequest().authenticated()
-				.antMatchers("/login", "/error").permitAll()
-				.antMatchers("/index").hasRole("ADMIN").anyRequest().permitAll()
+				.antMatchers("/login", "/expired").permitAll()
+				.antMatchers("/index", "/nav**").hasRole("ADMIN").anyRequest().permitAll()
 				.and()
 				.formLogin().loginPage("/login").permitAll()
 					.defaultSuccessUrl("/init")

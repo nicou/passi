@@ -36,48 +36,20 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
 
-<nav class="navbar navbar-default">
-  	<div class="container-fluid">
-    	<div class="navbar-header">
-      		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-       		<span class="icon-bar"></span>
-        	<span class="icon-bar"></span>
-        	<span class="icon-bar"></span>
-      		</button>
-      		<a class="navbar-brand" href="#">Hallintasivut</a>
-    	</div>
-    	<div class="collapse navbar-collapse" id="myNavbar">
-      		<ul class="nav navbar-nav">
-        		<li class="active"><a href="<c:url value="/page/index" />">Tietohaku</a></li>
-        		<li><a href="<c:url value="/page/group" />">Ryhmät</a></li>
-        		<li><a href="<c:url value="/page/member" />">Jäsenet</a></li>
-        		<li><a href="<c:url value="/page/rating" />">Arviointi</a></li>
-     		</ul>
-      		<ul class="nav navbar-nav navbar-right">
-        		<li>
-        		<c:url value="/logout" var="logoutUrl" />
-        		<form id="logout" action="${logoutUrl}" method="post">
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-				</form>
-				<c:if test="${pageContext.request.userPrincipal.name != null}">
-        			<a href="javascript:document.getElementById('logout').submit()"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Kirjaudu ulos</a>
-				</c:if>
-        		</li>
-      		</ul>
-    	</div>
-  	</div>
-</nav>
+<jsp:include page="header.jsp">
+	<jsp:param name="currentPage" value="${pageContext.request.servletPath}" />
+</jsp:include>
 
 <div class="container-fluid">
   	<div class="page-header text-left">
-    	<h2>Tietohaku</h2>
+    	<h2 class="cursor-default">Tietohaku</h2>
   	</div>
 </div>
 
 <div class="container-fluid bg-3 text-center">
   	<div class="row">
     	<div class="col-sm-4 text-left">
-    		<h3>Ryhmät</h3>
+    		<h3 class="cursor-default">Ryhmät</h3>
     		<c:if test="${not empty selectedGroup}">
     			<c:set var="selected_group" value="${selectedGroup}" />
     		</c:if>
@@ -90,7 +62,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       		</form>
     	</div>
     	<div class="col-sm-4 text-left">
-      		<h3>Opiskelijat</h3>
+      		<h3 class="cursor-default">Opiskelijat</h3>
       		<c:choose>
       			<c:when test="${not empty groupStudents}">
       				<table class="table table-hover">
@@ -107,10 +79,10 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       		</c:choose>
     	</div>
     	<div class="col-sm-4 text-left">
-      		<h3>Tiedot</h3>
+      		<h3 class="cursor-default">Tiedot</h3>
       		<c:choose>
       			<c:when test="${selectedStudent.studentID > 0}">	
-      				<table class="table">
+      				<table class="table cursor-default">
       					<tr><th scope="row" class="text-right">Etunimi</th><td><c:out value="${selectedStudent.firstname}" /></td></tr>
       					<tr><th scope="row" class="text-right">Sukunimi</th><td><c:out value="${selectedStudent.lastname}" /></td></tr>
       					<tr><th scope="row" class="text-right">Sähköposti</th><td><c:out value="${selectedStudent.email}" /></td></tr>

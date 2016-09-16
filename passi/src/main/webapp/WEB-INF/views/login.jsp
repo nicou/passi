@@ -25,17 +25,9 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<link href="<c:url value="/static/style/ie10-viewport-bug-workaround.css" />" rel="stylesheet">
-
 <!-- Custom styles for this template -->
 <link href="<c:url value="/static/style/login.css" />" rel="stylesheet">
 
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
 </head>
 
 <body onload="document.login.username.focus();">
@@ -43,7 +35,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <div class="container">
 
 <div class="login-panel">
-
 			
 <div style="display: block; text-align: center !important;">
 <h2 class="form-signin-heading">Anna tunnuksesi</h2>
@@ -63,9 +54,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 </div>
 
 </div>
-
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="<c:url value='/static/css/ie10-viewport-bug-workaround.js' />" /></script>
 
 </body>
 </html>
