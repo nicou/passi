@@ -37,7 +37,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 </form>
 
 <!-- Header embedded with currentPage parameter [/WEB-INF/views/pagename.jsp] -->
-<jsp:include page="header.jsp">
+<jsp:include page="include/header.jsp">
 	<jsp:param name="currentPage" value="${pageContext.request.servletPath}" />
 </jsp:include>
 
@@ -50,13 +50,51 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <div class="container-fluid bg-3 text-center">
   	<div class="row">
     	<div class="col-sm-4 text-left">
-    		<h3 class="cursor-default">Lohko 1</h3>
+    		
+    		<!-- Navigation tabs -->
+    		<ul class="nav nav-tabs">
+    			<li class="active"><a data-toggle="tab" href="#" onclick="this.blur();">Luo uusi</a></li>
+    			<li class=""><a data-toggle="tab" href="#" onclick="this.blur();">Muokkaa</a></li>
+    			<li class=""><a data-toggle="tab" href="#" onclick="this.blur();">Poista</a></li>
+    		</ul>
+    		<br />
+    		<c:url value="/createGroup" var="createGroup" />
+    		<form:form role="form" class="form-horizontal" modelAttribute="newGroup" action="${createGroup}" method="post" accept-charset="UTF-8">
+    			<form:hidden path="groupID" value="0" />
+				<div class="form-group">
+					<form:input placeholder="Kirjoita ryhmän tunnus" path="groupAbbr" cssClass="form-control" autocomplete="off" maxlength="50" />
+				</div>
+				<div class="form-group">
+					<form:input placeholder="Kirjoita ryhmän nimi" path="groupName" cssClass="form-control" autocomplete="off" maxlength="100" />
+				</div>
+				<form:hidden path="groupLeadID" value="3" />
+				<form:hidden path="groupLeadName" value="" />
+				<div class="form-group">
+					<button type="submit" class="btn btn-default form-control">LISÄÄ</button>
+				</div>
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+    		</form:form>
     	</div>
-    	<div class="col-sm-4 text-left">
-      		<h3 class="cursor-default">Lohko 2</h3>
-    	</div>
-    	<div class="col-sm-4 text-left">
-      		<h3 class="cursor-default">Lohko 3</h3>
+    	<div class="col-sm-8 text-left">
+      		<c:choose>
+      			<c:when test="${not empty groups}">
+      				<table class="table table-hover">
+      					<thead>
+      						<tr><th class="text-center">ID</th><th>Ryhmän nimi</th><th class="text-center">Vastuuhenkilö</th><th class="text-center">Jäseniä</th></tr>
+      					</thead>
+      					<tbody>
+      						<c:forEach var="group" items="${groups}" varStatus="loop">
+      						<tr><td class="text-center"><c:out value="${group.groupAbbr}" /></td><td class="text-nowrap"><c:out value="${group.groupName}" /></td><td class="text-center"><c:out value="${group.groupLeadName}" /></td><td class="text-center"><c:out value="${group.numGroupMembers}" /></td></tr>     					
+      						</c:forEach>
+      					</tbody>
+      				</table>
+      			</c:when>
+      			<c:otherwise>
+      				<table class="table">
+      					<tr><td>Ei ryhmiä</td></tr>
+      				</table>
+      			</c:otherwise>
+      		</c:choose>
     	</div>
   	</div>
 </div>

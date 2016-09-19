@@ -37,7 +37,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 </form>
 
 <!-- Header embedded with currentPage parameter [/WEB-INF/views/pagename.jsp] -->
-<jsp:include page="header.jsp">
+<jsp:include page="include/header.jsp">
 	<jsp:param name="currentPage" value="${pageContext.request.servletPath}" />
 </jsp:include>
 
@@ -84,10 +84,10 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       		<c:choose>
       			<c:when test="${selectedStudent.studentID > 0}">	
       				<table class="table cursor-default">
-      					<tr><th scope="row" class="text-right">Etunimi</th><td><c:out value="${selectedStudent.firstname}" /></td></tr>
-      					<tr><th scope="row" class="text-right">Sukunimi</th><td><c:out value="${selectedStudent.lastname}" /></td></tr>
-      					<tr><th scope="row" class="text-right">Sähköposti</th><td><c:out value="${selectedStudent.email}" /></td></tr>
-      					<tr><th scope="row" class="text-right">Oppilaitos</th><td><c:out value="${selectedStudent.school}" /></td></tr>
+      					<tr><th scope="row" class="text-right">Etunimi</th><td class="wide"><c:out value="${selectedStudent.firstname}" /></td></tr>
+      					<tr><th scope="row" class="text-right">Sukunimi</th><td class="wide"><c:out value="${selectedStudent.lastname}" /></td></tr>
+      					<tr><th scope="row" class="text-right">Sähköposti</th><td class="wide"><c:out value="${selectedStudent.email}" /></td></tr>
+      					<tr><th scope="row" class="text-right">Oppilaitos</th><td class="wide"><c:out value="${selectedStudent.school}" /></td></tr>
       				</table>
       			</c:when>
       			<c:otherwise>

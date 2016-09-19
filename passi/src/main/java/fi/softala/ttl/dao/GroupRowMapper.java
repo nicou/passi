@@ -15,7 +15,8 @@ public class GroupRowMapper implements RowMapper<Group> {
 		group.setGroupID(rs.getInt("ryhma_id"));
 		group.setGroupAbbr(rs.getString("ryhma_tunnus"));
 		group.setGroupName(rs.getString("ryhma_nimi"));
-		group.setGroupHead(rs.getInt("ope_id"));
+		group.setGroupLeadID(rs.getInt("ope_id"));
+		group.setGroupLeadName(rs.getString("ope_etunimi") + " " + rs.getString("ope_sukunimi"));
 		return group;
 	}
 }

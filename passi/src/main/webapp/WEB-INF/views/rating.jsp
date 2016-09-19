@@ -37,7 +37,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 </form>
 
 <!-- Header embedded with currentPage parameter [/WEB-INF/views/pagename.jsp] -->
-<jsp:include page="header.jsp">
+<jsp:include page="include/header.jsp">
 	<jsp:param name="currentPage" value="${pageContext.request.servletPath}" />
 </jsp:include>
 

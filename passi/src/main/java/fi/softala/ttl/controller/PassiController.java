@@ -37,7 +37,7 @@ import fi.softala.ttl.model.Student;
 @EnableWebMvc
 @Controller
 @Scope("session")
-@SessionAttributes({"user", "groups", "groupStudents", "selectedGroup", "selectedStudent", "defaultGroup"})
+@SessionAttributes({"user", "groups", "groupStudents", "newGroup", "selectedGroup", "selectedStudent", "defaultGroup"})
 public class PassiController {
 
 	final static Logger logger = LoggerFactory.getLogger(PassiController.class);
@@ -77,6 +77,7 @@ public class PassiController {
 	public ModelAndView init(final RedirectAttributes redirectAttributes) {
 		ModelAndView model = new ModelAndView();
 		redirectAttributes.addFlashAttribute("selectedGroup", new Group());
+		redirectAttributes.addFlashAttribute("newGroup", new Group());
 		redirectAttributes.addFlashAttribute("selectedStudent", new Student());
 		redirectAttributes.addFlashAttribute("groupStudents", new ArrayList<Student>());		
 		model.setViewName("redirect:/index");
@@ -88,7 +89,8 @@ public class PassiController {
 			@ModelAttribute("message") String message,
 			@ModelAttribute("groupStudents") ArrayList<Student> groupStudents,
 			@ModelAttribute("selectedStudent") Student selectedStudent,
-			@ModelAttribute("selectedGroup") Group selectedGroup) {
+			@ModelAttribute("selectedGroup") Group selectedGroup,
+			@ModelAttribute("newGroup") Group newGroup) {
 		ModelAndView model = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String user = auth.getName();
@@ -96,6 +98,7 @@ public class PassiController {
 		model.addObject("groupStudents", groupStudents);
 		model.addObject("selectedStudent", selectedStudent);
 		model.addObject("selectedGroup", selectedGroup);
+		model.addObject("newGroup", newGroup);
 		model.addObject("groups", dao.getGroups());
 		model.addObject("user", user);
 		model.setViewName("index");
@@ -103,8 +106,7 @@ public class PassiController {
 	}
 	
 	@RequestMapping(value = "/index/{page}", method = RequestMethod.GET)
-	public ModelAndView pageNavigation(
-			@PathVariable(value = "page") String page) {
+	public ModelAndView pageNavigation(@PathVariable(value = "page") String page) {
 		ModelAndView model = new ModelAndView();
 		model.setViewName(page);
 		return model;
@@ -114,6 +116,17 @@ public class PassiController {
 	public ModelAndView expiredPage() {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("expired");
+		return model;
+	}
+	
+	@RequestMapping(value = "/createGroup", method = RequestMethod.POST)
+	public ModelAndView createGroup(@ModelAttribute("newGroup") Group newGroup) {
+		ModelAndView model = new ModelAndView();
+		dao.addGroup(newGroup);
+		newGroup.reset();
+		model.addObject("newGroup", newGroup);
+		model.addObject("groups", dao.getGroups());
+		model.setViewName("group");
 		return model;
 	}
 

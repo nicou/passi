@@ -27,11 +27,21 @@ public class PassiDAOImpl implements PassiDAO {
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
+	
+	public void addGroup(Group group) {
+		final String sql = "INSERT INTO Ryhma (ryhma_tunnus, ryhma_nimi, ope_id) VALUES (?, ?, ?) "
+				+ " ON DUPLICATE KEY UPDATE ryhma_nimi=?";
+		jdbcTemplate.update(sql, new Object[] {group.getGroupAbbr(), group.getGroupName(), group.getGroupLeadID(), group.getGroupName()});
+	}
 
 	public List<Group> getGroups() {
-		final String sql = "SELECT ryhma_id, ryhma_tunnus, ryhma_nimi, ope_id FROM Ryhma WHERE ryhma_id > 20";
+		final String sql1 = "SELECT Ryhma.ryhma_id, Ryhma.ryhma_tunnus, Ryhma.ryhma_nimi, Ryhma.ope_id, Opettaja.ope_etunimi, Opettaja.ope_sukunimi FROM Ryhma JOIN Opettaja ON Ryhma.ope_id = Opettaja.ope_id WHERE ryhma_id > 20";
+		final String sql2 = "SELECT COUNT(*) FROM RyhmanOpiskelija WHERE ryhma_id = ?";
 		RowMapper<Group> mapper = new GroupRowMapper();
-		List<Group> groups = jdbcTemplate.query(sql, mapper);
+		List<Group> groups = jdbcTemplate.query(sql1, mapper);
+		for (Group group : groups) {
+			group.setNumGroupMembers(jdbcTemplate.queryForObject(sql2, new Object[] {group.getGroupID()}, Integer.class));
+		}
 		return groups;
 	}
 	

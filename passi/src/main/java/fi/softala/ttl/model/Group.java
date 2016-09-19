@@ -9,22 +9,44 @@ public class Group implements Serializable {
 	private int groupID;
 	private String groupAbbr;
 	private String groupName;
-	private int groupTeacherID;
+	private int groupLeadID;
+	private String groupLeadName;
+	private int numGroupMembers;
 
 	public Group() {
 		super();
 		this.groupID = 0;
 		this.groupAbbr = "";
 		this.groupName = "";
-		this.groupTeacherID = 0;
+		this.groupLeadID = 0;
+		this.groupLeadName = "";
+		this.numGroupMembers = 0;
 	}
 
-	public Group(int groupID, String groupAbbr, String groupName, int groupHead) {
+	public Group(int groupID, String groupAbbr, String groupName, int groupHead, int groupLeadID, String groupLeadName) {
 		super();
 		this.groupID = groupID;
 		this.groupAbbr = groupAbbr;
 		this.groupName = groupName;
-		this.groupTeacherID = groupHead;
+		this.groupLeadID = groupLeadID;
+		this.groupLeadName = groupLeadName;
+	}
+	
+	public void reset() {
+		this.groupID = 0;
+		this.groupAbbr = "";
+		this.groupName = "";
+		this.groupLeadID = 0;
+		this.groupLeadName = "";
+		this.numGroupMembers = 0;
+	}
+
+	public int getNumGroupMembers() {
+		return numGroupMembers;
+	}
+
+	public void setNumGroupMembers(int numGroupMembers) {
+		this.numGroupMembers = numGroupMembers;
 	}
 
 	public int getGroupID() {
@@ -51,11 +73,19 @@ public class Group implements Serializable {
 		this.groupName = groupName;
 	}
 
-	public int getGroupHeadID() {
-		return groupTeacherID;
+	public int getGroupLeadID() {
+		return groupLeadID;
 	}
 
-	public void setGroupHead(int groupHeadID) {
-		this.groupTeacherID = groupHeadID;
+	public void setGroupLeadID(int groupLeadID) {
+		this.groupLeadID = groupLeadID;
+	}
+	
+	public String getGroupLeadName() {
+		return groupLeadName;
+	}
+
+	public void setGroupLeadName(String groupLeadName) {
+		this.groupLeadName = groupLeadName;
 	}
 }

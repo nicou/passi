@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <%
 int timeout = session.getMaxInactiveInterval();
@@ -37,7 +38,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 </form>
 
 <!-- Header embedded with currentPage parameter [/WEB-INF/views/pagename.jsp] -->
-<jsp:include page="header.jsp">
+<jsp:include page="include/header.jsp">
 	<jsp:param name="currentPage" value="${pageContext.request.servletPath}" />
 </jsp:include>
 
