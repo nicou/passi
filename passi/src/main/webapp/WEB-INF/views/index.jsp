@@ -21,18 +21,18 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <!-- CSS -->
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="<c:url value="/static/style/index.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/static/style/main.css" />" />
 </head>
 
 <body>
-<!-- FORM[0]: SELECT GROUP -->
+<!-- FORM[0]: SELECT GROUP AND GET RELATED STUDENTS-->
 <form id="getGroupStudents" action="getGroupStudents" method="post" accept-charset="UTF-8">
 <input type="hidden" id="groupID" name="groupID" value="" />
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
 <!-- FORM[1]: SELECT STUDENT -->
 <form id="selectStudent" action="selectStudent" method="post" accept-charset="UTF-8">
-<input type="hidden" id="studentID" name="studentID" value="" />
+<input type="hidden" id="username" name="username" value="" />
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
 
@@ -51,16 +51,21 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   	<div class="row">
     	<div class="col-sm-4 text-left">
     		<h3 class="cursor-default">Ryhmät</h3>
-    		<c:if test="${not empty selectedGroup}">
-    			<c:set var="selected_group" value="${selectedGroup}" />
-    		</c:if>
-    		<form action="#" method="POST">
-      		<table class="table table-hover">
-      			<c:forEach var="group" items="${groups}" varStatus="loop">  
-      				<tr onclick="var f1=document.getElementById('getGroupStudents');f1.groupID.value='${group.groupID}';f1.submit();" class="${selectedGroup.groupID == group.groupID ? 'bold' : ''}"><td>${group.groupName}</td></tr>
-      			</c:forEach>
-      		</table>
-      		</form>
+    		    		
+    		<c:choose>
+    			<c:when test="${not empty groups}">
+      				<table class="table table-hover">
+      					<c:forEach var="group" items="${groups}" varStatus="loop">  
+      						<tr onclick="var f1=document.getElementById('getGroupStudents');f1.groupID.value='${group.groupID}';f1.submit();" class="${selectedGroupID == group.groupID ? 'bold' : ''}"><td>${group.groupName}</td></tr>
+      					</c:forEach>
+      				</table>
+      			</c:when>
+      			<c:otherwise>
+      				<table class="table">
+      					<tr><td>Ei Ryhmiä</td></tr>
+      				</table>
+      			</c:otherwise>
+      		</c:choose>
     	</div>
     	<div class="col-sm-4 text-left">
       		<h3 class="cursor-default">Jäsenet</h3>
@@ -68,13 +73,13 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       			<c:when test="${not empty groupStudents}">
       				<table class="table table-hover">
       				<c:forEach var="student" items="${groupStudents}" varStatus="loop"> 
-      					<tr onclick="var f2=document.getElementById('selectStudent');f2.studentID.value='${student.studentID}';f2.submit();" class="${selectedStudent.studentID == student.studentID ? 'bold' : ''}"><td><c:out value="${student.firstname}" />&nbsp;<c:out value="${student.lastname}" /></td></tr>     					
+      					<tr onclick="var f2=document.getElementById('selectStudent');f2.username.value='${student.username}';f2.submit();" class="${selectedStudentObject.username == student.username ? 'bold' : ''}"><td><c:out value="${student.firstname}" />&nbsp;<c:out value="${student.lastname}" /></td></tr>     					
       				</c:forEach>
       				</table>
       			</c:when>
       			<c:otherwise>
       				<table class="table">
-      					<tr><td>Valitse Ryhmä</td></tr>
+      					<tr><td>Jäsenlista on tyhjä</td></tr>
       				</table>
       			</c:otherwise>
       		</c:choose>
@@ -82,17 +87,17 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     	<div class="col-sm-4 text-left">
       		<h3 class="cursor-default">Tiedot</h3>
       		<c:choose>
-      			<c:when test="${selectedStudent.studentID > 0}">	
+      			<c:when test="${selectedStudentObject.username != ''}">	
       				<table class="table cursor-default">
-      					<tr><th scope="row" class="text-right">Etunimi</th><td class="wide"><c:out value="${selectedStudent.firstname}" /></td></tr>
-      					<tr><th scope="row" class="text-right">Sukunimi</th><td class="wide"><c:out value="${selectedStudent.lastname}" /></td></tr>
-      					<tr><th scope="row" class="text-right">Sähköposti</th><td class="wide"><c:out value="${selectedStudent.email}" /></td></tr>
-      					<tr><th scope="row" class="text-right">Oppilaitos</th><td class="wide"><c:out value="${selectedStudent.school}" /></td></tr>
+      					<tr><th scope="row" class="text-right">Etunimi</th><td class="wide"><c:out value="${selectedStudentObject.firstname}" /></td></tr>
+      					<tr><th scope="row" class="text-right">Sukunimi</th><td class="wide"><c:out value="${selectedStudentObject.lastname}" /></td></tr>
+      					<tr><th scope="row" class="text-right">Sähköposti</th><td class="wide"><c:out value="${selectedStudentObject.email}" /></td></tr>
+      					<tr><th scope="row" class="text-right">Oppilaitos</th><td class="wide"><c:out value="${selectedStudentObject.school}" /></td></tr>
       				</table>
       			</c:when>
       			<c:otherwise>
       				<table class="table">
-      					<tr><td>Valitse opiskelija</td></tr>
+      					<tr><td>Ei tietoja</td></tr>
       				</table>
       			</c:otherwise>
       		</c:choose>

@@ -28,15 +28,39 @@ public class PassiDAOImpl implements PassiDAO {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 	
-	public void addGroup(Group group) {
-		final String sql = "INSERT INTO Ryhma (ryhma_tunnus, ryhma_nimi, ope_id) VALUES (?, ?, ?) "
-				+ " ON DUPLICATE KEY UPDATE ryhma_nimi=?";
-		jdbcTemplate.update(sql, new Object[] {group.getGroupAbbr(), group.getGroupName(), group.getGroupLeadID(), group.getGroupName()});
+	public boolean addGroup(Group group) {
+		final String sql = "INSERT INTO ryhma (ryhma_tunnus, ryhma_nimi) VALUES (?, ?) ON DUPLICATE KEY UPDATE ryhma_nimi=?";
+		try {
+			jdbcTemplate.update(sql, new Object[] {group.getGroupID(), group.getGroupName(), group.getGroupName()});
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+	
+	public void deleteGroup(String groupID) {
+		final String sql = "DELETE FROM ryhma WHERE ryhma_tunnus = ?";
+		jdbcTemplate.update(sql, new Object[] {groupID});
+	}
+	
+	public boolean addStudent(Student student, String groupID) {
+		final String sql1 = "INSERT INTO user (username, password) VALUES (?, ?)";		
+		final String sql2 = "INSERT INTO opi (username, opi_etu, opi_suku, opi_koulu, opi_email) VALUES (?, ?, ?, ?, ?)";		
+		final String sql3 = "INSERT INTO ryhma_opi (ryhma_tunnus, username) VALUES (?, ?)";
+		try {
+			jdbcTemplate.update(sql1, new Object[] {student.getUsername(), student.getPassword()});
+			jdbcTemplate.update(sql2, new Object[] {student.getUsername(), student.getFirstname(), student.getLastname(), 
+				student.getSchool(), student.getEmail()});
+			jdbcTemplate.update(sql3, new Object[] {groupID, student.getUsername()});
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
 
 	public List<Group> getGroups() {
-		final String sql1 = "SELECT Ryhma.ryhma_id, Ryhma.ryhma_tunnus, Ryhma.ryhma_nimi, Ryhma.ope_id, Opettaja.ope_etunimi, Opettaja.ope_sukunimi FROM Ryhma JOIN Opettaja ON Ryhma.ope_id = Opettaja.ope_id WHERE ryhma_id > 20";
-		final String sql2 = "SELECT COUNT(*) FROM RyhmanOpiskelija WHERE ryhma_id = ?";
+		final String sql1 = "SELECT ryhma_tunnus, ryhma_nimi FROM ryhma";
+		final String sql2 = "SELECT COUNT(*) FROM ryhma_opi WHERE ryhma_tunnus = ?";
 		RowMapper<Group> mapper = new GroupRowMapper();
 		List<Group> groups = jdbcTemplate.query(sql1, mapper);
 		for (Group group : groups) {
@@ -45,17 +69,11 @@ public class PassiDAOImpl implements PassiDAO {
 		return groups;
 	}
 	
-	public List<Student> getGroupStudents(int groupID) {
-		final String sql = "SELECT opi_id, username, opi_etunimi, opi_sukunimi, opi_koulu, opi_email FROM Opiskelija WHERE opi_id IN "
-				+ "(SELECT opi_id from RyhmanOpiskelija WHERE ryhma_id = ?)";
+	public List<Student> getGroupStudents(String groupID) {
+		final String sql = "SELECT username, opi_etu, opi_suku, opi_koulu, opi_email FROM opi WHERE username IN "
+				+ "(SELECT username from ryhma_opi WHERE ryhma_tunnus = ?)";
 		RowMapper<Student> mapper = new StudentRowMapper();
-		List<Student> members = jdbcTemplate.query(sql, new Object[] {groupID}, mapper);
-		return members;
-	}
-	
-	public String getRole(String username) {
-		String sql = "SELECT role FROM roles WHERE username=?";
-		String role = jdbcTemplate.queryForObject(sql, new Object[] { username }, String.class);
-		return role;
+		List<Student> groupStudents = jdbcTemplate.query(sql, new Object[] {groupID}, mapper);
+		return groupStudents;
 	}
 }

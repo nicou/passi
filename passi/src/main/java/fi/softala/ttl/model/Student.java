@@ -6,27 +6,27 @@ public class Student implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private int studentID;
 	private String username;
+	private String password;
 	private String firstname;
 	private String lastname;
 	private String school;
 	private String email;
-
+	
 	public Student() {
 		super();
-		this.studentID = 0;
 		this.username = "";
+		this.password = "";
 		this.firstname = "";
 		this.lastname = "";
 		this.school = "";
 		this.email = "";
 	}
-	
-	public Student(int studentID, String username, String firstname, String lastname, String school, String email) {
+
+	public Student(String username, String password, String firstname, String lastname, String school, String email) {
 		super();
-		this.studentID = studentID;
 		this.username = username;
+		this.password = password;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.school = school;
@@ -34,20 +34,12 @@ public class Student implements Serializable {
 	}
 	
 	public void reset() {
-		this.studentID = 0;
 		this.username = "";
+		this.password = "";
 		this.firstname = "";
 		this.lastname = "";
 		this.school = "";
 		this.email = "";
-	}
-
-	public int getStudentID() {
-		return studentID;
-	}
-
-	public void setStudentID(int studentID) {
-		this.studentID = studentID;
 	}
 
 	public String getUsername() {
@@ -56,6 +48,14 @@ public class Student implements Serializable {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getFirstname() {

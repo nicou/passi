@@ -19,8 +19,8 @@
       		<ul class="nav navbar-nav">
         		<li class="${param.currentPage == '/WEB-INF/views/index.jsp' ? 'active' : ''}"><a href="<c:url value="/index" />">Tietohaku</a></li>
         		<li class="${param.currentPage == '/WEB-INF/views/group.jsp' ? 'active' : ''}"><a href="<c:url value="/index/group" />">Ryhmät</a></li>
-        		<li class="${param.currentPage == '/WEB-INF/views/member.jsp' ? 'active' : ''}"><a href="<c:url value="/index/member" />">Jäsenet</a></li>
-        		<li class="${param.currentPage == '/WEB-INF/views/rating.jsp' ? 'active' : ''}"><a href="<c:url value="/index/rating" />">Arviointi</a></li>
+        		<li class="${param.currentPage == '/WEB-INF/views/student.jsp' ? 'active' : ''}"><a href="<c:url value="/index/student" />">Opiskelijat</a></li>
+        		<li class="${param.currentPage == '/WEB-INF/views/assess.jsp' ? 'active' : ''}"><a href="<c:url value="/index/assess" />">Arviointi</a></li>
      		</ul>
       		<ul class="nav navbar-nav navbar-right">
         		<li>

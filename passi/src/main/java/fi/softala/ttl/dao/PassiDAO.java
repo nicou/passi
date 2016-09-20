@@ -10,8 +10,9 @@ import fi.softala.ttl.model.Student;
 
 public interface PassiDAO {
 	
-	public void addGroup(Group group);
+	public boolean addGroup(Group group);
+	public boolean addStudent(Student student, String groupID);
+	public void deleteGroup(String groupID);
 	public List<Group> getGroups();
-	public List<Student> getGroupStudents(int groupID);
-	public String getRole(String username);
+	public List<Student> getGroupStudents(String groupID);
 }

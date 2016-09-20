@@ -6,6 +6,11 @@ html, body {
   	width: 100%;
 }
 
+h4 {
+	margin-bottom: 15px;
+	margin-top: 20px;
+}
+
 table.table tr td.wide {
 	width: 100%;
 }

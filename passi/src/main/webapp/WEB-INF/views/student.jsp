@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <%
 int timeout = session.getMaxInactiveInterval();
@@ -17,7 +18,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <meta name="author" content="Roope Heinonen, Mika Ropponen" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>Työkykypassi&nbsp;&bull;&nbsp;Ryhmähallinta</title>
+<title>Työkykypassi&nbsp;&bull;&nbsp;Jäsenhallinta</title>
 
 <!-- CSS -->
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
@@ -25,6 +26,16 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 </head>
 
 <body>
+<!-- FORM[0]: SELECT GROUP -->
+<form id="getGroupStudents" action="getGroupStudents" method="post" accept-charset="UTF-8">
+<input type="hidden" id="groupID" name="groupID" value="" />
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+</form>
+<!-- FORM[1]: SELECT STUDENT -->
+<form id="selectStudent" action="selectStudent" method="post" accept-charset="UTF-8">
+<input type="hidden" id="studentID" name="studentID" value="" />
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+</form>
 
 <!-- Header embedded with currentPage parameter [/WEB-INF/views/pagename.jsp] -->
 <jsp:include page="include/header.jsp">
@@ -33,7 +44,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <div class="container-fluid">
   	<div class="page-header text-left">
-    	<h2 class="cursor-default">Ryhmät</h2>
+    	<h2 class="cursor-default">Opiskelijat</h2>
   	</div>
 </div>
 
@@ -43,7 +54,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		
     		<!-- Navigation tabs -->
     		<ul class="nav nav-tabs">
-    			<li class="active"><a data-toggle="tab" href="#add" onclick="this.blur();">Luo uusi</a></li>
+    			<li class="active"><a data-toggle="tab" href="#add" onclick="this.blur();">Lisää</a></li>
     			<li class=""><a data-toggle="tab" href="#edit" onclick="this.blur();">Muokkaa</a></li>
     			<li class=""><a data-toggle="tab" href="#del" onclick="this.blur();">Poista</a></li>
     		</ul>
@@ -52,7 +63,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		
     			<!-- tab: add group -->
   				<div id="add" class="tab-pane fade in active">
-    				<h4>Lisää uusi ryhmä</h4>
+    				<h4>Lisää opiskelija</h4>
     				
     				<c:if test="${not empty message}">
     					<div class="alert alert-info">
@@ -61,13 +72,28 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   						</div>
     				</c:if>
     				
-    				<c:url value="/addGroup" var="addGroup" />
-    				<form:form role="form" class="form-horizontal" modelAttribute="newGroup" action="${addGroup}" method="post" accept-charset="UTF-8">
+    				<c:url value="/addStudent" var="addStudent" />
+    				<form:form role="form" class="form-horizontal" modelAttribute="newStudent" action="${addStudent}" method="post" accept-charset="UTF-8">
   						<div class="form-group">
-							<form:input placeholder="Kirjoita ryhmän ID" path="groupID" cssClass="form-control" autocomplete="off" maxlength="20" />
+  							<input placeholder="Ryhmätunnus" type="text" id="groupID" name="groupID" class="form-control" autocomplete="off" maxlength="20" />
+  						</div>
+  						<div class="form-group">
+							<form:input placeholder="Käyttäjätunnus" path="username" cssClass="form-control" autocomplete="off" maxlength="20" />
 						</div>
 						<div class="form-group">
-							<form:input placeholder="Kirjoita ryhmän nimi" path="groupName" cssClass="form-control" autocomplete="off" maxlength="50" />
+							<form:input placeholder="Salasana" path="password" cssClass="form-control" autocomplete="off" maxlength="80" />
+						</div>
+						<div class="form-group">
+							<form:input placeholder="Etunimi" path="firstname" cssClass="form-control" autocomplete="off" maxlength="50" />
+						</div>
+						<div class="form-group">
+							<form:input placeholder="Sukunimi" path="lastname" cssClass="form-control" autocomplete="off" maxlength="50" />
+						</div>
+						<div class="form-group">
+							<form:input placeholder="Oppilaitos" path="school" cssClass="form-control" autocomplete="off" maxlength="50" />
+						</div>
+						<div class="form-group">
+							<form:input placeholder="Sähköposti" path="email" cssClass="form-control" autocomplete="off" maxlength="80" />
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-default form-control">LISÄÄ</button>
@@ -78,22 +104,12 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				
   				<!-- tab: edit group -->
   				<div id="edit" class="tab-pane fade">
-    				<h4>Muokkaa ryhmää</h4>
+    				<h4>Muokkaa Opiskelijaa</h4>
   				</div>
   				
   				<!-- tab: delete group -->
   				<div id="del" class="tab-pane fade">
-    				<h4>Poista ryhmä</h4>
-					<c:url value="/delGroup" var="delGroup" />
-					<form class="form-horizontal" action="${delGroup}" method="post" accept-charset="UTF-8">
-						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-						<div class="form-group">
-							<input type="text" id="groupID" name="groupID" class="form-control" autocomplete="off" maxlength="20" placeholder="Anna poistettavan ryhmän tunnus" />
-						</div>
-						<div class="form-group">
-							<button type="submit" class="btn btn-default form-control">POISTA</button>
-						</div>
-					</form>
+    				<h4>Poista Opiskelija</h4>
   				</div>
 			</div>		
     	</div>

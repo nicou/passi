@@ -21,7 +21,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <!-- CSS -->
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="<c:url value="/static/style/index.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/static/style/main.css" />" />
 </head>
 
 <body>
