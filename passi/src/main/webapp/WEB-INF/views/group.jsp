@@ -64,10 +64,10 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     				<c:url value="/addGroup" var="addGroup" />
     				<form:form role="form" class="form-horizontal" modelAttribute="newGroup" action="${addGroup}" method="post" accept-charset="UTF-8">
   						<div class="form-group">
-							<form:input placeholder="Kirjoita ryhmän ID" path="groupID" cssClass="form-control" autocomplete="off" maxlength="20" />
+							<form:input required="required" placeholder="Kirjoita ryhmän ID" path="groupID" cssClass="form-control" autocomplete="off" maxlength="20" />
 						</div>
 						<div class="form-group">
-							<form:input placeholder="Kirjoita ryhmän nimi" path="groupName" cssClass="form-control" autocomplete="off" maxlength="50" />
+							<form:input required="required" placeholder="Kirjoita ryhmän nimi" path="groupName" cssClass="form-control" autocomplete="off" maxlength="50" />
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-default form-control">LISÄÄ</button>
@@ -88,7 +88,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 					<form class="form-horizontal" action="${delGroup}" method="post" accept-charset="UTF-8">
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 						<div class="form-group">
-							<input type="text" id="groupID" name="groupID" class="form-control" autocomplete="off" maxlength="20" placeholder="Anna poistettavan ryhmän tunnus" />
+							<input required="required" type="text" id="groupID" name="groupID" class="form-control" autocomplete="off" maxlength="20" placeholder="Anna poistettavan ryhmän tunnus" />
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-default form-control">POISTA</button>

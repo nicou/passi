@@ -44,7 +44,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <div class="container-fluid">
   	<div class="page-header text-left">
-    	<h2 class="cursor-default">Opiskelijat</h2>
+    	<h2 class="cursor-default">Jäsenet</h2>
   	</div>
 </div>
 
@@ -63,7 +63,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		
     			<!-- tab: add group -->
   				<div id="add" class="tab-pane fade in active">
-    				<h4>Lisää opiskelija</h4>
+    				<h4>Lisää opiskelija ryhmään</h4>
     				
     				<c:if test="${not empty message}">
     					<div class="alert alert-info">
@@ -75,25 +75,25 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     				<c:url value="/addStudent" var="addStudent" />
     				<form:form role="form" class="form-horizontal" modelAttribute="newStudent" action="${addStudent}" method="post" accept-charset="UTF-8">
   						<div class="form-group">
-  							<input placeholder="Ryhmätunnus" type="text" id="groupID" name="groupID" class="form-control" autocomplete="off" maxlength="20" />
+  							<input required="required" placeholder="Ryhmätunnus" type="text" id="groupID" name="groupID" class="form-control" autocomplete="off" maxlength="20" />
   						</div>
   						<div class="form-group">
-							<form:input placeholder="Käyttäjätunnus" path="username" cssClass="form-control" autocomplete="off" maxlength="20" />
+							<form:input required="required" placeholder="Käyttäjätunnus" path="username" cssClass="form-control" autocomplete="off" maxlength="20" />
 						</div>
 						<div class="form-group">
-							<form:input placeholder="Salasana" path="password" cssClass="form-control" autocomplete="off" maxlength="80" />
+							<form:input required="required" placeholder="Salasana" path="password" cssClass="form-control" autocomplete="off" maxlength="80" />
 						</div>
 						<div class="form-group">
-							<form:input placeholder="Etunimi" path="firstname" cssClass="form-control" autocomplete="off" maxlength="50" />
+							<form:input required="required" placeholder="Etunimi" path="firstname" cssClass="form-control" autocomplete="off" maxlength="50" />
 						</div>
 						<div class="form-group">
-							<form:input placeholder="Sukunimi" path="lastname" cssClass="form-control" autocomplete="off" maxlength="50" />
+							<form:input required="required" placeholder="Sukunimi" path="lastname" cssClass="form-control" autocomplete="off" maxlength="50" />
 						</div>
 						<div class="form-group">
-							<form:input placeholder="Oppilaitos" path="school" cssClass="form-control" autocomplete="off" maxlength="50" />
+							<form:input required="required" placeholder="Oppilaitos" path="school" cssClass="form-control" autocomplete="off" maxlength="50" />
 						</div>
 						<div class="form-group">
-							<form:input placeholder="Sähköposti" path="email" cssClass="form-control" autocomplete="off" maxlength="80" />
+							<form:input required="required" placeholder="Sähköposti" path="email" cssClass="form-control" autocomplete="off" maxlength="80" />
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-default form-control">LISÄÄ</button>
