@@ -145,6 +145,7 @@ public class PassiController {
 		newGroup.reset();
 		model.addObject("newGroup", newGroup);
 		model.addObject("groups", dao.getGroups());
+		model.addObject("selectedTab", "add");
 		model.setViewName("group");
 		return model;
 	}
@@ -160,6 +161,7 @@ public class PassiController {
 			model.addObject("message", "Ryhmän poistaminen EI onnistunut.");
 		}
 		model.addObject("groups", dao.getGroups());
+		model.addObject("selectedTab", "del");
 		model.setViewName("group");
 		return model;
 	}
