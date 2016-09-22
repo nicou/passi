@@ -43,9 +43,9 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		
     		<!-- Navigation tabs -->
     		<ul class="nav nav-tabs">
-    			<li class="active"><a data-toggle="tab" href="#add" onclick="this.blur();">Luo uusi</a></li>
-    			<li class=""><a data-toggle="tab" href="#edit" onclick="this.blur();">Muokkaa</a></li>
-    			<li class=""><a data-toggle="tab" href="#del" onclick="this.blur();">Poista</a></li>
+    			<li class="${empty selectedTab ? 'active' : ''}"><a data-toggle="tab" href="#add" onclick="this.blur();">Luo uusi</a></li>
+    			<li class="${selectedTab == 'edit' ? 'active' : ''}"><a data-toggle="tab" href="#edit" onclick="this.blur();">Muokkaa</a></li>
+    			<li class="${selectedTab == 'del' ? 'active' : ''}"><a data-toggle="tab" href="#del" onclick="this.blur();">Poista</a></li>
     		</ul>
     		
     		<div class="tab-content">
