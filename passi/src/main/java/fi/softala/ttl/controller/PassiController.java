@@ -145,6 +145,7 @@ public class PassiController {
 		newGroup.reset();
 		model.addObject("newGroup", newGroup);
 		model.addObject("groups", dao.getGroups());
+		model.addObject("selectedTab", "add");
 		model.setViewName("group");
 		return model;
 	}
@@ -156,6 +157,7 @@ public class PassiController {
 		ModelAndView model = new ModelAndView();
 		dao.deleteGroup(groupID);
 		model.addObject("groups", dao.getGroups());
+		model.addObject("selectedTab", "del");
 		model.setViewName("group");
 		return model;
 	}
