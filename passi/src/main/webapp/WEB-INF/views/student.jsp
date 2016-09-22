@@ -27,15 +27,13 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <body>
 <!-- FORM[0]: SELECT GROUP -->
+<c:url value="/student" var="studentUrl" />
 <form id="getGroupStudents" action="getGroupStudents" method="post" accept-charset="UTF-8">
 <input type="hidden" id="groupID" name="groupID" value="" />
+<input type="hidden" id="returnPage" name="returnPage" value="student" />
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
-<!-- FORM[1]: SELECT STUDENT -->
-<form id="selectStudent" action="selectStudent" method="post" accept-charset="UTF-8">
-<input type="hidden" id="studentID" name="studentID" value="" />
-<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-</form>
+
 
 <!-- Header embedded with currentPage parameter [/WEB-INF/views/pagename.jsp] -->
 <jsp:include page="include/header.jsp">
@@ -110,12 +108,36 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				<!-- tab: delete group -->
   				<div id="del" class="tab-pane fade">
     				<h4>Poista Opiskelija</h4>
+    				<c:url value="/delStudent" var="delStudent" />
+					<form class="form-horizontal" action="${delStudent}" method="post" accept-charset="UTF-8">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+						<div class="form-group">
+							<input required="required" type="text" id="studentID" name="studentID" class="form-control" autocomplete="off" maxlength="20" placeholder="Anna poistettavan oppilaan käyttäjätunnus" />
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-default form-control">POISTA</button>
+						</div>
+					</form>
   				</div>
 			</div>		
     	</div>
     	
     	<!-- group information table -->
     	<div class="col-sm-8 text-left">
+    		<c:choose>
+      			<c:when test="${not empty groupStudents}">
+      				<table class="table table-hover">
+      				<c:forEach var="student" items="${groupStudents}" varStatus="loop"> 
+      					<tr onclick="var f2=document.getElementById('selectStudent');f2.username.value='${student.username}';f2.submit();" class="${selectedStudentObject.username == student.username ? 'bold' : ''}"><td><c:out value="${student.firstname}" />&nbsp;<c:out value="${student.lastname}" /></td></tr>     					
+      				</c:forEach>
+      				</table>
+      			</c:when>
+      			<c:otherwise>
+      				<table class="table">
+      					<tr><td>Jäsenlista on tyhjä</td></tr>
+      				</table>
+      			</c:otherwise>
+      		</c:choose>
       		<c:choose>
       			<c:when test="${not empty groups}">
       				<table class="table table-hover">
@@ -124,7 +146,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       					</thead>
       					<tbody>
       						<c:forEach var="group" items="${groups}" varStatus="loop">
-      						<tr><td class="text-center"><c:out value="${group.groupID}" /></td><td class="text-nowrap"><c:out value="${group.groupName}" /></td><td class="text-center"><c:out value="${group.numGroupMembers}" /></td></tr>     					
+      						<tr onclick="var f1=document.getElementById('getGroupStudents');f1.groupID.value='${group.groupID}';f1.submit();" class="${selectedGroupID == group.groupID ? 'bold' : ''}"><td class="text-center"><c:out value="${group.groupID}" /></td><td class="text-nowrap"><c:out value="${group.groupName}" /></td><td class="text-center"><c:out value="${group.numGroupMembers}" /></td></tr>     					
       						</c:forEach>
       					</tbody>
       				</table>

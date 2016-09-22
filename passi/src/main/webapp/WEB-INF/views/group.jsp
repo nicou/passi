@@ -78,6 +78,12 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				<!-- tab: edit group -->
   				<div id="edit" class="tab-pane fade">
     				<h4>Muokkaa ryhmää</h4>
+    				<c:if test="${not empty message}">
+    					<div class="alert alert-info">
+   							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    						<strong>Info!</strong>&nbsp;&nbsp;<c:out value="${message}" />
+  						</div>
+    				</c:if>
     				<c:url value="/editGroup" var="editGroup" />
     				<form class="form-horizontal" action="${editGroup}" method="post" accept-charset="UTF-8">
     					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -91,12 +97,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     					<button type="submit" class="btn btn-default form-control">Muokkaa</button>
     					</div>
     				</form>
-    				<c:if test="${not empty message}">
-    					<div class="alert alert-info">
-   							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    						<strong>Info!</strong>&nbsp;&nbsp;<c:out value="${message}" />
-  						</div>
-    				</c:if>
   				</div>
   				
   				<!-- tab: delete group -->

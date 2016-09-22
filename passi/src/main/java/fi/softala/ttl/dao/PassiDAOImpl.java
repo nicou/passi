@@ -49,7 +49,7 @@ public class PassiDAOImpl implements PassiDAO {
 	}
 	
 	public boolean editGroup(String groupID, String groupName) {
-		final String sql = "UPDATE ryhma SET groupName = ? WHERE groupId = ?";
+		final String sql = "UPDATE ryhma SET ryhma_nimi = ? WHERE ryhma_tunnus = ?";
 		try {
 			jdbcTemplate.update(sql, new Object[] {groupName, groupID});
 		} catch (Exception e) {
@@ -67,6 +67,16 @@ public class PassiDAOImpl implements PassiDAO {
 			jdbcTemplate.update(sql2, new Object[] {student.getUsername(), student.getFirstname(), student.getLastname(), 
 				student.getSchool(), student.getEmail()});
 			jdbcTemplate.update(sql3, new Object[] {groupID, student.getUsername()});
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean deleteStudent(String studentID) {
+		final String sql = "DELETE FROM user WHERE username = ?";
+		try {
+			jdbcTemplate.update(sql, new Object [] {studentID});
 		} catch (Exception e) {
 			return false;
 		}

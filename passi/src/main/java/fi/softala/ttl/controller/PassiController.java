@@ -152,14 +152,15 @@ public class PassiController {
 	@RequestMapping(value = "/editGroup", method = RequestMethod.POST)
 	public ModelAndView editGroup(
 			@RequestParam String groupID,
-			@RequestParam String groupName) {
+			@RequestParam String groupName,
+			@ModelAttribute("groups") ArrayList<Group> groups ) {
 		ModelAndView model = new ModelAndView();
 		if (dao.editGroup(groupID, groupName)) {
-			
 			model.addObject("message", "Ryhmän muokkaus onnistui.");
 		} else {
 			model.addObject("message", "Ryhmän muokkaus EI onnistunut.");
 		}
+		model.addObject("groups", dao.getGroups());
 		model.setViewName("group");
 		return model;
 	}
@@ -197,17 +198,34 @@ public class PassiController {
 		model.setViewName("student");
 		return model;
 	}
+	
+	@RequestMapping(value = "/delStudent", method = RequestMethod.POST)
+	public ModelAndView delStudent(
+			@RequestParam String studentID,
+			@ModelAttribute("groups") ArrayList<Group> groups) {
+		ModelAndView model = new ModelAndView();
+		if (dao.deleteStudent(studentID)) {
+			model.addObject("message", "Oppilaan poistaminen onnistui.");
+		} else {
+			model.addObject("message", "Oppilaan poistaminen EI onnistunut.");
+		}
+		model.addObject("groups", dao.getGroups());
+		model.setViewName("student");
+		return model;
+	}
+	
 
 	@RequestMapping(value = "/getGroupStudents", method = RequestMethod.POST)
 	public ModelAndView getGroupStudents(
 			@RequestParam String groupID,
+			@RequestParam String returnPage,
 			@ModelAttribute("groupStudents") List<Student> groupStudents,
 			@ModelAttribute("selectedGroupID") String selectedGroupID,
 			final RedirectAttributes redirectAttributes) {
 		ModelAndView model = new ModelAndView();
 		model.addObject("groupStudents", dao.getGroupStudents(groupID));
 		model.addObject("selectedGroupID", groupID);
-		model.setViewName("index");
+		model.setViewName("/WEB-INF/views/" + returnPage + ".jsp");
 		return model;
 	}
 	

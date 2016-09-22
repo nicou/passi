@@ -28,6 +28,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <!-- FORM[0]: SELECT GROUP AND GET RELATED STUDENTS-->
 <form id="getGroupStudents" action="getGroupStudents" method="post" accept-charset="UTF-8">
 <input type="hidden" id="groupID" name="groupID" value="" />
+<input type="hidden" id="returnPage" name="returnPage" value="index" />
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
 <!-- FORM[1]: SELECT STUDENT -->
