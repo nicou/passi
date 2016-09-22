@@ -38,9 +38,14 @@ public class PassiDAOImpl implements PassiDAO {
 		return true;
 	}
 	
-	public void deleteGroup(String groupID) {
+	public boolean deleteGroup(String groupID) {
 		final String sql = "DELETE FROM ryhma WHERE ryhma_tunnus = ?";
-		jdbcTemplate.update(sql, new Object[] {groupID});
+		try {
+			jdbcTemplate.update(sql, new Object[] {groupID});
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
 	
 	public boolean addStudent(Student student, String groupID) {

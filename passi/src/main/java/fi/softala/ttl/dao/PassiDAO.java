@@ -12,7 +12,7 @@ public interface PassiDAO {
 	
 	public boolean addGroup(Group group);
 	public boolean addStudent(Student student, String groupID);
-	public void deleteGroup(String groupID);
+	public boolean deleteGroup(String groupID);
 	public List<Group> getGroups();
 	public List<Student> getGroupStudents(String groupID);
 }

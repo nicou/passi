@@ -154,7 +154,11 @@ public class PassiController {
 			@RequestParam String groupID,
 			@ModelAttribute("groups") ArrayList<Group> groups) {
 		ModelAndView model = new ModelAndView();
-		dao.deleteGroup(groupID);
+		if (dao.deleteGroup(groupID)) {
+			model.addObject("message", "Ryhmän poistaminen onnitui.");
+		} else {
+			model.addObject("message", "Ryhmän poistaminen EI onnistunut.");
+		}
 		model.addObject("groups", dao.getGroups());
 		model.setViewName("group");
 		return model;
