@@ -63,16 +63,18 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     				
     				<c:url value="/addGroup" var="addGroup" />
     				<form:form role="form" class="form-horizontal" modelAttribute="newGroup" action="${addGroup}" method="post" accept-charset="UTF-8">
+  						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
   						<div class="form-group">
 							<form:input required="required" placeholder="Kirjoita ryhmän ID" path="groupID" cssClass="form-control" autocomplete="off" maxlength="20" />
 						</div>
 						<div class="form-group">
 							<form:input required="required" placeholder="Kirjoita ryhmän nimi" path="groupName" cssClass="form-control" autocomplete="off" maxlength="50" />
 						</div>
+						<form:hidden path="leader" value="null" />
+						<form:hidden path="numGroupMembers" value="0" />
 						<div class="form-group">
 							<button type="submit" class="btn btn-default form-control">LISÄÄ</button>
 						</div>
-						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     				</form:form>
   				</div>
   				
