@@ -48,6 +48,16 @@ public class PassiDAOImpl implements PassiDAO {
 		return true;
 	}
 	
+	public boolean editGroup(String groupID, String groupName) {
+		final String sql = "UPDATE ryhma SET groupName = ? WHERE groupId = ?";
+		try {
+			jdbcTemplate.update(sql, new Object[] {groupName, groupID});
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+	
 	public boolean addStudent(Student student, String groupID) {
 		final String sql1 = "INSERT INTO user (username, password) VALUES (?, ?)";		
 		final String sql2 = "INSERT INTO opi (username, opi_etu, opi_suku, opi_koulu, opi_email) VALUES (?, ?, ?, ?, ?)";		

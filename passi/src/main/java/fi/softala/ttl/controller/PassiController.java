@@ -150,6 +150,21 @@ public class PassiController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/editGroup", method = RequestMethod.POST)
+	public ModelAndView editGroup(
+			@RequestParam String groupID,
+			@RequestParam String groupName) {
+		ModelAndView model = new ModelAndView();
+		if (dao.editGroup(groupID, groupName)) {
+			
+			model.addObject("message", "Ryhmän muokkaus onnistui.");
+		} else {
+			model.addObject("message", "Ryhmän muokkaus EI onnistunut.");
+		}
+		model.setViewName("group");
+		return model;
+	}
+	
 	@RequestMapping(value = "/delGroup", method = RequestMethod.POST)
 	public ModelAndView delGroup(
 			@RequestParam String groupID,
