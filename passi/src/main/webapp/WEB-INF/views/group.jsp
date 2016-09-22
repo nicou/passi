@@ -3,6 +3,7 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <%
@@ -53,14 +54,12 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     			<!-- tab: add group -->
   				<div id="add" class="tab-pane fade in active">
     				<h4>Lisää uusi ryhmä</h4>
-    				
     				<c:if test="${not empty message}">
     					<div class="alert alert-info">
    							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     						<strong>Info!</strong>&nbsp;&nbsp;<c:out value="${message}" />
   						</div>
     				</c:if>
-    				
     				<c:url value="/addGroup" var="addGroup" />
     				<form:form role="form" class="form-horizontal" modelAttribute="newGroup" action="${addGroup}" method="post" accept-charset="UTF-8">
   						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -70,8 +69,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 						<div class="form-group">
 							<form:input required="required" placeholder="Kirjoita ryhmän nimi" path="groupName" cssClass="form-control" autocomplete="off" maxlength="50" />
 						</div>
-						<form:hidden path="leader" value="null" />
-						<form:hidden path="numGroupMembers" value="0" />
 						<div class="form-group">
 							<button type="submit" class="btn btn-default form-control">LISÄÄ</button>
 						</div>
@@ -81,11 +78,23 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				<!-- tab: edit group -->
   				<div id="edit" class="tab-pane fade">
     				<h4>Muokkaa ryhmää</h4>
+    				<c:if test="${not empty message}">
+    					<div class="alert alert-info">
+   							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    						<strong>Info!</strong>&nbsp;&nbsp;<c:out value="${message}" />
+  						</div>
+    				</c:if>
   				</div>
   				
   				<!-- tab: delete group -->
   				<div id="del" class="tab-pane fade">
     				<h4>Poista ryhmä</h4>
+    				<c:if test="${not empty message}">
+    					<div class="alert alert-info">
+   							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    						<strong>Info!</strong>&nbsp;&nbsp;<c:out value="${message}" />
+  						</div>
+    				</c:if>
 					<c:url value="/delGroup" var="delGroup" />
 					<form class="form-horizontal" action="${delGroup}" method="post" accept-charset="UTF-8">
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />

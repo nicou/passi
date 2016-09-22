@@ -145,7 +145,6 @@ public class PassiController {
 		newGroup.reset();
 		model.addObject("newGroup", newGroup);
 		model.addObject("groups", dao.getGroups());
-		model.addObject("selectedTab", "add");
 		model.setViewName("group");
 		return model;
 	}
@@ -161,7 +160,6 @@ public class PassiController {
 			model.addObject("message", "Ryhmän poistaminen EI onnistunut.");
 		}
 		model.addObject("groups", dao.getGroups());
-		model.addObject("selectedTab", "del");
 		model.setViewName("group");
 		return model;
 	}
@@ -176,10 +174,11 @@ public class PassiController {
 			model.addObject("message", "Opiskelijan lisääminen onnistui.");
 		} else {
 			model.addObject("message", "Opiskelijan lisääminen EI onnistunut.");
-		};
+		}
 		newStudent.reset();
 		model.addObject("groups", dao.getGroups());
 		model.addObject("newStudent", newStudent);
+		model.addObject("selectedTab", "");
 		model.setViewName("student");
 		return model;
 	}
