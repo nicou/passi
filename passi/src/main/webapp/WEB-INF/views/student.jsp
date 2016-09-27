@@ -27,8 +27,8 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <body>
 <!-- FORM[0]: SELECT GROUP -->
-<c:url value="/student" var="studentUrl" />
-<form id="getGroupStudents" action="getGroupStudents" method="post" accept-charset="UTF-8">
+<c:url value="/getGroupStudents" var="getGroupStudentsUrl" />
+<form id="getGroupStudents" action="${getGroupStudentsUrl}" method="post" accept-charset="UTF-8">
 <input type="hidden" id="groupID" name="groupID" value="" />
 <input type="hidden" id="returnPage" name="returnPage" value="student" />
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -124,20 +124,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     	
     	<!-- group information table -->
     	<div class="col-sm-8 text-left">
-    		<c:choose>
-      			<c:when test="${not empty groupStudents}">
-      				<table class="table table-hover">
-      				<c:forEach var="student" items="${groupStudents}" varStatus="loop"> 
-      					<tr onclick="var f2=document.getElementById('selectStudent');f2.username.value='${student.username}';f2.submit();" class="${selectedStudentObject.username == student.username ? 'bold' : ''}"><td><c:out value="${student.firstname}" />&nbsp;<c:out value="${student.lastname}" /></td></tr>     					
-      				</c:forEach>
-      				</table>
-      			</c:when>
-      			<c:otherwise>
-      				<table class="table">
-      					<tr><td>Jäsenlista on tyhjä</td></tr>
-      				</table>
-      			</c:otherwise>
-      		</c:choose>
       		<c:choose>
       			<c:when test="${not empty groups}">
       				<table class="table table-hover">
@@ -159,6 +145,20 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       					<tbody>
       						<tr><td>Ei ryhmiä</td></tr>
       					</tbody>
+      				</table>
+      			</c:otherwise>
+      		</c:choose>
+      		<c:choose>
+      			<c:when test="${not empty groupStudents}">
+      				<table class="table table-hover">
+      				<c:forEach var="student" items="${groupStudents}" varStatus="loop"> 
+      					<tr onclick="var f2=document.getElementById('selectStudent');f2.username.value='${student.username}';f2.submit();" class="${selectedStudentObject.username == student.username ? 'bold' : ''}"><td><c:out value="${student.firstname}" />&nbsp;<c:out value="${student.lastname}" /></td></tr>     					
+      				</c:forEach>
+      				</table>
+      			</c:when>
+      			<c:otherwise>
+      				<table class="table">
+      					<tr><td>Jäsenlista on tyhjä</td></tr>
       				</table>
       			</c:otherwise>
       		</c:choose>

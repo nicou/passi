@@ -8,29 +8,29 @@ public class Group implements Serializable {
 	
 	private String groupID;
 	private String groupName;
-	private Leader leader;
+	private Instructor instructor;
 	private int numGroupMembers;
 
 	public Group() {
 		super();
 		this.groupID = "";
 		this.groupName = "";
-		this.leader = null;
+		this.instructor = null;
 		this.numGroupMembers = 0;
 	}
 
-	public Group(String groupID, String groupName, Leader leader, int numGroupMembers) {
+	public Group(String groupID, String groupName, Instructor instructor, int numGroupMembers) {
 		super();
 		this.groupID = groupID;
 		this.groupName = groupName;
-		this.leader = leader;
+		this.instructor = instructor;
 		this.numGroupMembers = numGroupMembers;
 	}
 	
 	public void reset() {
 		this.groupID = "";
 		this.groupName = "";
-		this.leader = null;
+		this.instructor = null;
 		this.numGroupMembers = 0;
 	}
 
@@ -50,12 +50,12 @@ public class Group implements Serializable {
 		this.groupName = groupName;
 	}
 	
-	public Leader getLeader() {
-		return leader;
+	public Instructor getLeader() {
+		return instructor;
 	}
 	
-	public void setLeader(Leader leader) {
-		this.leader = leader;
+	public void setInstructor(Instructor instructor) {
+		this.instructor = instructor;
 	}
 	
 	public int getNumGroupMembers() {

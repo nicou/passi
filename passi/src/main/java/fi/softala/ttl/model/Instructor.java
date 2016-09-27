@@ -5,32 +5,32 @@ package fi.softala.ttl.model;
 
 import java.io.Serializable;
 
-public class Leader implements Serializable {
+public class Instructor implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private String username;
 	private String firstname;
 	private String lastname;
-	private String school;
 	private String email;
+	private String school;
 	
-	public Leader() {
+	public Instructor() {
 		super();
 		this.username = "";
 		this.firstname = "";
 		this.lastname = "";
-		this.school = "";
 		this.email = "";
+		this.school = "";
 	}
 
-	public Leader(String username, String firstname, String lastname, String school, String email) {
+	public Instructor(String username, String firstname, String lastname, String email, String school) {
 		super();
 		this.username = username;
 		this.firstname = firstname;
 		this.lastname = lastname;
-		this.school = school;
 		this.email = email;
+		this.school = school;
 	}
 
 	public String getUsername() {
@@ -57,19 +57,19 @@ public class Leader implements Serializable {
 		this.lastname = lastname;
 	}
 
-	public String getSchool() {
-		return school;
-	}
-
-	public void setSchool(String school) {
-		this.school = school;
-	}
-
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
 	}
 }

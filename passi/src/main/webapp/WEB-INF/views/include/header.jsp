@@ -18,9 +18,9 @@
     	<div class="collapse navbar-collapse" id="myNavbar">
       		<ul class="nav navbar-nav">
         		<li class="${param.currentPage == '/WEB-INF/views/index.jsp' ? 'active' : ''}"><a href="<c:url value="/index" />">Tietohaku</a></li>
-        		<li class="${param.currentPage == '/WEB-INF/views/group.jsp' ? 'active' : ''}"><a href="<c:url value="/index/group" />">Ryhmät</a></li>
-        		<li class="${param.currentPage == '/WEB-INF/views/student.jsp' ? 'active' : ''}"><a href="<c:url value="/index/student" />">Jäsenet</a></li>
-        		<li class="${param.currentPage == '/WEB-INF/views/assess.jsp' ? 'active' : ''}"><a href="<c:url value="/index/assess" />">Arviointi</a></li>
+        		<li class="disabled ${param.currentPage == '/WEB-INF/views/group.jsp' ? 'active' : ''}"><a href="#">Ryhmät</a></li> <!-- <c:url value="/index/group" /> -->
+        		<li class="disabled ${param.currentPage == '/WEB-INF/views/student.jsp' ? 'active' : ''}"><a href="#">Jäsenet</a></li> <!-- <c:url value="/index/student" /> -->
+        		<li class="disabled ${param.currentPage == '/WEB-INF/views/assess.jsp' ? 'active' : ''}"><a href="#">Arviointi</a></li> <!-- <c:url value="/index/assess" /> -->
      		</ul>
       		<ul class="nav navbar-nav navbar-right">
         		<li>

@@ -3,9 +3,6 @@
  */
 package fi.softala.ttl.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -43,8 +38,8 @@ import fi.softala.ttl.model.Student;
 public class PassiController {
 
 	final static Logger logger = LoggerFactory.getLogger(PassiController.class);
-	private static final String TOMCAT_HOME_PROPERTY = "catalina.home";
-	private static final String TOMCAT_IMG = System.getProperty(TOMCAT_HOME_PROPERTY);
+	// private static final String TOMCAT_HOME_PROPERTY = "catalina.home";
+	// private static final String TOMCAT_IMG = System.getProperty(TOMCAT_HOME_PROPERTY);
 	
 	@Autowired
 	ServletContext context;
@@ -134,6 +129,40 @@ public class PassiController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/getGroupStudents", method = RequestMethod.POST)
+	public ModelAndView getGroupStudents(
+			@RequestParam String groupID,
+			@RequestParam String returnPage,
+			@ModelAttribute("groupStudents") List<Student> groupStudents,
+			@ModelAttribute("selectedGroupID") String selectedGroupID,
+			final RedirectAttributes redirectAttributes) {
+		ModelAndView model = new ModelAndView();
+		model.addObject("groupStudents", dao.getGroupStudents(groupID));
+		model.addObject("selectedGroupID", groupID);
+		model.setViewName(returnPage);
+		return model;
+	}
+	
+	@RequestMapping(value = "/selectStudent", method = RequestMethod.POST)
+	public ModelAndView selectStudent(
+			@RequestParam String username,
+			@ModelAttribute("groupStudents") List<Student> groupStudents,
+			@ModelAttribute("selectedGroupID") String selectedGroupID,
+			@ModelAttribute("selectedStudentObject") Student selectedStudentObject,
+			final RedirectAttributes redirectAttributes) {
+		ModelAndView model = new ModelAndView();
+		for (Student student : groupStudents) {
+			if (student.getUsername().equalsIgnoreCase(username)) {
+				model.addObject("selectedStudentObject", student);
+				break;
+			}
+		}
+		model.addObject("groupStudents", dao.getGroupStudents(selectedGroupID));
+		model.setViewName("index");
+		return model;
+	}
+	
+	/*
 	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
 	public ModelAndView addGroup(@ModelAttribute("newGroup") Group newGroup) {
 		ModelAndView model = new ModelAndView();
@@ -213,40 +242,6 @@ public class PassiController {
 		model.setViewName("student");
 		return model;
 	}
-	
-
-	@RequestMapping(value = "/getGroupStudents", method = RequestMethod.POST)
-	public ModelAndView getGroupStudents(
-			@RequestParam String groupID,
-			@RequestParam String returnPage,
-			@ModelAttribute("groupStudents") List<Student> groupStudents,
-			@ModelAttribute("selectedGroupID") String selectedGroupID,
-			final RedirectAttributes redirectAttributes) {
-		ModelAndView model = new ModelAndView();
-		model.addObject("groupStudents", dao.getGroupStudents(groupID));
-		model.addObject("selectedGroupID", groupID);
-		model.setViewName("/WEB-INF/views/" + returnPage + ".jsp");
-		return model;
-	}
-	
-	@RequestMapping(value = "/selectStudent", method = RequestMethod.POST)
-	public ModelAndView selectMemeber(
-			@RequestParam String username,
-			@ModelAttribute("groupStudents") List<Student> groupStudents,
-			@ModelAttribute("selectedGroupID") String selectedGroupID,
-			@ModelAttribute("selectedStudentObject") Student selectedStudentObject,
-			final RedirectAttributes redirectAttributes) {
-		ModelAndView model = new ModelAndView();
-		for (Student student : groupStudents) {
-			if (student.getUsername().equalsIgnoreCase(username)) {
-				model.addObject("selectedStudentObject", student);
-				break;
-			}
-		}
-		model.addObject("groupStudents", dao.getGroupStudents(selectedGroupID));
-		model.setViewName("index");
-		return model;
-	}
 
 	@ResponseBody
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
@@ -281,7 +276,6 @@ public class PassiController {
 		return model;
 	}
 
-	/*
 	@RequestMapping(value = "/download/{type}", method = RequestMethod.GET)
 	public void downloadFile(HttpServletResponse response, @PathVariable("type") String type) throws IOException {
 		File file = new File(EXTERNAL_IMG_FILE);
