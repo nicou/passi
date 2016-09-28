@@ -26,8 +26,8 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <body>
 <!-- FORM[0]: SELECT GROUP AND GET RELATED STUDENTS-->
-<c:url value="/getGroupStudents" var="getGroupStudentsUrl" />
-<form id="getGroupStudents" action="${getGroupStudentsUrl}" method="post" accept-charset="UTF-8">
+<c:url value="/getGroupData" var="getGroupDataUrl" />
+<form id="getGroupData" action="${getGroupDataUrl}" method="post" accept-charset="UTF-8">
 <input type="hidden" id="groupID" name="groupID" value="" />
 <input type="hidden" id="returnPage" name="returnPage" value="index" />
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -59,7 +59,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     				<c:when test="${not empty groups}">
       					<table class="table table-hover">
       						<c:forEach var="group" items="${groups}" varStatus="loop">  
-      							<tr onclick="var f1=document.getElementById('getGroupStudents');f1.groupID.value='${group.groupID}';f1.submit();" class="${selectedGroupID == group.groupID ? 'bold' : ''}"><td>${group.groupName}</td></tr>
+      							<tr onclick="var f1=document.getElementById('getGroupData');f1.groupID.value='${group.groupID}';f1.submit();" class="${selectedGroup.groupID == group.groupID ? 'bold' : ''}"><td>${group.groupName}</td></tr>
       						</c:forEach>
       					</table>
       				</c:when>
@@ -70,7 +70,26 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       				</c:otherwise>
       			</c:choose>
       		</div>
-
+			
+			<div class="row">
+      			<h3 class="cursor-default">Ohjaaja</h3>
+      			<c:choose>
+      				<c:when test="${selectedGroup.groupID != ''}">	
+      					<table class="table cursor-default">
+      						<tr><th scope="row" class="text-right">Etunimi</th><td class="wide"><c:out value="${selectedGroup.instructor.firstname}" /></td></tr>
+      						<tr><th scope="row" class="text-right">Sukunimi</th><td class="wide"><c:out value="${selectedGroup.instructor.lastname}" /></td></tr>
+      						<tr><th scope="row" class="text-right">Sähköposti</th><td class="wide"><c:out value="${selectedGroup.instructor.email}" /></td></tr>
+      						<tr><th scope="row" class="text-right">Oppilaitos</th><td class="wide"><c:out value="${selectedGroup.instructor.school}" /></td></tr>
+      					</table>
+      				</c:when>
+      				<c:otherwise>
+      					<table class="table">
+      						<tr><td>Ryhmää ei valittu</td></tr>
+      					</table>
+      				</c:otherwise>
+      			</c:choose>
+    		</div>
+			
     		<div class="row">
       			<h3 class="cursor-default">Jäsenet</h3>
       			<c:choose>
@@ -83,14 +102,14 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       				</c:when>
       				<c:otherwise>
       					<table class="table">
-      						<tr><td>Jäsenlista on tyhjä</td></tr>
+      						<tr><td>Ryhmää ei valittu</td></tr>
       					</table>
       				</c:otherwise>
       			</c:choose>
     		</div>
     		
     		<div class="row">
-      			<h3 class="cursor-default">Tiedot</h3>
+      			<h3 class="cursor-default">Opiskelija</h3>
       			<c:choose>
       				<c:when test="${selectedStudentObject.username != ''}">	
       					<table class="table cursor-default">
@@ -102,7 +121,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       				</c:when>
       				<c:otherwise>
       					<table class="table">
-      						<tr><td>Ei tietoja</td></tr>
+      						<tr><td>Opiskelijaa ei valittu</td></tr>
       					</table>
       				</c:otherwise>
       			</c:choose>

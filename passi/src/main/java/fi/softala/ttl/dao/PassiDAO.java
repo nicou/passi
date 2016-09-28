@@ -11,7 +11,7 @@ import fi.softala.ttl.model.Student;
 public interface PassiDAO {
 
 	public List<Group> getGroups();
-	public List<Student> getGroupStudents(String groupID);
+	public List<Student> getGroupStudents(Group group);
 	
 	/*
 	public boolean addGroup(Group group);

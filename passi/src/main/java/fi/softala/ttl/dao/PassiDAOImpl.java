@@ -46,16 +46,17 @@ public class PassiDAOImpl implements PassiDAO {
 			group.setInstructor(jdbcTemplate.queryForObject(SQL2, new Object[] {group.getGroupID()}, mapperInstructor));
 			group.setNumGroupMembers(jdbcTemplate.queryForObject(SQL3, new Object[] {group.getGroupID()}, Integer.class));
 		}
+		System.out.println(groups.get(0).getInstructor().getLastname());
 		return groups;
 	}
 	
-	public List<Student> getGroupStudents(String groupID) {
+	public List<Student> getGroupStudents(Group group) {
 		final String sql = "SELECT opi.username, opi.opi_etu, opi.opi_suku, opi.opi_email, kou.koulu FROM opi AS opi "
 				+ "JOIN koulu AS kou ON opi.koulu_id = kou.koulu_id "
 				+ "JOIN ryhma_opi AS rop ON rop.username = opi.username "
 				+ "WHERE ryhma_tunnus = ?";
 		RowMapper<Student> mapper = new StudentRowMapper();
-		List<Student> groupStudents = jdbcTemplate.query(sql, new Object[] {groupID}, mapper);
+		List<Student> groupStudents = jdbcTemplate.query(sql, new Object[] {group.getGroupID()}, mapper);
 		return groupStudents;
 	}
 	

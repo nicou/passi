@@ -50,7 +50,7 @@ public class Group implements Serializable {
 		this.groupName = groupName;
 	}
 	
-	public Instructor getLeader() {
+	public Instructor getInstructor() {
 		return instructor;
 	}
 	
