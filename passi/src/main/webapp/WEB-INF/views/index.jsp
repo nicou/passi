@@ -132,7 +132,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   		<div class="col-sm-8 text-left">
   			<div class="row">
   				<h3 class="cursor-default">Tehtäväkortti</h3>
-  				<div style="border: 1px solid #DCDCDC; height: 500px;">
+  				<div style="border: 1px solid #DCDCDC; height: 500px; padding: 20px 30px 20px 30px;">
   				
   				<c:choose>
   					<c:when test = "${not empty worksheets && not empty answers}">
@@ -140,7 +140,10 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   							<h3><c:out value="${worksheet.header}" /></h3>
   							<p><c:out value="${worksheet.preface}" /></p>
   							<p><c:out value="${worksheet.planning}" /></p>
-  							<p><c:out value="${answers[loop.index].planningText}" /></p>
+  							<p><c:out value="${loopAnswer.planningText}" /></p>
+  							<c:forEach var="waypoint" items="${worksheet.waypoints}" varStatus="loopInner">
+  								<c:out value="${loopInner.count}" />.&nbsp;<c:out value="${waypoint.assignment}" /><br />
+  							</c:forEach>
   						</c:forEach>
   					</c:when>
   					<c:otherwise>
