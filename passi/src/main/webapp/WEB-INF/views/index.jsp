@@ -35,6 +35,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <!-- FORM[1]: SELECT STUDENT -->
 <form id="selectStudent" action="selectStudent" method="post" accept-charset="UTF-8">
 <input type="hidden" id="username" name="username" value="" />
+<input type="hidden" id="groupID" name="groupID" value="" />
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
 
@@ -96,7 +97,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       				<c:when test="${not empty groupStudents}">
       					<table class="table table-hover">
       					<c:forEach var="student" items="${groupStudents}" varStatus="loop"> 
-      						<tr onclick="var f2=document.getElementById('selectStudent');f2.username.value='${student.username}';f2.submit();" class="${selectedStudentObject.username == student.username ? 'bold' : ''}"><td><c:out value="${student.firstname}" />&nbsp;<c:out value="${student.lastname}" /></td></tr>     					
+      						<tr onclick="var f2=document.getElementById('selectStudent');f2.username.value='${student.username}';f2.groupID.value='${selectedGroup.groupID}';f2.submit();" class="${selectedStudentObject.username == student.username ? 'bold' : ''}"><td><c:out value="${student.firstname}" />&nbsp;<c:out value="${student.lastname}" /></td></tr>     					
       					</c:forEach>
       					</table>
       				</c:when>
@@ -132,6 +133,21 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   			<div class="row">
   				<h3 class="cursor-default">Tehtäväkortti</h3>
   				<div style="border: 1px solid #DCDCDC; height: 500px;">
+  				
+  				<c:choose>
+  					<c:when test = "${not empty worksheets && not empty answers}">
+  						<c:forEach var="worksheet" items="${worksheets}" varStatus="loop">
+  							<h3><c:out value="${worksheet.header}" /></h3>
+  							<p><c:out value="${worksheet.preface}" /></p>
+  							<p><c:out value="${worksheet.planning}" /></p>
+  							<p><c:out value="${answers[loop.index].planningText}" /></p>
+  						</c:forEach>
+  					</c:when>
+  					<c:otherwise>
+  						<p>Opiskelijaa ei valittu</p>
+  					</c:otherwise>
+  				</c:choose>
+  				
   				</div>
   			</div>
   		</div>
