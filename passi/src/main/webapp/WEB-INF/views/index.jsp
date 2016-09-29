@@ -26,14 +26,15 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <body>
 <!-- FORM[0]: SELECT GROUP AND GET RELATED STUDENTS-->
-<c:url value="/getGroupData" var="getGroupDataUrl" />
+<c:url var="getGroupDataUrl" value="/getGroupData" />
 <form id="getGroupData" action="${getGroupDataUrl}" method="post" accept-charset="UTF-8">
 <input type="hidden" id="groupID" name="groupID" value="" />
 <input type="hidden" id="returnPage" name="returnPage" value="index" />
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
 <!-- FORM[1]: SELECT STUDENT -->
-<form id="selectStudent" action="selectStudent" method="post" accept-charset="UTF-8">
+<c:url var="getStudentAnswersUrl" value="/getStudentAnswers" />
+<form id="getStudentAnswers" action="${getStudentAnswersUrl}" method="post" accept-charset="UTF-8">
 <input type="hidden" id="username" name="username" value="" />
 <input type="hidden" id="groupID" name="groupID" value="" />
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -43,12 +44,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <jsp:include page="include/header.jsp">
 	<jsp:param name="currentPage" value="${pageContext.request.servletPath}" />
 </jsp:include>
-
-<div class="container-fluid">
-  	<div class="page-header text-left">
-    	<h2 class="cursor-default">Tietohaku</h2>
-  	</div>
-</div>
 
 <div class="container-fluid bg-3 text-center">
   	<div class="row">
@@ -60,7 +55,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     				<c:when test="${not empty groups}">
       					<table class="table table-hover">
       						<c:forEach var="group" items="${groups}" varStatus="loop">  
-      							<tr onclick="var f1=document.getElementById('getGroupData');f1.groupID.value='${group.groupID}';f1.submit();" class="${selectedGroup.groupID == group.groupID ? 'bold' : ''}"><td>${group.groupName}</td></tr>
+      							<tr onclick="var f1=document.getElementById('getGroupData');f1.groupID.value='${group.groupID}';f1.submit();" class="${selectedGroupObject.groupID == group.groupID ? 'bold' : ''}"><td>${group.groupName}</td></tr>
       						</c:forEach>
       					</table>
       				</c:when>
@@ -72,32 +67,13 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       			</c:choose>
       		</div>
 			
-			<div class="row">
-      			<h3 class="cursor-default">Ohjaaja</h3>
-      			<c:choose>
-      				<c:when test="${selectedGroup.groupID != ''}">	
-      					<table class="table cursor-default">
-      						<tr><th scope="row" class="text-right">Etunimi</th><td class="wide"><c:out value="${selectedGroup.instructor.firstname}" /></td></tr>
-      						<tr><th scope="row" class="text-right">Sukunimi</th><td class="wide"><c:out value="${selectedGroup.instructor.lastname}" /></td></tr>
-      						<tr><th scope="row" class="text-right">Sähköposti</th><td class="wide"><c:out value="${selectedGroup.instructor.email}" /></td></tr>
-      						<tr><th scope="row" class="text-right">Oppilaitos</th><td class="wide"><c:out value="${selectedGroup.instructor.school}" /></td></tr>
-      					</table>
-      				</c:when>
-      				<c:otherwise>
-      					<table class="table">
-      						<tr><td>Ryhmää ei valittu</td></tr>
-      					</table>
-      				</c:otherwise>
-      			</c:choose>
-    		</div>
-			
     		<div class="row">
       			<h3 class="cursor-default">Jäsenet</h3>
       			<c:choose>
       				<c:when test="${not empty groupStudents}">
       					<table class="table table-hover">
       					<c:forEach var="student" items="${groupStudents}" varStatus="loop"> 
-      						<tr onclick="var f2=document.getElementById('selectStudent');f2.username.value='${student.username}';f2.groupID.value='${selectedGroup.groupID}';f2.submit();" class="${selectedStudentObject.username == student.username ? 'bold' : ''}"><td><c:out value="${student.firstname}" />&nbsp;<c:out value="${student.lastname}" /></td></tr>     					
+      						<tr onclick="var f2=document.getElementById('getStudentAnswers');f2.username.value='${student.username}';f2.groupID.value='${selectedGroupObject.groupID}';f2.submit();" class="${selectedStudentObject.username == student.username ? 'bold' : ''}"><td><c:out value="${student.firstname}" />&nbsp;<c:out value="${student.lastname}" /></td></tr>     					
       					</c:forEach>
       					</table>
       				</c:when>
@@ -110,7 +86,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		</div>
     		
     		<div class="row">
-      			<h3 class="cursor-default">Opiskelija</h3>
+      			<h3 class="cursor-default">Tiedot</h3>
       			<c:choose>
       				<c:when test="${selectedStudentObject.username != ''}">	
       					<table class="table cursor-default">
@@ -127,34 +103,51 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       				</c:otherwise>
       			</c:choose>
     		</div>
+    				
+			<div class="row">
+      			<h3 class="cursor-default">Ohjaaja</h3>
+      			<c:choose>
+      				<c:when test="${selectedGroupObject.groupID != ''}">	
+      					<table class="table cursor-default">
+      						<tr><th scope="row" class="text-right">Etunimi</th><td class="wide"><c:out value="${selectedGroupObject.instructor.firstname}" /></td></tr>
+      						<tr><th scope="row" class="text-right">Sukunimi</th><td class="wide"><c:out value="${selectedGroupObject.instructor.lastname}" /></td></tr>
+      						<tr><th scope="row" class="text-right">Sähköposti</th><td class="wide"><c:out value="${selectedGroupObject.instructor.email}" /></td></tr>
+      						<tr><th scope="row" class="text-right">Oppilaitos</th><td class="wide"><c:out value="${selectedGroupObject.instructor.school}" /></td></tr>
+      					</table>
+      				</c:when>
+      				<c:otherwise>
+      					<table class="table">
+      						<tr><td>Ryhmää ei valittu</td></tr>
+      					</table>
+      				</c:otherwise>
+      			</c:choose>
+    		</div>
+    		
   		</div>
   		
   		<div class="col-sm-8 text-left">
-  			<div class="row">
-  				<h3 class="cursor-default">Tehtäväkortti</h3>
-  				<div style="border: 1px solid #DCDCDC; height: 500px; padding: 20px 30px 20px 30px;">
-  				
-  				<c:choose>
-  					<c:when test = "${not empty worksheets && not empty answers}">
-  						<c:forEach var="worksheet" items="${worksheets}" varStatus="loop">
-  							<h3><c:out value="${worksheet.header}" /></h3>
-  							<p><c:out value="${worksheet.preface}" /></p>
-  							<p><c:out value="${worksheet.planning}" /></p>
-  							<p><c:out value="${loopAnswer.planningText}" /></p>
-  							<c:forEach var="waypoint" items="${worksheet.waypoints}" varStatus="loopInner">
-  								<c:out value="${loopInner.count}" />.&nbsp;<c:out value="${waypoint.assignment}" /><br />
-  							</c:forEach>
+  			<c:choose>
+  				<c:when test = "${not empty worksheets && not empty answers}">
+  					<c:forEach var="worksheet" items="${worksheets}" varStatus="loop">
+  						<h3><c:out value="${worksheet.header}" /></h3>
+  						<p><c:out value="${worksheet.preface}" /></p>
+  						<p><strong><c:out value="${worksheet.planning}" /></strong></p>
+  						<pre><c:out value="${answers[loop.index].planningText}" /></pre><br />
+  						<c:forEach var="waypoint" items="${worksheet.waypoints}" varStatus="loopInner">
+  							<p><strong><c:out value="${loopInner.count}" />.&nbsp;<c:out value="${waypoint.assignment}" /></strong></p>
+  							<p>Monivalinnan vastaus: <code><c:out value="${answers[loop.index].waypoints[loopInner.index].selectedOption}" /></code></p>
+  							<pre><c:out value="${answers[loop.index].waypoints[loopInner.index].answerText}" /></pre><br />
   						</c:forEach>
-  					</c:when>
-  					<c:otherwise>
-  						<p>Opiskelijaa ei valittu</p>
-  					</c:otherwise>
-  				</c:choose>
-  				
-  				</div>
-  			</div>
+  					</c:forEach>
+  				</c:when>
+  				<c:otherwise>
+  					<h3>Tehtäväkortit</h3>
+  					<div class="alert alert-info">
+    				<strong>Info!</strong> Aloita valitsemalla ryhmä ja sitten opiskelija.
+  					</div>
+  				</c:otherwise>
+  			</c:choose>
   		</div>
-  		
   	</div>
 </div>
 

@@ -12,7 +12,7 @@ public class AnswerWaypointDTO implements Serializable {
 	private int answerWaypointID;
 	private int answerID; // => AnswerWorksheetDTO
 	private int waypointID;
-	private int selectedOptionID; // => AnswerOption
+	private String selectedOption; // => AnswerOption
 	private String imageURL;
 	private String answerText;
 	private String instructorComment;
@@ -22,19 +22,19 @@ public class AnswerWaypointDTO implements Serializable {
 		this.answerWaypointID = 0;
 		this.answerID = 0;
 		this.waypointID = 0;
-		this.selectedOptionID = 0;
+		this.selectedOption = "";
 		this.imageURL = "";
 		this.answerText = "";
 		this.instructorComment = "";
 	}
 
-	public AnswerWaypointDTO(int answerWaypointID, int answerID, int waypointID, int selectedOptionID, String imageURL,
+	public AnswerWaypointDTO(int answerWaypointID, int answerID, int waypointID, String selectedOption, String imageURL,
 			String answerText, String instructorComment) {
 		super();
 		this.answerWaypointID = answerWaypointID;
 		this.answerID = answerID;
 		this.waypointID = waypointID;
-		this.selectedOptionID = selectedOptionID;
+		this.selectedOption = selectedOption;
 		this.imageURL = imageURL;
 		this.answerText = answerText;
 		this.instructorComment = instructorComment;
@@ -64,12 +64,12 @@ public class AnswerWaypointDTO implements Serializable {
 		this.waypointID = waypointID;
 	}
 	
-	public int getSelectedOptionID() {
-		return selectedOptionID;
+	public String getSelectedOption() {
+		return selectedOption;
 	}
 
-	public void setSelectedOptionID(int selectedOptionID) {
-		this.selectedOptionID = selectedOptionID;
+	public void setSelectedOption(String selectedOption) {
+		this.selectedOption = selectedOption;
 	}
 
 	public String getImageURL() {

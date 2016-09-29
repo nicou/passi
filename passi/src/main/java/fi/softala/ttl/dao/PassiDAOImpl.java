@@ -120,10 +120,11 @@ public class PassiDAOImpl implements PassiDAO {
 				+ "JOIN ryhma_tk AS ryh ON ryh.tk_id = teh.tk_id "
 				+ "WHERE ryh.ryhma_tunnus = ? AND vas.username = ? ";
 		
-		final String SQL2 = "SELECT eta.etappi_vast_id, eta.vastaus_id, eta.etappi_id, eta.valinta_id, eta.ope_kommentti, eta.tekstikentta, eta.kuva_url "
+		final String SQL2 = "SELECT eta.etappi_vast_id, eta.vastaus_id, eta.etappi_id, val.valinta_text, eta.ope_kommentti, eta.tekstikentta, eta.kuva_url "
 				+ "FROM etappi_valinta AS eta " + "JOIN vastaus AS vas ON eta.vastaus_id = vas.vastaus_id "
 				+ "JOIN tehtavakortti AS teh ON vas.tk_id = teh.tk_id "
-				+ "JOIN ryhma_tk as ryh ON ryh.tk_id = teh.tk_id "
+				+ "JOIN ryhma_tk AS ryh ON ryh.tk_id = teh.tk_id "
+				+ "JOIN valinta AS val ON eta.valinta_id = val.valinta_id "
 				+ "WHERE eta.vastaus_id = ? AND vas.username = ?";
 		
 		List<AnswerWorksheetDTO> worksheets = new ArrayList<>();
@@ -152,7 +153,7 @@ public class PassiDAOImpl implements PassiDAO {
 					answer.setAnswerWaypointID(rs.getInt("etappi_vast_id"));
 					answer.setAnswerID(rs.getInt("vastaus_id"));
 					answer.setWaypointID(rs.getInt("etappi_id"));
-					answer.setSelectedOptionID(rs.getInt("valinta_id"));
+					answer.setSelectedOption(rs.getString("valinta_text"));
 					answer.setInstructorComment(rs.getString("ope_kommentti"));
 					answer.setAnswerText(rs.getString("tekstikentta"));
 					answer.setImageURL(rs.getString("kuva_url"));

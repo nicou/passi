@@ -35,7 +35,7 @@ import fi.softala.ttl.model.WorksheetDTO;
 @EnableWebMvc
 @Controller
 @Scope("session")
-@SessionAttributes({"user", "groups", "groupStudents", "message", "newGroup", "newStudent", "selectedGroup", 
+@SessionAttributes({"user", "groups", "groupStudents", "message", "newGroup", "newStudent", "selectedGroupObject", 
 	"selectedStudentObject", "defaultGroup"})
 public class PassiController {
 
@@ -80,7 +80,7 @@ public class PassiController {
 		redirectAttributes.addFlashAttribute("message", new String(""));
 		redirectAttributes.addFlashAttribute("newGroup", new Group());
 		redirectAttributes.addFlashAttribute("newStudent", new Student());
-		redirectAttributes.addFlashAttribute("selectedGroup", new Group());
+		redirectAttributes.addFlashAttribute("selectedGroupObject", new Group());
 		redirectAttributes.addFlashAttribute("selectedStudentObject", new Student());
 		model.setViewName("redirect:/index");
 		return model;
@@ -93,20 +93,20 @@ public class PassiController {
 			@ModelAttribute("message") String message,
 			@ModelAttribute("newGroup") Group newGroup,
 			@ModelAttribute("newStudent") Student newStudent,
-			@ModelAttribute("selectedGroup") Group selectedGroup,
+			@ModelAttribute("selectedGroupObject") Group selectedGroupObject,
 			@ModelAttribute("selectedStudentObject") Student selectedStudentObject) {
 		ModelAndView model = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String user = auth.getName();
-		if (!selectedGroup.getGroupID().equals("")) {
-			groupStudents = dao.getGroupStudents(selectedGroup);
+		if (!selectedGroupObject.getGroupID().equals("")) {
+			groupStudents = dao.getGroupStudents(selectedGroupObject);
 		}
 		model.addObject("groups", groups);
 		model.addObject("groupStudents", groupStudents);
 		model.addObject("message", message);
 		model.addObject("newGroup", newGroup);
 		model.addObject("newStudent", newStudent);
-		model.addObject("selectedGroup", selectedGroup);
+		model.addObject("selectedGroupObject", selectedGroupObject);
 		model.addObject("selectedStudentObject", selectedStudentObject);
 		model.addObject("user", user);
 		model.setViewName("index");
@@ -114,12 +114,9 @@ public class PassiController {
 	}
 	
 	@RequestMapping(value = "/index/{page}", method = RequestMethod.GET)
-	public ModelAndView pageNavigation(@PathVariable(value = "page") String page) {
-		ModelAndView model = new ModelAndView();
-		if (page.equalsIgnoreCase("student")) {
-			model.addObject("groups", dao.getGroups());
-		}
-		model.addObject("message", "");
+	public ModelAndView pageNavigation(
+			@PathVariable(value = "page") String page) {
+		ModelAndView model = new ModelAndView();		
 		model.setViewName(page);
 		return model;
 	}
@@ -135,61 +132,49 @@ public class PassiController {
 	public ModelAndView getGroupData(
 			@RequestParam String groupID,
 			@RequestParam String returnPage,
-			@ModelAttribute("groupStudents") List<Student> groupStudents,
-			@ModelAttribute("selectedGroup") Group selectedGroup,
 			@ModelAttribute("groups") ArrayList<Group> groups,
+			@ModelAttribute("groupStudents") List<Student> groupStudents,
+			@ModelAttribute("selectedGroupObject") Group selectedGroupObject,
+			@ModelAttribute("selectedStudentObject") Student selectedStudentObject,
  			final RedirectAttributes redirectAttributes) {
 		ModelAndView model = new ModelAndView();
-		model.addObject("groupStudents", dao.getGroupStudents(selectedGroup));
+		model.addObject("groupStudents", dao.getGroupStudents(selectedGroupObject));
 		for (Group group : groups) {
 			if (group.getGroupID().equalsIgnoreCase(groupID)) {
-				model.addObject("selectedGroup", group);
+				model.addObject("selectedGroupObject", group);
 				break;
 			}
 		}
+		selectedStudentObject.reset();
+		model.addObject("selectedStudentObject", selectedStudentObject);
 		model.setViewName(returnPage);
 		return model;
 	}
 	
-	@RequestMapping(value = "/selectStudent", method = RequestMethod.POST)
-	public ModelAndView selectStudent(
+	@RequestMapping(value = "/getStudentAnswers", method = RequestMethod.POST)
+	public ModelAndView getStudentAnswers(
 			@RequestParam String username,
 			@RequestParam String groupID,
-			@ModelAttribute("groupStudents") List<Student> groupStudents,
-			@ModelAttribute("selectedGroup") Group selectedGroup,
-			@ModelAttribute("selectedStudentObject") Student selectedStudentObject,
-			final RedirectAttributes redirectAttributes) {
+			@ModelAttribute("groupStudents") ArrayList<Student> groupStudents,
+			@ModelAttribute("selectedGroupObject") Group selectedGroupObject,
+			@ModelAttribute("selectedStudentObject") Student selectedStudentObject) {
 		ModelAndView model = new ModelAndView();
+		selectedStudentObject.reset();
 		for (Student student : groupStudents) {
 			if (student.getUsername().equalsIgnoreCase(username)) {
-				redirectAttributes.addFlashAttribute("selectedStudentObject", student);
+				model.addObject("selectedStudentObject", student);
 				break;
 			}
 		}
-		redirectAttributes.addFlashAttribute("groupStudents", dao.getGroupStudents(selectedGroup));
-		redirectAttributes.addFlashAttribute("groupID", groupID);
-		redirectAttributes.addFlashAttribute("username", username);
-		redirectAttributes.addFlashAttribute("selectedGroup", selectedGroup);
-		redirectAttributes.addFlashAttribute("selectedStudentObject", selectedStudentObject);
-		model.setViewName("redirect:/getAnswers");
-		return model;
-	}
-	
-	@RequestMapping(value = "/getAnswers", method = RequestMethod.GET)
-	public ModelAndView getAnswers(
-			@ModelAttribute("selectStudentObject") Student selectedStudentObject,
-			@ModelAttribute("selectedGroup") Group selectedGroup,
-			@ModelAttribute("groupID") String groupID,
-			@ModelAttribute("username") String username,
-			@ModelAttribute("groupStudents") List<Student> groupStudents) {
-		ModelAndView model = new ModelAndView();
-		model.addObject("worksheets", (ArrayList<WorksheetDTO>) dao.getWorksheets(groupID));
 		model.addObject("answers", (ArrayList<AnswerWorksheetDTO>) dao.getAnswers(groupID, username));
-		model.addObject("selectStudentObject", selectedStudentObject);
-		model.addObject("groupStudents", groupStudents);
+		model.addObject("groupStudents", dao.getGroupStudents(selectedGroupObject));
+		model.addObject("selectedGroupObject", selectedGroupObject);
+		model.addObject("worksheets", (ArrayList<WorksheetDTO>) dao.getWorksheets(groupID));
 		model.setViewName("index");
 		return model;
 	}
+	
+
 	
 	/*
 	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
