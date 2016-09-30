@@ -92,4 +92,4 @@ local.properties
 .springBeans
 
 target/
-src/main/resources
+src/main/resources/data.properties
