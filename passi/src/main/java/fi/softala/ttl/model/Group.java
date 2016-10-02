@@ -1,44 +1,36 @@
+/**
+ * @author Mika Ropponen
+ */
 package fi.softala.ttl.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Group implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String groupID;
+	private int    groupID;
 	private String groupName;
-	private Instructor instructor;
-	private int numGroupMembers;
+	
+	private List<Instructor> instructors;
 
 	public Group() {
 		super();
-		this.groupID = "";
-		this.groupName = "";
-		this.instructor = null;
-		this.numGroupMembers = 0;
 	}
 
-	public Group(String groupID, String groupName, Instructor instructor, int numGroupMembers) {
+	public Group(int groupID, String groupName, List<Instructor> instructors) {
 		super();
 		this.groupID = groupID;
 		this.groupName = groupName;
-		this.instructor = instructor;
-		this.numGroupMembers = numGroupMembers;
-	}
-	
-	public void reset() {
-		this.groupID = "";
-		this.groupName = "";
-		this.instructor = null;
-		this.numGroupMembers = 0;
+		this.instructors = instructors;
 	}
 
-	public String getGroupID() {
+	public int getGroupID() {
 		return groupID;
 	}
 
-	public void setGroupID(String groupID) {
+	public void setGroupID(int groupID) {
 		this.groupID = groupID;
 	}
 
@@ -49,20 +41,12 @@ public class Group implements Serializable {
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}
-	
-	public Instructor getInstructor() {
-		return instructor;
-	}
-	
-	public void setInstructor(Instructor instructor) {
-		this.instructor = instructor;
-	}
-	
-	public int getNumGroupMembers() {
-		return numGroupMembers;
+
+	public List<Instructor> getInstructors() {
+		return instructors;
 	}
 
-	public void setNumGroupMembers(int numGroupMembers) {
-		this.numGroupMembers = numGroupMembers;
+	public void setInstructors(List<Instructor> instructors) {
+		this.instructors = instructors;
 	}
 }

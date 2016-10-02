@@ -12,8 +12,8 @@ public class GroupRowMapper implements RowMapper<Group> {
 	@Override
 	public Group mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Group group = new Group();
-		group.setGroupID(rs.getString("ryhma_tunnus"));
-		group.setGroupName(rs.getString("ryhma_nimi"));
+		group.setGroupID(rs.getInt("group_id"));
+		group.setGroupName(rs.getString("group_name"));
 		return group;
 	}
 }

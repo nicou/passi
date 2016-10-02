@@ -5,7 +5,7 @@ package fi.softala.ttl.model;
 
 import java.io.Serializable;
 
-public class Instructor implements Serializable {
+public class Member implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -15,17 +15,25 @@ public class Instructor implements Serializable {
 	private String email;
 	private String phone;
 
-	public Instructor() {
+	public Member() {
 		super();
 	}
 
-	public Instructor(int userID, String firstname, String lastname, String email, String phone) {
+	public Member(int userID, String firstname, String lastname, String email, String phone) {
 		super();
 		this.userID = userID;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
 		this.phone = phone;
+	}
+	
+	public void reset() {
+		this.userID = 0;
+		this.firstname = "";
+		this.lastname = "";
+		this.email = "";
+		this.phone = "";
 	}
 
 	public int getUserID() {

@@ -12,11 +12,11 @@ public class InstructorRowMapper implements RowMapper<Instructor> {
 	@Override
 	public Instructor mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Instructor instructor = new Instructor();
-		instructor.setUsername(rs.getString("username"));
-		instructor.setFirstname(rs.getString("ope_etu"));
-		instructor.setLastname(rs.getString("ope_suku"));
-		instructor.setEmail(rs.getString("ope_email"));
-		instructor.setSchool(rs.getString("koulu"));
+		instructor.setUserID(rs.getInt("user_id"));
+		instructor.setFirstname(rs.getString("firstname"));
+		instructor.setLastname(rs.getString("lastname"));
+		instructor.setEmail(rs.getString("email"));
+		instructor.setPhone(rs.getString("phone"));
 		return instructor;
 	}
 }

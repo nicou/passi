@@ -5,7 +5,6 @@ package fi.softala.ttl.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -14,13 +13,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import fi.softala.ttl.model.AnswerWaypointDTO;
-import fi.softala.ttl.model.AnswerWorksheetDTO;
+import fi.softala.ttl.model.AnswerWaypoint;
+import fi.softala.ttl.model.AnswerWorksheet;
 import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.Instructor;
-import fi.softala.ttl.model.Student;
-import fi.softala.ttl.model.WaypointDTO;
-import fi.softala.ttl.model.WorksheetDTO;
+import fi.softala.ttl.model.Member;
+import fi.softala.ttl.model.Waypoint;
+import fi.softala.ttl.model.Worksheet;
 
 @Component
 public class PassiDAOImpl implements PassiDAO {
@@ -36,134 +35,97 @@ public class PassiDAOImpl implements PassiDAO {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	public List<Group> getGroups() {
-		// All groups
-		final String SQL1 = "SELECT ryh.ryhma_tunnus, ryh.ryhma_nimi FROM ryhma AS ryh";
-		// Instructor (group teacher)
-		final String SQL2 = "SELECT ope.username, ope.ope_etu, ope.ope_suku, ope.ope_email, kou.koulu FROM ope AS ope "
-				+ "JOIN koulu AS kou ON ope.koulu_id = kou.koulu_id "
-				+ "JOIN ryhma_ope AS rop ON rop.username = ope.username " + "WHERE ryhma_tunnus = ?";
-		// Count number of students in a group
-		final String SQL3 = "SELECT COUNT(*) FROM ryhma_opi WHERE ryhma_tunnus = ?";
-		RowMapper<Group> mapperGroup = new GroupRowMapper();
-		List<Group> groups = jdbcTemplate.query(SQL1, mapperGroup);
-		RowMapper<Instructor> mapperInstructor = new InstructorRowMapper();
+	public List<Group> getAllGroups() {
+		final String SQL1 = "SELECT * FROM groups ORDER BY group_id";
+		final String SQL2 = "SELECT * FROM instructors JOIN group_instructors ON group_instructors.user_id = instructors.user_id WHERE group_instructors.group_id = ? ORDER BY instructors.user_id";
+		RowMapper<Group> groupMapper = new GroupRowMapper();
+		List<Group> groups = jdbcTemplate.query(SQL1, groupMapper);
+		RowMapper<Instructor> instructorMapper = new InstructorRowMapper();
 		for (Group group : groups) {
-			group.setInstructor(
-					jdbcTemplate.queryForObject(SQL2, new Object[] { group.getGroupID() }, mapperInstructor));
-			group.setNumGroupMembers(
-					jdbcTemplate.queryForObject(SQL3, new Object[] { group.getGroupID() }, Integer.class));
+			group.setInstructors(jdbcTemplate.query(SQL2, new Object[] { group.getGroupID() }, instructorMapper));
 		}
-		System.out.println(groups.get(0).getInstructor().getLastname());
 		return groups;
 	}
 
-	public List<Student> getGroupStudents(Group group) {
-		final String SQL = "SELECT opi.username, opi.opi_etu, opi.opi_suku, opi.opi_email, kou.koulu FROM opi AS opi "
-				+ "JOIN koulu AS kou ON opi.koulu_id = kou.koulu_id "
-				+ "JOIN ryhma_opi AS rop ON rop.username = opi.username " + "WHERE ryhma_tunnus = ?";
-		RowMapper<Student> mapper = new StudentRowMapper();
-		List<Student> groupStudents = jdbcTemplate.query(SQL, new Object[] { group.getGroupID() }, mapper);
-		return groupStudents;
+	public List<Member> getGroupMembers(Group group) {
+		final String SQL = "SELECT * FROM members JOIN group_members ON group_members.user_id = members.user_id WHERE group_members.group_id = ?";
+		RowMapper<Member> memberMapper = new MemberRowMapper();
+		List<Member> groupMembers = jdbcTemplate.query(SQL, new Object[] { group.getGroupID() }, memberMapper);
+		return groupMembers;
 	}
 	
-	public List<WorksheetDTO> getWorksheets(String groupID) {
-		final String SQL1 = "SELECT teh.tk_id, teh.tk_nimi, teh.tk_johdanto, teh.tk_suunnitelma "
-				+ "FROM tehtavakortti AS teh "
-				+ "JOIN ryhma_tk AS ryh ON ryh.tk_id = teh.tk_id "
-				+ "WHERE ryh.ryhma_tunnus = ?";
-		
-		final String SQL2 = "SELECT eta.etappi_id, eta.tk_id, eta.etappi_tehtava "
-				+ "FROM etappi AS eta "
-				+ "JOIN tehtavakortti AS teh ON eta.tk_id = teh.tk_id "
-				+ "WHERE eta.tk_id = ?";
-		
-		List<WorksheetDTO> worksheets = new ArrayList<>();
-		worksheets = jdbcTemplate.query(SQL1, new Object[] {groupID}, new RowMapper<WorksheetDTO>() {
+	public List<Worksheet> getWorksheets(Group group) {
+		final String SQL1 = "SELECT * FROM worksheets JOIN group_worksheets ON group_worksheets.worksheet_id = worksheets.worksheet_id WHERE group_worksheets.group_id = ?";
+		final String SQL2 = "SELECT * FROM waypoints WHERE worksheet_id = ?";
+		List<Worksheet> worksheets = jdbcTemplate.query(SQL1, new Object[] { group.getGroupID() }, new RowMapper<Worksheet>() {
 			
 			@Override
-			public WorksheetDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-				WorksheetDTO worksheet = new WorksheetDTO();
-				worksheet.setWorksheetID(rs.getInt("tk_id"));
-				worksheet.setHeader(rs.getString("tk_nimi"));
-				worksheet.setPreface(rs.getString("tk_johdanto"));
-				worksheet.setPlanning(rs.getString("tk_suunnitelma"));
+			public Worksheet mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Worksheet worksheet = new Worksheet();
+				worksheet.setWorksheetID(rs.getInt("worksheet_id"));
+				worksheet.setWorksheetHeader(rs.getString("worksheet_header"));
+				worksheet.setWorksheetPreface(rs.getString("worksheet_preface"));
+				worksheet.setWorksheetPlanning(rs.getString("worksheet_planning"));
 				return worksheet;
 			}
 		});
 		
-		for (WorksheetDTO worksheet : worksheets) {
-			ArrayList<WaypointDTO> waypoints = new ArrayList<>();
-			waypoints = (ArrayList<WaypointDTO>) jdbcTemplate.query(SQL2, new Object[] { worksheet.getWorksheetID() }, new RowMapper<WaypointDTO>() {
+		for (Worksheet worksheet : worksheets) {
+			List<Waypoint> waypoints = jdbcTemplate.query(SQL2, new Object[] { worksheet.getWorksheetID() }, new RowMapper<Waypoint>() {
 				
 				@Override
-				public WaypointDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-					WaypointDTO waypoint = new WaypointDTO();
-					waypoint.setWaypointID(rs.getInt("etappi_id"));
-					waypoint.setWorksheetID(rs.getInt("tk_id"));
-					waypoint.setAssignment(rs.getString("etappi_tehtava"));
+				public Waypoint mapRow(ResultSet rs, int rowNum) throws SQLException {
+					Waypoint waypoint = new Waypoint();
+					waypoint.setWaypointID(rs.getInt("waypoint_id"));
+					waypoint.setWaypointTask(rs.getString("waypoint_task"));
+					waypoint.setWaypointPhotoEnabled(rs.getBoolean("waypoint_photo_enabled"));
+					waypoint.setWorksheetID(rs.getInt("worksheet_id"));
 					return waypoint;
 				}
 			});
 			worksheet.setWaypoints(waypoints);
 		}
-		
 		return worksheets;
-		
 	}
 
-	public List<AnswerWorksheetDTO> getAnswers(String groupID, String username) {
-		
-		final String SQL1 = "SELECT vas.vastaus_id, vas.username, vas.tk_id, vas.v_suunnitelma, vas.ope_kommentti "
-				+ "FROM vastaus AS vas "
-				+ "JOIN tehtavakortti AS teh ON vas.tk_id = teh.tk_id "
-				+ "JOIN ryhma_tk AS ryh ON ryh.tk_id = teh.tk_id "
-				+ "WHERE ryh.ryhma_tunnus = ? AND vas.username = ? ";
-		
-		final String SQL2 = "SELECT eta.etappi_vast_id, eta.vastaus_id, eta.etappi_id, val.valinta_text, eta.ope_kommentti, eta.tekstikentta, eta.kuva_url "
-				+ "FROM etappi_valinta AS eta " + "JOIN vastaus AS vas ON eta.vastaus_id = vas.vastaus_id "
-				+ "JOIN tehtavakortti AS teh ON vas.tk_id = teh.tk_id "
-				+ "JOIN ryhma_tk AS ryh ON ryh.tk_id = teh.tk_id "
-				+ "JOIN valinta AS val ON eta.valinta_id = val.valinta_id "
-				+ "WHERE eta.vastaus_id = ? AND vas.username = ?";
-		
-		List<AnswerWorksheetDTO> worksheets = new ArrayList<>();
-		worksheets = jdbcTemplate.query(SQL1, new Object[] {groupID, username}, new RowMapper<AnswerWorksheetDTO>() {
+	public List<AnswerWorksheet> getAnswers(Group group, Member member) {
+		final String SQL1 = "SELECT * FROM answer_worksheet WHERE group_id = ? AND user_id = ?";
+		final String SQL2 = "SELECT * FROM answer_waypoint WHERE answer_id = ?";
+		 List<AnswerWorksheet> answerWorksheets = jdbcTemplate.query(SQL1, new Object[] { group.getGroupID(), member.getUserID() }, new RowMapper<AnswerWorksheet>() {
 			
 			@Override
-			public AnswerWorksheetDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-				AnswerWorksheetDTO worksheet = new AnswerWorksheetDTO();
-				worksheet.setAnswerID(rs.getInt("vastaus_id"));
-				worksheet.setWorksheetID(rs.getInt("tk_id"));
-				worksheet.setUsername(rs.getString("username"));
-				worksheet.setPlanningText(rs.getString("v_suunnitelma"));
-				worksheet.setInstructorComment(rs.getString("ope_kommentti"));
+			public AnswerWorksheet mapRow(ResultSet rs, int rowNum) throws SQLException {
+				AnswerWorksheet worksheet = new AnswerWorksheet();
+				worksheet.setAnswerID(rs.getInt("answer_id"));
+				worksheet.setAnswerPlanning(rs.getString("answer_planning"));
+				worksheet.setAnswerInstructorComment(rs.getString("answer_instructor_comment"));
+				worksheet.setAnswerTimestamp(rs.getTimestamp("answer_timestamp"));
+				worksheet.setWorksheetID(rs.getInt("worksheet_id"));
+				worksheet.setGroupID(rs.getInt("group_id"));
+				worksheet.setUserID(rs.getInt("user_id"));
 				return worksheet;
 			}
 		});
-		
-		ArrayList<AnswerWaypointDTO> answerWaypoints = new ArrayList<>();
-		
-		for (AnswerWorksheetDTO worksheet : worksheets) {
-			answerWaypoints = (ArrayList<AnswerWaypointDTO>) jdbcTemplate.query(SQL2, new Object[] {worksheet.getAnswerID(), username}, new RowMapper<AnswerWaypointDTO>() {
+				
+		for (AnswerWorksheet answerWorksheet : answerWorksheets) {
+			List<AnswerWaypoint> answerWaypoints = jdbcTemplate.query(SQL2, new Object[] { answerWorksheet.getAnswerID() }, new RowMapper<AnswerWaypoint>() {
 			
 				@Override
-				public AnswerWaypointDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-					AnswerWaypointDTO answer = new AnswerWaypointDTO();
-					answer.setAnswerWaypointID(rs.getInt("etappi_vast_id"));
-					answer.setAnswerID(rs.getInt("vastaus_id"));
-					answer.setWaypointID(rs.getInt("etappi_id"));
-					answer.setSelectedOption(rs.getString("valinta_text"));
-					answer.setInstructorComment(rs.getString("ope_kommentti"));
-					answer.setAnswerText(rs.getString("tekstikentta"));
-					answer.setImageURL(rs.getString("kuva_url"));
+				public AnswerWaypoint mapRow(ResultSet rs, int rowNum) throws SQLException {
+					AnswerWaypoint answer = new AnswerWaypoint();
+					answer.setAnswerWaypointID(rs.getInt("answer_wp_id"));
+					answer.setAnswerWaypointText(rs.getString("answer_wp_text"));
+					answer.setAnswerWaypointInstructorComment(rs.getString("answer_wp_instructor_comment"));
+					answer.setAnswerWaypointImageURL(rs.getString("answer_wp_image_url"));
+					answer.setAnswerID(rs.getInt("answer_id"));
+					answer.setWaypointID(rs.getInt("waypoint_id"));
+					answer.setOptionID(rs.getInt("option_id"));
 					return answer;
 				}
 			});
-			worksheet.setWaypoints(answerWaypoints);
+			answerWorksheet.setWaypoints(answerWaypoints);
 		}
-		
-		return worksheets; 
+		return answerWorksheets; 
 	}
 
 	/*
@@ -183,7 +145,7 @@ public class PassiDAOImpl implements PassiDAO {
 	 * jdbcTemplate.update(sql, new Object[] {groupName, groupID}); } catch
 	 * (Exception e) { return false; } return true; }
 	 * 
-	 * public boolean addStudent(Student student, String groupID) { final String
+	 * public boolean addStudent(Member student, String groupID) { final String
 	 * sql1 =
 	 * "INSERT INTO user (username, password) VALUES (?, ?) ON DUPLICATE KEY UPDATE password = ?"
 	 * ; final String sql2 = "INSERT IGNORE INTO koulu (koulu) VALUES (?)";

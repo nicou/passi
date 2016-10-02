@@ -5,23 +5,15 @@ package fi.softala.ttl.dao;
 
 import java.util.List;
 
-import fi.softala.ttl.model.AnswerWorksheetDTO;
+import fi.softala.ttl.model.AnswerWorksheet;
 import fi.softala.ttl.model.Group;
-import fi.softala.ttl.model.Student;
-import fi.softala.ttl.model.WorksheetDTO;
+import fi.softala.ttl.model.Member;
+import fi.softala.ttl.model.Worksheet;
 
 public interface PassiDAO {
 
-	public List<Group> getGroups();
-	public List<Student> getGroupStudents(Group group);
-	public List<WorksheetDTO> getWorksheets(String groupID);
-	public List<AnswerWorksheetDTO> getAnswers(String groupID, String username);
-	
-	/*
-	public boolean addGroup(Group group);
-	public boolean addStudent(Student student, String groupID);
-	public boolean deleteGroup(String groupID);
-	public boolean deleteStudent(String studentID);
-	public boolean editGroup(String groupID, String groupName);
-	*/
+	public List<Group> getAllGroups();
+	public List<Member> getGroupMembers(Group group);
+	public List<Worksheet> getWorksheets(Group group);
+	public List<AnswerWorksheet> getAnswers(Group group, Member member);
 }
