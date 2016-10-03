@@ -19,6 +19,13 @@ public class AnswerWaypoint implements Serializable {
 	
 	public AnswerWaypoint() {
 		super();
+		this.answerWaypointID = 0;
+		this.answerWaypointText = "Ei vastattu";
+		this.answerWaypointInstructorComment = "Ei palautetta";
+		this.answerWaypointImageURL = "URL";
+		this.answerID = 0;
+		this.waypointID = 0;
+		this.optionID = 0;
 	}
 
 	public AnswerWaypoint(int answerWaypointID, String answerWaypointText, String answerWaypointInstructorComment,

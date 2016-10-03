@@ -160,7 +160,7 @@ public class PassiController {
 				break;
 			}
 		}
-		// model.addObject("groupMembers", dao.getGroupMembers(selectedGroupObject));
+		model.addObject("groupMembers", dao.getGroupMembers(selectedGroupObject));
 		model.addObject("selectedGroupObject", selectedGroupObject);
 		model.addObject("worksheets", dao.getWorksheets(selectedGroupObject));
 		model.setViewName("index");

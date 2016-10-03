@@ -128,14 +128,41 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   			<c:choose>
   				<c:when test = "${not empty worksheets || not empty answers}">
   					<c:forEach var="worksheet" items="${worksheets}" varStatus="loop">
-  						<h3><c:out value="${worksheet.worksheetHeader}" /></h3>
+  						<h3><c:out value="${worksheet.worksheetHeader}" />&nbsp;&nbsp;[<c:out value="${selectedMemberObject.firstname} ${selectedMemberObject.lastname}" />]</h3>
   						<p><c:out value="${worksheet.worksheetPreface}" /></p>
   						<p><strong><c:out value="${worksheet.worksheetPlanning}" /></strong></p>
-  						<pre><c:out value="${answers[loop.index].answerPlanning}" /></pre><br />
+  						<c:choose>
+  							<c:when test="${not empty answers[loop.index].answerPlanning}">
+  								<pre><c:out value="${answers[loop.index].answerPlanning}" /></pre>
+  							</c:when>
+  							<c:otherwise>
+  								<pre>Ei suunnitelmaa</pre>
+  							</c:otherwise>
+  						</c:choose>
+  						<br />
   						<c:forEach var="waypoint" items="${worksheet.waypoints}" varStatus="loopInner">
   							<p><strong><c:out value="${loopInner.count}" />.&nbsp;<c:out value="${waypoint.waypointTask}" /></strong></p>
-  							<p>Monivalinnan vastaus: <code><c:out value="${answers[loop.index].waypoints[loopInner.index].optionID}" /></code></p>
-  							<pre><c:out value="${answers[loop.index].waypoints[loopInner.index].answerWaypointText}" /></pre><br />
+  							<p>Monivalinnan vastaus:&nbsp;
+  							<c:choose>
+  								<c:when test="${answers[loop.index].waypoints[loopInner.index].optionID > 0}">
+  									<code><c:out value="${answers[loop.index].waypoints[loopInner.index].optionID}" /></code>
+  								</c:when>
+  								<c:otherwise>
+  									<code>Ei valintaa</code>
+  								</c:otherwise>
+  							</c:choose>
+  							</p>
+  							
+  							<c:choose>
+  								<c:when test="${not empty answers[loop.index].waypoints[loopInner.index].answerWaypointText}">
+  									<pre><c:out value="${answers[loop.index].waypoints[loopInner.index].answerWaypointText}" /></pre>
+  								</c:when>
+  								<c:otherwise>
+  									<pre>Ei vastausta</pre>
+  								</c:otherwise>
+  							</c:choose>
+  							
+  							<br />
   						</c:forEach>
   					</c:forEach>
   				</c:when>

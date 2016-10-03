@@ -11,19 +11,28 @@ public class AnswerWorksheet implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private int    answerID;
-	private String answerPlanning;
-	private String answerInstructorComment;
+	private int       answerID;
+	private String    answerPlanning;
+	private String    answerInstructorComment;
 	private Timestamp answerTimestamp;
-	private int    worksheetID; // => Worksheet
-	private int    groupID; // => Group
-	private int    userID; // => Member
+	private int       worksheetID; // => Worksheet
+	private int       groupID; // => Group
+	private int       userID; // => Member
 	
 	// List of waypoint answers
 	private List<AnswerWaypoint> waypoints;
 
 	public AnswerWorksheet() {
 		super();
+		this.answerID = 0;
+		this.answerPlanning = "";
+		this.answerInstructorComment = "";
+		this.answerTimestamp = null;
+		this.worksheetID = 0;
+		this.groupID = 0;
+		this.userID = 0;
+		
+		this.waypoints = null;
 	}
 
 	public AnswerWorksheet(int answerID, String answerPlanning, String answerInstructorComment, Timestamp answerTimestamp,
