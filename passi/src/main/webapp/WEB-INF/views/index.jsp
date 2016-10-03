@@ -128,7 +128,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   			<c:choose>
   				<c:when test = "${not empty worksheets || not empty answers}">
   					<c:forEach var="worksheet" items="${worksheets}" varStatus="loop">
-  						<h3><c:out value="${worksheet.worksheetHeader}" />&nbsp;&nbsp;[<c:out value="${selectedMemberObject.firstname} ${selectedMemberObject.lastname}" />]</h3>
+  						<h3><c:out value="${worksheet.worksheetHeader}" />&nbsp;&nbsp;<span class="text-nowrap">[<c:out value="${selectedMemberObject.firstname} ${selectedMemberObject.lastname}" />]</span></h3>
   						<p><c:out value="${worksheet.worksheetPreface}" /></p>
   						<p><strong><c:out value="${worksheet.worksheetPlanning}" /></strong></p>
   						<c:choose>
@@ -169,7 +169,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				<c:otherwise>
   					<h3>Tehtäväkortit</h3>
   					<div class="alert alert-info">
-    				<strong>Info!</strong> Valitse ensin ryhmä ja sitten ryhmän jäsen.
+    				<strong>Info!</strong> Valitse ryhmä ja sitten ryhmän jäsen.
   					</div>
   				</c:otherwise>
   			</c:choose>
