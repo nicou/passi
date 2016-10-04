@@ -91,7 +91,7 @@ public class PassiDAOImpl implements PassiDAO {
 	public List<Answersheet> getAnswers(Group group, User User) {
 		final String SQL1 = "SELECT * FROM answer_worksheet WHERE group_id = ? AND user_id = ?";
 		final String SQL2 = "SELECT * FROM answer_waypoint WHERE answer_id = ?";
-		 List<Answersheet> Answersheets = jdbcTemplate.query(SQL1, new Object[] { group.getGroupID(), User.getUsername() }, new RowMapper<Answersheet>() {
+		 List<Answersheet> Answersheets = jdbcTemplate.query(SQL1, new Object[] { group.getGroupID(), User.getUserID() }, new RowMapper<Answersheet>() {
 			
 			@Override
 			public Answersheet mapRow(ResultSet rs, int rowNum) throws SQLException {
