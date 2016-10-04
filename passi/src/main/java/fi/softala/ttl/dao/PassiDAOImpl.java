@@ -13,11 +13,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import fi.softala.ttl.model.AnswerWaypoint;
-import fi.softala.ttl.model.AnswerWorksheet;
+import fi.softala.ttl.model.Answerpoint;
+import fi.softala.ttl.model.Answersheet;
 import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.Instructor;
-import fi.softala.ttl.model.Member;
+import fi.softala.ttl.model.User;
 import fi.softala.ttl.model.Waypoint;
 import fi.softala.ttl.model.Worksheet;
 
@@ -47,11 +47,11 @@ public class PassiDAOImpl implements PassiDAO {
 		return groups;
 	}
 
-	public List<Member> getGroupMembers(Group group) {
-		final String SQL = "SELECT * FROM members JOIN group_members ON group_members.user_id = members.user_id WHERE group_members.group_id = ?";
-		RowMapper<Member> memberMapper = new MemberRowMapper();
-		List<Member> groupMembers = jdbcTemplate.query(SQL, new Object[] { group.getGroupID() }, memberMapper);
-		return groupMembers;
+	public List<User> getGroupUsers(Group group) {
+		final String SQL = "SELECT * FROM Users JOIN group_Users ON group_Users.user_id = Users.user_id WHERE group_Users.group_id = ?";
+		RowMapper<User> UserMapper = new UserRowMapper();
+		List<User> groupUsers = jdbcTemplate.query(SQL, new Object[] { group.getGroupID() }, UserMapper);
+		return groupUsers;
 	}
 	
 	public List<Worksheet> getWorksheets(Group group) {
@@ -88,18 +88,18 @@ public class PassiDAOImpl implements PassiDAO {
 		return worksheets;
 	}
 
-	public List<AnswerWorksheet> getAnswers(Group group, Member member) {
+	public List<Answersheet> getAnswers(Group group, User User) {
 		final String SQL1 = "SELECT * FROM answer_worksheet WHERE group_id = ? AND user_id = ?";
 		final String SQL2 = "SELECT * FROM answer_waypoint WHERE answer_id = ?";
-		 List<AnswerWorksheet> answerWorksheets = jdbcTemplate.query(SQL1, new Object[] { group.getGroupID(), member.getUserID() }, new RowMapper<AnswerWorksheet>() {
+		 List<Answersheet> Answersheets = jdbcTemplate.query(SQL1, new Object[] { group.getGroupID(), User.getUsername() }, new RowMapper<Answersheet>() {
 			
 			@Override
-			public AnswerWorksheet mapRow(ResultSet rs, int rowNum) throws SQLException {
-				AnswerWorksheet worksheet = new AnswerWorksheet();
-				worksheet.setAnswerID(rs.getInt("answer_id"));
-				worksheet.setAnswerPlanning(rs.getString("answer_planning"));
-				worksheet.setAnswerInstructorComment(rs.getString("answer_instructor_comment"));
-				worksheet.setAnswerTimestamp(rs.getTimestamp("answer_timestamp"));
+			public Answersheet mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Answersheet worksheet = new Answersheet();
+				worksheet.setAnswersheetID(rs.getInt("answer_id"));
+				worksheet.setPlanning(rs.getString("answer_planning"));
+				worksheet.setInstructorComment(rs.getString("answer_instructor_comment"));
+				worksheet.setTimestamp(rs.getTimestamp("answer_timestamp"));
 				worksheet.setWorksheetID(rs.getInt("worksheet_id"));
 				worksheet.setGroupID(rs.getInt("group_id"));
 				worksheet.setUserID(rs.getInt("user_id"));
@@ -107,25 +107,25 @@ public class PassiDAOImpl implements PassiDAO {
 			}
 		});
 				
-		for (AnswerWorksheet answerWorksheet : answerWorksheets) {
-			List<AnswerWaypoint> answerWaypoints = jdbcTemplate.query(SQL2, new Object[] { answerWorksheet.getAnswerID() }, new RowMapper<AnswerWaypoint>() {
+		for (Answersheet Answersheet : Answersheets) {
+			List<Answerpoint> Answerpoints = jdbcTemplate.query(SQL2, new Object[] { Answersheet.getAnswersheetID() }, new RowMapper<Answerpoint>() {
 			
 				@Override
-				public AnswerWaypoint mapRow(ResultSet rs, int rowNum) throws SQLException {
-					AnswerWaypoint answer = new AnswerWaypoint();
-					answer.setAnswerWaypointID(rs.getInt("answer_wp_id"));
-					answer.setAnswerWaypointText(rs.getString("answer_wp_text"));
-					answer.setAnswerWaypointInstructorComment(rs.getString("answer_wp_instructor_comment"));
-					answer.setAnswerWaypointImageURL(rs.getString("answer_wp_image_url"));
-					answer.setAnswerID(rs.getInt("answer_id"));
+				public Answerpoint mapRow(ResultSet rs, int rowNum) throws SQLException {
+					Answerpoint answer = new Answerpoint();
+					answer.setAnswerpointID(rs.getInt("answer_wp_id"));
+					answer.setAnswer(rs.getString("answer_wp_text"));
+					answer.setInstructorComment(rs.getString("answer_wp_instructor_comment"));
+					answer.setImageUrl(rs.getString("answer_wp_image_url"));
+					answer.setAnswersheetID(rs.getInt("answer_id"));
 					answer.setWaypointID(rs.getInt("waypoint_id"));
 					answer.setOptionID(rs.getInt("option_id"));
 					return answer;
 				}
 			});
-			answerWorksheet.setWaypoints(answerWaypoints);
+			Answersheet.setWaypoints(Answerpoints);
 		}
-		return answerWorksheets; 
+		return Answersheets; 
 	}
 
 	/*
@@ -145,7 +145,7 @@ public class PassiDAOImpl implements PassiDAO {
 	 * jdbcTemplate.update(sql, new Object[] {groupName, groupID}); } catch
 	 * (Exception e) { return false; } return true; }
 	 * 
-	 * public boolean addStudent(Member student, String groupID) { final String
+	 * public boolean addStudent(User student, String groupID) { final String
 	 * sql1 =
 	 * "INSERT INTO user (username, password) VALUES (?, ?) ON DUPLICATE KEY UPDATE password = ?"
 	 * ; final String sql2 = "INSERT IGNORE INTO koulu (koulu) VALUES (?)";

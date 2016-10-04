@@ -28,13 +28,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fi.softala.ttl.dao.PassiDAO;
 import fi.softala.ttl.model.Group;
-import fi.softala.ttl.model.Member;
+import fi.softala.ttl.model.User;
 
 @EnableWebMvc
 @Controller
 @Scope("session")
-@SessionAttributes({"user", "groups", "groupMembers", "message", "newGroup", "newMember", "selectedGroupObject", 
-	"selectedMemberObject", "defaultGroup"})
+@SessionAttributes({"user", "groups", "groupUsers", "message", "newGroup", "newUser", "selectedGroupObject", 
+	"selectedUserObject", "defaultGroup"})
 public class PassiController {
 
 	final static Logger logger = LoggerFactory.getLogger(PassiController.class);
@@ -74,12 +74,12 @@ public class PassiController {
 	public ModelAndView init(final RedirectAttributes redirectAttributes) {
 		ModelAndView model = new ModelAndView();
 		redirectAttributes.addFlashAttribute("groups", dao.getAllGroups());
-		redirectAttributes.addFlashAttribute("groupMembers", new ArrayList<Member>());
+		redirectAttributes.addFlashAttribute("groupUsers", new ArrayList<User>());
 		redirectAttributes.addFlashAttribute("message", new String(""));
 		redirectAttributes.addFlashAttribute("newGroup", new Group());
-		redirectAttributes.addFlashAttribute("newMember", new Member());
+		redirectAttributes.addFlashAttribute("newUser", new User());
 		redirectAttributes.addFlashAttribute("selectedGroupObject", new Group());
-		redirectAttributes.addFlashAttribute("selectedMemberObject", new Member());
+		redirectAttributes.addFlashAttribute("selectedUserObject", new User());
 		model.setViewName("redirect:/index");
 		return model;
 	}
@@ -87,25 +87,25 @@ public class PassiController {
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public ModelAndView homePage(
 			@ModelAttribute("groups") List<Group> groups,
-			@ModelAttribute("groupMembers") List<Member> groupMembers,
+			@ModelAttribute("groupUsers") List<User> groupUsers,
 			@ModelAttribute("message") String message,
 			@ModelAttribute("newGroup") Group newGroup,
-			@ModelAttribute("newMember") Member newMember,
+			@ModelAttribute("newUser") User newUser,
 			@ModelAttribute("selectedGroupObject") Group selectedGroupObject,
-			@ModelAttribute("selectedMemberObject") Member selectedMemberObject) {
+			@ModelAttribute("selectedUserObject") User selectedUserObject) {
 		ModelAndView model = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String user = auth.getName();
 		if (selectedGroupObject.getGroupID() != 0) {
-			groupMembers = dao.getGroupMembers(selectedGroupObject);
+			groupUsers = dao.getGroupUsers(selectedGroupObject);
 		}
 		model.addObject("groups", groups);
-		model.addObject("groupMembers", groupMembers);
+		model.addObject("groupUsers", groupUsers);
 		model.addObject("message", message);
 		model.addObject("newGroup", newGroup);
-		model.addObject("newMember", newMember);
+		model.addObject("newUser", newUser);
 		model.addObject("selectedGroupObject", selectedGroupObject);
-		model.addObject("selectedMemberObject", selectedMemberObject);
+		model.addObject("selectedUserObject", selectedUserObject);
 		model.addObject("user", user);
 		model.setViewName("index");
 		return model;
@@ -129,38 +129,38 @@ public class PassiController {
 	@RequestMapping(value = "/getGroupData", method = RequestMethod.POST)
 	public ModelAndView getGroupData(
 			@RequestParam int groupID,
-			@ModelAttribute("selectedMemberObject") Member member,
+			@ModelAttribute("selectedUserObject") User User,
 			@ModelAttribute("groups") List<Group> groups) {
 		ModelAndView model = new ModelAndView();
 		for (Group g : groups) {
 			if (g.getGroupID() == groupID) {
 				model.addObject("selectedGroupObject", g);
-				model.addObject("groupMembers", dao.getGroupMembers(g));
+				model.addObject("groupUsers", dao.getGroupUsers(g));
 				break;
 			}
 		}
-		member.reset();
-		model.addObject("selectedMemberObject", member);
+		User.reset();
+		model.addObject("selectedUserObject", User);
 		model.setViewName("index");
 		return model;
 	}
 	
-	@RequestMapping(value = "/getMemberAnswers", method = RequestMethod.POST)
-	public ModelAndView getMemberAnswers(
+	@RequestMapping(value = "/getUserAnswers", method = RequestMethod.POST)
+	public ModelAndView getUserAnswers(
 			@RequestParam int groupID,
 			@RequestParam int userID,
-			@ModelAttribute("groupMembers") List<Member> groupMembers,
+			@ModelAttribute("groupUsers") List<User> groupUsers,
 			@ModelAttribute("selectedGroupObject") Group selectedGroupObject,
-			@ModelAttribute("selectedMemberObject") Member selectedMemberObject) {
+			@ModelAttribute("selectedUserObject") User selectedUserObject) {
 		ModelAndView model = new ModelAndView();
-		for (Member member : groupMembers) {
-			if (member.getUserID() == userID) {
-				model.addObject("selectedMemberObject", member);
-				model.addObject("answers", dao.getAnswers(selectedGroupObject, member));
+		for (User User : groupUsers) {
+			if (User.getUserID() == userID) {
+				model.addObject("selectedUserObject", User);
+				model.addObject("answers", dao.getAnswers(selectedGroupObject, User));
 				break;
 			}
 		}
-		model.addObject("groupMembers", dao.getGroupMembers(selectedGroupObject));
+		model.addObject("groupUsers", dao.getGroupUsers(selectedGroupObject));
 		model.addObject("selectedGroupObject", selectedGroupObject);
 		model.addObject("worksheets", dao.getWorksheets(selectedGroupObject));
 		model.setViewName("index");
@@ -219,7 +219,7 @@ public class PassiController {
 	@RequestMapping(value = "/addStudent", method = RequestMethod.POST)
 	public ModelAndView addStudent(
 			@ModelAttribute("message") String message,
-			@ModelAttribute("newStudent") Member newStudent,
+			@ModelAttribute("newStudent") User newStudent,
 			@RequestParam("groupID") String groupID) {
 		ModelAndView model = new ModelAndView();
 		if (dao.addStudent(newStudent, groupID)) {
