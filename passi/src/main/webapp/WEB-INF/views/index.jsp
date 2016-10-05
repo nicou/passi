@@ -131,7 +131,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   			<c:choose>
   				<c:when test = "${not empty worksheets || not empty answers}">
   					<c:forEach var="worksheet" items="${worksheets}" varStatus="loop">
-  						<h3><c:out value="${worksheet.worksheetHeader}" />&nbsp;&nbsp;<span class="text-nowrap">[<c:out value="${selectedMemberObject.firstname} ${selectedMemberObject.lastname}" />]</span></h3>
+  						<h3><c:out value="${worksheet.worksheetHeader}" />&nbsp;&nbsp;<span class="text-nowrap">-&nbsp;&nbsp;<c:out value="${selectedMemberObject.firstname} ${selectedMemberObject.lastname}" /></span></h3>
   						<p><c:out value="${worksheet.worksheetPreface}" /></p>
   						<p><strong><c:out value="${worksheet.worksheetPlanning}" /></strong></p>
   						<c:choose>
