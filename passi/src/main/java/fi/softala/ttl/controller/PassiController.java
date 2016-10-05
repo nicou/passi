@@ -3,11 +3,20 @@
  */
 package fi.softala.ttl.controller;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +25,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +38,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fi.softala.ttl.dao.PassiDAO;
 import fi.softala.ttl.model.Group;
-import fi.softala.ttl.model.Member;
+import fi.softala.ttl.model.User;
 
 @EnableWebMvc
 @Controller
@@ -74,12 +84,12 @@ public class PassiController {
 	public ModelAndView init(final RedirectAttributes redirectAttributes) {
 		ModelAndView model = new ModelAndView();
 		redirectAttributes.addFlashAttribute("groups", dao.getAllGroups());
-		redirectAttributes.addFlashAttribute("groupMembers", new ArrayList<Member>());
+		redirectAttributes.addFlashAttribute("groupMembers", new ArrayList<User>());
 		redirectAttributes.addFlashAttribute("message", new String(""));
 		redirectAttributes.addFlashAttribute("newGroup", new Group());
-		redirectAttributes.addFlashAttribute("newMember", new Member());
+		redirectAttributes.addFlashAttribute("newMember", new User());
 		redirectAttributes.addFlashAttribute("selectedGroupObject", new Group());
-		redirectAttributes.addFlashAttribute("selectedMemberObject", new Member());
+		redirectAttributes.addFlashAttribute("selectedMemberObject", new User());
 		model.setViewName("redirect:/index");
 		return model;
 	}
@@ -87,12 +97,12 @@ public class PassiController {
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public ModelAndView homePage(
 			@ModelAttribute("groups") List<Group> groups,
-			@ModelAttribute("groupMembers") List<Member> groupMembers,
+			@ModelAttribute("groupMembers") List<User> groupMembers,
 			@ModelAttribute("message") String message,
 			@ModelAttribute("newGroup") Group newGroup,
-			@ModelAttribute("newMember") Member newMember,
+			@ModelAttribute("newMember") User newMember,
 			@ModelAttribute("selectedGroupObject") Group selectedGroupObject,
-			@ModelAttribute("selectedMemberObject") Member selectedMemberObject) {
+			@ModelAttribute("selectedMemberObject") User selectedMemberObject) {
 		ModelAndView model = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String user = auth.getName();
@@ -129,7 +139,7 @@ public class PassiController {
 	@RequestMapping(value = "/getGroupData", method = RequestMethod.POST)
 	public ModelAndView getGroupData(
 			@RequestParam int groupID,
-			@ModelAttribute("selectedMemberObject") Member member,
+			@ModelAttribute("selectedMemberObject") User user,
 			@ModelAttribute("groups") List<Group> groups) {
 		ModelAndView model = new ModelAndView();
 		for (Group g : groups) {
@@ -139,8 +149,8 @@ public class PassiController {
 				break;
 			}
 		}
-		member.reset();
-		model.addObject("selectedMemberObject", member);
+		user.reset();
+		model.addObject("selectedMemberObject", user);
 		model.setViewName("index");
 		return model;
 	}
@@ -149,14 +159,14 @@ public class PassiController {
 	public ModelAndView getMemberAnswers(
 			@RequestParam int groupID,
 			@RequestParam int userID,
-			@ModelAttribute("groupMembers") List<Member> groupMembers,
+			@ModelAttribute("groupMembers") List<User> groupMembers,
 			@ModelAttribute("selectedGroupObject") Group selectedGroupObject,
-			@ModelAttribute("selectedMemberObject") Member selectedMemberObject) {
+			@ModelAttribute("selectedMemberObject") User selectedMemberObject) {
 		ModelAndView model = new ModelAndView();
-		for (Member member : groupMembers) {
-			if (member.getUserID() == userID) {
-				model.addObject("selectedMemberObject", member);
-				model.addObject("answers", dao.getAnswers(selectedGroupObject, member));
+		for (User user : groupMembers) {
+			if (user.getUserID() == userID) {
+				model.addObject("selectedMemberObject", user);
+				model.addObject("answers", dao.getAnswers(selectedGroupObject, user));
 				break;
 			}
 		}
@@ -167,7 +177,30 @@ public class PassiController {
 		return model;
 	}
 	
-
+	@RequestMapping(value = "/download/{type}", method = RequestMethod.GET)
+	public void downloadFile(HttpServletResponse response, @PathVariable("type") String type) throws IOException {
+		String rootPath = System.getProperty("catalina.home");
+		File file = new File(rootPath + File.separator + "images" + File.separator + "laama.jpg");
+		if (!file.exists()) {
+			String errorMessage = "Tiedostoa ei löydy";
+			System.out.println(errorMessage);
+			OutputStream outputStream = response.getOutputStream();
+			outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
+			outputStream.close();
+			return;
+		}
+		String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+		if (mimeType == null) {
+			System.out.println("MIME tunnistamaton");
+			mimeType = "application/octet-stream";
+		}
+		System.out.println("mimetype : " + mimeType);
+		response.setContentType(mimeType);
+		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
+		response.setContentLength((int) file.length());
+		InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+		FileCopyUtils.copy(inputStream, response.getOutputStream());
+	}
 	
 	/*
 	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
@@ -219,7 +252,7 @@ public class PassiController {
 	@RequestMapping(value = "/addStudent", method = RequestMethod.POST)
 	public ModelAndView addStudent(
 			@ModelAttribute("message") String message,
-			@ModelAttribute("newStudent") Member newStudent,
+			@ModelAttribute("newStudent") User newStudent,
 			@RequestParam("groupID") String groupID) {
 		ModelAndView model = new ModelAndView();
 		if (dao.addStudent(newStudent, groupID)) {
@@ -283,28 +316,5 @@ public class PassiController {
 		return model;
 	}
 
-	@RequestMapping(value = "/download/{type}", method = RequestMethod.GET)
-	public void downloadFile(HttpServletResponse response, @PathVariable("type") String type) throws IOException {
-		File file = new File(EXTERNAL_IMG_FILE);
-		if (!file.exists()) {
-			String errorMessage = "Tiedostoa ei löydy";
-			System.out.println(errorMessage);
-			OutputStream outputStream = response.getOutputStream();
-			outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
-			outputStream.close();
-			return;
-		}
-		String mimeType = URLConnection.guessContentTypeFromName(file.getName());
-		if (mimeType == null) {
-			System.out.println("MIME tunnistamaton");
-			mimeType = "application/octet-stream";
-		}
-		System.out.println("mimetype : " + mimeType);
-		response.setContentType(mimeType);
-		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
-		response.setContentLength((int) file.length());
-		InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-		FileCopyUtils.copy(inputStream, response.getOutputStream());
-	}
 	*/
 }

@@ -9,42 +9,70 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String username;
-	private String password;
-	private String role;
-	
+	private int userID;
+	private String firstname;
+	private String lastname;
+	private String email;
+	private String phone;
+
 	public User() {
 		super();
 	}
 
-	public User(String username, String password, String role) {
+	public User(int userID, String firstname, String lastname, String email, String phone) {
 		super();
-		this.username = username;
-		this.password = password;
-		this.role = role;
+		this.userID = userID;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
+		this.phone = phone;
+	}
+	
+	public void reset() {
+		this.userID = 0;
+		this.firstname = "";
+		this.lastname = "";
+		this.email = "";
+		this.phone = "";
 	}
 
-	public String getUsername() {
-		return username;
+	public int getUserID() {
+		return userID;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserID(int userID) {
+		this.userID = userID;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getFirstname() {
+		return firstname;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
 
-	public String getRole() {
-		return role;
+	public String getLastname() {
+		return lastname;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 }

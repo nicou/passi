@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class AnswerWorksheet implements Serializable {
+public class Answersheet implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -17,12 +17,12 @@ public class AnswerWorksheet implements Serializable {
 	private Timestamp answerTimestamp;
 	private int       worksheetID; // => Worksheet
 	private int       groupID; // => Group
-	private int       userID; // => Member
+	private int       userID; // => User
 	
 	// List of waypoint answers
-	private List<AnswerWaypoint> waypoints;
+	private List<Answerpoint> waypoints;
 
-	public AnswerWorksheet() {
+	public Answersheet() {
 		super();
 		this.answerID = 0;
 		this.answerPlanning = "";
@@ -35,8 +35,8 @@ public class AnswerWorksheet implements Serializable {
 		this.waypoints = null;
 	}
 
-	public AnswerWorksheet(int answerID, String answerPlanning, String answerInstructorComment, Timestamp answerTimestamp,
-			int worksheetID, int groupID, int userID, List<AnswerWaypoint> waypoints) {
+	public Answersheet(int answerID, String answerPlanning, String answerInstructorComment, Timestamp answerTimestamp,
+			int worksheetID, int groupID, int userID, List<Answerpoint> waypoints) {
 		super();
 		this.answerID = answerID;
 		this.answerPlanning = answerPlanning;
@@ -104,11 +104,11 @@ public class AnswerWorksheet implements Serializable {
 		this.userID = userID;
 	}
 
-	public List<AnswerWaypoint> getWaypoints() {
+	public List<Answerpoint> getWaypoints() {
 		return waypoints;
 	}
 
-	public void setWaypoints(List<AnswerWaypoint> waypoints) {
+	public void setWaypoints(List<Answerpoint> waypoints) {
 		this.waypoints = waypoints;
 	}
 }

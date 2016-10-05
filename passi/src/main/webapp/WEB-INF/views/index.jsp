@@ -104,14 +104,17 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		</div>
     				
 			<div class="row">
-      			<h3 class="cursor-default">Ohjaaja</h3>
+      			<h3 class="cursor-default">Ohjaajat</h3>
       			<c:choose>
       				<c:when test="${selectedGroupObject.groupID != 0}">	
       					<table class="table cursor-default">
-      						<tr><th scope="row" class="text-right">Etunimi</th><td class="wide"><c:out value="${selectedGroupObject.instructors[0].firstname}" /></td></tr>
-      						<tr><th scope="row" class="text-right">Sukunimi</th><td class="wide"><c:out value="${selectedGroupObject.instructors[0].lastname}" /></td></tr>
-      						<tr><th scope="row" class="text-right">Sähköposti</th><td class="wide"><c:out value="${selectedGroupObject.instructors[0].email}" /></td></tr>
-      						<tr><th scope="row" class="text-right">Puhelin</th><td class="wide"><c:out value="${selectedGroupObject.instructors[0].phone}" /></td></tr>
+      						<c:forEach var="instructor" items="${selectedGroupObject.instructors}">
+      						<tr><th scope="row" class="text-right">Etunimi</th><td class="wide"><c:out value="${instructor.firstname}" /></td></tr>
+      						<tr><th scope="row" class="text-right">Sukunimi</th><td class="wide"><c:out value="${instructor.lastname}" /></td></tr>
+      						<tr><th scope="row" class="text-right">Sähköposti</th><td class="wide"><c:out value="${instructor.email}" /></td></tr>
+      						<tr><th scope="row" class="text-right">Puhelin</th><td class="wide"><c:out value="${instructor.phone}" /></td></tr>
+      						<tr><th scope="row" class="text-right">&nbsp;</th><td class="wide">&nbsp;</td></tr>
+      						</c:forEach>
       					</table>
       				</c:when>
       				<c:otherwise>
@@ -140,6 +143,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   							</c:otherwise>
   						</c:choose>
   						<br />
+  						<c:url var="imageLink" value="/download/jpg" /> 
   						<c:forEach var="waypoint" items="${worksheet.waypoints}" varStatus="loopInner">
   							<p><strong><c:out value="${loopInner.count}" />.&nbsp;<c:out value="${waypoint.waypointTask}" /></strong></p>
   							<p>Monivalinnan vastaus:&nbsp;
@@ -152,16 +156,19 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   								</c:otherwise>
   							</c:choose>
   							</p>
-  							
   							<c:choose>
   								<c:when test="${not empty answers[loop.index].waypoints[loopInner.index].answerWaypointText}">
-  									<pre><c:out value="${answers[loop.index].waypoints[loopInner.index].answerWaypointText}" /></pre>
+  									<div class="well">
+  										<c:out value="${answers[loop.index].waypoints[loopInner.index].answerWaypointText}" />
+  									</div>
   								</c:when>
   								<c:otherwise>
-  									<pre>Ei vastausta</pre>
+  									<div class="well">
+  										<img src="${imageLink}" class="well-image" align="left" draggable="false" />
+  										Ei vastausta
+  									</div>
   								</c:otherwise>
-  							</c:choose>
-  							
+  							</c:choose>	
   							<br />
   						</c:forEach>
   					</c:forEach>

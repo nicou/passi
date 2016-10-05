@@ -5,7 +5,7 @@ package fi.softala.ttl.model;
 
 import java.io.Serializable;
 
-public class AnswerWaypoint implements Serializable {
+public class Answerpoint implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -13,11 +13,11 @@ public class AnswerWaypoint implements Serializable {
 	private String answerWaypointText;
 	private String answerWaypointInstructorComment;
 	private String answerWaypointImageURL;
-	private int    answerID; // => AnswerWorksheet
+	private int    answerID; // => Answersheet
 	private int    waypointID; // => Waypoint
 	private int    optionID; // => Selected Option
 	
-	public AnswerWaypoint() {
+	public Answerpoint() {
 		super();
 		this.answerWaypointID = 0;
 		this.answerWaypointText = "Ei vastattu";
@@ -28,7 +28,7 @@ public class AnswerWaypoint implements Serializable {
 		this.optionID = 0;
 	}
 
-	public AnswerWaypoint(int answerWaypointID, String answerWaypointText, String answerWaypointInstructorComment,
+	public Answerpoint(int answerWaypointID, String answerWaypointText, String answerWaypointInstructorComment,
 			String answerWaypointImageURL, int answerID, int waypointID, int optionID) {
 		super();
 		this.answerWaypointID = answerWaypointID;
