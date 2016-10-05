@@ -163,7 +163,9 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   										<!-- Image link for downloading saved waypoint answer -->
   										<c:set var="imageName" value="${waypoint.waypointID}-${answers[loop.index].userID}" />
   										<c:url var="imageLink" value="/download/${imageName}/jpg" />
-  										<img src="${imageLink}" class="well-image" align="left" draggable="false" />
+  										
+  										<!-- Hide image block when link returns null -->
+  										<img src="${imageLink}" onerror="this.style.visibility = 'hidden'" class="well-image" align="left" draggable="false" />
   										<c:out value="${answers[loop.index].waypoints[loopInner.index].answerWaypointText}" />
   									</div>
   								</c:when>
