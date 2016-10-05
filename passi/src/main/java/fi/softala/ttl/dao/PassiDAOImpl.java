@@ -119,7 +119,7 @@ public class PassiDAOImpl implements PassiDAO {
 					answerpoint.setAnswerWaypointText(rs.getString("answer_text"));
 					answerpoint.setAnswerWaypointInstructorComment(rs.getString("instructor_comment"));
 					answerpoint.setAnswerWaypointImageURL(rs.getString("image_url"));
-					answerpoint.setAnswerID(rs.getInt("answer_id"));
+					answerpoint.setAnswerID(rs.getInt("answersheet_id"));
 					answerpoint.setWaypointID(rs.getInt("waypoint_id"));
 					answerpoint.setOptionID(rs.getInt("option_id"));
 					return answerpoint;

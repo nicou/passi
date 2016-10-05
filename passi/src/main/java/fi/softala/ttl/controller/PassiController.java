@@ -155,8 +155,8 @@ public class PassiController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/getMemberAnswers", method = RequestMethod.POST)
-	public ModelAndView getMemberAnswers(
+	@RequestMapping(value = "/getAnswers", method = RequestMethod.POST)
+	public ModelAndView getAnswers(
 			@RequestParam int groupID,
 			@RequestParam int userID,
 			@ModelAttribute("groupMembers") List<User> groupMembers,
@@ -177,10 +177,13 @@ public class PassiController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/download/{type}", method = RequestMethod.GET)
-	public void downloadFile(HttpServletResponse response, @PathVariable("type") String type) throws IOException {
+	@RequestMapping(value = "/download/{name}/{type}", method = RequestMethod.GET)
+	public void downloadFile(
+			HttpServletResponse response,
+			@PathVariable("name") String name,
+			@PathVariable("type") String type) throws IOException {
 		String rootPath = System.getProperty("catalina.home");
-		File file = new File(rootPath + File.separator + "images" + File.separator + "laama.jpg");
+		File file = new File(rootPath + File.separator + "images" + File.separator + name + ".jpg");
 		if (!file.exists()) {
 			String errorMessage = "Tiedostoa ei löydy";
 			System.out.println(errorMessage);

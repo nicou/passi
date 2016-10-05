@@ -32,8 +32,8 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
 <!-- FORM[1]: SELECT STUDENT -->
-<c:url var="getMemberAnswersUrl" value="/getMemberAnswers" />
-<form id="getMemberAnswers" action="${getMemberAnswersUrl}" method="post" accept-charset="UTF-8">
+<c:url var="getAnswersUrl" value="/getAnswers" />
+<form id="getAnswers" action="${getAnswersUrl}" method="post" accept-charset="UTF-8">
 <input type="hidden" id="userID" name="userID" value="" />
 <input type="hidden" id="groupID" name="groupID" value="" />
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -72,7 +72,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       				<c:when test="${not empty groupMembers}">
       					<table class="table table-hover">
       					<c:forEach var="member" items="${groupMembers}"> 
-      						<tr onclick="var f2=document.getElementById('getMemberAnswers');f2.userID.value='${member.userID}';f2.groupID.value='${selectedGroupObject.groupID}';f2.submit();" class="${selectedMemberObject.userID == member.userID ? 'bold' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" /></td></tr>     					
+      						<tr onclick="var f2=document.getElementById('getAnswers');f2.userID.value='${member.userID}';f2.groupID.value='${selectedGroupObject.groupID}';f2.submit();" class="${selectedMemberObject.userID == member.userID ? 'bold' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" /></td></tr>     					
       					</c:forEach>
       					</table>
       				</c:when>
@@ -132,7 +132,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				<c:when test = "${not empty worksheets || not empty answers}">
   					<c:forEach var="worksheet" items="${worksheets}" varStatus="loop">
   						<h3><c:out value="${worksheet.worksheetHeader}" />&nbsp;&nbsp;<span class="text-nowrap">-&nbsp;&nbsp;<c:out value="${selectedMemberObject.firstname} ${selectedMemberObject.lastname}" /></span></h3>
-  						<p><c:out value="${worksheet.worksheetPreface}" /></p>
+  						<p style="font-size: 16px;"><c:out value="${worksheet.worksheetPreface}" /></p>
   						<p><strong><c:out value="${worksheet.worksheetPlanning}" /></strong></p>
   						<c:choose>
   							<c:when test="${not empty answers[loop.index].answerPlanning}">
@@ -143,7 +143,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   							</c:otherwise>
   						</c:choose>
   						<br />
-  						<c:url var="imageLink" value="/download/jpg" /> 
+  						
   						<c:forEach var="waypoint" items="${worksheet.waypoints}" varStatus="loopInner">
   							<p><strong><c:out value="${loopInner.count}" />.&nbsp;<c:out value="${waypoint.waypointTask}" /></strong></p>
   							<p>Monivalinnan vastaus:&nbsp;
@@ -158,13 +158,18 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   							</p>
   							<c:choose>
   								<c:when test="${not empty answers[loop.index].waypoints[loopInner.index].answerWaypointText}">
-  									<div class="well">
+  									<div class="answerpoint">
+  									
+  										<!-- Image link for downloading saved waypoint answer -->
+  										<c:set var="imageName" value="${waypoint.waypointID}-${answers[loop.index].userID}" />
+  										<c:url var="imageLink" value="/download/${imageName}/jpg" /> 
+  										<c:out value="${imageName}" />.jpg<br />
+  										<img src="${imageLink}" class="well-image" align="left" draggable="false" />
   										<c:out value="${answers[loop.index].waypoints[loopInner.index].answerWaypointText}" />
   									</div>
   								</c:when>
   								<c:otherwise>
-  									<div class="well">
-  										<img src="${imageLink}" class="well-image" align="left" draggable="false" />
+  									<div class="answerpoint">
   										Ei vastausta
   									</div>
   								</c:otherwise>
