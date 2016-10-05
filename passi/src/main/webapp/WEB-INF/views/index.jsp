@@ -149,7 +149,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   							<p>Monivalinnan vastaus:&nbsp;
   							<c:choose>
   								<c:when test="${answers[loop.index].waypoints[loopInner.index].optionID > 0}">
-  									<code><c:out value="${answers[loop.index].waypoints[loopInner.index].optionID}" /></code>
+  									<code><c:out value="${answers[loop.index].waypoints[loopInner.index].optionText}" /></code>
   								</c:when>
   								<c:otherwise>
   									<code>Ei valintaa</code>

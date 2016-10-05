@@ -16,6 +16,7 @@ public class Answerpoint implements Serializable {
 	private int    answerID; // => Answersheet
 	private int    waypointID; // => Waypoint
 	private int    optionID; // => Selected Option
+	private String optionText;
 	
 	public Answerpoint() {
 		super();
@@ -26,10 +27,11 @@ public class Answerpoint implements Serializable {
 		this.answerID = 0;
 		this.waypointID = 0;
 		this.optionID = 0;
+		this.optionText = "";
 	}
 
 	public Answerpoint(int answerWaypointID, String answerWaypointText, String answerWaypointInstructorComment,
-			String answerWaypointImageURL, int answerID, int waypointID, int optionID) {
+			String answerWaypointImageURL, int answerID, int waypointID, int optionID, String optionText) {
 		super();
 		this.answerWaypointID = answerWaypointID;
 		this.answerWaypointText = answerWaypointText;
@@ -38,6 +40,7 @@ public class Answerpoint implements Serializable {
 		this.answerID = answerID;
 		this.waypointID = waypointID;
 		this.optionID = optionID;
+		this.optionText = optionText;
 	}
 
 	public int getAnswerWaypointID() {
@@ -94,5 +97,13 @@ public class Answerpoint implements Serializable {
 
 	public void setOptionID(int optionID) {
 		this.optionID = optionID;
+	}
+	
+	public String getOptionText() {
+		return optionText;
+	}
+
+	public void setOptionText(String optionText) {
+		this.optionText = optionText;
 	}
 }
