@@ -186,7 +186,7 @@ public class PassiController {
 		File file = new File(rootPath + File.separator + "images" + File.separator + name + ".jpg");
 		if (!file.exists()) {
 			String errorMessage = "Tiedostoa ei löydy";
-			System.out.println(errorMessage);
+			// System.out.println(errorMessage);
 			OutputStream outputStream = response.getOutputStream();
 			outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
 			outputStream.close();
@@ -194,7 +194,7 @@ public class PassiController {
 		}
 		String mimeType = URLConnection.guessContentTypeFromName(file.getName());
 		if (mimeType == null) {
-			System.out.println("MIME tunnistamaton");
+			// System.out.println("MIME tunnistamaton");
 			mimeType = "application/octet-stream";
 		}
 		System.out.println("mimetype : " + mimeType);

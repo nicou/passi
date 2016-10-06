@@ -75,3 +75,7 @@ pre {
 	margin: 0 15px 0 0;
 	position: relative;    
 }
+
+.row {
+	margin-top: 10px;
+}
