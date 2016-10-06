@@ -177,12 +177,10 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   			</c:otherwise>
   			</c:choose>
   			</p>							
-  			<c:out value="${answers[loop.index].waypoints[loopInner.index].answerWaypointText}" />
+  			<span class="consol"><c:out value="${answers[loop.index].waypoints[loopInner.index].answerWaypointText}" /></span>
   			</c:when>
   			<c:otherwise>
-  			<div class="answerpoint">
-  			Ei vastausta
-  			</div>
+  			<span class="consol">Ei vastausta</span>
   			</c:otherwise>
   			</c:choose>
   			</div>

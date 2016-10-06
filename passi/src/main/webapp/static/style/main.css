@@ -21,7 +21,7 @@ img {
 }
 
 p {
-	font-size: 16px;
+	font-size: 15px;
 }
 
 table.table tr td.wide {
@@ -63,12 +63,8 @@ pre {
 	padding-right: 20px;
 }
 
-.answerpoint {
-	font: normal 14px Consolas;
-	height: auto;
-	overflow: auto;
-	padding: 5px 10px 0 10px;
-	position: relative;
+.consol {
+	font: normal 15px Consolas;
 }
 
 .well-image {
@@ -85,7 +81,7 @@ pre {
 }
 
 .well {
-	font: normal 15px Tahoma;
+	font: normal 15px Consolas;
 	line-height: 150%;
 	padding: 8px 12px 8px 12px;
 }
