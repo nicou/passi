@@ -1,4 +1,8 @@
-html, body {
+html {
+	overflow-y: scroll;
+}
+
+body {
 	font-size: 15px;
 	height: 100%;
 	margin: 0;
@@ -22,6 +26,10 @@ img {
 
 p {
 	font-size: 15px;
+}
+
+select {
+	font-weight: bold;
 }
 
 table.table tr td.wide {

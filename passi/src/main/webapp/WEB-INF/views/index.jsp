@@ -3,6 +3,7 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <%
@@ -26,10 +27,9 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <body>
 <!-- FORM[0]: SELECT GROUP AND GET RELATED STUDENTS-->
-<c:url var="getGroupDataUrl" value="/getGroupData" />
-<form id="getGroupData" action="${getGroupDataUrl}" method="post" accept-charset="UTF-8">
+<form id="getGroupData">
 <input type="hidden" id="groupID" name="groupID" value="" />
-<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
 </form>
 <!-- FORM[1]: SELECT STUDENT -->
 <c:url var="getAnswersUrl" value="/getAnswers" />
@@ -46,24 +46,24 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <div class="container-fluid bg-3 text-center">
 
-<div class="col-sm-4 text-left">
+<div class="col-sm-4 text-left" style="padding: 10px 15px 10px 10px;">
     	
 <div class="row">
 	<h3 class="cursor-default">Ryhmät</h3>
-	<c:choose>
-	<c:when test="${not empty groups}">
-	<table class="table table-hover">
-	<c:forEach var="group" items="${groups}">  
-	<tr onclick="var f1=document.getElementById('getGroupData');f1.groupID.value='${group.groupID}';f1.submit();" class="${selectedGroupObject.groupID == group.groupID ? 'bold' : ''}"><td>${group.groupName}</td></tr>
-	</c:forEach>
-	</table>
-	</c:when>
-	<c:otherwise>
-	<table class="table">
-	<tr><td>Ei Ryhmiä</td></tr>
-	</table>
-	</c:otherwise>
-	</c:choose>
+	
+	<c:url var="getGroupDataUrl" value="/getGroupData" />
+	<form action="${getGroupDataUrl}" method="post" accept-charset="UTF-8">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+    <div class="form-group" style="padding: 0;">
+      	<select class="form-control" id="groupID" name="groupID" onchange="this.form.submit();">
+      		<option disabled selected> -- Valitse Ryhmä -- </option>
+      		<c:forEach var="group" items="${groups}">
+        		<option value="${group.groupID}" ${selectedGroupObject.groupID == group.groupID ? 'selected' : ''}><c:out value="${group.groupName}" /></option>
+        	</c:forEach>
+      	</select>
+    </div>
+    </form>
+	
 </div>
 			
 <div class="row">
@@ -104,7 +104,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 </div>
     				
 <div class="row">
-    <h3 class="cursor-default">Ohjaajat</h3>
+    <h3 class="cursor-default"><c:out value="${fn:length(selectedGroupObject.instructors) > 1 ? 'Ohjaajat' : 'Ohjaaja'}" /></h3>
     <c:choose>
     <c:when test="${selectedGroupObject.groupID != 0}">	
     <table class="table cursor-default">
@@ -127,7 +127,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		
 </div>
   		
-<div class="col-sm-8 text-left">
+<div class="col-sm-8 text-left" style="padding: 10px 10px 10px 15px;">
 
 <c:choose>
 <c:when test = "${not empty worksheets || not empty answers}">

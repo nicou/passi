@@ -197,7 +197,7 @@ public class PassiController {
 			// System.out.println("MIME tunnistamaton");
 			mimeType = "application/octet-stream";
 		}
-		System.out.println("mimetype : " + mimeType);
+		// System.out.println("mimetype : " + mimeType);
 		response.setContentType(mimeType);
 		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
 		response.setContentLength((int) file.length());
