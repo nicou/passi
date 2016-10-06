@@ -133,21 +133,14 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <c:when test = "${not empty worksheets || not empty answers}">
 <c:forEach var="worksheet" items="${worksheets}" varStatus="loop">
   					
-	<div class="row">
-  		<div class="panel panel-default">
-  		<div class="panel-heading">
-  		<strong><c:out value="${worksheet.worksheetHeader}" />&nbsp;&nbsp;&bull;&nbsp;&nbsp;<c:out value="${selectedMemberObject.firstname} ${selectedMemberObject.lastname}" /></strong>
-  		</div>
-  		<div class="panel-body">
-  		<c:out value="${worksheet.worksheetPreface}" />
-  		</div>
-  		</div>
+	<div>
+  		<h3><c:out value="${worksheet.worksheetHeader}" />&nbsp;&nbsp;&bull;&nbsp;&nbsp;<c:out value="${selectedMemberObject.firstname} ${selectedMemberObject.lastname}" /></h3>		
+  		<p><c:out value="${worksheet.worksheetPreface}" /></p>
   	</div>
   						
   	<div class="row">
-  		<div class="panel panel-default">
-  		<div class="panel-heading"><strong><c:out value="${worksheet.worksheetPlanning}" /></strong></div>
-    	<div class="panel-body">
+  		<h4><c:out value="${worksheet.worksheetPlanning}" /></h4>
+  		<div class="well">
     	<c:choose>
   		<c:when test="${not empty answers[loop.index].answerPlanning}">
   		<c:out value="${answers[loop.index].answerPlanning}" />
@@ -157,7 +150,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   		</c:otherwise>
   		</c:choose>
     	</div>
- 		</div>
  	</div>
  						
   	<c:forEach var="waypoint" items="${worksheet.waypoints}" varStatus="loopInner">
@@ -175,8 +167,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   			<img src="${imageLink}" onerror="this.style.display = 'none'" class="well-image" align="left" draggable="false" />
   											
   			<p>
-  			<strong>
-  			Monivalinnan vastaus:&nbsp;
+  			<strong>Monivalinnan vastaus:</strong>&nbsp;
   			<c:choose>
   			<c:when test="${answers[loop.index].waypoints[loopInner.index].optionID > 0}">
   			<code><c:out value="${answers[loop.index].waypoints[loopInner.index].optionText}" /></code>
@@ -185,7 +176,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   			<code>Ei valintaa</code>
   			</c:otherwise>
   			</c:choose>
-  			</strong>
   			</p>							
   			<c:out value="${answers[loop.index].waypoints[loopInner.index].answerWaypointText}" />
   			</c:when>

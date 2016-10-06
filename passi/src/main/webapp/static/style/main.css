@@ -79,3 +79,8 @@ pre {
 .row {
 	margin-top: 10px;
 }
+
+.well {
+	font: normal 16px Consolas;
+	padding: 8px 10px 8px 10px;
+}
