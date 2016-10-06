@@ -145,36 +145,88 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   						<br />
   						
   						<c:forEach var="waypoint" items="${worksheet.waypoints}" varStatus="loopInner">
-  							<p><strong><c:out value="${loopInner.count}" />.&nbsp;<c:out value="${waypoint.waypointTask}" /></strong></p>
-  							<p>Monivalinnan vastaus:&nbsp;
-  							<c:choose>
-  								<c:when test="${answers[loop.index].waypoints[loopInner.index].optionID > 0}">
-  									<code><c:out value="${answers[loop.index].waypoints[loopInner.index].optionText}" /></code>
-  								</c:when>
-  								<c:otherwise>
-  									<code>Ei valintaa</code>
-  								</c:otherwise>
-  							</c:choose>
-  							</p>
-  							<c:choose>
-  								<c:when test="${not empty answers[loop.index].waypoints[loopInner.index].answerWaypointText}">
-  									<div class="answerpoint">
+  						
+  							<p><strong><c:out value="${loopInner.count}" />.&nbsp;<c:out value="${waypoint.waypointTask}" /></strong></p>			
+  							
+  							<table>
+  							<tr>
+  							<td style="width: 500px; vertical-align: top;">
+  							
+  								<p>Monivalinnan vastaus:&nbsp;
+  								<c:choose>
+  									<c:when test="${answers[loop.index].waypoints[loopInner.index].optionID > 0}">
+  										<code><c:out value="${answers[loop.index].waypoints[loopInner.index].optionText}" /></code>
+  									</c:when>
+  									<c:otherwise>
+  										<code>Ei valintaa</code>
+  									</c:otherwise>
+  								</c:choose>
+  								</p>
+  							
+  								<c:choose>
+  									<c:when test="${not empty answers[loop.index].waypoints[loopInner.index].answerWaypointText}">
+  										<div class="answerpoint">
   									
-  										<!-- Image link for downloading saved waypoint answer -->
-  										<c:set var="imageName" value="${waypoint.waypointID}-${answers[loop.index].userID}" />
-  										<c:url var="imageLink" value="/download/${imageName}/jpg" />
+  											<!-- Image link for downloading saved waypoint answer -->
+  											<c:set var="imageName" value="${waypoint.waypointID}-${answers[loop.index].userID}" />
+  											<c:url var="imageLink" value="/download/${imageName}/jpg" />
   										
-  										<!-- Hide image block when link returns null -->
-  										<img src="${imageLink}" onerror="this.style.visibility = 'hidden'" class="well-image" align="left" draggable="false" />
-  										<c:out value="${answers[loop.index].waypoints[loopInner.index].answerWaypointText}" />
-  									</div>
-  								</c:when>
-  								<c:otherwise>
-  									<div class="answerpoint">
-  										Ei vastausta
-  									</div>
-  								</c:otherwise>
-  							</c:choose>	
+  											<!-- Hide image block when link returns null -->
+  											<img src="${imageLink}" onerror="this.style.display = 'none'" class="well-image" align="left" draggable="false" />
+  											<c:out value="${answers[loop.index].waypoints[loopInner.index].answerWaypointText}" />
+  										</div>
+  									</c:when>
+  									<c:otherwise>
+  										<div class="answerpoint">
+  											Ei vastausta
+  										</div>
+  									</c:otherwise>
+  								</c:choose>	
+  							</td>
+  							
+  							<td style="width: 350px; resize: none; vertical-align: top;">
+  								<c:choose>
+  									<c:when test="${answers[loop.index].waypoints[loopInner.index].optionID > 0}">
+  										<h4>Ohjaajan palaute</h4>
+  										<form>
+  											<div class="form-group" style="margin: 0; padding: 0;">
+  												<textarea class="form-control" id="comment" style="width: 300px; height: 85px; resize: none;"></textarea>
+											</div>
+										</form>
+  									</c:when>
+  									<c:otherwise>
+  										<!-- No user answer => No feedback -->
+  									</c:otherwise>
+  								</c:choose>	
+  							</td>
+  							
+  							<td style="width: 200px; vertical-align: top;">
+  								<c:choose>
+  									<c:when test="${answers[loop.index].waypoints[loopInner.index].optionID > 0}">
+  										<h4>Ohjaajan arvio</h4>
+  										<form>
+  											<div class="radio">
+  												<div class="checkbox" style="padding-top: 2px;">
+  													<label><input type="radio" name="assess" value="excellent">&nbsp;&nbsp;Erinomaista</label>
+												</div>
+												<div class="checkbox" style="padding-top: 2px;">
+  													<label><input type="radio" name="assess" value="average">&nbsp;&nbsp;Parannettavaa</label>
+												</div>
+												<div class="checkbox" style="padding-top: 2px;">
+  													<label><input type="radio" name="assess" value="weak">&nbsp;&nbsp;Heikkoa</label>
+												</div>
+											</div>
+										</form>
+								</c:when>
+  									<c:otherwise>
+  										<!-- No user answer => No assessment -->
+  									</c:otherwise>
+  								</c:choose>	
+  							</td>
+  							
+  							</tr>
+  							</table>
+  							
   							<br />
   						</c:forEach>
   					</c:forEach>
