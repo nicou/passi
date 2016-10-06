@@ -127,7 +127,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		
 </div>
   		
-<div class="col-sm-8 text-left" style="padding-top: 10px;">
+<div class="col-sm-8 text-left">
 
 <c:choose>
 <c:when test = "${not empty worksheets || not empty answers}">
@@ -167,7 +167,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   			<img src="${imageLink}" onerror="this.style.display = 'none'" class="well-image" align="left" draggable="false" />
   											
   			<p>
-  			<strong>Monivalinnan vastaus:</strong>&nbsp;
+  			Monivalinnan vastaus:&nbsp;
   			<c:choose>
   			<c:when test="${answers[loop.index].waypoints[loopInner.index].optionID > 0}">
   			<code><c:out value="${answers[loop.index].waypoints[loopInner.index].optionText}" /></code>
