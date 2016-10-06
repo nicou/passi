@@ -172,7 +172,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   			<!-- Image -->
   			<c:set var="imageName" value="${waypoint.waypointID}-${answers[loop.index].userID}" />
   			<c:url var="imageLink" value="/download/${imageName}/jpg" />
-  			<img src="${imageLink}" class="well-image" align="left" draggable="false" />
+  			<img src="${imageLink}" onerror="this.style.display = 'none'" class="well-image" align="left" draggable="false" />
   											
   			<p>
   			<strong>
