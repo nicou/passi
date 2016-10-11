@@ -1,3 +1,13 @@
+/* Scaling styles */
+
+/*@media screen and (max-width: 768px) {
+	.hide-in-mobile {
+		display: none;
+	}
+}*/
+
+/* Common styles */
+
 html {
 	overflow-y: scroll;
 }
@@ -57,6 +67,25 @@ table.table tr td.wide {
 .table-hover tr:hover {
 	color: #000000;
 	cursor: pointer;
+}
+
+#no-padding {
+	padding: 0;
+}
+
+/* Page specific styles*/
+
+#worksheet-padding {
+	padding: 10px 10px 10px 15px;
+}
+
+#leftnav-padding {
+	padding: 10px 15px 10px 10px;
+}
+
+#expired-session-styles {
+	text-align: center;
+	font: normal 12px Consolas;
 }
 
 /* Bootstrap overwrite */

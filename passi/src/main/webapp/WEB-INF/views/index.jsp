@@ -46,7 +46,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <div class="container-fluid bg-3 text-center">
 
-<div class="col-sm-4 text-left" style="padding: 10px 15px 10px 10px;">
+<div class="col-sm-4 text-left" id="leftnav-padding">
     	
 <div class="row">
 	<h3 class="cursor-default">Ryhmät</h3>
@@ -54,7 +54,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 	<c:url var="getGroupDataUrl" value="/getGroupData" />
 	<form action="${getGroupDataUrl}" method="post" accept-charset="UTF-8">
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-    <div class="form-group" style="padding: 0;">
+    <div class="form-group" id="no-padding">
       	<select class="form-control" id="groupID" name="groupID" onchange="this.form.submit();">
       		<option disabled selected> -- Valitse Ryhmä -- </option>
       		<c:forEach var="group" items="${groups}">
@@ -107,7 +107,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     <h3 class="cursor-default"><c:out value="${fn:length(selectedGroupObject.instructors) > 1 ? 'Ohjaajat' : 'Ohjaaja'}" /></h3>
     <c:choose>
     <c:when test="${selectedGroupObject.groupID != 0}">	
-    <table class="table cursor-default">
+    <table class="table cursor-default" class="hide-in-mobile">
     <c:forEach var="instructor" items="${selectedGroupObject.instructors}">
     <tr><th scope="row" class="text-right">Etunimi</th><td class="wide"><c:out value="${instructor.firstname}" /></td></tr>
     <tr><th scope="row" class="text-right">Sukunimi</th><td class="wide"><c:out value="${instructor.lastname}" /></td></tr>
@@ -127,7 +127,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		
 </div>
   		
-<div class="col-sm-8 text-left" style="padding: 10px 10px 10px 15px;">
+<div class="col-sm-8 text-left" id="worksheet-padding">
 
 <c:choose>
 <c:when test = "${not empty worksheets || not empty answers}">

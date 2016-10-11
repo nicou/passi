@@ -36,10 +36,10 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <div class="login-panel">
 			
-<div style="display: block; text-align: center !important;">
+<div id="login-panel-style">
 <h2 class="form-signin-heading">Anna tunnuksesi</h2>
-<c:if test="${not empty error}"><h4 style="color: red">${error}</h4></c:if>
-<c:if test="${not empty message}"><h4 style="color: green">${message}</h4></c:if>
+<c:if test="${not empty error}"><h4 class="color-red">${error}</h4></c:if>
+<c:if test="${not empty message}"><h4 class="color-green">${message}</h4></c:if>
 </div>
 
 <form class="form-signin" action="<c:url value='/login' />" method="post">
@@ -54,6 +54,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 </div>
 
 </div>
-<pre style="display: inline-block; margin-top: 20px; padding: 10px 15px 10px 15px;">username = admin<br />password = passw</pre>
+<pre id="login-credentials-style">username = admin<br />password = passw</pre>
 </body>
 </html>

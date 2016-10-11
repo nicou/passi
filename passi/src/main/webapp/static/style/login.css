@@ -25,6 +25,14 @@ table tr:nth-child(2) td, table tr:nth-child(3) td {
 	padding: 0;
 }
 
+.color-green {
+	color: green;
+}
+
+.color-red {
+	color: red;
+}
+
 .container {
 	text-align: center;
 	background-color: transparent !important;
@@ -76,4 +84,15 @@ table tr:nth-child(2) td, table tr:nth-child(3) td {
 	box-shadow: 0 0 10px #696969;
 	display: inline-block;
 	padding: 20px;
+}
+
+#login-panel-style {
+	display: block;
+	text-align: center !important;
+}
+
+#login-credentials-style {
+	display: inline-block;
+	margin-top: 20px;
+	padding: 10px 15px 10px 15px;
 }
