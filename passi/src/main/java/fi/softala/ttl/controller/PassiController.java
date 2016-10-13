@@ -84,7 +84,6 @@ public class PassiController {
 	public ModelAndView init(final RedirectAttributes redirectAttributes) {
 		ModelAndView model = new ModelAndView();
 		redirectAttributes.addFlashAttribute("groupMembers", new ArrayList<User>());
-		redirectAttributes.addFlashAttribute("message", new String(""));
 		redirectAttributes.addFlashAttribute("newGroup", new Group());
 		redirectAttributes.addFlashAttribute("newMember", new User());
 		redirectAttributes.addFlashAttribute("selectedGroupObject", new Group());
@@ -96,7 +95,6 @@ public class PassiController {
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public ModelAndView homePage(
 			@ModelAttribute("groupMembers") List<User> groupMembers,
-			@ModelAttribute("message") String message,
 			@ModelAttribute("newGroup") Group newGroup,
 			@ModelAttribute("newMember") User newMember,
 			@ModelAttribute("selectedGroupObject") Group selectedGroupObject,
@@ -109,7 +107,7 @@ public class PassiController {
 		}
 		model.addObject("groups", dao.getAllGroups());
 		model.addObject("groupMembers", groupMembers);
-		model.addObject("message", message);
+		model.addObject("message", "");
 		model.addObject("newGroup", newGroup);
 		model.addObject("newMember", newMember);
 		model.addObject("selectedGroupObject", selectedGroupObject);
@@ -124,6 +122,7 @@ public class PassiController {
 			@PathVariable(value = "page") String page) {
 		ModelAndView model = new ModelAndView();
 		model.addObject("groups", dao.getAllGroups());
+		model.addObject("message", "");
 		model.setViewName(page);
 		return model;
 	}
