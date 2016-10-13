@@ -67,7 +67,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 							<form:input required="required" placeholder="Kirjoita ryhmän tunnus" path="groupName" cssClass="form-control" autocomplete="off" maxlength="20" />
 						</div>
 						<div class="form-group">
-							<form:input required="required" placeholder="Kirjoita ryhmän tunnistusavain" path="groupKey" cssClass="form-control" autocomplete="off" maxlength="50" />
+							<form:input required="required" placeholder="Kirjoita ryhmän rekisteröintiavain" path="groupKey" cssClass="form-control" autocomplete="off" maxlength="50" />
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-default form-control">TALLENNA</button>
