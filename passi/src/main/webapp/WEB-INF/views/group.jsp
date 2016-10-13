@@ -53,7 +53,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		
     			<!-- tab: add group -->
   				<div id="add" class="tab-pane fade in active">
-    				<h4>Lisää uusi ryhmä</h4>
+    				<h4>Luo uusi ryhmä</h4>
     				<c:if test="${not empty message}">
     					<div class="alert alert-info">
    							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -70,7 +70,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 							<form:input required="required" placeholder="Kirjoita ryhmän tunnistusavain" path="groupKey" cssClass="form-control" autocomplete="off" maxlength="50" />
 						</div>
 						<div class="form-group">
-							<button type="submit" class="btn btn-default form-control">LISÄÄ</button>
+							<button type="submit" class="btn btn-default form-control">TALLENNA</button>
 						</div>
     				</form:form>
   				</div>
