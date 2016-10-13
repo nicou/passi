@@ -128,11 +128,11 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       			<c:when test="${not empty groups}">
       				<table class="table table-hover">
       					<thead>
-      						<tr><th class="text-center">Tunnus</th><th>Ryhmän nimi</th><th class="text-center">Jäseniä</th></tr>
+      						<tr><th class="text-center">ID</th><th>Ryhmän nimi</th><th class="text-center">Jäseniä</th></tr>
       					</thead>
       					<tbody>
       						<c:forEach var="group" items="${groups}" varStatus="loop">
-      						<tr><td class="text-center"><c:out value="${group.groupID}" /></td><td class="text-nowrap"><c:out value="${group.groupName}" /></td><td class="text-center"><c:out value="${group.numGroupMembers}" /></td></tr>     					
+      						<tr><td class="text-center"><c:out value="${group.groupID}" /></td><td class="text-nowrap"><c:out value="${group.groupName}" /></td><td>&nbsp;</td></tr>    					
       						</c:forEach>
       					</tbody>
       				</table>
