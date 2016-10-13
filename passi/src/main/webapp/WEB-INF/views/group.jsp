@@ -15,7 +15,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="author" content="Roope Heinonen, Mika Ropponen" />
+<meta name="author" content="Mika Ropponen, Roope Heinonen" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>Työkykypassi&nbsp;&bull;&nbsp;Ryhmähallinta</title>
@@ -64,10 +64,10 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     				<form:form role="form" class="form-horizontal" modelAttribute="newGroup" action="${addGroup}" method="post" accept-charset="UTF-8">
   						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
   						<div class="form-group">
-							<form:input required="required" placeholder="Kirjoita ryhmän tunnus" path="groupID" cssClass="form-control" autocomplete="off" maxlength="20" />
+							<form:input required="required" placeholder="Kirjoita ryhmän tunnus" path="groupName" cssClass="form-control" autocomplete="off" maxlength="20" />
 						</div>
 						<div class="form-group">
-							<form:input required="required" placeholder="Kirjoita ryhmän nimi" path="groupName" cssClass="form-control" autocomplete="off" maxlength="50" />
+							<form:input required="required" placeholder="Kirjoita ryhmän tunnistusavain" path="groupKey" cssClass="form-control" autocomplete="off" maxlength="50" />
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-default form-control">LISÄÄ</button>

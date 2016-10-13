@@ -9,9 +9,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import fi.softala.ttl.model.Answerpoint;
 import fi.softala.ttl.model.Answersheet;
@@ -31,8 +35,26 @@ public class PassiDAOImpl implements PassiDAO {
 		return jdbcTemplate;
 	}
 
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+	public void JdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
+	}
+	
+	@Autowired
+	private PlatformTransactionManager platformTransactionManager;
+	
+	public boolean addGroup(Group group){
+		DefaultTransactionDefinition paramTransactionDefinition = new DefaultTransactionDefinition();
+		TransactionStatus status = platformTransactionManager.getTransaction(paramTransactionDefinition);
+		
+		final String SQL1 = "INSERT INTO groups(group_name, group_key) VALUES (?, ?)";	
+		try {
+			 jdbcTemplate.update(SQL1, new Object[] {group.getGroupName(), group.getGroupKey()});
+			 platformTransactionManager.commit(status);
+		} catch (Exception e) {
+			platformTransactionManager.rollback(status);
+			return false;
+		} 
+		 return true;
 	}
 
 	public List<Group> getAllGroups() {

@@ -205,22 +205,21 @@ public class PassiController {
 		FileCopyUtils.copy(inputStream, response.getOutputStream());
 	}
 	
-	/*
+	
 	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
-	public ModelAndView addGroup(@ModelAttribute("newGroup") Group newGroup) {
+	public ModelAndView addGroup(
+			@ModelAttribute("newGroup") Group newGroup) {
 		ModelAndView model = new ModelAndView();
 		if (dao.addGroup(newGroup)) {
 			model.addObject("message", "Ryhmän lisääminen onnitui.");
 		} else {
 			model.addObject("message", "Ryhmän lisääminen EI onnistunut.");
 		}
-		newGroup.reset();
-		model.addObject("newGroup", newGroup);
-		model.addObject("groups", dao.getGroups());
+		newGroup.resetNewgroup();
 		model.setViewName("group");
 		return model;
 	}
-	
+	/*
 	@RequestMapping(value = "/editGroup", method = RequestMethod.POST)
 	public ModelAndView editGroup(
 			@RequestParam String groupID,

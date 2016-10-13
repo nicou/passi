@@ -12,6 +12,8 @@ public class Group implements Serializable {
 	
 	private int    groupID;
 	private String groupName;
+	private String groupKey;
+	
 	
 	private List<Instructor> instructors;
 
@@ -19,10 +21,23 @@ public class Group implements Serializable {
 		super();
 	}
 
-	public Group(int groupID, String groupName, List<Instructor> instructors) {
+	public void reset() {
+		this.groupID = 0;
+		this.groupName = "";
+		this.groupKey = "";
+		this.instructors = null;
+	}
+	
+	public void resetNewgroup() {
+		this.groupName = "";
+		this.groupKey = "";
+	}
+	
+	public Group(int groupID, String groupName, String groupKey, List<Instructor> instructors) {
 		super();
 		this.groupID = groupID;
 		this.groupName = groupName;
+		this.groupKey = groupKey;
 		this.instructors = instructors;
 	}
 
@@ -40,6 +55,14 @@ public class Group implements Serializable {
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+	
+	public String getGroupKey() {
+		return groupKey;
+	}
+
+	public void setGroupKey(String groupKey) {
+		this.groupKey = groupKey;
 	}
 
 	public List<Instructor> getInstructors() {

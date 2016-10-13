@@ -170,6 +170,17 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
+		
+		<!-- Transaction management -->
+		<dependency>
+
+            <groupId>org.springframework</groupId>
+
+            <artifactId>spring-tx</artifactId>
+
+            <version>${spring.version}</version>
+
+	</dependency>
 
 	</dependencies>
 
