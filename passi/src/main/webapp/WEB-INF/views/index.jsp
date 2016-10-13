@@ -87,7 +87,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <div class="row">
     <h3 class="cursor-default">Tiedot</h3>
     <c:choose>
-	<c:when test="${selectedMemberObject.userID != 0}">	
+	<c:when test="${selectedMemberObject.userID > 0}">	
     <table class="table cursor-default">
     <tr><th scope="row" class="text-right">Etunimi</th><td class="wide"><c:out value="${selectedMemberObject.firstname}" /></td></tr>
     <tr><th scope="row" class="text-right">Sukunimi</th><td class="wide"><c:out value="${selectedMemberObject.lastname}" /></td></tr>

@@ -42,6 +42,14 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   	<div class="row">
     	<div class="col-sm-4 text-left">
     		
+    		<!-- Message panel -->
+    		<c:if test="${not empty message}">
+    			<div class="alert alert-info">
+   					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    				<strong>Info!</strong>&nbsp;&nbsp;<c:out value="${message}" />
+  				</div>
+    		</c:if>
+    		
     		<!-- Navigation tabs -->
     		<ul class="nav nav-tabs">
     			<li class="${empty selectedTab ? 'active' : ''}"><a data-toggle="tab" href="#add" onclick="this.blur();">Luo uusi</a></li>
@@ -54,12 +62,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     			<!-- tab: add group -->
   				<div id="add" class="tab-pane fade in active">
     				<h4>Luo uusi ryhmä</h4>
-    				<c:if test="${not empty message}">
-    					<div class="alert alert-info">
-   							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    						<strong>Info!</strong>&nbsp;&nbsp;<c:out value="${message}" />
-  						</div>
-    				</c:if>
     				<c:url value="/addGroup" var="addGroup" />
     				<form:form role="form" class="form-horizontal" modelAttribute="newGroup" action="${addGroup}" method="post" accept-charset="UTF-8">
   						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -104,12 +106,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				<!-- tab: delete group -->
   				<div id="del" class="tab-pane fade">
     				<h4>Poista ryhmä</h4>
-    				<c:if test="${not empty message}">
-    					<div class="alert alert-info">
-   							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    						<strong>Info!</strong>&nbsp;&nbsp;<c:out value="${message}" />
-  						</div>
-    				</c:if>
 					<c:url value="/delGroup" var="delGroup" />
 					<form class="form-horizontal" action="${delGroup}" method="post" accept-charset="UTF-8">
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -117,7 +113,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 							<input required="required" type="text" id="groupID" name="groupID" class="form-control" autocomplete="off" maxlength="20" placeholder="Anna poistettavan ryhmän ID" />
 						</div>
 						<div class="form-group">
-							<button type="submit" class="btn btn-default form-control">POISTA</button>
+							<button onclick="if(!confirm('Haluatko varmasti poistaa ryhmän pysyvästi?')){return false;}else{this.submit()}" type="submit" class="btn btn-default form-control">POISTA</button>
 						</div>
 					</form>
   				</div>
@@ -130,7 +126,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       			<c:when test="${not empty groups}">
       				<table class="table table-hover">
       					<thead>
-      						<tr><th class="text-center">ID</th><th>Ryhmän nimi (A-Ö)</th><th>Liittymisavain</th></tr>
+      						<tr><th class="text-center">ID</th><th>Ryhmän nimi&nbsp;&nbsp;[&nbsp;A - Ö&nbsp;]</th><th>Liittymisavain</th></tr>
       					</thead>
       					<tbody>
       						<c:forEach var="group" items="${groups}" varStatus="loop">
@@ -142,7 +138,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       			<c:otherwise>
       				<table class="table">
       					<thead>
-      						<tr><th class="text-left">ID</th><th>Ryhmän nimi (A-Ö)</th><th>Liittymisavain</th></tr>
+      						<tr><th class="text-left">ID</th><th>Ryhmän nimi&nbsp;&nbsp;[&nbsp;A - Ö&nbsp;]</th><th>Liittymisavain</th></tr>
       					</thead>
       					<tbody>
       						<tr><td>Ei ryhmiä</td></tr>

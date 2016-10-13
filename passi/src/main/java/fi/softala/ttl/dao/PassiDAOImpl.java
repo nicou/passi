@@ -61,14 +61,19 @@ public class PassiDAOImpl implements PassiDAO {
 		DefaultTransactionDefinition paramTransactionDefinition = new DefaultTransactionDefinition();
 		TransactionStatus status = platformTransactionManager.getTransaction(paramTransactionDefinition);
 		
-		final String SQL1 = "DELETE FROM groups WHERE group_id = ?";	
+		final String SQL1 = "DELETE FROM groups WHERE group_id = ?";
+		int numRows = 0;
 		try {
-			 jdbcTemplate.update(SQL1, new Object[] { groupID });
+			 numRows = jdbcTemplate.update(SQL1, new Object[] { groupID });
 			 platformTransactionManager.commit(status);
 		} catch (Exception e) {
 			platformTransactionManager.rollback(status);
 			return false;
-		} 
+		} finally {
+			if (numRows == 0) {
+				return false;
+			}
+		}
 		return true;
 	}
 

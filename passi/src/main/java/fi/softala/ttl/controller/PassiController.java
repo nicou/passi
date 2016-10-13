@@ -43,8 +43,8 @@ import fi.softala.ttl.model.User;
 @EnableWebMvc
 @Controller
 @Scope("session")
-@SessionAttributes({"user", "groups", "groupMembers", "message", "newGroup", "newMember", "selectedGroupObject", 
-	"selectedMemberObject", "defaultGroup"})
+@SessionAttributes({"answers", "defaultGroup", "user", "groups", "groupMembers", "message", "newGroup", "newMember", "selectedGroupObject", 
+	"selectedMemberObject", "worksheets" })
 public class PassiController {
 
 	final static Logger logger = LoggerFactory.getLogger(PassiController.class);
@@ -72,9 +72,13 @@ public class PassiController {
 		ModelAndView model = new ModelAndView();
 		if (error != null) {
 			model.addObject("error", "Tarkista tunnuksesi");
+		} else {
+			model.addObject("error", "");
 		}
 		if (logout != null) {
 			model.addObject("message", "Olet kirjautunut ulos");
+		} else {
+			model.addObject("message", "");
 		}
 		model.setViewName("login");
 		return model;
@@ -119,10 +123,11 @@ public class PassiController {
 	
 	@RequestMapping(value = "/index/{page}", method = RequestMethod.GET)
 	public ModelAndView pageNavigation(
-			@PathVariable(value = "page") String page) {
+			@PathVariable(value = "page") String page,
+			@ModelAttribute(value = "message") String message) {
 		ModelAndView model = new ModelAndView();
 		model.addObject("groups", dao.getAllGroups());
-		model.addObject("message", "");
+		model.addObject("message", message);
 		model.setViewName(page);
 		return model;
 	}
@@ -209,7 +214,7 @@ public class PassiController {
 			@ModelAttribute("newGroup") Group newGroup) {
 		ModelAndView model = new ModelAndView();
 		if (dao.addGroup(newGroup)) {
-			model.addObject("message", "Ryhmän lisääminen onnitui.");
+			model.addObject("message", "Ryhmän lisääminen onnistui.");
 		} else {
 			model.addObject("message", "Ryhmän lisääminen EI onnistunut.");
 		}
@@ -222,15 +227,15 @@ public class PassiController {
 	@RequestMapping(value = "/delGroup", method = RequestMethod.POST)
 	public ModelAndView delGroup(
 			@RequestParam int groupID,
-			@ModelAttribute("groups") ArrayList<Group> groups) {
+			@ModelAttribute("groups") ArrayList<Group> groups,
+			final RedirectAttributes redirectAttributes) {
 		ModelAndView model = new ModelAndView();
 		if (dao.delGroup(groupID)) {
-			model.addObject("message", "Ryhmän poistaminen onnistui.");
+			redirectAttributes.addFlashAttribute("message", "Ryhmän poistaminen onnistui.");
 		} else {
-			model.addObject("message", "Ryhmän poistaminen EI onnistunut.");
+			redirectAttributes.addFlashAttribute("message", "Ryhmän poistaminen EI onnistunut.");
 		}
-		model.addObject("groups", dao.getAllGroups());
-		model.setViewName("group");
+		model.setViewName("redirect:/index/group");
 		return model;
 	}
 	
