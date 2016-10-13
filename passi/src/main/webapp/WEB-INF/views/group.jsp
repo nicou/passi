@@ -67,7 +67,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 							<form:input required="required" placeholder="Kirjoita ryhmän tunnus" path="groupName" cssClass="form-control" autocomplete="off" maxlength="20" />
 						</div>
 						<div class="form-group">
-							<form:input required="required" placeholder="Kirjoita ryhmän rekisteröintiavain" path="groupKey" cssClass="form-control" autocomplete="off" maxlength="50" />
+							<form:input required="required" placeholder="Kirjoita ryhmän liittymisavain" path="groupKey" cssClass="form-control" autocomplete="off" maxlength="50" />
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-default form-control">TALLENNA</button>
@@ -130,11 +130,11 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       			<c:when test="${not empty groups}">
       				<table class="table table-hover">
       					<thead>
-      						<tr><th class="text-center">ID</th><th>Ryhmän nimi</th></tr>
+      						<tr><th class="text-center">ID</th><th>Ryhmän nimi (A-Ö)</th><th>Liittymisavain</th></tr>
       					</thead>
       					<tbody>
       						<c:forEach var="group" items="${groups}" varStatus="loop">
-      						<tr><td class="text-center"><c:out value="${group.groupID}" /></td><td class="text-nowrap"><c:out value="${group.groupName}" /></td></tr>    					
+      						<tr><td class="text-center"><c:out value="${group.groupID}" /></td><td class="text-nowrap"><c:out value="${group.groupName}" /></td><td class="text-left"><c:out value="${group.groupKey}" /></td></tr>    					
       						</c:forEach>
       					</tbody>
       				</table>
@@ -142,7 +142,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       			<c:otherwise>
       				<table class="table">
       					<thead>
-      						<tr><th class="text-left">ID</th><th>Ryhmän nimi</th></tr>
+      						<tr><th class="text-left">ID</th><th>Ryhmän nimi (A-Ö)</th><th>Liittymisavain</th></tr>
       					</thead>
       					<tbody>
       						<tr><td>Ei ryhmiä</td></tr>
