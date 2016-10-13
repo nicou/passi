@@ -216,6 +216,7 @@ public class PassiController {
 			model.addObject("message", "Ryhmän lisääminen EI onnistunut.");
 		}
 		newGroup.resetNewgroup();
+		model.addObject("groups", dao.getAllGroups());
 		model.setViewName("group");
 		return model;
 	}
