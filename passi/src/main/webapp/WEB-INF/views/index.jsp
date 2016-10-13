@@ -106,7 +106,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <div class="row">
     <h3 class="cursor-default"><c:out value="${fn:length(selectedGroupObject.instructors) > 1 ? 'Ohjaajat' : 'Ohjaaja'}" /></h3>
     <c:choose>
-    <c:when test="${selectedGroupObject.groupID != 0}">	
+    <c:when test="${selectedGroupObject.groupID != 0 && not empty selectedGroupObject.instructors}">	
     <table class="table cursor-default" class="hide-in-mobile">
     <c:forEach var="instructor" items="${selectedGroupObject.instructors}">
     <tr><th scope="row" class="text-right">Etunimi</th><td class="wide"><c:out value="${instructor.firstname}" /></td></tr>
