@@ -54,7 +54,22 @@ public class PassiDAOImpl implements PassiDAO {
 			platformTransactionManager.rollback(status);
 			return false;
 		} 
-		 return true;
+		return true;
+	}
+	
+	public boolean delGroup(int groupID){
+		DefaultTransactionDefinition paramTransactionDefinition = new DefaultTransactionDefinition();
+		TransactionStatus status = platformTransactionManager.getTransaction(paramTransactionDefinition);
+		
+		final String SQL1 = "DELETE FROM groups WHERE group_id = ?";	
+		try {
+			 jdbcTemplate.update(SQL1, new Object[] { groupID });
+			 platformTransactionManager.commit(status);
+		} catch (Exception e) {
+			platformTransactionManager.rollback(status);
+			return false;
+		} 
+		return true;
 	}
 
 	public List<Group> getAllGroups() {

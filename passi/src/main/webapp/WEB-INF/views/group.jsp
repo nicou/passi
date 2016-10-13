@@ -78,6 +78,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				<!-- tab: edit group -->
   				<div id="edit" class="tab-pane fade">
     				<h4>Muokkaa ryhmää</h4>
+    				<!-- 
     				<c:if test="${not empty message}">
     					<div class="alert alert-info">
    							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -97,6 +98,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     					<button type="submit" class="btn btn-default form-control">Muokkaa</button>
     					</div>
     				</form>
+    				-->
   				</div>
   				
   				<!-- tab: delete group -->
@@ -112,7 +114,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 					<form class="form-horizontal" action="${delGroup}" method="post" accept-charset="UTF-8">
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 						<div class="form-group">
-							<input required="required" type="text" id="groupID" name="groupID" class="form-control" autocomplete="off" maxlength="20" placeholder="Anna poistettavan ryhmän tunnus" />
+							<input required="required" type="text" id="groupID" name="groupID" class="form-control" autocomplete="off" maxlength="20" placeholder="Anna poistettavan ryhmän ID" />
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-default form-control">POISTA</button>

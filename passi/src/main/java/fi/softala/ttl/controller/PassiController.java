@@ -218,6 +218,22 @@ public class PassiController {
 		model.setViewName("group");
 		return model;
 	}
+	
+	@RequestMapping(value = "/delGroup", method = RequestMethod.POST)
+	public ModelAndView delGroup(
+			@RequestParam int groupID,
+			@ModelAttribute("groups") ArrayList<Group> groups) {
+		ModelAndView model = new ModelAndView();
+		if (dao.delGroup(groupID)) {
+			model.addObject("message", "Ryhmän poistaminen onnistui.");
+		} else {
+			model.addObject("message", "Ryhmän poistaminen EI onnistunut.");
+		}
+		model.addObject("groups", dao.getAllGroups());
+		model.setViewName("group");
+		return model;
+	}
+	
 	/*
 	@RequestMapping(value = "/editGroup", method = RequestMethod.POST)
 	public ModelAndView editGroup(
@@ -234,22 +250,7 @@ public class PassiController {
 		model.setViewName("group");
 		return model;
 	}
-	
-	@RequestMapping(value = "/delGroup", method = RequestMethod.POST)
-	public ModelAndView delGroup(
-			@RequestParam String groupID,
-			@ModelAttribute("groups") ArrayList<Group> groups) {
-		ModelAndView model = new ModelAndView();
-		if (dao.deleteGroup(groupID)) {
-			model.addObject("message", "Ryhmän poistaminen onnistui.");
-		} else {
-			model.addObject("message", "Ryhmän poistaminen EI onnistunut.");
-		}
-		model.addObject("groups", dao.getGroups());
-		model.setViewName("group");
-		return model;
-	}
-	
+		
 	@RequestMapping(value = "/addStudent", method = RequestMethod.POST)
 	public ModelAndView addStudent(
 			@ModelAttribute("message") String message,
