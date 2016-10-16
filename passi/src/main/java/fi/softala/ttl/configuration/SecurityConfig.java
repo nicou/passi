@@ -49,8 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().csrfTokenRepository(csrfTokenRepository());
 		
 		http.authorizeRequests().anyRequest().authenticated()
-				.antMatchers("/", "/login", "/expired").permitAll()
-				.antMatchers("/index", "/nav**").access("ADMIN")
+				.antMatchers("/login", "/expired").permitAll()
+				.antMatchers("/index", "/nav**").hasRole("ADMIN").anyRequest().permitAll()
 				.and()
 				.formLogin().loginPage("/login").permitAll()
 					.defaultSuccessUrl("/init")
@@ -62,12 +62,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.invalidateHttpSession(true)
 					.deleteCookies("JSESSIONID")
 					.and()
-					
 					.sessionManagement()
-					.sessionAuthenticationErrorUrl("/error")	
+					.sessionAuthenticationErrorUrl("/error")
 					.maximumSessions(1)
-					.expiredUrl("/error");
-		
+					.expiredUrl("/error");	
 	}
 	
 	private CsrfTokenRepository csrfTokenRepository() { 
