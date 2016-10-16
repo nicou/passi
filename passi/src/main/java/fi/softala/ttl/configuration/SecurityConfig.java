@@ -48,24 +48,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http.csrf().csrfTokenRepository(csrfTokenRepository());
 		
-		http.authorizeRequests().anyRequest().authenticated()
-				.antMatchers("/login", "/expired").permitAll()
-				.antMatchers("/index", "/nav**").hasRole("ADMIN").anyRequest().permitAll()
+		http
+			.authorizeRequests()
+				.antMatchers("/", "/resources/**", "/static/**", "/login*", "/expired").permitAll()
+				.antMatchers("/init", "/index/**").hasRole("ADMIN")
+				.anyRequest().authenticated()
 				.and()
-				.formLogin().loginPage("/login").permitAll()
-					.defaultSuccessUrl("/init")
-					.failureUrl("/login?error")
-					.usernameParameter("username")
-					.passwordParameter("password")
-					.and()
-					.logout().logoutSuccessUrl("/login?logout")
-					.invalidateHttpSession(true)
-					.deleteCookies("JSESSIONID")
-					.and()
-					.sessionManagement()
-					.maximumSessions(1)
-					.expiredUrl("/error");
-					// .sessionAuthenticationErrorUrl("/error")	
+			.formLogin()
+				.loginPage("/login")
+				.permitAll()
+				.defaultSuccessUrl("/init")
+				.failureUrl("/login?error")
+				.usernameParameter("username")
+				.passwordParameter("password")
+				.and()
+			.logout()
+				.logoutSuccessUrl("/login?logout")
+				.invalidateHttpSession(true)
+				.deleteCookies("JSESSIONID")
+				.and()
+			.sessionManagement()
+				.sessionAuthenticationErrorUrl("/login?error")
+				.maximumSessions(1)
+				.expiredUrl("/expired");					
 	}
 	
 	private CsrfTokenRepository csrfTokenRepository() { 
