@@ -63,9 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.deleteCookies("JSESSIONID")
 					.and()
 					.sessionManagement()
+					.sessionAuthenticationErrorUrl("/error")
 					.maximumSessions(1)
-					.expiredUrl("/error");
-					// .sessionAuthenticationErrorUrl("/error")	
+					.expiredUrl("/error");	
 	}
 	
 	private CsrfTokenRepository csrfTokenRepository() { 
