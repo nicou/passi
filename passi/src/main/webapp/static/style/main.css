@@ -122,3 +122,49 @@ pre {
 	line-height: 150%;
 	padding: 8px 12px 8px 12px;
 }
+
+/*Teacher multichoice assesments*/
+
+.teacher-multichoices li{
+	display: inline-block;
+	list-style: none;
+}
+
+.custom-ball {
+	padding: 10px;
+	margin-right: 10px;
+	width:30px;
+	height:30px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+	
+.choice-good {
+	background-color: #7B9C7F;
+	opacity: .5;
+}
+
+.teacher-multichoices .choice-medium {
+	background-color: #E9A735;
+	opacity: .5;
+}
+
+.teacher-multichoices .choice-bad {
+	background-color: #FF6766;
+	opacity: .5; 
+}
+
+.teacher-multichoice-selected {
+	opacity: 1 !important;
+	border: 1px solid #ccc;
+	transform: scale(1.3);
+	border: 1px solid black;
+}
+
+.teacher-assesment-text {
+	min-width: auto;
+	min-height: auto;
+	width: 250px;
+	height: 100px;
+	resize: none;
+}

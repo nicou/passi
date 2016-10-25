@@ -178,6 +178,23 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   			</c:choose>
   			</p>							
   			<span class="consol"><c:out value="${answers[loop.index].waypoints[loopInner.index].answerWaypointText}" /></span>
+  			<br/> <br/>
+  			<button type="button" data-toggle="collapse" data-target="#arviointi-${loopInner.index}" class="btn btn-md btn-info pull-right assesment-button">Arvioi</button>
+  			<div id="arviointi-${loopInner.index}" class="collapse">
+  			<label for="multichoices" class="pull-left">Kokonaisuus</label>
+			<ul class="teacher-multichoices pull-left" id="multichoices">
+				<li class="custom-ball choice-good" id="ball-${loopInner.index}" value="1"></li>
+				<li class="custom-ball choice-medium" id="ball-${loopInner.index}" value="2"></li>
+				<li class="custom-ball choice-bad" id="ball-${loopInner.index}" value="3"></li>
+			</ul>
+			<textarea class="teacher-assesment-text" placeholder="Anna palautetta"></textarea>
+			<br>
+			<button class="btn btn-md btn-success">Lähetä</button>
+			<!-- 
+			<span class="failed">Ilmeni ongelma arvioinnin lähetyksessä</span>
+			<span class="success">Arvioinnin lähetys onnistui</span>
+			  -->
+			</div>
   			</c:when>
   			<c:otherwise>
   			<span class="consol">Ei vastausta</span>
@@ -206,6 +223,33 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="<c:url value="/static/script/index.js" />"></script>
+
+<script>
+//indicate selected ball
+//send the ball value to right/current answer (select by id)
+$('.custom-ball').on('click', function (){
+	$('.custom-ball').removeClass('teacher-multichoice-selected');
+	$(this).addClass('teacher-multichoice-selected');
+	var currentAnswerId = $(this).closest("div").prop("id");
+	var currentBallValue = $(this).val();
+	$('#' + currentAnswerId).val(currentBallValue);
+});
+</script>
+
+<script>
+//Change the text in the Arvioi button when clicking
+$('.assesment-button').on('click', function (){
+	var isCollapsed = $(this).hasClass('visible');
+	console.log(isCollapsed);
+	if(isCollapsed) {
+		$(this).removeClass('visible');
+		$(this).html("Arvioi");
+	} else {
+		$(this).addClass('visible');
+		$(this).html('Piilota');
+	}
+});
+</script>
 
 </body>
 </html>
