@@ -81,7 +81,6 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 		ds.setPassword(env.getProperty("db.password"));
 		ds.setDefaultAutoCommit(true);
 		ds.setInitialSize(3);
-		ds.setValidationQuery("select sysdate from dual");
 		return ds;
 	}
 
