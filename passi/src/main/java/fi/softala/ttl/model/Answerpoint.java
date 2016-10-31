@@ -12,6 +12,7 @@ public class Answerpoint implements Serializable {
 	private int    answerWaypointID;
 	private String answerWaypointText;
 	private String answerWaypointInstructorComment;
+	private int answerWaypointInstructorRating;
 	private String answerWaypointImageURL;
 	private int    answerID; // => Answersheet
 	private int    waypointID; // => Waypoint
@@ -22,7 +23,8 @@ public class Answerpoint implements Serializable {
 		super();
 		this.answerWaypointID = 0;
 		this.answerWaypointText = "Ei vastattu";
-		this.answerWaypointInstructorComment = "Ei palautetta";
+		this.answerWaypointInstructorComment = "";
+		this.answerWaypointInstructorRating = 0;
 		this.answerWaypointImageURL = "URL";
 		this.answerID = 0;
 		this.waypointID = 0;
@@ -30,12 +32,13 @@ public class Answerpoint implements Serializable {
 		this.optionText = "";
 	}
 
-	public Answerpoint(int answerWaypointID, String answerWaypointText, String answerWaypointInstructorComment,
+	public Answerpoint(int answerWaypointID, String answerWaypointText, String answerWaypointInstructorComment, int answerWaypointInstructorRating,
 			String answerWaypointImageURL, int answerID, int waypointID, int optionID, String optionText) {
 		super();
 		this.answerWaypointID = answerWaypointID;
 		this.answerWaypointText = answerWaypointText;
 		this.answerWaypointInstructorComment = answerWaypointInstructorComment;
+		this.answerWaypointInstructorRating = answerWaypointInstructorRating;
 		this.answerWaypointImageURL = answerWaypointImageURL;
 		this.answerID = answerID;
 		this.waypointID = waypointID;
@@ -65,6 +68,14 @@ public class Answerpoint implements Serializable {
 
 	public void setAnswerWaypointInstructorComment(String answerWaypointInstructorComment) {
 		this.answerWaypointInstructorComment = answerWaypointInstructorComment;
+	}
+	
+	public int getAnswerWaypointInstructorRating() {
+		return answerWaypointInstructorRating;
+	}
+
+	public void setAnswerWaypointInstructorRating(int answerWaypointInstructorRating) {
+		this.answerWaypointInstructorRating = answerWaypointInstructorRating;
 	}
 
 	public String getAnswerWaypointImageURL() {

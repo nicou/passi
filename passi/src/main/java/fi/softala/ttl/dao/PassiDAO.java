@@ -18,6 +18,6 @@ public interface PassiDAO {
 	public List<User> getGroupMembers(Group group);
 	public List<Worksheet> getWorksheets(Group group);
 	public List<Answersheet> getAnswers(Group group, User user);
-
+	public void saveFeedback(int waypointID, int instructorRating, String instructorComment);
 	
 }

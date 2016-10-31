@@ -39,21 +39,26 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import fi.softala.ttl.dao.PassiDAO;
 import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.User;
+import fi.softala.ttl.service.PassiService;
 
 @EnableWebMvc
 @Controller
 @Scope("session")
-@SessionAttributes({"answers", "defaultGroup", "user", "groups", "groupMembers", "message", "newGroup", "newMember", "selectedGroupObject", 
-	"selectedMemberObject", "worksheets" })
+@SessionAttributes({ "answers", "defaultGroup", "user", "groups", "groupMembers", "message", "newGroup", "newMember",
+		"selectedGroupObject", "selectedMemberObject", "worksheets" })
 public class PassiController {
 
 	final static Logger logger = LoggerFactory.getLogger(PassiController.class);
 	// private static final String TOMCAT_HOME_PROPERTY = "catalina.home";
-	// private static final String TOMCAT_IMG = System.getProperty(TOMCAT_HOME_PROPERTY);
-	
+	// private static final String TOMCAT_IMG =
+	// System.getProperty(TOMCAT_HOME_PROPERTY);
+
 	@Autowired
 	ServletContext context;
 	
+	@Autowired
+	PassiService passiService;
+
 	@Inject
 	private PassiDAO dao;
 
@@ -65,9 +70,8 @@ public class PassiController {
 		this.dao = dao;
 	}
 
-	@RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
-	public ModelAndView loginPage(
-			@RequestParam(value = "error", required = false) String error,
+	@RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)
+	public ModelAndView loginPage(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout) {
 		ModelAndView model = new ModelAndView();
 		if (error != null) {
@@ -83,8 +87,8 @@ public class PassiController {
 		model.setViewName("login");
 		return model;
 	}
-	
-	@RequestMapping(value = {"/init"}, method = RequestMethod.GET)
+
+	@RequestMapping(value = { "/init" }, method = RequestMethod.GET)
 	public ModelAndView init(final RedirectAttributes redirectAttributes) {
 		ModelAndView model = new ModelAndView();
 		redirectAttributes.addFlashAttribute("groupMembers", new ArrayList<User>());
@@ -95,12 +99,10 @@ public class PassiController {
 		model.setViewName("redirect:/index");
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public ModelAndView homePage(
-			@ModelAttribute("groupMembers") List<User> groupMembers,
-			@ModelAttribute("newGroup") Group newGroup,
-			@ModelAttribute("newMember") User newMember,
+	public ModelAndView homePage(@ModelAttribute("groupMembers") List<User> groupMembers,
+			@ModelAttribute("newGroup") Group newGroup, @ModelAttribute("newMember") User newMember,
 			@ModelAttribute("selectedGroupObject") Group selectedGroupObject,
 			@ModelAttribute("selectedMemberObject") User selectedMemberObject) {
 		ModelAndView model = new ModelAndView();
@@ -120,10 +122,9 @@ public class PassiController {
 		model.setViewName("index");
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/index/{page}", method = RequestMethod.GET)
-	public ModelAndView pageNavigation(
-			@PathVariable(value = "page") String page,
+	public ModelAndView pageNavigation(@PathVariable(value = "page") String page,
 			@ModelAttribute(value = "message") String message) {
 		ModelAndView model = new ModelAndView();
 		model.addObject("groups", dao.getAllGroups());
@@ -138,11 +139,9 @@ public class PassiController {
 		model.setViewName("expired");
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/getGroupData", method = RequestMethod.POST)
-	public ModelAndView getGroupData(
-			@RequestParam int groupID,
-			@ModelAttribute("selectedMemberObject") User user,
+	public ModelAndView getGroupData(@RequestParam int groupID, @ModelAttribute("selectedMemberObject") User user,
 			@ModelAttribute("groups") List<Group> groups) {
 		ModelAndView model = new ModelAndView();
 		for (Group g : groups) {
@@ -157,11 +156,9 @@ public class PassiController {
 		model.setViewName("index");
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/getAnswers", method = RequestMethod.POST)
-	public ModelAndView getAnswers(
-			@RequestParam int groupID,
-			@RequestParam int userID,
+	public ModelAndView getAnswers(@RequestParam int groupID, @RequestParam int userID,
 			@ModelAttribute("groupMembers") List<User> groupMembers,
 			@ModelAttribute("selectedGroupObject") Group selectedGroupObject,
 			@ModelAttribute("selectedMemberObject") User selectedMemberObject) {
@@ -179,11 +176,20 @@ public class PassiController {
 		model.setViewName("index");
 		return model;
 	}
-	
+
+	@RequestMapping(value = "/saveWaypointFeedback", method = RequestMethod.POST)
+	public ModelAndView saveWaypointFeedback(
+			@RequestParam String waypointID,
+			@RequestParam String instructorComment,
+			@RequestParam String instructorRating) {
+		ModelAndView model = new ModelAndView();
+		passiService.saveFeadback(Integer.parseInt(waypointID), Integer.parseInt(instructorRating), instructorComment);
+		model.setViewName("index");
+		return model;
+	}
+
 	@RequestMapping(value = "/download/{name}/{type}", method = RequestMethod.GET)
-	public void downloadFile(
-			HttpServletResponse response,
-			@PathVariable("name") String name,
+	public void downloadFile(HttpServletResponse response, @PathVariable("name") String name,
 			@PathVariable("type") String type) throws IOException {
 		String rootPath = System.getProperty("catalina.home");
 		File file = new File(rootPath + File.separator + "images" + File.separator + name + ".jpg");
@@ -207,11 +213,9 @@ public class PassiController {
 		InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
 		FileCopyUtils.copy(inputStream, response.getOutputStream());
 	}
-	
-	
+
 	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
-	public ModelAndView addGroup(
-			@ModelAttribute("newGroup") Group newGroup) {
+	public ModelAndView addGroup(@ModelAttribute("newGroup") Group newGroup) {
 		ModelAndView model = new ModelAndView();
 		if (dao.addGroup(newGroup)) {
 			model.addObject("message", "Ryhmän lisääminen onnistui.");
@@ -223,11 +227,9 @@ public class PassiController {
 		model.setViewName("group");
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/delGroup", method = RequestMethod.POST)
-	public ModelAndView delGroup(
-			@RequestParam int groupID,
-			@ModelAttribute("groups") ArrayList<Group> groups,
+	public ModelAndView delGroup(@RequestParam int groupID, @ModelAttribute("groups") ArrayList<Group> groups,
 			final RedirectAttributes redirectAttributes) {
 		ModelAndView model = new ModelAndView();
 		if (dao.delGroup(groupID)) {
@@ -238,90 +240,68 @@ public class PassiController {
 		model.setViewName("redirect:/index/group");
 		return model;
 	}
-	
+
 	/*
-	@RequestMapping(value = "/editGroup", method = RequestMethod.POST)
-	public ModelAndView editGroup(
-			@RequestParam String groupID,
-			@RequestParam String groupName,
-			@ModelAttribute("groups") ArrayList<Group> groups ) {
-		ModelAndView model = new ModelAndView();
-		if (dao.editGroup(groupID, groupName)) {
-			model.addObject("message", "Ryhmän muokkaus onnistui.");
-		} else {
-			model.addObject("message", "Ryhmän muokkaus EI onnistunut.");
-		}
-		model.addObject("groups", dao.getGroups());
-		model.setViewName("group");
-		return model;
-	}
-		
-	@RequestMapping(value = "/addStudent", method = RequestMethod.POST)
-	public ModelAndView addStudent(
-			@ModelAttribute("message") String message,
-			@ModelAttribute("newStudent") User newStudent,
-			@RequestParam("groupID") String groupID) {
-		ModelAndView model = new ModelAndView();
-		if (dao.addStudent(newStudent, groupID)) {
-			model.addObject("message", "Opiskelijan lisääminen onnistui.");
-		} else {
-			model.addObject("message", "Opiskelijan lisääminen EI onnistunut.");
-		}
-		newStudent.reset();
-		model.addObject("groups", dao.getGroups());
-		model.addObject("newStudent", newStudent);
-		model.addObject("selectedTab", "");
-		model.setViewName("student");
-		return model;
-	}
-	
-	@RequestMapping(value = "/delStudent", method = RequestMethod.POST)
-	public ModelAndView delStudent(
-			@RequestParam String studentID,
-			@ModelAttribute("groups") ArrayList<Group> groups) {
-		ModelAndView model = new ModelAndView();
-		if (dao.deleteStudent(studentID)) {
-			model.addObject("message", "Oppilaan poistaminen onnistui.");
-		} else {
-			model.addObject("message", "Oppilaan poistaminen EI onnistunut.");
-		}
-		model.addObject("groups", dao.getGroups());
-		model.setViewName("student");
-		return model;
-	}
-
-	@ResponseBody
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public ModelAndView uploadFileHandler(
-			@RequestParam("name") String name,
-			@RequestParam("file") MultipartFile file,
-			final RedirectAttributes ra) {
-		ModelAndView model = new ModelAndView();
-		String message = "";
-		if (!file.isEmpty()) {
-			try {
-				byte[] bytes = file.getBytes();
-				File dir = new File(TOMCAT_IMG);
-				if (!dir.exists()) {
-					dir.mkdirs();
-				}
-				File serverFile = new File(dir.getAbsolutePath() + File.separator + "image\\image.jpg");
-				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-				stream.write(bytes);
-				stream.close();
-				message = "Kuvan tallennus onnistui";
-				logger.info("Server File Location: " + serverFile.getAbsolutePath());
-			}
-			catch (Exception e) {
-				message = "Kuvan tallennus ei onnistunut";
-			}
-		} else {
-			message = "Kuvatiedosto oli tyhjä";
-		}
-		ra.addFlashAttribute("message", message);
-		model.setViewName("redirect:/index");
-		return model;
-	}
-
-	*/
+	 * @RequestMapping(value = "/editGroup", method = RequestMethod.POST) public
+	 * ModelAndView editGroup(
+	 * 
+	 * @RequestParam String groupID,
+	 * 
+	 * @RequestParam String groupName,
+	 * 
+	 * @ModelAttribute("groups") ArrayList<Group> groups ) { ModelAndView model
+	 * = new ModelAndView(); if (dao.editGroup(groupID, groupName)) {
+	 * model.addObject("message", "Ryhmän muokkaus onnistui."); } else {
+	 * model.addObject("message", "Ryhmän muokkaus EI onnistunut."); }
+	 * model.addObject("groups", dao.getGroups()); model.setViewName("group");
+	 * return model; }
+	 * 
+	 * @RequestMapping(value = "/addStudent", method = RequestMethod.POST)
+	 * public ModelAndView addStudent(
+	 * 
+	 * @ModelAttribute("message") String message,
+	 * 
+	 * @ModelAttribute("newStudent") User newStudent,
+	 * 
+	 * @RequestParam("groupID") String groupID) { ModelAndView model = new
+	 * ModelAndView(); if (dao.addStudent(newStudent, groupID)) {
+	 * model.addObject("message", "Opiskelijan lisääminen onnistui."); } else {
+	 * model.addObject("message", "Opiskelijan lisääminen EI onnistunut."); }
+	 * newStudent.reset(); model.addObject("groups", dao.getGroups());
+	 * model.addObject("newStudent", newStudent); model.addObject("selectedTab",
+	 * ""); model.setViewName("student"); return model; }
+	 * 
+	 * @RequestMapping(value = "/delStudent", method = RequestMethod.POST)
+	 * public ModelAndView delStudent(
+	 * 
+	 * @RequestParam String studentID,
+	 * 
+	 * @ModelAttribute("groups") ArrayList<Group> groups) { ModelAndView model =
+	 * new ModelAndView(); if (dao.deleteStudent(studentID)) {
+	 * model.addObject("message", "Oppilaan poistaminen onnistui."); } else {
+	 * model.addObject("message", "Oppilaan poistaminen EI onnistunut."); }
+	 * model.addObject("groups", dao.getGroups()); model.setViewName("student");
+	 * return model; }
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value = "/upload", method = RequestMethod.POST) public
+	 * ModelAndView uploadFileHandler(
+	 * 
+	 * @RequestParam("name") String name,
+	 * 
+	 * @RequestParam("file") MultipartFile file, final RedirectAttributes ra) {
+	 * ModelAndView model = new ModelAndView(); String message = ""; if
+	 * (!file.isEmpty()) { try { byte[] bytes = file.getBytes(); File dir = new
+	 * File(TOMCAT_IMG); if (!dir.exists()) { dir.mkdirs(); } File serverFile =
+	 * new File(dir.getAbsolutePath() + File.separator + "image\\image.jpg");
+	 * BufferedOutputStream stream = new BufferedOutputStream(new
+	 * FileOutputStream(serverFile)); stream.write(bytes); stream.close();
+	 * message = "Kuvan tallennus onnistui"; logger.info(
+	 * "Server File Location: " + serverFile.getAbsolutePath()); } catch
+	 * (Exception e) { message = "Kuvan tallennus ei onnistunut"; } } else {
+	 * message = "Kuvatiedosto oli tyhjä"; } ra.addFlashAttribute("message",
+	 * message); model.setViewName("redirect:/index"); return model; }
+	 * 
+	 */
 }

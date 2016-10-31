@@ -26,11 +26,12 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 </head>
 
 <body>
+
 <!-- FORM[0]: SELECT GROUP AND GET RELATED STUDENTS-->
 <form id="getGroupData">
 <input type="hidden" id="groupID" name="groupID" value="" />
-
 </form>
+
 <!-- FORM[1]: SELECT STUDENT -->
 <c:url var="getAnswersUrl" value="/getAnswers" />
 <form id="getAnswers" action="${getAnswersUrl}" method="post" accept-charset="UTF-8">
@@ -160,41 +161,70 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   			<div class="panel-body">
   			<c:choose>
   			<c:when test="${not empty answers[loop.index].waypoints[loopInner.index].answerWaypointText}">
-  										
-  			<!-- Image -->
-  			<c:set var="imageName" value="${waypoint.waypointID}-${answers[loop.index].userID}" />
-  			<c:url var="imageLink" value="/download/${imageName}/jpg" />
-  			<img src="${imageLink}" onerror="this.style.display = 'none'" class="well-image" align="left" draggable="false" />
+  			
+  				<!-- waypoint content section (upper) -->
+  				<div style="border: 0px dashed #696969; display: block; position: relative; height: auto; overflow: auto;">							
+  			
+  				<!-- Image -->
+  				<c:set var="imageName" value="${waypoint.waypointID}-${answers[loop.index].userID}" />
+  				<c:url var="imageLink" value="/download/${imageName}/jpg" />
+  				<img src="${imageLink}" onerror="this.style.display = 'none'" class="well-image" align="left" draggable="false" style="position: relative;" />								
+  				<p>
+  				Monivalinnan vastaus:&nbsp;
+  				<c:choose>
+  					<c:when test="${answers[loop.index].waypoints[loopInner.index].optionID > 0}">
+  						<code><c:out value="${answers[loop.index].waypoints[loopInner.index].optionText}" /></code>
+	  				</c:when>
+  					<c:otherwise>
+  						<code>Ei valintaa</code>
+  					</c:otherwise>
+  				</c:choose>
+  				</p>
   											
-  			<p>
-  			Monivalinnan vastaus:&nbsp;
-  			<c:choose>
-  			<c:when test="${answers[loop.index].waypoints[loopInner.index].optionID > 0}">
-  			<code><c:out value="${answers[loop.index].waypoints[loopInner.index].optionText}" /></code>
-  			</c:when>
-  			<c:otherwise>
-  			<code>Ei valintaa</code>
-  			</c:otherwise>
-  			</c:choose>
-  			</p>							
-  			<span class="consol"><c:out value="${answers[loop.index].waypoints[loopInner.index].answerWaypointText}" /></span>
-  			<br/> <br/>
-  			<button type="button" data-toggle="collapse" data-target="#arviointi-${loopInner.index}" class="btn btn-md btn-info pull-right assesment-button">Arvioi</button>
-  			<div id="arviointi-${loopInner.index}" class="collapse">
-  			<label for="multichoices" class="pull-left">Kokonaisuus</label>
-			<ul class="teacher-multichoices pull-left" id="multichoices">
-				<li class="custom-ball choice-good" id="ball-${loopInner.index}" value="1"></li>
-				<li class="custom-ball choice-medium" id="ball-${loopInner.index}" value="2"></li>
-				<li class="custom-ball choice-bad" id="ball-${loopInner.index}" value="3"></li>
-			</ul>
-			<textarea class="teacher-assesment-text" placeholder="Anna palautetta"></textarea>
-			<br>
-			<button class="btn btn-md btn-success">Lähetä</button>
+  				<span class="consol"><c:out value="${answers[loop.index].waypoints[loopInner.index].answerWaypointText}" /></span>
+  				
+  				<!-- feedback button -->
+  				<button style="position: absolute; right: 0; bottom: 0;" type="button" data-toggle="collapse" data-target="#arviointi-${loopInner.index}" class="btn btn-md btn-info pull-right assesment-button">Arvioi</button>
+  				</div>
+  			
+  				<!-- waypoint feedback section (lower) -->
+  				<div style="display: block; position: relative;">
+  			
+  				<div style="padding-top: 10px;" id="arviointi-${loopInner.index}" class="collapse">
+  				<p><strong>Arvio vastaus kirjallisesti sekä kokonaisuus väripallolla:</strong></p>
+  				<!--  <label for="multichoices" class="pull-left">Kokonaisuus</label> -->
+  			
+  				<!-- waypoint feedback form -->
+  				<c:set var="wpID" value="${answers[loop.index].waypoints[loopInner.index].answerWaypointID}" />
+ 				<c:url var="saveWaypointFeedback" value="/saveWaypointFeedback" />
+				<form id="saveFeedback-${wpID}" action="${saveWaypointFeedback}" method="post" accept-charset="UTF-8">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				<input type="hidden" id="waypointID" name="waypointID" value="${wpID}" />
+				<input type="hidden" id="instructorRating" name="instructorRating" value="1" />
+  				<table>
+  				<tr>
+  				<td>
+  				<textarea id="instructorComment" name="instructorComment" class="teacher-assesment-text" placeholder="Anna palautetta"></textarea>
+  				</td>
+  				<td>
+				<ul class="teacher-multichoices pull-left" id="multichoices">
+					<li onclick="document.forms['saveFeedback-${wpID}'].instructorRating.value='1';" class="custom-ball choice-good" id="ball-${loopInner.index}" value="1"></li>
+					<li onclick="document.forms['saveFeedback-${wpID}'].instructorRating.value='2';" class="custom-ball choice-medium" id="ball-${loopInner.index}" value="2"></li>
+					<li onclick="document.forms['saveFeedback-${wpID}'].instructorRating.value='3';" class="custom-ball choice-bad" id="ball-${loopInner.index}" value="3"></li>
+				</ul>
+				</td>
+				</tr>
+				</table>
+				<button onclick="document.forms.saveFeedback-${wpID}.submit();" class="btn btn-md btn-success">Lähetä</button>
+				</form>
+			
 			<!-- 
 			<span class="failed">Ilmeni ongelma arvioinnin lähetyksessä</span>
 			<span class="success">Arvioinnin lähetys onnistui</span>
 			  -->
 			</div>
+			</div>
+			
   			</c:when>
   			<c:otherwise>
   			<span class="consol">Ei vastausta</span>

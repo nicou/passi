@@ -48,8 +48,8 @@ public class PassiDAOImpl implements PassiDAO {
 		
 		final String SQL1 = "INSERT INTO groups(group_name, group_key) VALUES (?, ?)";	
 		try {
-			 jdbcTemplate.update(SQL1, new Object[] {group.getGroupName(), group.getGroupKey()});
-			 platformTransactionManager.commit(status);
+			jdbcTemplate.update(SQL1, new Object[] {group.getGroupName(), group.getGroupKey()});
+			platformTransactionManager.commit(status);
 		} catch (Exception e) {
 			platformTransactionManager.rollback(status);
 			return false;
@@ -64,8 +64,8 @@ public class PassiDAOImpl implements PassiDAO {
 		final String SQL1 = "DELETE FROM groups WHERE group_id = ?";
 		int numRows = 0;
 		try {
-			 numRows = jdbcTemplate.update(SQL1, new Object[] { groupID });
-			 platformTransactionManager.commit(status);
+			numRows = jdbcTemplate.update(SQL1, new Object[] { groupID });
+			platformTransactionManager.commit(status);
 		} catch (Exception e) {
 			platformTransactionManager.rollback(status);
 			return false;
@@ -162,6 +162,7 @@ public class PassiDAOImpl implements PassiDAO {
 					answerpoint.setAnswerWaypointID(rs.getInt("answerpoint_id"));
 					answerpoint.setAnswerWaypointText(rs.getString("answer_text"));
 					answerpoint.setAnswerWaypointInstructorComment(rs.getString("instructor_comment"));
+					answerpoint.setAnswerWaypointInstructorRating(rs.getInt("instructor_rating"));
 					answerpoint.setAnswerWaypointImageURL(rs.getString("image_url"));
 					answerpoint.setAnswerID(rs.getInt("answersheet_id"));
 					answerpoint.setWaypointID(rs.getInt("waypoint_id"));
@@ -173,5 +174,11 @@ public class PassiDAOImpl implements PassiDAO {
 			answersheet.setWaypoints(answerpoints);
 		}
 		return answersheets; 
+	}
+
+	@Override
+	public void saveFeedback(int waypointID, int instructorRating, String instructorComment) {
+		final String SQL = "UPDATE answerpoints SET instructor_comment = ?, instructor_rating = ? WHERE waypoint_id = ?";
+		jdbcTemplate.update(SQL, new Object[] {instructorComment, instructorRating, waypointID});
 	}
 }
