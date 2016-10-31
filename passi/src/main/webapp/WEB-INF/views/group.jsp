@@ -68,8 +68,13 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   						<div class="form-group">
 							<form:input required="required" placeholder="Kirjoita ryhmän tunnus" path="groupName" cssClass="form-control" autocomplete="off" maxlength="20" />
 						</div>
+						<!--
 						<div class="form-group">
 							<form:input required="required" placeholder="Kirjoita ryhmän liittymisavain" path="groupKey" cssClass="form-control" autocomplete="off" maxlength="50" />
+						</div>
+						-->
+						<div class="form-group">
+							<form:radiobutton path="groupKey" value="FR" checked="${empty message ? 'checked' : ''}" />
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-default form-control">TALLENNA</button>
