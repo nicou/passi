@@ -45,6 +45,14 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 	<jsp:param name="currentPage" value="${pageContext.request.servletPath}" />
 </jsp:include>
 
+
+<!-- Example for image rotate 
+<div class="container pull-left">
+<img class="imageRotateable" src="https://i.warosu.org/data/biz/img/0015/22/1474838320750.png" style="width:100px;height:100px" />
+<span class="glyphicon glyphicon-repeat rotateButton"></span>
+</div>
+ -->
+
 <div class="container-fluid bg-3 text-center">
 
 <div class="col-sm-4 text-left" id="leftnav-padding">
@@ -184,14 +192,14 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				<span class="consol"><c:out value="${answers[loop.index].waypoints[loopInner.index].answerWaypointText}" /></span>
   				
   				<!-- feedback button -->
-  				<button style="position: absolute; right: 0; bottom: 0;" type="button" data-toggle="collapse" data-target="#arviointi-${loopInner.index}" class="btn btn-md btn-info pull-right assesment-button">Arvioi</button>
+  				<button style="position: absolute; right: 0; bottom: 0;" type="button" data-toggle="collapse" data-target="#arviointi-${loopInner.index}" class="btn btn-md btn-default pull-right assesment-button">Arvioi</button>
   				</div>
   			
   				<!-- waypoint feedback section (lower) -->
   				<div style="display: block; position: relative;">
   			
   				<div style="padding-top: 10px;" id="arviointi-${loopInner.index}" class="collapse">
-  				<p><strong>Arvio vastaus kirjallisesti sekä kokonaisuus väripallolla:</strong></p>
+  				<p><strong>Arvio vastaus kirjallisesti sekä kokonaisuus väripainikkeella:</strong></p>
   				<!--  <label for="multichoices" class="pull-left">Kokonaisuus</label> -->
   			
   				<!-- waypoint feedback form -->
@@ -204,19 +212,24 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				<table>
   				<tr>
   				<td>
-  				<textarea id="instructorComment" name="instructorComment" class="teacher-assesment-text" placeholder="Anna palautetta"></textarea>
+  				<div class="form-group">
+  				<textarea id="instructorComment" name="instructorComment" class="teacher-assesment-text-${wpID} assesment-textarea" placeholder="Anna palautetta"></textarea>
+  				</div>
   				</td>
   				<td>
-				<ul class="teacher-multichoices pull-left" id="multichoices">
-					<li onclick="document.forms['saveFeedback-${wpID}'].instructorRating.value='1';" class="custom-ball choice-good" id="ball-${loopInner.index}" value="1"></li>
-					<li onclick="document.forms['saveFeedback-${wpID}'].instructorRating.value='2';" class="custom-ball choice-medium" id="ball-${loopInner.index}" value="2"></li>
-					<li onclick="document.forms['saveFeedback-${wpID}'].instructorRating.value='3';" class="custom-ball choice-bad" id="ball-${loopInner.index}" value="3"></li>
+				<ul class="teacher-multichoices pull-left" id="multichoices-${wpID}">
+					<li onclick="document.forms['saveFeedback-${wpID}'].instructorRating.value='1';" class="custom-ball button-green" id="ball-${loopInner.index}" value="1"></li>
+					<li onclick="document.forms['saveFeedback-${wpID}'].instructorRating.value='2';" class="custom-ball button-yellow" id="ball-${loopInner.index}" value="2"></li>
+					<li onclick="document.forms['saveFeedback-${wpID}'].instructorRating.value='3';" class="custom-ball button-red" id="ball-${loopInner.index}" value="3"></li>
 				</ul>
 				</td>
 				</tr>
 				</table>
-				<button onclick="document.forms.saveFeedback-${wpID}.submit();" class="btn btn-md btn-success">Lähetä</button>
+				<button class="palaute btn btn-md btn-default" value="${wpID}">Lähetä</button>
+				<span class="label label-danger error-toast-${wpID}">Täytä molemmat kentät</span>
+		
 				</form>
+				<span class="label label-success success-toast-${wpID}">Arviointi onnistui!</span>
 			
 			<!-- 
 			<span class="failed">Ilmeni ongelma arvioinnin lähetyksessä</span>
@@ -270,7 +283,6 @@ $('.custom-ball').on('click', function (){
 //Change the text in the Arvioi button when clicking
 $('.assesment-button').on('click', function (){
 	var isCollapsed = $(this).hasClass('visible');
-	console.log(isCollapsed);
 	if(isCollapsed) {
 		$(this).removeClass('visible');
 		$(this).html("Arvioi");
@@ -279,6 +291,34 @@ $('.assesment-button').on('click', function (){
 		$(this).html('Piilota');
 	}
 });
+</script>
+
+<script>
+//check teacherassesment values textarea and multiselect, can only submit when has input otherwise send error
+	$('.palaute').on('click', function (e){
+	e.preventDefault();
+	var id = $(this).val();
+	var textarea = $(".teacher-assesment-text-" + id).val().trim().length > 0;
+	var multichoice = $('#multichoices-'+ id).children().is('.teacher-multichoice-selected');
+		if(textarea && multichoice){
+			console.log("joo");
+			$('#saveFeedback-' + id).submit();
+			$('.success-toast-' + id).delay(2000).fadeIn(1000).delay(2000).fadeOut(1000);
+		} else {
+			console.log("ei");
+			$('.error-toast-' + id).fadeIn(1000).delay(3000).fadeOut(1000);
+		}
+	});
+</script>
+
+<script>
+//rotate image right 90 degrees, image and rotateButton should be inside a container div in order for the selector to work
+var angle = 0;
+ $('.rotateButton').on('click', function() {
+	angle += 90
+	var elem = $(this).prev();
+		elem.css('transform','rotate(' + angle + 'deg)');
+ });
 </script>
 
 </body>

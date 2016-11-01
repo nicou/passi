@@ -138,21 +138,6 @@ pre {
 	border-radius: 50%;
 	cursor: pointer;
 }
-	
-.choice-good {
-	background-color: #7B9C7F;
-	opacity: .5;
-}
-
-.teacher-multichoices .choice-medium {
-	background-color: #E9A735;
-	opacity: .5;
-}
-
-.teacher-multichoices .choice-bad {
-	background-color: #FF6766;
-	opacity: .5; 
-}
 
 .teacher-multichoice-selected {
 	opacity: 1 !important;
@@ -161,10 +146,115 @@ pre {
 	border: 1px solid black;
 }
 
-.teacher-assesment-text {
+.assesment-textarea {
 	min-width: auto;
 	min-height: auto;
-	width: 250px;
-	height: 100px;
+	width: 350px;
+	height: 150px;
 	resize: none;
+}
+
+.glyphicon {
+	font-size: 20px;
+}
+
+.label-danger {
+	display:none;
+	padding: 20px;
+	margin: 10px;
+}
+
+.label-success {
+	display:none;
+	padding: 20px;
+	margin: 10px;
+}
+
+.imageRotateable {
+	transition-duration: .6s;
+}
+
+
+/* Button styles */
+
+.teacher-multichoices .button-green {
+    display: inline-block;
+    background: #afcfaf; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#eff5ef, #70a970); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#eff5ef, #70a970); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#eff5ef, #70a970); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#eff5ef, #70a970); /* Standard syntax */
+    border: 3px solid #afcfaf;
+    border-radius: 20px;
+    width: 30px;
+    height: 30px;
+}
+.teacher-multichoices .button-green-selected {
+    display: inline-block;
+    background: #afcfaf; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#70a970, #eff5ef); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#70a970, #eff5ef); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#70a970, #eff5ef); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#70a970, #eff5ef); /* Standard syntax */
+    border: 3px solid #afcfaf;
+    box-shadow:
+    0 0 0 3px #FFFFFF,
+    0 0 0 5px #999999;
+    border-radius: 20px;
+    width: 30px;
+    height: 30px;
+}
+.teacher-multichoices .button-yellow {
+    display: inline-block;
+    background: #ffd480; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#fff7e6, #ffaa00); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#fff7e6, #ffaa00); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#fff7e6, #ffaa00); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#fff7e6, #ffaa00); /* Standard syntax */
+    border: 3px solid #ffd480;
+    border-radius: 20px;
+    width: 30px;
+    height: 30px;
+}
+.teacher-multichoices .button-yellow-selected {
+    display: inline-block;
+    background: #ffd480; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#ffaa00, #fff7e6); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#ffaa00, #fff7e6); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#ffaa00, #fff7e6); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#ffaa00, #fff7e6); /* Standard syntax */
+    border: 3px solid #ffd480;
+    box-shadow:
+    0 0 0 3px #FFFFFF,
+    0 0 0 5px #999999;
+    border-radius: 20px;
+    width: 30px;
+    height: 30px;
+}
+.teacher-multichoices .button-red {
+    display: inline-block;
+    background: #ff8080; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#ffe6e6, #ff1a1a); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#ffe6e6, #ff1a1a); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#ffe6e6, #ff1a1a); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#ffe6e6, #ff1a1a); /* Standard syntax */
+    border: 3px solid #ff8080;
+    border-radius: 20px;
+    width: 30px;
+    height: 30px;
+}
+.teacher-multichoices .button-red-selected {
+    display: inline-block;
+    background: #ff8080; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#ff1a1a, #ffe6e6); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#ff1a1a, #ffe6e6); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#ff1a1a, #ffe6e6); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#ff1a1a, #ffe6e6); /* Standard syntax */
+    border: 3px solid #ff8080;
+    box-shadow:
+    0 0 0 3px #FFFFFF,
+    0 0 0 5px #999999;
+    border-radius: 20px;
+    width: 30px;
+    height: 30px;
 }
