@@ -301,11 +301,9 @@ $('.assesment-button').on('click', function (){
 	var textarea = $(".teacher-assesment-text-" + id).val().trim().length > 0;
 	var multichoice = $('#multichoices-'+ id).children().is('.teacher-multichoice-selected');
 		if(textarea && multichoice){
-			console.log("joo");
 			$('#saveFeedback-' + id).submit();
 			$('.success-toast-' + id).delay(2000).fadeIn(1000).delay(2000).fadeOut(1000);
 		} else {
-			console.log("ei");
 			$('.error-toast-' + id).fadeIn(1000).delay(3000).fadeOut(1000);
 		}
 	});
