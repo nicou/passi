@@ -177,11 +177,11 @@ table.table-hover tr {
     					<c:choose>
     						<c:when test="${isAnsweredMap[member.userID] == 1}">
     							<tr onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit();" class="table-top-border ${selectedMember == member.userID ? 'bold' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
-    							<div style="float: right; color: green;"><span class="glyphicon glyphicon-ok"></span></div></td></tr>   					
+    							<div style="float: right; color: green; font-weight: bold;">&#10003;</div></td></tr>   					
     						</c:when>
     						<c:otherwise>
     							<tr class="table-top-border" style="cursor: not-allowed;"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
-    							<div style="float: right; color: red;"><span class="glyphicon glyphicon-remove"></span></div></td></tr>
+    							<div style="float: right; color: red; font-weight: bold;">&#10007;</div></td></tr>
     						</c:otherwise>
     					</c:choose>
     				</c:forEach>
