@@ -5,22 +5,20 @@ package fi.softala.ttl.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.List;
+import java.util.ArrayList;
 
 public class Answersheet implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private int       answerID;
-	private String    answerPlanning;
-	private String    answerInstructorComment;
+	private int answerID;
+	private String answerPlanning;
+	private String answerInstructorComment;
 	private Timestamp answerTimestamp;
-	private int       worksheetID; // => Worksheet
-	private int       groupID; // => Group
-	private int       userID; // => User
-	
-	// List of waypoint answers
-	private List<Answerpoint> waypoints;
+	private int worksheetID;
+	private int groupID;
+	private int userID;
+	private ArrayList<Answerpoint> waypoints;
 
 	public Answersheet() {
 		super();
@@ -31,12 +29,11 @@ public class Answersheet implements Serializable {
 		this.worksheetID = 0;
 		this.groupID = 0;
 		this.userID = 0;
-		
 		this.waypoints = null;
 	}
 
 	public Answersheet(int answerID, String answerPlanning, String answerInstructorComment, Timestamp answerTimestamp,
-			int worksheetID, int groupID, int userID, List<Answerpoint> waypoints) {
+			int worksheetID, int groupID, int userID, ArrayList<Answerpoint> waypoints) {
 		super();
 		this.answerID = answerID;
 		this.answerPlanning = answerPlanning;
@@ -104,11 +101,18 @@ public class Answersheet implements Serializable {
 		this.userID = userID;
 	}
 
-	public List<Answerpoint> getWaypoints() {
+	public ArrayList<Answerpoint> getWaypoints() {
 		return waypoints;
 	}
 
-	public void setWaypoints(List<Answerpoint> waypoints) {
+	public void setWaypoints(ArrayList<Answerpoint> waypoints) {
 		this.waypoints = waypoints;
+	}
+
+	@Override
+	public String toString() {
+		return "Answersheet [answerID=" + answerID + ", answerPlanning=" + answerPlanning + ", answerInstructorComment="
+				+ answerInstructorComment + ", answerTimestamp=" + answerTimestamp + ", worksheetID=" + worksheetID
+				+ ", groupID=" + groupID + ", userID=" + userID + ", waypoints=" + waypoints + "]";
 	}
 }

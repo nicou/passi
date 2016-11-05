@@ -4,41 +4,35 @@
 package fi.softala.ttl.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
 public class Group implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private int    groupID;
+	private int groupID;
 	private String groupName;
 	private String groupKey;
-	
-	
-	private List<Instructor> instructors;
+	private ArrayList<Instructor> instructors;
 
 	public Group() {
 		super();
-	}
-
-	public void reset() {
 		this.groupID = 0;
 		this.groupName = "";
 		this.groupKey = "";
-		this.instructors = null;
+		this.instructors = new ArrayList<Instructor>();
 	}
 	
-	public void resetNewgroup() {
-		this.groupName = "";
-		this.groupKey = "";
-	}
-	
-	public Group(int groupID, String groupName, String groupKey, List<Instructor> instructors) {
+	public Group(int groupID, String groupName, String groupKey, ArrayList<Instructor> instructors) {
 		super();
 		this.groupID = groupID;
 		this.groupName = groupName;
 		this.groupKey = groupKey;
 		this.instructors = instructors;
+	}
+	
+	public void reset() {
+		this.groupID = 0;
 	}
 
 	public int getGroupID() {
@@ -65,11 +59,12 @@ public class Group implements Serializable {
 		this.groupKey = groupKey;
 	}
 
-	public List<Instructor> getInstructors() {
+	public ArrayList<Instructor> getInstructors() {
 		return instructors;
 	}
 
-	public void setInstructors(List<Instructor> instructors) {
+	public void setInstructors(ArrayList<Instructor> instructors) {
 		this.instructors = instructors;
 	}
+
 }

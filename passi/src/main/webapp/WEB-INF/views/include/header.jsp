@@ -1,13 +1,10 @@
-<%@ page session="true" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-
 <nav class="navbar navbar-default">
   	<div class="container-fluid">
     	<div class="navbar-header">
+      		<div class="navbar-header">
       		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
        		<span class="icon-bar"></span>
         	<span class="icon-bar"></span>
@@ -15,12 +12,13 @@
       		</button>
       		<span class="navbar-brand cursor-default">Hallintasivut</span>
     	</div>
+    	</div>
     	<div class="collapse navbar-collapse" id="myNavbar">
       		<ul class="nav navbar-nav">
         		<li class="${param.currentPage == '/WEB-INF/views/index.jsp' ? 'active' : ''}"><a href="<c:url value="/index" />">Tietohaku</a></li>
-        		<li class="${param.currentPage == '/WEB-INF/views/group.jsp' ? 'active' : ''}"><a href="<c:url value="/index/group" />">Ryhmät</a></li> <!--  -->
-        		<li class="disabled ${param.currentPage == '/WEB-INF/views/student.jsp' ? 'active' : ''}"><a href="#">Jäsenet</a></li> <!-- <c:url value="/index/student" /> -->
-        		<li class="disabled ${param.currentPage == '/WEB-INF/views/assess.jsp' ? 'active' : ''}"><a href="#">Arviointi</a></li> <!-- <c:url value="/index/assess" /> -->
+        		<li class="disabled ${param.currentPage == '/WEB-INF/views/group.jsp' ? 'active' : ''}"><a href="#">Ryhmät</a></li>
+        		<li class="disabled ${param.currentPage == '/WEB-INF/views/student.jsp' ? 'active' : ''}"><a href="#">Jäsenet</a></li>
+        		<li class="disabled ${param.currentPage == '/WEB-INF/views/assess.jsp' ? 'active' : ''}"><a href="#">Arviointi</a></li>
      		</ul>
       		<ul class="nav navbar-nav navbar-right">
         		<li>

@@ -117,4 +117,13 @@ public class Answerpoint implements Serializable {
 	public void setOptionText(String optionText) {
 		this.optionText = optionText;
 	}
+
+	@Override
+	public String toString() {
+		return "Answerpoint [answerWaypointID=" + answerWaypointID + ", answerWaypointText=" + answerWaypointText
+				+ ", answerWaypointInstructorComment=" + answerWaypointInstructorComment
+				+ ", answerWaypointInstructorRating=" + answerWaypointInstructorRating + ", answerWaypointImageURL="
+				+ answerWaypointImageURL + ", answerID=" + answerID + ", waypointID=" + waypointID + ", optionID="
+				+ optionID + ", optionText=" + optionText + "]";
+	}
 }

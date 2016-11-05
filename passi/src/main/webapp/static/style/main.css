@@ -1,49 +1,18 @@
-/* Scaling styles */
-
-/*@media screen and (max-width: 768px) {
-	.hide-in-mobile {
-		display: none;
-	}
-}*/
-
-/* Common styles */
-
 html {
-	overflow-y: scroll;
+	cursor: default;
+	overflow-y: scroll;	
 }
 
 body {
-	font-size: 15px;
+	font-size: 16px;
 	height: 100%;
 	margin: 0;
 	padding: 0;
-  	text-align: center;
   	width: 100%;
-}
-
-h4, h3 {
-	margin-bottom: 15px;
-	margin-top: 20px;
-}
-
-img {
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-}
-
-p {
-	font-size: 15px;
 }
 
 select {
 	font-weight: bold;
-}
-
-table.table tr td.wide {
-	width: 100%;
 }
 
 .row {
@@ -59,24 +28,15 @@ table.table tr td.wide {
 	cursor: default;
 }
 
-.navbar {
-    margin-bottom: 0;
-    border-radius: 0;
-}
-
 .table-hover tr:hover {
 	color: #000000;
 	cursor: pointer;
 }
 
-#no-padding {
-	padding: 0;
-}
-
 /* Page specific styles*/
 
-#worksheet-padding {
-	padding: 10px 10px 10px 15px;
+.worksheet-area {
+	/* padding: 10px 10px 10px 15px; */
 }
 
 #leftnav-padding {
@@ -90,18 +50,8 @@ table.table tr td.wide {
 
 /* Bootstrap overwrite */
 
-pre {
-	font-size: 16px;
-	padding: 8px 10px 8px 10px;
-}
-
-.form-group {
-	padding-left: 20px;
-	padding-right: 20px;
-}
-
-.consol {
-	font: normal 15px Consolas;
+.consolas {
+	font: normal 16px Consolas;
 }
 
 .well-image {
@@ -111,16 +61,6 @@ pre {
 	width: 120px;
 	margin: 0 15px 0 0;
 	position: relative;    
-}
-
-.panel {
-	margin-top: 15px;
-}
-
-.well {
-	font: normal 15px Consolas;
-	line-height: 150%;
-	padding: 8px 12px 8px 12px;
 }
 
 /*Teacher multichoice assesments*/
@@ -133,8 +73,8 @@ pre {
 .custom-ball {
 	padding: 10px;
 	margin-right: 10px;
-	width:30px;
-	height:30px;
+	width: 30px;
+	height: 30px;
 	border-radius: 50%;
 	cursor: pointer;
 }
@@ -175,86 +115,3 @@ pre {
 }
 
 
-/* Button styles */
-
-.teacher-multichoices .button-green {
-    display: inline-block;
-    background: #afcfaf; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(#eff5ef, #70a970); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#eff5ef, #70a970); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#eff5ef, #70a970); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#eff5ef, #70a970); /* Standard syntax */
-    border: 3px solid #afcfaf;
-    border-radius: 20px;
-    width: 30px;
-    height: 30px;
-}
-.teacher-multichoices .button-green-selected {
-    display: inline-block;
-    background: #afcfaf; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(#70a970, #eff5ef); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#70a970, #eff5ef); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#70a970, #eff5ef); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#70a970, #eff5ef); /* Standard syntax */
-    border: 3px solid #afcfaf;
-    box-shadow:
-    0 0 0 3px #FFFFFF,
-    0 0 0 5px #999999;
-    border-radius: 20px;
-    width: 30px;
-    height: 30px;
-}
-.teacher-multichoices .button-yellow {
-    display: inline-block;
-    background: #ffd480; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(#fff7e6, #ffaa00); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#fff7e6, #ffaa00); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#fff7e6, #ffaa00); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#fff7e6, #ffaa00); /* Standard syntax */
-    border: 3px solid #ffd480;
-    border-radius: 20px;
-    width: 30px;
-    height: 30px;
-}
-.teacher-multichoices .button-yellow-selected {
-    display: inline-block;
-    background: #ffd480; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(#ffaa00, #fff7e6); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#ffaa00, #fff7e6); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#ffaa00, #fff7e6); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#ffaa00, #fff7e6); /* Standard syntax */
-    border: 3px solid #ffd480;
-    box-shadow:
-    0 0 0 3px #FFFFFF,
-    0 0 0 5px #999999;
-    border-radius: 20px;
-    width: 30px;
-    height: 30px;
-}
-.teacher-multichoices .button-red {
-    display: inline-block;
-    background: #ff8080; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(#ffe6e6, #ff1a1a); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#ffe6e6, #ff1a1a); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#ffe6e6, #ff1a1a); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#ffe6e6, #ff1a1a); /* Standard syntax */
-    border: 3px solid #ff8080;
-    border-radius: 20px;
-    width: 30px;
-    height: 30px;
-}
-.teacher-multichoices .button-red-selected {
-    display: inline-block;
-    background: #ff8080; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(#ff1a1a, #ffe6e6); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#ff1a1a, #ffe6e6); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#ff1a1a, #ffe6e6); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#ff1a1a, #ffe6e6); /* Standard syntax */
-    border: 3px solid #ff8080;
-    box-shadow:
-    0 0 0 3px #FFFFFF,
-    0 0 0 5px #999999;
-    border-radius: 20px;
-    width: 30px;
-    height: 30px;
-}
