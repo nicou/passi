@@ -64,6 +64,9 @@ table.table-hover tr {
 .row {
 	padding: 20px 30px 0 30px;
 }
+.table-hover tr:hover {
+	background-color: #FFFFFF !important;
+}
 .well {
 	margin: 0;
 	padding: 10px 15px 10px 15px;
@@ -126,7 +129,7 @@ table.table-hover tr {
 			<c:otherwise>
 				<form action="#" method="post">
     			<div class="form-group">
-      			<select class="form-control">
+      			<select class="form-control" disabled>
       				<option value="0" ${selectedCategory == 0 ? 'selected' : ''}> --- Ei Kategorioita --- </option>
       			</select>
     			</div>
@@ -155,7 +158,7 @@ table.table-hover tr {
 			<c:otherwise>
 				<form action="#" method="post">
     			<div class="form-group">
-      			<select class="form-control">
+      			<select class="form-control" disabled>
       				<option value="0" ${selectedWorksheet == 0 ? 'selected' : ''}> --- Ei Tehtäväkortteja --- </option>
       			</select>
     			</div>
@@ -180,7 +183,7 @@ table.table-hover tr {
     							<div style="float: right; color: green; font-weight: bold;">&#10003;</div></td></tr>   					
     						</c:when>
     						<c:otherwise>
-    							<tr class="table-top-border" style="cursor: default;"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
+    							<tr class="table-top-border" style="cursor: not-allowed;"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
     							<div style="float: right; color: red; font-weight: bold;">&#10007;</div></td></tr>
     						</c:otherwise>
     					</c:choose>
@@ -189,8 +192,8 @@ table.table-hover tr {
     				</form>
     			</c:when>
     		<c:otherwise>
-    		<table class="table table-hover">
-    		<tr><td>Ei jäseniä</td></tr>
+    		<table class="table table">
+    		<tr style="border-top: 2px solid #696969;"><td>Ei jäseniä</td></tr>
     		</table>
     		</c:otherwise>
     		</c:choose>
@@ -237,7 +240,7 @@ table.table-hover tr {
 	<c:choose>
 	<c:when test = "${selectedMember > 0}">  
 		<div class="row">
-  			<h2><c:out value="${worksheetContent.worksheetHeader}" /></h2>		
+  			<h2><c:out value="${worksheetContent.worksheetHeader}" />&nbsp;&nbsp;&bull;&nbsp;&nbsp;<c:out value="${memberDetails.firstname}" />&nbsp;<c:out value="${instructor.lastname}" /></h2>		
   			<p class="lead"><c:out value="${worksheetContent.worksheetPreface}" /></p>
   			<p class="lead"><c:out value="${worksheetContent.worksheetPlanning}" /></p>
   			<div class="well consolas">
@@ -291,8 +294,8 @@ table.table-hover tr {
 		<div class="row">
   			<h2>Tehtäväkortit</h2>
   			<div class="alert alert-info">
-    			<strong>Info!</strong>  Tee valinnat pudotusvalikoista numerojärjestyksessä ja valitse lopuksi tarkasteltava ryhmän jäsen, joka on jo vastannut tehtäväkorttiin.<br /><br />
-    			Esimerkiksi: Lähihoidon opiskelijat, Kätilöopisto > Ammatin työkykyvalmiudet > Turvallisuuskävely > Maija Talkanen
+    			<strong>Käyttöohje:</strong>&nbsp;&nbsp;Tee valinnat pudotusvalikoista vaiheittain ja valitse lopuksi ryhmän jäsen, joka on jo vastannut tehtäväkorttiin.<br /><br />
+    			<strong>Esimerkiksi:</strong>&nbsp;&nbsp;Lähihoidon opiskelijat, Kätilöopisto&nbsp;&nbsp;<strong>></strong>&nbsp;&nbsp;Ammatin työkykyvalmiudet&nbsp;&nbsp;<strong>></strong>&nbsp;&nbsp;Turvallisuuskävely&nbsp;&nbsp;<strong>></strong>&nbsp;&nbsp;Maija Talkanen
   			</div>
   		</div>
 	</c:otherwise>
