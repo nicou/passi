@@ -240,7 +240,7 @@ table.table-hover tr {
 	<c:choose>
 	<c:when test = "${selectedMember > 0}">  
 		<div class="row">
-  			<h2><c:out value="${worksheetContent.worksheetHeader}" />&nbsp;&nbsp;&bull;&nbsp;&nbsp;<c:out value="${memberDetails.firstname}" />&nbsp;<c:out value="${instructor.lastname}" /></h2>		
+  			<h2><c:out value="${worksheetContent.worksheetHeader}" />&nbsp;&nbsp;&bull;&nbsp;&nbsp;<c:out value="${memberDetails.firstname}" />&nbsp;<c:out value="${memberDetails.lastname}" /></h2>		
   			<p class="lead"><c:out value="${worksheetContent.worksheetPreface}" /></p>
   			<p class="lead"><c:out value="${worksheetContent.worksheetPlanning}" /></p>
   			<div class="well consolas">
