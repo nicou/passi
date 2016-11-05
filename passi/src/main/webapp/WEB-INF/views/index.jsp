@@ -23,11 +23,10 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 
 <style>
-body {
+html, body {
 	font-size: 15px;
-}
-table {
-	cursor: pointer !important;
+	margin: 0;
+	padding: 0;
 }
 h1, h2, h3, h4, h5, h6 {
 	cursor: default !important;
@@ -38,12 +37,21 @@ h2 {
 select {
 	font-weight: bold;
 }
+table {
+	cursor: pointer !important;
+}
 table.table-hover tr {
 	border-top: 2px solid #696969;
 }
 .bold {
 	background-color: #FFFFFF;
 	font-weight: bold;
+}
+.col-content {
+	margin: 10px 10px 50px 10px;
+}
+.col-selections {
+	margin: 10px 10px 50px 10px;
 }
 .consolas {
 	font-family: Consolas, monaco, monospace !important;
@@ -75,13 +83,39 @@ table.table-hover tr {
 	border-radius: 3px;
 	display: inline-block;
 	height: 150px;
-	width: 150px;
 	margin: 0 15px 0 0;
-	position: relative;    
+	position: relative;
+	width: 150px;    
 }
-@media (min-width : 767px) {
+@media (max-width : 767px) {
+	.col-content {
+		margin: 0 0 30px 0;
+	}
+	.col-selections {
+		margin: 10px 10px 30px 10px;
+	}
+	.container-fluid {
+		margin: 0;
+		padding: 0 5px 0 5px;
+	}
+	.row {
+		padding: 10px 20px 0 20px;
+	}
 }
 @media (max-width : 400px) {
+	.col-content {
+		margin: 0 0 30px 0;
+	}
+	.col-selections {
+		margin: 10px 10px 10px 10px;
+	}
+	.container-fluid {
+		margin: 0;
+		padding: 0 5px 0 5px;
+	}
+	.row {
+		padding: 10px 10px 0 10px;
+	}
 }
 </style>
 </head>
@@ -95,7 +129,7 @@ table.table-hover tr {
 
 <div class="container-fluid bg-3">
 
-	<div class="col-sm-3 text-left" style="border: 1px solid #92d3ed; border-radius: 15px; background-color: #d3edf8; margin: 10px 5px 50px 10px; padding-bottom: 15px;">
+	<div class="col-sm-3 text-left col-selections" style="border: 1px solid #92d3ed; border-radius: 15px; background-color: #d3edf8; padding-bottom: 15px;">
     	
 		<div class="row">
 			<h4>1. Valitse Ryhmä</h4>	
@@ -239,12 +273,12 @@ table.table-hover tr {
 	</div>
 	
 	<!-- WORKSHEET CONTENT -->
-	<div class="col-sm-8 text-left" style="margin: 0 10px 50px 10px; border: 0px dashed #696969; border-radius: 20px;">
+	<div class="col-sm-8 text-left col-content" style="margin: 0 10px 50px 10px; border: 0px dashed #696969; border-radius: 20px;">
 	
 	<c:choose>
 	<c:when test = "${selectedMember > 0}">  
 		<div class="row">
-  			<h2><c:out value="${worksheetContent.worksheetHeader}" />&nbsp;&nbsp;&bull;&nbsp;&nbsp;<c:out value="${memberDetails.firstname}" />&nbsp;<c:out value="${memberDetails.lastname}" /></h2>		
+  			<h2><c:out value="${worksheetContent.worksheetHeader}" />&nbsp;&nbsp;&bull;&nbsp; <c:out value="${memberDetails.firstname}" />&nbsp;<c:out value="${memberDetails.lastname}" /></h2>		
   			<p class="lead"><c:out value="${worksheetContent.worksheetPreface}" /></p>
   			<p class="lead"><c:out value="${worksheetContent.worksheetPlanning}" /></p>
   			<div class="well consolas">
@@ -297,9 +331,9 @@ table.table-hover tr {
 	<c:otherwise>
 		<div class="row">
   			<h2>Tehtäväkortit</h2>
-  			<div class="alert alert-info">
-    			<strong>Käyttöohje:</strong>&nbsp;&nbsp;Tee valinnat pudotusvalikoista vaiheittain ja valitse lopuksi ryhmän jäsen, joka on jo vastannut tehtäväkorttiin.<br /><br />
-    			<strong>Esimerkiksi:</strong>&nbsp;&nbsp;Lähihoidon opiskelijat, Kätilöopisto&nbsp;&nbsp;<strong>></strong>&nbsp;&nbsp;Ammatin työkykyvalmiudet&nbsp;&nbsp;<strong>></strong>&nbsp;&nbsp;Turvallisuuskävely&nbsp;&nbsp;<strong>></strong>&nbsp;&nbsp;Maija Talkanen
+  			<div class="alert alert-info consolas">
+    			<strong>Käyttövinkki:</strong>&nbsp;&nbsp;Tee valinnat pudotusvalikoista vaiheittain ja valitse lopuksi ryhmän jäsen, joka on jo vastannut tehtäväkorttiin.<br /><br />
+    			<strong>&nbsp;&nbsp;&nbsp;Esimerkki:</strong>&nbsp;&nbsp;Lähihoidon opiskelijat, Kätilöopisto&nbsp;&nbsp;<strong>></strong>&nbsp;&nbsp;Ammatin työkykyvalmiudet&nbsp;&nbsp;<strong>></strong>&nbsp;&nbsp;Turvallisuuskävely&nbsp;&nbsp;<strong>></strong>&nbsp;&nbsp;Maija Talkanen
   			</div>
   		</div>
 	</c:otherwise>
