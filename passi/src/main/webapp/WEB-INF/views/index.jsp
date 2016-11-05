@@ -79,6 +79,10 @@ table.table-hover tr {
 	margin: 0 15px 0 0;
 	position: relative;    
 }
+@media (min-width : 767px) {
+}
+@media (max-width : 400px) {
+}
 </style>
 </head>
 
@@ -183,7 +187,7 @@ table.table-hover tr {
     							<div style="float: right; color: green; font-weight: bold;">&#10003;</div></td></tr>   					
     						</c:when>
     						<c:otherwise>
-    							<tr class="table-top-border" style="cursor: not-allowed;"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
+    							<tr onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit();" class="table-top-border ${selectedMember == member.userID ? 'bold' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
     							<div style="float: right; color: red; font-weight: bold;">&#10007;</div></td></tr>
     						</c:otherwise>
     					</c:choose>
