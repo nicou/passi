@@ -43,6 +43,9 @@ table {
 table.table-hover tr {
 	border-top: 2px solid #696969;
 }
+.alert {
+	padding: 10px 15px 10px 15px;
+}
 .bold {
 	background-color: #FFFFFF;
 	font-weight: bold;
