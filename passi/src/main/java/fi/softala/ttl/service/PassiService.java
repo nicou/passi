@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import fi.softala.ttl.dto.CategoryDTO;
 import fi.softala.ttl.dto.GroupDTO;
 import fi.softala.ttl.dto.WorksheetDTO;
@@ -14,7 +12,6 @@ import fi.softala.ttl.model.Category;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.model.Worksheet;
 
-@Service("passiService")
 public interface PassiService {
 	
 	public ArrayList<CategoryDTO> getCategoriesDTO();
