@@ -47,7 +47,7 @@ import fi.softala.ttl.service.PassiService;
 @EnableWebMvc
 @Controller
 @Scope("session")
-@SessionAttributes({ "categories", "defaultGroup", "user", "groups", "groupMembers", "isAnsweredMap", "message", "newGroup", "newMember",
+@SessionAttributes({ "categories", "defaultGroup", "user", "groups", "groupMembers", "isAnsweredMap", "message", "memberDetails", "newGroup", "newMember",
 		"selectedCategory", "selectedGroup", "selectedMember", "selectedWorksheet", "worksheets" })
 public class PassiController {
 
@@ -237,6 +237,7 @@ public class PassiController {
 	public ModelAndView selectMember(@RequestParam int userID,
 			@ModelAttribute("selectedWorksheet") int worksheetID) {		
 		ModelAndView model = new ModelAndView();
+		model.addObject("memberDetails", passiService.getMemberDetails(userID));
 		model.addObject("selectedMember", userID);
 		model.addObject("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, userID));
 		model.addObject("worksheetContent", passiService.getWorksheetContent(worksheetID));

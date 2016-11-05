@@ -286,4 +286,11 @@ public class PassiDAOImpl implements PassiDAO {
 		}
 		return isAnsweredMap;
 	}
+
+	@Override
+	public User getMemberDetails(int userID) {
+		final String SQL = "SELECT * FROM users WHERE user_id = ?";
+		RowMapper<User> userMapper = new UserRowMapper();
+		return jdbcTemplate.queryForObject(SQL, new Object[] { userID }, userMapper);
+	}
 }

@@ -173,8 +173,7 @@ table.table-hover tr {
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					<input type="hidden" id="userID" name="userID" value="" />
    					<table class="table table-hover">
-    				<c:forEach var="member" items="${groupMembers}"> 
-    					    					
+    				<c:forEach var="member" items="${groupMembers}">
     					<c:choose>
     						<c:when test="${isAnsweredMap[member.userID] == 1}">
     							<tr onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit();" class="table-top-border ${selectedMember == member.userID ? 'bold' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
@@ -185,7 +184,6 @@ table.table-hover tr {
     							<div style="float: right; color: red;"><span class="glyphicon glyphicon-remove"></span></div></td></tr>
     						</c:otherwise>
     					</c:choose>
-    					
     				</c:forEach>
     				</table>
     				</form>
@@ -200,13 +198,13 @@ table.table-hover tr {
 		
 		<div class="row">
     		<c:choose>
-				<c:when test="${selectedMember.userID > 0}">
+				<c:when test="${memberDetails.userID > 0}">
 				<h4 class="cursor-default">Jäsentiedot</h4>
     			<table class="table table-condensed">
-    			<tr><th scope="row" class="text-right">Etunimi</th><td class="text-left" style="width: 100%;"><c:out value="${selectedMember.firstname}" /></td></tr>
-    			<tr><th scope="row" class="text-right">Sukunimi</th><td class="text-left" style="width: 100%;"><c:out value="${selectedMember.lastname}" /></td></tr>
-    			<tr><th scope="row" class="text-right">Sähköposti</th><td class="text-left" style="width: 100%;"><c:out value="${selectedMember.email}" /></td></tr>
-    			<tr><th scope="row" class="text-right">Puhelin</th><td class="text-left" style="width: 100%;"><c:out value="${selectedMember.phone}" /></td></tr>
+    			<tr><th scope="row" class="text-right">Etunimi</th><td class="text-left" style="width: 100%;"><c:out value="${memberDetails.firstname}" /></td></tr>
+    			<tr><th scope="row" class="text-right">Sukunimi</th><td class="text-left" style="width: 100%;"><c:out value="${memberDetails.lastname}" /></td></tr>
+    			<tr><th scope="row" class="text-right">Sähköposti</th><td class="text-left" style="width: 100%;"><c:out value="${memberDetails.email}" /></td></tr>
+    			<tr><th scope="row" class="text-right">Puhelin</th><td class="text-left" style="width: 100%;"><c:out value="${memberDetails.phone}" /></td></tr>
     			</table>
     			</c:when>
     			<c:otherwise></c:otherwise>

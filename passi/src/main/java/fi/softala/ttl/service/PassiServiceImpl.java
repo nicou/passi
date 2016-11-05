@@ -82,4 +82,9 @@ public class PassiServiceImpl implements PassiService {
 	public Answersheet getWorksheetAnswers(int worksheetID, int userID) {
 		return dao.getWorksheetAnswers(worksheetID, userID).get(0);
 	}
+
+	@Override
+	public User getMemberDetails(int userID) {
+		return dao.getMemberDetails(userID);
+	}
 }

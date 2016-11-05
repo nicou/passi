@@ -37,5 +37,7 @@ public interface PassiService {
 	public ArrayList<Group> getGroups();
 		
 	public void saveFeadback(int waypointID, int instructorRating, String instructorComment);
+	
+	public User getMemberDetails(int userID);
 
 }
