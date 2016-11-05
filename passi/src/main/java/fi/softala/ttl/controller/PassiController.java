@@ -12,7 +12,6 @@ import java.io.OutputStream;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -47,7 +46,7 @@ import fi.softala.ttl.service.PassiService;
 @EnableWebMvc
 @Controller
 @Scope("session")
-@SessionAttributes({ "categories", "defaultGroup", "user", "groups", "groupMembers", "isAnsweredMap", "message", "memberDetails", "newGroup", "newMember",
+@SessionAttributes({ "categories", "defaultGroup", "user", "groups", "groupMembers", "instructorsDetails", "isAnsweredMap", "message", "memberDetails", "newGroup", "newMember",
 		"selectedCategory", "selectedGroup", "selectedMember", "selectedWorksheet", "worksheets" })
 public class PassiController {
 
@@ -137,7 +136,7 @@ public class PassiController {
 			@ModelAttribute("worksheets") ArrayList<WorksheetDTO> worksheets,
 			
 			
-			@ModelAttribute("groupMembers") List<User> groupMembers,
+			@ModelAttribute("groupMembers") ArrayList<User> groupMembers,
 			@ModelAttribute("newGroup") Group newGroup,
 			@ModelAttribute("newMember") User newMember) {
 		ModelAndView model = new ModelAndView();
@@ -190,6 +189,7 @@ public class PassiController {
 		groupMembers.clear();
 		model.addObject("groups", groups);
 		model.addObject("groupMembers", groupMembers);
+		model.addObject("instructorsDetails", passiService.getInstructorsDetails(groupID));
 		model.addObject("selectedCategory", 0);
 		model.addObject("selectedGroup", groupID);
 		model.addObject("selectedMember", 0);
@@ -208,6 +208,7 @@ public class PassiController {
 		groupMembers.clear();
 		model.addObject("groupMembers", groupMembers);
 		model.addObject("selectedCategory", categoryID);
+		model.addObject("selectedMember", 0);
 		model.addObject("selectedWorksheet", 0);
 		model.addObject("worksheets", passiService.getWorksheetsDTO(groupID, categoryID));
 		model.setViewName("index");
@@ -235,6 +236,7 @@ public class PassiController {
 	// 4. SELECT MEMBER (GET WORKSHEET WITH POSSIBLE ANSWERS)
 	@RequestMapping(value = "/selectMember", method = RequestMethod.POST)
 	public ModelAndView selectMember(@RequestParam int userID,
+			@ModelAttribute("selectedGroup") int groupID,
 			@ModelAttribute("selectedWorksheet") int worksheetID) {		
 		ModelAndView model = new ModelAndView();
 		model.addObject("memberDetails", passiService.getMemberDetails(userID));

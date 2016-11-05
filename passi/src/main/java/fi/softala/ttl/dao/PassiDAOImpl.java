@@ -178,8 +178,6 @@ public class PassiDAOImpl implements PassiDAO {
 	@Override
 	public List<Answersheet> getWorksheetAnswers(int worksheetID, int userID) {
 		
-		System.out.println(worksheetID + " " + userID);
-		
 		final String SQL1 = "SELECT * FROM answersheets WHERE worksheet_id = ? AND user_id = ?";
 		
 		final String SQL2 = "SELECT * FROM answerpoints "
@@ -292,5 +290,14 @@ public class PassiDAOImpl implements PassiDAO {
 		final String SQL = "SELECT * FROM users WHERE user_id = ?";
 		RowMapper<User> userMapper = new UserRowMapper();
 		return jdbcTemplate.queryForObject(SQL, new Object[] { userID }, userMapper);
+	}
+
+	@Override
+	public List<User> getInstructorsDetails(int groupID) {
+		final String SQL = "SELECT users.* FROM users "
+				+ "JOIN members ON members.user_id = users.user_id "
+				+ "WHERE members.group_id = ? AND users.role_id = 2";
+		RowMapper<User> userMapper = new UserRowMapper();
+		return jdbcTemplate.query(SQL, new Object[] { groupID }, userMapper);
 	}
 }

@@ -14,7 +14,6 @@ import fi.softala.ttl.dto.WorksheetDTO;
 import fi.softala.ttl.dto.CategoryDTO;
 import fi.softala.ttl.model.Answersheet;
 import fi.softala.ttl.model.Category;
-import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.model.Worksheet;
 
@@ -35,12 +34,6 @@ public class PassiServiceImpl implements PassiService {
 	@Override
 	public List<Category> getCategories() {
 		return dao.getCategories();
-	}
-	
-	@Override
-	public ArrayList<Group> getGroups() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -86,5 +79,10 @@ public class PassiServiceImpl implements PassiService {
 	@Override
 	public User getMemberDetails(int userID) {
 		return dao.getMemberDetails(userID);
+	}
+
+	@Override
+	public ArrayList<User> getInstructorsDetails(int groupID) {
+		return (ArrayList<User>) dao.getInstructorsDetails(groupID);
 	}
 }

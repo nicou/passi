@@ -41,5 +41,7 @@ public interface PassiDAO {
 	public void saveFeedback(int waypointID, int instructorRating, String instructorComment);
 	
 	public User getMemberDetails(int userID);
+	
+	public List<User> getInstructorsDetails(int groupID);
 
 }

@@ -11,7 +11,6 @@ import fi.softala.ttl.dto.GroupDTO;
 import fi.softala.ttl.dto.WorksheetDTO;
 import fi.softala.ttl.model.Answersheet;
 import fi.softala.ttl.model.Category;
-import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.model.Worksheet;
 
@@ -33,11 +32,11 @@ public interface PassiService {
 	public HashMap<Integer, Integer> getIsAnsweredMap(int worksheetID, ArrayList<User> groupMembers);
 	
 	public List<Category> getCategories();
-	
-	public ArrayList<Group> getGroups();
 		
 	public void saveFeadback(int waypointID, int instructorRating, String instructorComment);
 	
 	public User getMemberDetails(int userID);
+	
+	public ArrayList<User> getInstructorsDetails(int groupID);
 
 }

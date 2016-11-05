@@ -180,7 +180,7 @@ table.table-hover tr {
     							<div style="float: right; color: green; font-weight: bold;">&#10003;</div></td></tr>   					
     						</c:when>
     						<c:otherwise>
-    							<tr class="table-top-border" style="cursor: not-allowed;"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
+    							<tr class="table-top-border" style="cursor: default;"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
     							<div style="float: right; color: red; font-weight: bold;">&#10007;</div></td></tr>
     						</c:otherwise>
     					</c:choose>
@@ -198,7 +198,7 @@ table.table-hover tr {
 		
 		<div class="row">
     		<c:choose>
-				<c:when test="${memberDetails.userID > 0}">
+				<c:when test="${selectedMember > 0}">
 				<h4 class="cursor-default">Jäsentiedot</h4>
     			<table class="table table-condensed">
     			<tr><th scope="row" class="text-right">Etunimi</th><td class="text-left" style="width: 100%;"><c:out value="${memberDetails.firstname}" /></td></tr>
@@ -206,6 +206,24 @@ table.table-hover tr {
     			<tr><th scope="row" class="text-right">Sähköposti</th><td class="text-left" style="width: 100%;"><c:out value="${memberDetails.email}" /></td></tr>
     			<tr><th scope="row" class="text-right">Puhelin</th><td class="text-left" style="width: 100%;"><c:out value="${memberDetails.phone}" /></td></tr>
     			</table>
+    			</c:when>
+    			<c:otherwise></c:otherwise>
+    		</c:choose>
+		</div>
+		
+		<div class="row">
+    		<c:choose>
+    			<c:when test="${selectedGroup > 0}">
+    			<h4><c:out value="${fn:length(instructorsDetails) > 1 ? 'Ohjaajat' : 'Ohjaaja'}" /></h4>
+    			<table class="table table-condensed" class="hide-in-mobile">
+    			<c:forEach var="instructor" items="${instructorsDetails}">
+    			<tr><th scope="row" class="text-right">Etunimi</th><td class="text-left" style="width: 100%;"><c:out value="${instructor.firstname}" /></td></tr>
+    			<tr><th scope="row" class="text-right">Sukunimi</th><td class="text-left" style="width: 100%;"><c:out value="${instructor.lastname}" /></td></tr>
+    			<tr><th scope="row" class="text-right">Sähköposti</th><td class="text-left" style="width: 100%;"><c:out value="${instructor.email}" /></td></tr>
+    			<tr><th scope="row" class="text-right">Puhelin</th><td class="text-left" style="width: 100%;"><c:out value="${instructor.phone}" /></td></tr>
+    			<tr><th scope="row" class="text-right">&nbsp;</th><td class="text-left" style="width: 100%;">&nbsp;</td></tr>
+    			</c:forEach>
+   				</table>
     			</c:when>
     			<c:otherwise></c:otherwise>
     		</c:choose>
@@ -257,41 +275,7 @@ table.table-hover tr {
   					</c:otherwise>
   					</c:choose>
   					</p>
-  					<span class="consol"><c:out value="${worksheetAnswers.waypoints[loop.index].answerWaypointText}" /></span>
-					<button style="position: absolute; right: 0; bottom: 0;" type="button" data-toggle="collapse" data-target="#arviointi-${loop.index}" class="btn btn-md btn-default pull-right assesment-button">Arvioi</button>
-  					</div>
- 
-  					<div style="display: block; position: relative;">
-  					<div style="padding-top: 10px;" id="arviointi-${loop.index}" class="collapse">
-  					<p><strong>Arvio vastaus kirjallisesti sekä kokonaisuus väripainikkeella:</strong></p>
-
-  					<c:set var="wpID" value="${worksheetAnswers.waypoints[loop.index].answerWaypointID}" />
- 					<c:url var="saveWaypointFeedback" value="/saveWaypointFeedback" />
-					<form id="saveFeedback-${wpID}" action="${saveWaypointFeedback}" method="post" accept-charset="UTF-8">
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-					<input type="hidden" id="waypointID" name="waypointID" value="${wpID}" />
-					<input type="hidden" id="instructorRating" name="instructorRating" value="1" />
-  					<table>
-  					<tr>
-  					<td>
-  					<div class="form-group">
-  					<textarea id="instructorComment" name="instructorComment" class="teacher-assesment-text-${wpID} assesment-textarea" placeholder="Anna palautetta"></textarea>
-  					</div>
-  					</td>
-  					<td>
-					<ul class="teacher-multichoices pull-left" id="multichoices-${wpID}">
-					<li onclick="document.forms['saveFeedback-${wpID}'].instructorRating.value='1';" class="custom-ball button-green" id="ball-${loop.index}" value="1"></li>
-					<li onclick="document.forms['saveFeedback-${wpID}'].instructorRating.value='2';" class="custom-ball button-yellow" id="ball-${loop.index}" value="2"></li>
-					<li onclick="document.forms['saveFeedback-${wpID}'].instructorRating.value='3';" class="custom-ball button-red" id="ball-${loop.index}" value="3"></li>
-					</ul>
-					</td>
-					</tr>
-					</table>
-					<button class="palaute btn btn-md btn-default" value="${wpID}">Lähetä</button>
-					<span class="label label-danger error-toast-${wpID}">Täytä molemmat kentät</span>
-					</form>
-					<span class="label label-success success-toast-${wpID}">Arviointi onnistui!</span>
-					</div>
+  					<span class="consolas"><c:out value="${worksheetAnswers.waypoints[loop.index].answerWaypointText}" /></span>
 					</div>
   				</c:when>
   				<c:otherwise>
@@ -307,7 +291,8 @@ table.table-hover tr {
 		<div class="row">
   			<h2>Tehtäväkortit</h2>
   			<div class="alert alert-info">
-    			<strong>Info!</strong>  Tee valinnat pudotusvalikoista numerojärjestyksessä ja valitse lopuksi tarkasteltava ryhmän jäsen.
+    			<strong>Info!</strong>  Tee valinnat pudotusvalikoista numerojärjestyksessä ja valitse lopuksi tarkasteltava ryhmän jäsen, joka on jo vastannut tehtäväkorttiin.<br /><br />
+    			Esimerkiksi: Lähihoidon opiskelijat, Kätilöopisto > Ammatin työkykyvalmiudet > Turvallisuuskävely > Maija Talkanen
   			</div>
   		</div>
 	</c:otherwise>
