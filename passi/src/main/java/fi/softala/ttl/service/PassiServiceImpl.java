@@ -22,7 +22,8 @@ import fi.softala.ttl.model.Worksheet;
 @Transactional
 public class PassiServiceImpl implements PassiService {
 	
-	private ArrayList<Answersheet> assistAnswer = new ArrayList<>();
+	private ArrayList<Answersheet> assistAnswersheet = new ArrayList<>();
+	private ArrayList<Worksheet> assistWorksheet = new ArrayList<>();
 
 	@Inject
 	private PassiDAO dao;
@@ -57,7 +58,12 @@ public class PassiServiceImpl implements PassiService {
 	
 	@Override
 	public Worksheet getWorksheetContent(int worksheetID) {
-		return dao.getWorksheetContent(worksheetID).get(0); // get first index
+		assistWorksheet = (ArrayList<Worksheet>) dao.getWorksheetContent(worksheetID); // get first index
+		if (!assistWorksheet.isEmpty()) {
+			return assistWorksheet.get(0);
+		} else {
+			return null;
+		}
 	}
 
 	@Override
@@ -77,9 +83,9 @@ public class PassiServiceImpl implements PassiService {
 
 	@Override
 	public Answersheet getWorksheetAnswers(int worksheetID, int userID) {
-		assistAnswer = (ArrayList<Answersheet>) dao.getWorksheetAnswers(worksheetID, userID);
-		if (!assistAnswer.isEmpty()) {
-			return assistAnswer.get(0);
+		assistAnswersheet = (ArrayList<Answersheet>) dao.getWorksheetAnswers(worksheetID, userID);
+		if (!assistAnswersheet.isEmpty()) {
+			return assistAnswersheet.get(0);
 		} else {
 			return null;
 		}
