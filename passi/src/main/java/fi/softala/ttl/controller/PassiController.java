@@ -223,11 +223,9 @@ public class PassiController {
 			@ModelAttribute("selectedCategory") int categoryID) {		
 		ModelAndView model = new ModelAndView();
 		model.addObject("selectedWorksheet", worksheetID);
-		if (groupMembers.isEmpty()) {
-			groupMembers = passiService.getGroupMembers(groupID);
-			model.addObject("groupMembers", groupMembers);
-			model.addObject("isAnsweredMap", passiService.getIsAnsweredMap(worksheetID, groupMembers));
-		}
+		groupMembers = passiService.getGroupMembers(groupID);
+		model.addObject("groupMembers", groupMembers);
+		model.addObject("isAnsweredMap", passiService.getIsAnsweredMap(worksheetID, groupMembers));
 		model.addObject("selectedMember", 0);
 		model.setViewName("index");
 		return model;
