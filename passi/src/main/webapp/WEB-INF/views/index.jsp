@@ -96,6 +96,7 @@ table.table-hover tr {
 	}
 	.col-selections {
 		margin: 10px 10px 30px 10px;
+		overflow-x: hidden;
 	}
 	.container-fluid {
 		margin: 0;
@@ -111,6 +112,7 @@ table.table-hover tr {
 	}
 	.col-selections {
 		margin: 10px 10px 10px 10px;
+		overflow-x: hidden;
 	}
 	.container-fluid {
 		margin: 0;
@@ -118,6 +120,9 @@ table.table-hover tr {
 	}
 	.row {
 		padding: 10px 10px 0 10px;
+	}
+	.well-image {
+		width: 100%;
 	}
 }
 </style>
@@ -334,9 +339,9 @@ table.table-hover tr {
 	<c:otherwise>
 		<div class="row">
   			<h2>Tehtäväkortit</h2>
-  			<div class="alert alert-info consolas">
-    			<strong>Käyttövinkki:</strong>&nbsp;&nbsp;Tee valinnat pudotusvalikoista vaiheittain ja valitse lopuksi ryhmän jäsen, joka on jo vastannut tehtäväkorttiin.<br /><br />
-    			<strong>&nbsp;&nbsp;&nbsp;Esimerkki:</strong>&nbsp;&nbsp;Lähihoidon opiskelijat, Kätilöopisto&nbsp;&nbsp;<strong>></strong>&nbsp;&nbsp;Ammatin työkykyvalmiudet&nbsp;&nbsp;<strong>></strong>&nbsp;&nbsp;Turvallisuuskävely&nbsp;&nbsp;<strong>></strong>&nbsp;&nbsp;Maija Talkanen
+  			<div class="alert alert-info">
+    			<strong>Käyttövinkki:</strong> Tee valinnat pudotusvalikoista vaiheittain ja valitse lopuksi ryhmän jäsen, joka on jo vastannut tehtäväkorttiin.<br /><br />
+    			<strong>Esimerkki:</strong> Lähihoidon opiskelijat, Kätilöopisto <strong>></strong> Ammatin työkykyvalmiudet <strong>></strong> Turvallisuuskävely <strong>></strong> Maija Talkanen
   			</div>
   		</div>
 	</c:otherwise>
