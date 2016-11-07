@@ -227,7 +227,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   					<span class="consolas"><c:out value="${worksheetAnswers.waypoints[loop.index].answerWaypointText}" /></span>
   					
   					<!-- FEEDBACK BUTTON -->
-  					<button style="position: absolute; right: 0; bottom: 0;" type="button" data-toggle="collapse" data-target="#arviointi-${loop.index}" class="btn btn-md btn-default pull-right assesment-button">Arvioi</button>
+  					<button style="width: 80px; position: absolute; right: 0; bottom: 0;" type="button" data-toggle="collapse" data-target="#arviointi-${loop.index}" class="btn btn-info btn-md pull-right assesment-button">Arviointi</button>
 					</div>
   				</c:when>
   				<c:otherwise>
@@ -259,13 +259,11 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					<input type="hidden" id="answerWaypointID" name="answerWaypointID" value="${wpID}" />
 					<input type="hidden" id="instructorRating" name="instructorRating" value="${instructorRating}" />
-					
 					<table>
 						<tr>
 							<td>
 								<div class="form-group">
-									
-									<textarea rows="4" id="instructorComment" name="instructorComment" class="form-control teacher-assesment-text-${wpID} assesment-textarea" placeholder="Anna palautetta"><c:out value="${feedbackContent}" /></textarea>
+									<textarea maxlength="1000" rows="4" id="instructorComment" name="instructorComment" class="form-control teacher-assesment-text-${wpID} assesment-textarea" placeholder="Anna palautetta"><c:out value="${feedbackContent}" /></textarea>
 								</div>
 							</td>
 							<td>
@@ -277,7 +275,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 							</td>
 						</tr>
 					</table>
-					<button class="palaute btn btn-md btn-default" value="${wpID}">Lähetä</button>
+					<button class="palaute btn btn-default btn-md" value="${wpID}">Lähetä</button>
 					<span class="label label-danger error-toast-${wpID}">Täytä molemmat kentät</span>
 					</form>
 					<span class="label label-success success-toast-${wpID}">Arviointi onnistui!</span>

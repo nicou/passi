@@ -7,6 +7,9 @@ $(document).ready(function() {
 	
 	/* indicate selected ball
 	   send the ball value to right/current answer (select by id) */
+
+/* FIX THIS: Function below affects on all waypoint feedback balls. Should affect only one waypoint at a time. */	
+	
 	$('.custom-ball').on('click', function (){
 		$('.custom-ball').removeClass('button-green-selected button-yellow-selected button-red-selected');
 		if ($(this).hasClass('button-green')) {
@@ -29,10 +32,10 @@ $(document).ready(function() {
 		var isCollapsed = $(this).hasClass('visible');
 		if(isCollapsed) {
 			$(this).removeClass('visible');
-			$(this).html("Arvioi");
+			$(this).html("Arviointi");
 		} else {
 			$(this).addClass('visible');
-			$(this).html('Piilota');
+			$(this).html('Sulje');
 		}
 	});
 

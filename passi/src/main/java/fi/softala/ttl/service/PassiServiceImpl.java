@@ -62,7 +62,7 @@ public class PassiServiceImpl implements PassiService {
 		if (!assistWorksheet.isEmpty()) {
 			return assistWorksheet.get(0);
 		} else {
-			return null;
+			return new Worksheet();
 		}
 	}
 

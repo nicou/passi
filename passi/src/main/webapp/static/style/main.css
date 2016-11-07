@@ -57,7 +57,12 @@
 }
 
 /* LATEST STYLE ADDITIONS */
-
+button:active {
+	outline: none !important; /* remove outline from a selected button */
+}
+button:focus {
+	outline: none !important; /* remove outline from a selected button */
+}
 html, body {
 	font-size: 15px;
 	margin: 0;
