@@ -215,7 +215,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   					<div class="well-image-container">
   					
   					<!-- ANSWER IMAGE -->
-  					<img src="${imageLink}" onerror="this.style.display='none'" class="well-image" align="left" draggable="false" /><br />
+  					<a href="${imageLink}" class="lightbox_trigger"><img src="${imageLink}" onerror="this.style.display='none'" class="well-image" draggable="false" /></a><br />
   					
   					<!-- FEEDBACK BUTTON -->
   					<button type="button" data-toggle="collapse" data-target="#arviointi-${loop.index}" class="btn btn-info btn-sm assessment-button">Arviointi</button>
@@ -300,6 +300,12 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 	</c:otherwise>
 	</c:choose>
 </div>
+</div>
+
+<div id="lightbox">
+    <div id="content">
+        <img src="#" draggable="false" />
+    </div>
 </div>
 
 <!-- Script -->

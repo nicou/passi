@@ -274,4 +274,41 @@ table.table-hover tr {
 	}
 }
 
+/* IMAGE POPUP */
+#lightbox img {
+	border-radius: 20px;
+    box-shadow: 0 0 50px #000;
+    -webkit-box-shadow: 0 0 30px #000;
+    -moz-box-shadow: 0 0 30px #000;
+    max-width: 940px;
+}
+
+#lightbox {
+	background-image: url('../image/brilliant.png');
+	display: none;
+	padding-top: 50px;
+    position: fixed;
+    top: 0; 
+    left: 0; 
+    width:100%; 
+    height: 00%; 
+    text-align: center;
+}
+#wrapper {
+	display: none;
+    width: 600px; 
+    margin: 0 auto;
+    background: #fff; 
+    text-align: left;
+    border: 1px solid #ccc;
+    border-top: none; 
+    padding: 25px; 
+    border-radius: 0 0 5px 5px;
+    -moz-border-radius: 0 0 5px 5px;
+    -webkit-border-radius: 0 0 5px 5px; 
+    box-shadow: 0 0 5px #ccc;
+    -moz-box-shadow: 0 0 5px #ccc;
+    -webkit-box-shadow: 0 0 5px #ccc;
+}
+
 
