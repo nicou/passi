@@ -268,7 +268,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 						<tr>
 							<td>
 								<div class="form-group">
-									<textarea style="width: 450px;" maxlength="1000" rows="4" id="instructorComment" name="instructorComment" class="form-control teacher-assesment-text-${wpID} assesment-textarea" placeholder="Anna palautetta"><c:out value="${feedbackContent}" /></textarea>
+									<textarea style="width: 450px;" maxlength="1000" rows="5" id="instructorComment" name="instructorComment" class="form-control teacher-assesment-text-${wpID} assesment-textarea" placeholder="Anna palautetta"><c:out value="${feedbackContent}" /></textarea>
 								</div>
 							</td>
 							<td>
