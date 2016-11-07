@@ -57,12 +57,7 @@
 }
 
 /* LATEST STYLE ADDITIONS */
-button:active {
-	outline: none !important; /* remove outline from a selected button */
-}
-button:focus {
-	outline: none !important; /* remove outline from a selected button */
-}
+
 html, body {
 	font-size: 15px;
 	margin: 0;
@@ -109,6 +104,9 @@ table.table-hover tr {
 .navbar-default {
     border-radius: 0;
 }
+.panel {
+	margin: 0;
+}
 .panel-default {
 	margin: 0;
 }
@@ -122,13 +120,36 @@ table.table-hover tr {
 	margin: 0;
 	padding: 10px 15px 10px 15px;
 }
-.well-image {
-	border-radius: 3px;
-	display: inline-block;
-	height: 150px;
+.well-image-container {
+	border: 0px dashed #696969;
+	display: block;
+	float: left;
+	height: 181px;
 	margin: 0 15px 0 0;
 	position: relative;
+	width: 152px;    
+}
+.well-image {
+	border-radius: 6px 6px 0 0;
+	display: inline-block;
+	height: 150px;
+	margin: 0;
+	position: relative;
 	width: 150px;    
+}
+.assessment-button {
+	border-radius: 0 0 6px 6px;
+	font-size: 14px;
+	padding: 3px;
+	width: 150px;
+}
+.assessment-button:active {
+	border: 0;
+	outline: none !important; /* remove outline from a selected button */
+}
+.assessment-button:focus {
+	border: 0;
+	outline: none !important; /* remove outline from a selected button */
 }
 
 /* INSTRUCTOR FEEDBACK COLOR BUTTONS */

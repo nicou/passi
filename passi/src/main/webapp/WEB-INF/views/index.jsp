@@ -184,7 +184,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 	<div class="col-sm-8 text-left col-content" style="margin: 0 10px 50px 10px; border: 0px dashed #696969; border-radius: 20px;">
 	
 	<c:choose>
-	<c:when test = "${selectedMember > 0}">  
+	<c:when test="${selectedMember > 0}">  
 		<div class="row">
   			<h2><c:out value="${worksheetContent.worksheetHeader}" />&nbsp;&nbsp;&bull;&nbsp; <c:out value="${memberDetails.firstname}" />&nbsp;<c:out value="${memberDetails.lastname}" /></h2>		
   			<p class="lead"><c:out value="${worksheetContent.worksheetPreface}" /></p>
@@ -212,7 +212,14 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   					<div style="border: 0px dashed #696969; display: block; position: relative; height: auto; overflow: auto;">
   					<c:set var="imageName" value="${waypoint.waypointID}-${worksheetAnswers.userID}" />
   					<c:url var="imageLink" value="/download/${imageName}/jpg" />
-  					<img src="${imageLink}" onerror="this.style.display='none'" class="well-image" align="left" draggable="false" />								
+  					<div class="well-image-container">
+  					
+  					<!-- ANSWER IMAGE -->
+  					<img src="${imageLink}" onerror="this.style.display='none'" class="well-image" align="left" draggable="false" /><br />
+  					
+  					<!-- FEEDBACK BUTTON -->
+  					<button type="button" data-toggle="collapse" data-target="#arviointi-${loop.index}" class="btn btn-info btn-sm assessment-button">Arviointi</button>
+					</div>								
   					<p>
   					Monivalinnan vastaus:&nbsp;
   					<c:choose>
@@ -226,9 +233,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   					</p>
   					<span class="consolas"><c:out value="${worksheetAnswers.waypoints[loop.index].answerWaypointText}" /></span>
   					
-  					<!-- FEEDBACK BUTTON -->
-  					<button style="width: 80px; position: absolute; right: 0; bottom: 0;" type="button" data-toggle="collapse" data-target="#arviointi-${loop.index}" class="btn btn-info btn-md pull-right assesment-button">Arviointi</button>
-					</div>
+  					</div>
   				</c:when>
   				<c:otherwise>
   					<span class="consol">Ei vastausta</span>
@@ -238,15 +243,15 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				</div>
   				
   				<!-- FEEDBACK SECTION -->
-				<div style="display: block; position: relative;">
+				<div style="padding: 0 0 0 15px; display: block; position: relative;">
 					<div style="padding-top: 10px;" id="arviointi-${loop.index}" class="collapse">
 					<c:set var="feedbackContent" value="${worksheetAnswers.waypoints[loop.index].answerWaypointInstructorComment}" />
 					<c:choose>
 					<c:when test="${not empty feedbackContent}">
-						<p><strong>Tämä vastaus on jo arvioitu. Voit halutessasi muuttaa palautetta.</strong></p>
+						<div class="text-info"><p>Tämä vastaus on jo arvioitu. Voit halutessasi muuttaa palautetta.</p></div>
 					</c:when>
 					<c:otherwise>
-						<p><strong>Arvio vastaus kirjallisesti sekä väripainikkeella</strong></p>
+						<div class="text-info"><p>Arvio vastaus kirjallisesti sekä väripainikkeella</p></div>
 					</c:otherwise>
 					</c:choose>
 					
@@ -263,7 +268,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 						<tr>
 							<td>
 								<div class="form-group">
-									<textarea maxlength="1000" rows="4" id="instructorComment" name="instructorComment" class="form-control teacher-assesment-text-${wpID} assesment-textarea" placeholder="Anna palautetta"><c:out value="${feedbackContent}" /></textarea>
+									<textarea style="width: 450px;" maxlength="1000" rows="4" id="instructorComment" name="instructorComment" class="form-control teacher-assesment-text-${wpID} assesment-textarea" placeholder="Anna palautetta"><c:out value="${feedbackContent}" /></textarea>
 								</div>
 							</td>
 							<td>
