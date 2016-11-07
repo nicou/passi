@@ -127,6 +127,7 @@ table.table-hover tr {
 	height: 181px;
 	margin: 0 15px 0 0;
 	position: relative;
+	text-align: center;
 	width: 152px;    
 }
 .well-image {
@@ -136,6 +137,16 @@ table.table-hover tr {
 	margin: 0;
 	position: relative;
 	width: 150px;    
+}
+.image-click {
+	color: #FFFFFF;
+	font: normal 14px Consolas;
+	display: inline-block;
+	position: absolute;
+	top: 5px;
+	left: 50%;
+	margin-left: -27px;
+	text-shadow: 2px 2px 0 #000;
 }
 .assessment-button {
 	border-radius: 0 0 6px 6px;
@@ -280,7 +291,8 @@ table.table-hover tr {
     box-shadow: 0 0 50px #000;
     -webkit-box-shadow: 0 0 30px #000;
     -moz-box-shadow: 0 0 30px #000;
-    max-width: 940px;
+    max-width: 900px;
+    max-height: 800px;
 }
 
 #lightbox {
@@ -294,6 +306,3 @@ table.table-hover tr {
     height: 100%; 
     text-align: center;
 }
-
-
-

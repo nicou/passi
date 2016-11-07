@@ -216,7 +216,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   					
   					<!-- ANSWER IMAGE -->
   					<a href="${imageLink}" class="lightbox_trigger"><img src="${imageLink}" onerror="this.style.display='none'" class="well-image" draggable="false" /></a><br />
-  					
+  					<div class="image-click">Klikkaa</div>
   					<!-- FEEDBACK BUTTON -->
   					<button type="button" data-toggle="collapse" data-target="#arviointi-${loop.index}" class="btn btn-info btn-sm assessment-button">Arviointi</button>
 					</div>								
