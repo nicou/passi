@@ -87,7 +87,7 @@ public class PassiServiceImpl implements PassiService {
 		if (!assistAnswersheet.isEmpty()) {
 			return assistAnswersheet.get(0);
 		} else {
-			return null;
+			return new Answersheet();
 		}
 	}
 

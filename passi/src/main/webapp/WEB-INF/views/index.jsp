@@ -191,7 +191,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   			<p class="lead"><c:out value="${worksheetContent.worksheetPlanning}" /></p>
   			<div class="well consolas">
     		<c:choose>
-  			<c:when test="${not empty worksheetAnswers}">
+  			<c:when test="${worksheetAnswers.answerID > 0}">
   				<c:out value="${worksheetAnswers.answerPlanning}" />
   			</c:when>
   			<c:otherwise>
@@ -205,10 +205,10 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   			<div class="row">
   				<div class="panel panel-default">
   				<div class="panel-heading"><strong><c:out value="${loop.count}" />.&nbsp;<c:out value="${waypoint.waypointTask}" /></strong></div>
-  				<div class="panel-body" style="min-height: 100px;">
+  				<div class="panel-body">
 
   				<c:choose>
-  				<c:when test="${not empty worksheetAnswers}">
+  				<c:when test="${worksheetAnswers.answerID > 0}">
   					<div style="border: 0px dashed #696969; display: block; position: relative; height: auto; overflow: auto;">
   					<c:set var="imageName" value="${waypoint.waypointID}-${worksheetAnswers.userID}" />
   					<c:url var="imageLink" value="/download/${imageName}/jpg" />
