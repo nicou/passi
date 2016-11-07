@@ -1,44 +1,3 @@
-html {
-	cursor: default;
-	overflow-y: scroll;	
-}
-
-body {
-	font-size: 16px;
-	height: 100%;
-	margin: 0;
-	padding: 0;
-  	width: 100%;
-}
-
-select {
-	font-weight: bold;
-}
-
-.row {
-	padding-left: 15px;
-	padding-right: 15px;
-}
-
-.bold {
-	font-weight: bold;
-}
-
-.cursor-default {
-	cursor: default;
-}
-
-.table-hover tr:hover {
-	color: #000000;
-	cursor: pointer;
-}
-
-/* Page specific styles*/
-
-.worksheet-area {
-	/* padding: 10px 10px 10px 15px; */
-}
-
 #leftnav-padding {
 	padding: 10px 15px 10px 10px;
 }
@@ -48,22 +7,7 @@ select {
 	font: normal 12px Consolas;
 }
 
-/* Bootstrap overwrite */
-
-.consolas {
-	font: normal 16px Consolas;
-}
-
-.well-image {
-	border-radius: 3px;
-	display: inline-block;
-	height: 120px;
-	width: 120px;
-	margin: 0 15px 0 0;
-	position: relative;    
-}
-
-/*Teacher multichoice assesments*/
+/* Teacher multichoice assesments */
 
 .teacher-multichoices li{
 	display: inline-block;
@@ -80,10 +24,12 @@ select {
 }
 
 .teacher-multichoice-selected {
+	/*
 	opacity: 1 !important;
 	border: 1px solid #ccc;
 	transform: scale(1.3);
 	border: 1px solid black;
+	*/
 }
 
 .assesment-textarea {
@@ -92,10 +38,6 @@ select {
 	width: 350px;
 	height: 150px;
 	resize: none;
-}
-
-.glyphicon {
-	font-size: 20px;
 }
 
 .label-danger {
@@ -112,6 +54,198 @@ select {
 
 .imageRotateable {
 	transition-duration: .6s;
+}
+
+/* LATEST STYLE ADDITIONS */
+
+html, body {
+	font-size: 15px;
+	margin: 0;
+	padding: 0;
+}
+h1, h2, h3, h4, h5, h6 {
+	cursor: default !important;
+}
+h2 {
+	margin: 0 0 20px 0;
+}
+select {
+	font-weight: bold;
+}
+table {
+	cursor: pointer !important;
+}
+table.table-hover tr {
+	border-top: 2px solid #696969;
+}
+.alert {
+	padding: 10px 15px 10px 15px;
+}
+.bold {
+	background-color: #FFFFFF;
+	font-weight: bold;
+}
+.col-content {
+	margin: 10px 10px 50px 10px;
+}
+.col-selections {
+	margin: 10px 10px 50px 10px;
+}
+.consolas {
+	font-family: Consolas, monaco, monospace !important;
+	font-size: 15px;
+}
+.highlight {
+	box-shadow: 0 0 20px #2196c4;
+}
+.lead {
+	font-size: 17px;
+}
+.navbar-default {
+    border-radius: 0;
+}
+.panel-default {
+	margin: 0;
+}
+.row {
+	padding: 20px 30px 0 30px;
+}
+.table-hover tr:hover {
+	background-color: #FFFFFF !important;
+}
+.well {
+	margin: 0;
+	padding: 10px 15px 10px 15px;
+}
+.well-image {
+	border-radius: 3px;
+	display: inline-block;
+	height: 150px;
+	margin: 0 15px 0 0;
+	position: relative;
+	width: 150px;    
+}
+
+/* INSTRUCTOR FEEDBACK COLOR BUTTONS */
+
+.button-green {
+    display: block;
+    background: #afcfaf; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#eff5ef, #70a970); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#eff5ef, #70a970); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#eff5ef, #70a970); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#eff5ef, #70a970); /* Standard syntax */
+    border: 3px solid #afcfaf;
+    border-radius: 20px;
+    box-shadow: 0 0 0 5px #FFFFFF; /* to keep uncirculated button equal size to circulated (selected) */
+    width: 30px;
+    height: 30px;
+}
+.button-green-selected {
+    display: block;
+    background: #afcfaf !important; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#70a970, #eff5ef) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#70a970, #eff5ef) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#70a970, #eff5ef) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#70a970, #eff5ef) !important; /* Standard syntax */
+    border: 3px solid #afcfaf !important;
+    border-radius: 20px;
+    box-shadow:
+    0 0 0 3px #FFFFFF,
+    0 0 0 5px #999999 !important;
+    width: 30px;
+    height: 30px;
+}
+.button-yellow {
+    display: block;
+    background: #ffd480; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#fff7e6, #ffaa00); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#fff7e6, #ffaa00); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#fff7e6, #ffaa00); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#fff7e6, #ffaa00); /* Standard syntax */
+    border: 3px solid #ffd480;
+    border-radius: 20px;
+    box-shadow: 0 0 0 5px #FFFFFF;
+    width: 30px;
+    height: 30px;
+}
+.button-yellow-selected {
+    display: block;
+    background: #ffd480 !important; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#ffaa00, #fff7e6) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#ffaa00, #fff7e6) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#ffaa00, #fff7e6) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#ffaa00, #fff7e6) !important; /* Standard syntax */
+    border: 3px solid #ffd480 !important;
+    border-radius: 20px;
+    box-shadow:
+    0 0 0 3px #FFFFFF,
+    0 0 0 5px #999999 !important;
+    width: 30px;
+    height: 30px;
+}
+.button-red {
+    display: block;
+    background: #ff8080; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#ffe6e6, #ff1a1a); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#ffe6e6, #ff1a1a); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#ffe6e6, #ff1a1a); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#ffe6e6, #ff1a1a); /* Standard syntax */
+    border: 3px solid #ff8080;
+    border-radius: 20px;
+    box-shadow: 0 0 0 5px #FFFFFF;
+    width: 30px;
+    height: 30px;
+}
+.button-red-selected {
+    display: block;
+    background: #ff8080 !important; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#ff1a1a, #ffe6e6) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#ff1a1a, #ffe6e6) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#ff1a1a, #ffe6e6) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#ff1a1a, #ffe6e6) !important; /* Standard syntax */
+    border: 3px solid #ff8080 !important;
+    border-radius: 20px;
+    box-shadow:
+    0 0 0 3px #FFFFFF,
+    0 0 0 5px #999999 !important;
+    width: 30px;
+    height: 30px;
+}
+
+/* OVERWRIDDEN STYLES FOR SMALLER SCREEN SIZES */
+
+@media (max-width : 767px) {
+	.col-content {
+		margin: 0 0 30px 0;
+	}
+	.col-selections {
+		margin: 10px 10px 30px 10px;
+		overflow-x: hidden;
+	}
+	.container-fluid {
+		margin: 0;
+		padding: 0 5px 0 5px;
+	}
+	.row {
+		padding: 10px 20px 0 20px;
+	}
+}
+@media (max-width : 400px) {
+	.col-content {
+		margin: 0 0 30px 0;
+	}
+	.col-selections {
+		margin: 10px 10px 10px 10px;
+		overflow-x: hidden;
+	}
+	.container-fluid {
+		margin: 0;
+		padding: 0 5px 0 5px;
+	}
+	.row {
+		padding: 10px 10px 0 10px;
+	}
 }
 
 

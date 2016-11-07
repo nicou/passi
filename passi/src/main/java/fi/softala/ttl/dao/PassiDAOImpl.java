@@ -268,9 +268,9 @@ public class PassiDAOImpl implements PassiDAO {
 	}
 
 	@Override
-	public void saveFeedback(int waypointID, int instructorRating, String instructorComment) {
-		final String SQL = "UPDATE answerpoints SET instructor_comment = ?, instructor_rating = ? WHERE waypoint_id = ?";
-		jdbcTemplate.update(SQL, new Object[] {instructorComment, instructorRating, waypointID});
+	public void saveFeedback(int answerWaypointID, int instructorRating, String instructorComment) {
+		final String SQL = "UPDATE answerpoints SET instructor_comment = ?, instructor_rating = ? WHERE answerpoint_id = ?";
+		jdbcTemplate.update(SQL, new Object[] {instructorComment, instructorRating, answerWaypointID});
 	}
 
 	@Override

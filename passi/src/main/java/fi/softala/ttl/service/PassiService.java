@@ -30,7 +30,7 @@ public interface PassiService {
 	
 	public List<Category> getCategories();
 		
-	public void saveFeadback(int waypointID, int instructorRating, String instructorComment);
+	public void saveFeadback(int answerWaypointID, int instructorRating, String instructorComment);
 	
 	public User getMemberDetails(int userID);
 	

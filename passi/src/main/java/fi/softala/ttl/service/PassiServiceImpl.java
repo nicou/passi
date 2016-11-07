@@ -77,8 +77,8 @@ public class PassiServiceImpl implements PassiService {
 	}
 	
 	@Override
-	public void saveFeadback(int waypointID, int instructorRating, String instructorComment) {
-		dao.saveFeedback(waypointID, instructorRating, instructorComment);	
+	public void saveFeadback(int answerWaypointID, int instructorRating, String instructorComment) {
+		dao.saveFeedback(answerWaypointID, instructorRating, instructorComment);	
 	}
 
 	@Override

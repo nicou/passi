@@ -36,18 +36,20 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fi.softala.ttl.dao.PassiDAO;
+import fi.softala.ttl.model.Answersheet;
 import fi.softala.ttl.model.Group;
 import fi.softala.ttl.dto.CategoryDTO;
 import fi.softala.ttl.dto.GroupDTO;
 import fi.softala.ttl.dto.WorksheetDTO;
 import fi.softala.ttl.model.User;
+import fi.softala.ttl.model.Worksheet;
 import fi.softala.ttl.service.PassiService;
 
 @EnableWebMvc
 @Controller
 @Scope("session")
 @SessionAttributes({ "categories", "defaultGroup", "user", "groups", "groupMembers", "instructorsDetails", "isAnsweredMap", "message", "memberDetails", "newGroup", "newMember",
-		"selectedCategory", "selectedGroup", "selectedMember", "selectedWorksheet", "worksheets" })
+		"selectedCategory", "selectedGroup", "selectedMember", "selectedWorksheet", "worksheets", "worksheetContent", "worksheetAnswers" })
 public class PassiController {
 
 	final static Logger logger = LoggerFactory.getLogger(PassiController.class);
@@ -134,13 +136,10 @@ public class PassiController {
 			@ModelAttribute("selectedMember") int selectedMember,
 			@ModelAttribute("selectedWorksheet") int selectedWorksheet,
 			@ModelAttribute("worksheets") ArrayList<WorksheetDTO> worksheets,
-			
-			
 			@ModelAttribute("groupMembers") ArrayList<User> groupMembers,
 			@ModelAttribute("newGroup") Group newGroup,
 			@ModelAttribute("newMember") User newMember) {
 		ModelAndView model = new ModelAndView();
-		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String user = auth.getName();
 		
@@ -247,11 +246,23 @@ public class PassiController {
 
 	@RequestMapping(value = "/saveWaypointFeedback", method = RequestMethod.POST)
 	public ModelAndView saveWaypointFeedback(
-			@RequestParam String waypointID,
+			@RequestParam int answerWaypointID,
 			@RequestParam String instructorComment,
-			@RequestParam String instructorRating) {
+			@RequestParam int instructorRating,
+			@ModelAttribute("selectedGroup") int selectedGroup,
+			@ModelAttribute("selectedWorksheet") int worksheetID,
+			@ModelAttribute("memberDetails") User memberDetails,
+			@ModelAttribute("selectedMember") int selectedMember,
+			@ModelAttribute("worksheetAnswers") Answersheet worksheetAnswers,
+			@ModelAttribute("worksheetContent") Worksheet worksheetContent) {
 		ModelAndView model = new ModelAndView();
-		passiService.saveFeadback(Integer.parseInt(waypointID), Integer.parseInt(instructorRating), instructorComment);
+		passiService.saveFeadback(answerWaypointID, instructorRating, instructorComment);
+		model.addObject("selectedGroup", selectedGroup);
+		model.addObject("selectedWorksheet", worksheetID);
+		model.addObject("memberDetails", memberDetails);
+		model.addObject("selectedMember", selectedMember);
+		model.addObject("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember));
+		model.addObject("worksheetContent", worksheetContent);
 		model.setViewName("index");
 		return model;
 	}

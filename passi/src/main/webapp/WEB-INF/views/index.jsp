@@ -21,110 +21,10 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <!-- CSS -->
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/static/style/main.css" />" />
 
 <style>
-html, body {
-	font-size: 15px;
-	margin: 0;
-	padding: 0;
-}
-h1, h2, h3, h4, h5, h6 {
-	cursor: default !important;
-}
-h2 {
-	margin: 0 0 20px 0;
-}
-select {
-	font-weight: bold;
-}
-table {
-	cursor: pointer !important;
-}
-table.table-hover tr {
-	border-top: 2px solid #696969;
-}
-.alert {
-	padding: 10px 15px 10px 15px;
-}
-.bold {
-	background-color: #FFFFFF;
-	font-weight: bold;
-}
-.col-content {
-	margin: 10px 10px 50px 10px;
-}
-.col-selections {
-	margin: 10px 10px 50px 10px;
-}
-.consolas {
-	font-family: Consolas, monaco, monospace !important;
-	font-size: 15px;
-}
-.highlight {
-	box-shadow: 0 0 20px #2196c4;
-}
-.lead {
-	font-size: 17px;
-}
-.navbar-default {
-    border-radius: 0;
-}
-.panel-default {
-	margin: 0;
-}
-.row {
-	padding: 20px 30px 0 30px;
-}
-.table-hover tr:hover {
-	background-color: #FFFFFF !important;
-}
-.well {
-	margin: 0;
-	padding: 10px 15px 10px 15px;
-}
-.well-image {
-	border-radius: 3px;
-	display: inline-block;
-	height: 150px;
-	margin: 0 15px 0 0;
-	position: relative;
-	width: 150px;    
-}
-@media (max-width : 767px) {
-	.col-content {
-		margin: 0 0 30px 0;
-	}
-	.col-selections {
-		margin: 10px 10px 30px 10px;
-		overflow-x: hidden;
-	}
-	.container-fluid {
-		margin: 0;
-		padding: 0 5px 0 5px;
-	}
-	.row {
-		padding: 10px 20px 0 20px;
-	}
-}
-@media (max-width : 400px) {
-	.col-content {
-		margin: 0 0 30px 0;
-	}
-	.col-selections {
-		margin: 10px 10px 10px 10px;
-		overflow-x: hidden;
-	}
-	.container-fluid {
-		margin: 0;
-		padding: 0 5px 0 5px;
-	}
-	.row {
-		padding: 10px 10px 0 10px;
-	}
-	.well-image {
-		width: 100%;
-	}
-}
+
 </style>
 </head>
 
@@ -325,6 +225,9 @@ table.table-hover tr {
   					</c:choose>
   					</p>
   					<span class="consolas"><c:out value="${worksheetAnswers.waypoints[loop.index].answerWaypointText}" /></span>
+  					
+  					<!-- FEEDBACK BUTTON -->
+  					<button style="position: absolute; right: 0; bottom: 0;" type="button" data-toggle="collapse" data-target="#arviointi-${loop.index}" class="btn btn-md btn-default pull-right assesment-button">Arvioi</button>
 					</div>
   				</c:when>
   				<c:otherwise>
@@ -333,6 +236,53 @@ table.table-hover tr {
   				</c:choose>
   				</div>
   				</div>
+  				
+  				<!-- FEEDBACK SECTION -->
+				<div style="display: block; position: relative;">
+					<div style="padding-top: 10px;" id="arviointi-${loop.index}" class="collapse">
+					<c:set var="feedbackContent" value="${worksheetAnswers.waypoints[loop.index].answerWaypointInstructorComment}" />
+					<c:choose>
+					<c:when test="${not empty feedbackContent}">
+						<p><strong>Tämä vastaus on jo arvioitu. Voit halutessasi muuttaa palautetta.</strong></p>
+					</c:when>
+					<c:otherwise>
+						<p><strong>Arvio vastaus kirjallisesti sekä väripainikkeella</strong></p>
+					</c:otherwise>
+					</c:choose>
+					
+					<!-- variables -->
+					<c:set var="wpID" value="${worksheetAnswers.waypoints[loop.index].answerWaypointID}" />
+					<c:set var="instructorRating" value="${worksheetAnswers.waypoints[loop.index].answerWaypointInstructorRating}" />
+					
+					<c:url var="saveWaypointFeedback" value="/saveWaypointFeedback" />
+					<form id="saveFeedback-${wpID}" action="${saveWaypointFeedback}" method="post" accept-charset="UTF-8">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+					<input type="hidden" id="answerWaypointID" name="answerWaypointID" value="${wpID}" />
+					<input type="hidden" id="instructorRating" name="instructorRating" value="${instructorRating}" />
+					
+					<table>
+						<tr>
+							<td>
+								<div class="form-group">
+									
+									<textarea rows="4" id="instructorComment" name="instructorComment" class="form-control teacher-assesment-text-${wpID} assesment-textarea" placeholder="Anna palautetta"><c:out value="${feedbackContent}" /></textarea>
+								</div>
+							</td>
+							<td>
+								<ul class="${not empty feedbackContent ? 'teacher-multichoice-selected' : ''} teacher-multichoices pull-left" id="multichoices-${wpID}">
+									<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='1';" class="custom-ball button-green ${instructorRating == 1 ? 'button-green-selected' : 'button-green'}" id="ball-${loop.index}"></li>
+									<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='2';" class="custom-ball button-yellow ${instructorRating == 2 ? 'button-yellow-selected' : 'button-yellow'}" id="ball-${loop.index}"></li>
+									<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='3';" class="custom-ball button-red ${instructorRating == 3 ? 'button-red-selected' : 'button-red'}" id="ball-${loop.index}"></li>
+								</ul>
+							</td>
+						</tr>
+					</table>
+					<button class="palaute btn btn-md btn-default" value="${wpID}">Lähetä</button>
+					<span class="label label-danger error-toast-${wpID}">Täytä molemmat kentät</span>
+					</form>
+					<span class="label label-success success-toast-${wpID}">Arviointi onnistui!</span>
+					</div>
+				</div>
 			</div>
   		</c:forEach>
 	</c:when>
@@ -352,7 +302,7 @@ table.table-hover tr {
 <!-- Script -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="<c:url value="/static/script/index.js" />"></script>
+<script src="<c:url value="/static/script/jquery-index.js" />"></script>
 
 </body>
 </html>
