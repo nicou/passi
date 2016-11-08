@@ -10,7 +10,8 @@
 /* Teacher multichoice assesments */
 
 .teacher-multichoices li{
-	display: inline-block;
+	margin: .75em 0 .75em 0;
+	display: block;
 	list-style: none;
 }
 
@@ -55,6 +56,7 @@
 .imageRotateable {
 	transition-duration: .6s;
 }
+
 
 /* LATEST STYLE ADDITIONS */
 
