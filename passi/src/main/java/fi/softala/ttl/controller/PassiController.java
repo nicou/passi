@@ -12,7 +12,6 @@ import java.io.OutputStream;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -37,21 +36,23 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fi.softala.ttl.dao.PassiDAO;
+import fi.softala.ttl.model.Answersheet;
 import fi.softala.ttl.model.Group;
+import fi.softala.ttl.dto.CategoryDTO;
+import fi.softala.ttl.dto.GroupDTO;
+import fi.softala.ttl.dto.WorksheetDTO;
 import fi.softala.ttl.model.User;
+import fi.softala.ttl.model.Worksheet;
 import fi.softala.ttl.service.PassiService;
 
 @EnableWebMvc
 @Controller
 @Scope("session")
-@SessionAttributes({ "answers", "defaultGroup", "user", "groups", "groupMembers", "message", "newGroup", "newMember",
-		"selectedGroupObject", "selectedMemberObject", "worksheets" })
+@SessionAttributes({ "categories", "defaultGroup", "user", "groups", "groupMembers", "instructorsDetails", "isAnsweredMap", "message", "memberDetails", "newGroup", "newMember",
+		"selectedCategory", "selectedGroup", "selectedMember", "selectedWorksheet", "worksheets", "worksheetContent", "worksheetAnswers" })
 public class PassiController {
 
 	final static Logger logger = LoggerFactory.getLogger(PassiController.class);
-	// private static final String TOMCAT_HOME_PROPERTY = "catalina.home";
-	// private static final String TOMCAT_IMG =
-	// System.getProperty(TOMCAT_HOME_PROPERTY);
 
 	@Autowired
 	ServletContext context;
@@ -88,36 +89,74 @@ public class PassiController {
 		return model;
 	}
 
+	// initiate session variables after login
 	@RequestMapping(value = { "/init" }, method = RequestMethod.GET)
 	public ModelAndView init(final RedirectAttributes redirectAttributes) {
+		
 		ModelAndView model = new ModelAndView();
+		
+		// session attributes for dropdown selection
+		ArrayList<CategoryDTO> categories = new ArrayList<>();
+		categories = passiService.getCategoriesDTO();
+		redirectAttributes.addFlashAttribute("categories", categories);
+		
+		ArrayList<GroupDTO> groups = new ArrayList<>();
+		groups = passiService.getGroupsDTO();
+		redirectAttributes.addFlashAttribute("groups", groups);
+		
+		ArrayList<WorksheetDTO> worksheets = new ArrayList<>();
+		redirectAttributes.addFlashAttribute("worksheets", worksheets);
+		
+		// session attributes for selections
+		int selectedCategory = 0;
+		redirectAttributes.addFlashAttribute("selectedCategory", selectedCategory);
+		
+		int selectedGroup = 0;
+		redirectAttributes.addFlashAttribute("selectedGroup", selectedGroup);
+		
+		int selectedMember = 0;
+		redirectAttributes.addFlashAttribute("selectedMember", selectedMember);
+		
+		int selectedWorksheet = 0;
+		redirectAttributes.addFlashAttribute("selectedWorksheet", selectedWorksheet);
+		
 		redirectAttributes.addFlashAttribute("groupMembers", new ArrayList<User>());
 		redirectAttributes.addFlashAttribute("newGroup", new Group());
 		redirectAttributes.addFlashAttribute("newMember", new User());
-		redirectAttributes.addFlashAttribute("selectedGroupObject", new Group());
-		redirectAttributes.addFlashAttribute("selectedMemberObject", new User());
 		model.setViewName("redirect:/index");
 		return model;
 	}
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public ModelAndView homePage(@ModelAttribute("groupMembers") List<User> groupMembers,
-			@ModelAttribute("newGroup") Group newGroup, @ModelAttribute("newMember") User newMember,
-			@ModelAttribute("selectedGroupObject") Group selectedGroupObject,
-			@ModelAttribute("selectedMemberObject") User selectedMemberObject) {
+	public ModelAndView homePage(
+			@ModelAttribute("categories") ArrayList<CategoryDTO> categories,
+			@ModelAttribute("groups") ArrayList<GroupDTO> groups,
+			@ModelAttribute("selectedCategory") int selectedCategory,
+			@ModelAttribute("selectedGroup") int selectedGroup,
+			@ModelAttribute("selectedMember") int selectedMember,
+			@ModelAttribute("selectedWorksheet") int selectedWorksheet,
+			@ModelAttribute("worksheets") ArrayList<WorksheetDTO> worksheets,
+			@ModelAttribute("groupMembers") ArrayList<User> groupMembers,
+			@ModelAttribute("newGroup") Group newGroup,
+			@ModelAttribute("newMember") User newMember) {
 		ModelAndView model = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String user = auth.getName();
-		if (selectedGroupObject.getGroupID() != 0) {
-			groupMembers = dao.getGroupMembers(selectedGroupObject);
-		}
-		model.addObject("groups", dao.getAllGroups());
+		
+		// corrected
+		model.addObject("groups", groups);
+		model.addObject("categories", categories);
+		model.addObject("selectedCategory", selectedCategory);
+		model.addObject("selectedGroup", selectedGroup);
+		model.addObject("selectedMember", selectedMember);
+		model.addObject("selectedWorksheet", selectedWorksheet);
+		
+		// old ones
 		model.addObject("groupMembers", groupMembers);
 		model.addObject("message", "");
 		model.addObject("newGroup", newGroup);
 		model.addObject("newMember", newMember);
-		model.addObject("selectedGroupObject", selectedGroupObject);
-		model.addObject("selectedMemberObject", selectedMemberObject);
+		model.addObject("worksheets", worksheets);
 		model.addObject("user", user);
 		model.setViewName("index");
 		return model;
@@ -127,7 +166,7 @@ public class PassiController {
 	public ModelAndView pageNavigation(@PathVariable(value = "page") String page,
 			@ModelAttribute(value = "message") String message) {
 		ModelAndView model = new ModelAndView();
-		model.addObject("groups", dao.getAllGroups());
+		//model.addObject("groups", dao.getAllGroups());
 		model.addObject("message", message);
 		model.setViewName(page);
 		return model;
@@ -140,50 +179,90 @@ public class PassiController {
 		return model;
 	}
 
-	@RequestMapping(value = "/getGroupData", method = RequestMethod.POST)
-	public ModelAndView getGroupData(@RequestParam int groupID, @ModelAttribute("selectedMemberObject") User user,
-			@ModelAttribute("groups") List<Group> groups) {
+	// 1. SELECT GROUP
+	@RequestMapping(value = "/selectGroup", method = RequestMethod.POST)
+	public ModelAndView selectGroup(@RequestParam int groupID,
+			@ModelAttribute("groups") ArrayList<GroupDTO> groups,
+			@ModelAttribute("groupMembers") ArrayList<User> groupMembers) {
 		ModelAndView model = new ModelAndView();
-		for (Group g : groups) {
-			if (g.getGroupID() == groupID) {
-				model.addObject("selectedGroupObject", g);
-				model.addObject("groupMembers", dao.getGroupMembers(g));
-				break;
-			}
-		}
-		user.reset();
-		model.addObject("selectedMemberObject", user);
+		groupMembers.clear();
+		model.addObject("groups", groups);
+		model.addObject("groupMembers", groupMembers);
+		model.addObject("instructorsDetails", passiService.getInstructorsDetails(groupID));
+		model.addObject("selectedCategory", 0);
+		model.addObject("selectedGroup", groupID);
+		model.addObject("selectedMember", 0);
+		model.addObject("selectedWorksheet", 0);
+		model.setViewName("index");
+		return model;
+	}
+	
+	// 2. SELECT CATEGORY
+	@RequestMapping(value = "/selectCategory", method = RequestMethod.POST)
+	public ModelAndView selectCategory(@RequestParam int categoryID,
+			@ModelAttribute("selectedGroup") int groupID,
+			@ModelAttribute("worksheets") ArrayList<WorksheetDTO> worksheets,
+			@ModelAttribute("groupMembers") ArrayList<User> groupMembers) {		
+		ModelAndView model = new ModelAndView();
+		groupMembers.clear();
+		model.addObject("groupMembers", groupMembers);
+		model.addObject("selectedCategory", categoryID);
+		model.addObject("selectedMember", 0);
+		model.addObject("selectedWorksheet", 0);
+		model.addObject("worksheets", passiService.getWorksheetsDTO(groupID, categoryID));
+		model.setViewName("index");
+		return model;
+	}
+	
+	// 3. SELECT WORKSHEET
+	@RequestMapping(value = "/selectWorksheet", method = RequestMethod.POST)
+	public ModelAndView selectWorksheet(@RequestParam int worksheetID,
+			@ModelAttribute("groupMembers") ArrayList<User> groupMembers,
+			@ModelAttribute("selectedGroup") int groupID,
+			@ModelAttribute("selectedCategory") int categoryID) {		
+		ModelAndView model = new ModelAndView();
+		model.addObject("selectedWorksheet", worksheetID);
+		groupMembers = passiService.getGroupMembers(groupID);
+		model.addObject("groupMembers", groupMembers);
+		model.addObject("isAnsweredMap", passiService.getIsAnsweredMap(worksheetID, groupMembers));
+		model.addObject("selectedMember", 0);
 		model.setViewName("index");
 		return model;
 	}
 
-	@RequestMapping(value = "/getAnswers", method = RequestMethod.POST)
-	public ModelAndView getAnswers(@RequestParam int groupID, @RequestParam int userID,
-			@ModelAttribute("groupMembers") List<User> groupMembers,
-			@ModelAttribute("selectedGroupObject") Group selectedGroupObject,
-			@ModelAttribute("selectedMemberObject") User selectedMemberObject) {
+	// 4. SELECT MEMBER (GET WORKSHEET WITH POSSIBLE ANSWERS)
+	@RequestMapping(value = "/selectMember", method = RequestMethod.POST)
+	public ModelAndView selectMember(@RequestParam int userID,
+			@ModelAttribute("selectedGroup") int groupID,
+			@ModelAttribute("selectedWorksheet") int worksheetID) {		
 		ModelAndView model = new ModelAndView();
-		for (User user : groupMembers) {
-			if (user.getUserID() == userID) {
-				model.addObject("selectedMemberObject", user);
-				model.addObject("answers", dao.getAnswers(selectedGroupObject, user));
-				break;
-			}
-		}
-		model.addObject("groupMembers", dao.getGroupMembers(selectedGroupObject));
-		model.addObject("selectedGroupObject", selectedGroupObject);
-		model.addObject("worksheets", dao.getWorksheets(selectedGroupObject));
+		model.addObject("memberDetails", passiService.getMemberDetails(userID));
+		model.addObject("selectedMember", userID);
+		model.addObject("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, userID));
+		model.addObject("worksheetContent", passiService.getWorksheetContent(worksheetID));
 		model.setViewName("index");
 		return model;
 	}
 
 	@RequestMapping(value = "/saveWaypointFeedback", method = RequestMethod.POST)
 	public ModelAndView saveWaypointFeedback(
-			@RequestParam String waypointID,
+			@RequestParam int answerWaypointID,
 			@RequestParam String instructorComment,
-			@RequestParam String instructorRating) {
+			@RequestParam int instructorRating,
+			@ModelAttribute("selectedGroup") int selectedGroup,
+			@ModelAttribute("selectedWorksheet") int worksheetID,
+			@ModelAttribute("memberDetails") User memberDetails,
+			@ModelAttribute("selectedMember") int selectedMember,
+			@ModelAttribute("worksheetAnswers") Answersheet worksheetAnswers,
+			@ModelAttribute("worksheetContent") Worksheet worksheetContent) {
 		ModelAndView model = new ModelAndView();
-		passiService.saveFeadback(Integer.parseInt(waypointID), Integer.parseInt(instructorRating), instructorComment);
+		passiService.saveFeadback(answerWaypointID, instructorRating, instructorComment);
+		model.addObject("selectedGroup", selectedGroup);
+		model.addObject("selectedWorksheet", worksheetID);
+		model.addObject("memberDetails", memberDetails);
+		model.addObject("selectedMember", selectedMember);
+		model.addObject("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember));
+		model.addObject("worksheetContent", worksheetContent);
 		model.setViewName("index");
 		return model;
 	}
@@ -222,8 +301,7 @@ public class PassiController {
 		} else {
 			model.addObject("message", "Ryhmän lisääminen EI onnistunut.");
 		}
-		newGroup.resetNewgroup();
-		model.addObject("groups", dao.getAllGroups());
+		//model.addObject("groups", dao.getAllGroups());
 		model.setViewName("group");
 		return model;
 	}

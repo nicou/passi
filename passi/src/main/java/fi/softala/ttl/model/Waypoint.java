@@ -57,4 +57,10 @@ public class Waypoint implements Serializable {
 	public void setWorksheetID(int worksheetID) {
 		this.worksheetID = worksheetID;
 	}
+
+	@Override
+	public String toString() {
+		return "Waypoint [waypointID=" + waypointID + ", waypointTask=" + waypointTask + ", waypointPhotoEnabled="
+				+ waypointPhotoEnabled + ", worksheetID=" + worksheetID + "]";
+	}
 }

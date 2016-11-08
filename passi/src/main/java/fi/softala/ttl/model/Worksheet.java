@@ -4,6 +4,7 @@
 package fi.softala.ttl.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Worksheet implements Serializable{
@@ -18,6 +19,11 @@ public class Worksheet implements Serializable{
 
 	public Worksheet() {
 		super();
+		this.worksheetID = 0;
+		this.worksheetHeader = "";
+		this.worksheetPreface = "";
+		this.worksheetPlanning = "";
+		this.waypoints = new ArrayList<Waypoint>();
 	}
 
 	public Worksheet(int worksheetID, String worksheetHeader, String worksheetPreface, String worksheetPlanning,
@@ -28,6 +34,14 @@ public class Worksheet implements Serializable{
 		this.worksheetPreface = worksheetPreface;
 		this.worksheetPlanning = worksheetPlanning;
 		this.waypoints = waypoints;
+	}
+	
+	public void reset() {
+		this.worksheetID = 0;
+		this.worksheetHeader = "";
+		this.worksheetPreface = "";
+		this.worksheetPlanning = "";
+		this.waypoints.clear();
 	}
 
 	public int getWorksheetID() {

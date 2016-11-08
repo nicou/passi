@@ -5,6 +5,8 @@ package fi.softala.ttl.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -17,8 +19,12 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import fi.softala.ttl.dto.CategoryDTO;
+import fi.softala.ttl.dto.GroupDTO;
+import fi.softala.ttl.dto.WorksheetDTO;
 import fi.softala.ttl.model.Answerpoint;
 import fi.softala.ttl.model.Answersheet;
+import fi.softala.ttl.model.Category;
 import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.Instructor;
 import fi.softala.ttl.model.User;
@@ -86,58 +92,99 @@ public class PassiDAOImpl implements PassiDAO {
 		List<Group> groups = jdbcTemplate.query(SQL1, groupMapper);
 		RowMapper<Instructor> instructorMapper = new InstructorRowMapper();
 		for (Group group : groups) {
-			group.setInstructors(jdbcTemplate.query(SQL2, new Object[] { group.getGroupID() }, instructorMapper));
+			group.setInstructors((ArrayList<Instructor>) jdbcTemplate.query(SQL2, new Object[] { group.getGroupID() }, instructorMapper));
 		}
 		return groups;
 	}
 
-	public List<User> getGroupMembers(Group group) {
-		final String SQL = "SELECT * FROM users JOIN members ON members.user_id = users.user_id WHERE users.role_id = 1 AND members.group_id = ?";
+	public List<User> getGroupMembers(int groupID) {
+		final String SQL = "SELECT users.* FROM users "
+				+ "JOIN members ON members.user_id = users.user_id "
+				+ "WHERE users.role_id = 1 AND members.group_id = ? "
+				+ "ORDER BY users.firstname";
 		RowMapper<User> userMapper = new UserRowMapper();
-		List<User> members = jdbcTemplate.query(SQL, new Object[] { group.getGroupID() }, userMapper);
+		List<User> members = jdbcTemplate.query(SQL, new Object[] { groupID }, userMapper);
 		return members;
 	}
 	
-	public List<Worksheet> getWorksheets(Group group) {
-		final String SQL1 = "SELECT * FROM worksheets JOIN distros ON distros.worksheet_id = distros.worksheet_id WHERE distros.group_id = ?";
-		final String SQL2 = "SELECT * FROM waypoints WHERE worksheet_id = ?";
-		List<Worksheet> worksheets = jdbcTemplate.query(SQL1, new Object[] { group.getGroupID() }, new RowMapper<Worksheet>() {
+	@Override
+	public List<Category> getCategories() {
+		final String SQL = "SELECT category_id, category_name FROM categories ORDER BY category_name";
+		List<Category> categories = jdbcTemplate.query(SQL, new RowMapper<Category>() {
 			
 			@Override
-			public Worksheet mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Worksheet worksheet = new Worksheet();
+			public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Category category = new Category();
+				category.setCategoryID(rs.getInt("category_id"));
+				category.setCategoryName(rs.getString("category_name"));
+				return category;
+			}			
+		});
+		return categories;
+	}
+	
+	@Override
+	public List<GroupDTO> getGroupsDTO() {
+		final String SQL = "SELECT group_id, group_name FROM groups ORDER BY group_name";
+		List<GroupDTO> groups = jdbcTemplate.query(SQL, new RowMapper<GroupDTO>() {
+			
+			@Override
+			public GroupDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				GroupDTO group = new GroupDTO();
+				group.setGroupID(rs.getInt("group_id"));
+				group.setGroupName(rs.getString("group_name"));
+				return group;
+			}
+		});
+		return groups;
+	}
+	
+	@Override
+	public List<CategoryDTO> getCategoriesDTO() {
+		final String SQL = "SELECT category_id, category_name FROM categories ORDER BY category_name";
+		List<CategoryDTO> categories = jdbcTemplate.query(SQL,  new RowMapper<CategoryDTO>() {
+			
+			@Override
+			public CategoryDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				CategoryDTO category = new CategoryDTO();
+				category.setCategoryID(rs.getInt("category_id"));
+				category.setCategoryName(rs.getString("category_name"));
+				return category;
+			}
+		});
+		return categories;
+	}
+	
+	@Override
+	public List<WorksheetDTO> getWorksheetsDTO(int groupID, int categoryID) {
+		final String SQL = "SELECT worksheets.worksheet_id, worksheets.header FROM worksheets "
+				+ "JOIN distros ON distros.worksheet_id = worksheets.worksheet_id "
+				+ "JOIN categories ON worksheets.category_id = categories.category_id "
+				+ "WHERE distros.group_id = ? AND categories.category_id = ? "
+				+ "ORDER BY worksheets.header";
+		List<WorksheetDTO> worksheets = jdbcTemplate.query(SQL, new Object[] { groupID, categoryID }, new RowMapper<WorksheetDTO>() {
+			
+			@Override
+			public WorksheetDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				WorksheetDTO worksheet = new WorksheetDTO();
 				worksheet.setWorksheetID(rs.getInt("worksheet_id"));
 				worksheet.setWorksheetHeader(rs.getString("header"));
-				worksheet.setWorksheetPreface(rs.getString("preface"));
-				worksheet.setWorksheetPlanning(rs.getString("planning"));
 				return worksheet;
 			}
 		});
-		
-		for (Worksheet worksheet : worksheets) {
-			List<Waypoint> waypoints = jdbcTemplate.query(SQL2, new Object[] { worksheet.getWorksheetID() }, new RowMapper<Waypoint>() {
-				
-				@Override
-				public Waypoint mapRow(ResultSet rs, int rowNum) throws SQLException {
-					Waypoint waypoint = new Waypoint();
-					waypoint.setWaypointID(rs.getInt("waypoint_id"));
-					waypoint.setWaypointTask(rs.getString("task"));
-					waypoint.setWaypointPhotoEnabled(rs.getBoolean("photo_enabled"));
-					waypoint.setWorksheetID(rs.getInt("worksheet_id"));
-					return waypoint;
-				}
-			});
-			worksheet.setWaypoints(waypoints);
-		}
 		return worksheets;
 	}
-
-	public List<Answersheet> getAnswers(Group group, User user) {
-		final String SQL1 = "SELECT * FROM answersheets WHERE group_id = ? AND user_id = ?";
-		final String SQL2 = "SELECT answerpoints.*, options.option_text FROM answerpoints "
+	
+	@Override
+	public List<Answersheet> getWorksheetAnswers(int worksheetID, int userID) {
+		
+		final String SQL1 = "SELECT * FROM answersheets WHERE worksheet_id = ? AND user_id = ?";
+		
+		final String SQL2 = "SELECT * FROM answerpoints "
 				+ "JOIN options ON answerpoints.option_id = options.option_id "
 				+ "WHERE answersheet_id = ?";
-		 List<Answersheet> answersheets = jdbcTemplate.query(SQL1, new Object[] { group.getGroupID(), user.getUserID() }, new RowMapper<Answersheet>() {
+		
+		List<Answersheet> answersheets = jdbcTemplate.query(SQL1, new Object[] { worksheetID, userID }, new RowMapper<Answersheet>() {
 			
 			@Override
 			public Answersheet mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -152,7 +199,7 @@ public class PassiDAOImpl implements PassiDAO {
 				return answersheet;
 			}
 		});
-				
+		
 		for (Answersheet answersheet : answersheets) {
 			List<Answerpoint> answerpoints = jdbcTemplate.query(SQL2, new Object[] { answersheet.getAnswerID() }, new RowMapper<Answerpoint>() {
 			
@@ -171,14 +218,86 @@ public class PassiDAOImpl implements PassiDAO {
 					return answerpoint;
 				}
 			});
-			answersheet.setWaypoints(answerpoints);
+			answersheet.setWaypoints((ArrayList<Answerpoint>) answerpoints);
 		}
 		return answersheets; 
 	}
 
 	@Override
-	public void saveFeedback(int waypointID, int instructorRating, String instructorComment) {
-		final String SQL = "UPDATE answerpoints SET instructor_comment = ?, instructor_rating = ? WHERE waypoint_id = ?";
-		jdbcTemplate.update(SQL, new Object[] {instructorComment, instructorRating, waypointID});
+	public List<Worksheet> getWorksheetContent(int worksheetID) {
+		
+		final String SQL1 = "SELECT * FROM worksheets WHERE worksheet_id = ?";
+		
+		final String SQL2 = "SELECT * FROM waypoints WHERE worksheet_id = ?";
+		
+		List<Worksheet> worksheets = jdbcTemplate.query(SQL1, new Object[] { worksheetID }, new RowMapper<Worksheet>() {
+			
+			@Override
+			public Worksheet mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Worksheet worksheet = new Worksheet();
+				worksheet.setWorksheetID(rs.getInt("worksheet_id"));
+				worksheet.setWorksheetHeader(rs.getString("header").trim());
+				worksheet.setWorksheetPreface(rs.getString("preface").trim());
+				worksheet.setWorksheetPlanning(rs.getString("planning").trim());
+				return worksheet;
+			}
+		});
+		
+		if (worksheets.isEmpty()) {
+			return null;
+		}
+		
+		for (Worksheet worksheet : worksheets) {
+			List<Waypoint> waypoints = jdbcTemplate.query(SQL2, new Object[] { worksheet.getWorksheetID() }, new RowMapper<Waypoint>() {
+				
+				@Override
+				public Waypoint mapRow(ResultSet rs, int rowNum) throws SQLException {
+					Waypoint waypoint = new Waypoint();
+					waypoint.setWaypointID(rs.getInt("waypoint_id"));
+					waypoint.setWaypointTask(rs.getString("task").trim());
+					waypoint.setWaypointPhotoEnabled(rs.getBoolean("photo_enabled"));
+					waypoint.setWorksheetID(rs.getInt("worksheet_id"));
+					return waypoint;
+				}
+			});
+			
+			worksheet.setWaypoints(waypoints);
+		}
+		
+		return worksheets;
+	}
+
+	@Override
+	public void saveFeedback(int answerWaypointID, int instructorRating, String instructorComment) {
+		final String SQL = "UPDATE answerpoints SET instructor_comment = ?, instructor_rating = ? WHERE answerpoint_id = ?";
+		jdbcTemplate.update(SQL, new Object[] {instructorComment, instructorRating, answerWaypointID});
+	}
+
+	@Override
+	public HashMap<Integer, Integer> getIsAnsweredMap(int worksheetID, ArrayList<User> groupMembers) {
+		
+		final String SQL = "SELECT EXISTS (SELECT 1 FROM answersheets WHERE worksheet_id = ? AND user_id = ?)";
+		
+		HashMap<Integer, Integer> isAnsweredMap = new HashMap<>();
+		for (User member : groupMembers) {
+			isAnsweredMap.put(member.getUserID(), jdbcTemplate.queryForObject(SQL, new Object[] { worksheetID, member.getUserID() }, Integer.class));
+		}
+		return isAnsweredMap;
+	}
+
+	@Override
+	public User getMemberDetails(int userID) {
+		final String SQL = "SELECT * FROM users WHERE user_id = ?";
+		RowMapper<User> userMapper = new UserRowMapper();
+		return jdbcTemplate.queryForObject(SQL, new Object[] { userID }, userMapper);
+	}
+
+	@Override
+	public List<User> getInstructorsDetails(int groupID) {
+		final String SQL = "SELECT users.* FROM users "
+				+ "JOIN members ON members.user_id = users.user_id "
+				+ "WHERE members.group_id = ? AND users.role_id = 2";
+		RowMapper<User> userMapper = new UserRowMapper();
+		return jdbcTemplate.query(SQL, new Object[] { groupID }, userMapper);
 	}
 }

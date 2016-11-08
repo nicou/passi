@@ -17,6 +17,11 @@ public class User implements Serializable {
 
 	public User() {
 		super();
+		this.userID = 0;
+		this.firstname = "";
+		this.lastname = "";
+		this.email = "";
+		this.phone = "";
 	}
 
 	public User(int userID, String firstname, String lastname, String email, String phone) {
@@ -74,5 +79,11 @@ public class User implements Serializable {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	@Override
+	public String toString() {
+		return "User [userID=" + userID + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
+				+ ", phone=" + phone + "]";
 	}
 }
