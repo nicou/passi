@@ -46,6 +46,10 @@ public class User implements Serializable {
 		this.email = "";
 		this.phone = "";
 	}
+	
+	public boolean isNew() {
+		return (this.userID == 0);
+	}
 
 	public int getUserID() {
 		return userID;

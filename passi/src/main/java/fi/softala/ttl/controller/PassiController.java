@@ -87,13 +87,13 @@ public class PassiController {
 		}
 		model.setViewName("login");
 		
-		// logs debug message
+		/*
 		if (logger.isDebugEnabled()) {
 			logger.debug("getWelcome is executed!");
 		}
 		
-		// logs exception
 		logger.error("This is Error message", new Exception("Testing"));
+		*/
 				
 		return model;
 	}
