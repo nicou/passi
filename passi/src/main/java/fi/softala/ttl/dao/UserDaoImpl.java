@@ -56,14 +56,24 @@ public class UserDaoImpl implements UserDao {
 		return result;
 	}
 
-	// FIX THIS
 	@Override
 	public void save(User user) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		String sql = "INSERT INTO USERS(NAME, EMAIL, ADDRESS, PASSWORD, NEWSLETTER, FRAMEWORK, SEX, NUMBER, COUNTRY, SKILL) "
-				+ "VALUES ( :name, :email, :address, :password, :newsletter, :framework, :sex, :number, :country, :skill)";
+		String sql = "INSERT INTO users (username, password, role_id, firstname, lastname, email, phone) "
+				+ "VALUES ( :username, :password, :role_id, :password, :firstname, :lastname, :email, :phone)";
 		namedParameterJdbcTemplate.update(sql, getSqlParameterByModel(user), keyHolder);
 		user.setUserID(keyHolder.getKey().intValue());
+	}
+	
+	private SqlParameterSource getSqlParameterByModel(User user) {
+		MapSqlParameterSource paramSource = new MapSqlParameterSource();
+		paramSource.addValue("id", user.getUserID());
+		paramSource.addValue("password", user.getPassword());
+		paramSource.addValue("firstname", user.getFirstname());
+		paramSource.addValue("lastname", user.getLastname());
+		paramSource.addValue("email", user.getEmail());
+		paramSource.addValue("phone", user.getPhone());
+		return paramSource;
 	}
 
 	@Override
@@ -77,17 +87,6 @@ public class UserDaoImpl implements UserDao {
 	public void delete(Integer id) {
 		String sql = "DELETE FROM users WHERE user_id = :id";
 		namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource("id", id));
-	}
-
-	private SqlParameterSource getSqlParameterByModel(User user) {
-		MapSqlParameterSource paramSource = new MapSqlParameterSource();
-		paramSource.addValue("id", user.getUserID());
-		paramSource.addValue("password", user.getPassword());
-		paramSource.addValue("firstname", user.getFirstname());
-		paramSource.addValue("lastname", user.getLastname());
-		paramSource.addValue("email", user.getEmail());
-		paramSource.addValue("phone", user.getPhone());
-		return paramSource;
 	}
 
 	private static final class UserMapper implements RowMapper<User> {

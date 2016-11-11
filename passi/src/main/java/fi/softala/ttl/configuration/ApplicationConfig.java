@@ -18,6 +18,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -90,6 +91,11 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		jdbcTemplate.setResultsMapCaseInsensitive(true);
 		return jdbcTemplate;
+	}
+	
+	@Bean
+	public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate(BasicDataSource dataSource) {
+		return new NamedParameterJdbcTemplate(dataSource);
 	}
 	
 	@Bean
