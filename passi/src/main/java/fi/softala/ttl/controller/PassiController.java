@@ -86,6 +86,22 @@ public class PassiController {
 			model.addObject("message", "");
 		}
 		model.setViewName("login");
+		
+		// logs debug message
+		if (logger.isDebugEnabled()) {
+			logger.debug("getWelcome is executed!");
+		}
+		
+		// logs exception
+		logger.error("This is Error message", new Exception("Testing"));
+				
+		return model;
+	}
+	
+	@RequestMapping(value = "/registration", method = RequestMethod.GET)
+	public ModelAndView registrationPage() {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("registration");
 		return model;
 	}
 

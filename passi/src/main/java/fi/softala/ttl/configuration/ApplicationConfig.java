@@ -13,6 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
@@ -96,5 +97,12 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 	    DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
 	    dataSourceTransactionManager.setDataSource(dataSource);
 	    return dataSourceTransactionManager;
+	}
+	
+	@Bean
+	public ResourceBundleMessageSource messageSource() {
+		ResourceBundleMessageSource rb = new ResourceBundleMessageSource();
+		rb.setBasenames(new String[] { "messages/messages", "messages/validation" });
+		return rb;
 	}
 }

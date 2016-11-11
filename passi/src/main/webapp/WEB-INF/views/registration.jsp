@@ -1,0 +1,124 @@
+<%@ page session="false" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta name="author" content="Mika Ropponen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Työkykypassi&nbsp;&bull;&nbsp;Rekisteröinti</title>
+
+<!-- Styles -->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<style>
+html {
+background-color: #07aa91;
+background: linear-gradient(to bottom, #e6e6e6 200px, #baccde 200px);
+background-repeat: no-repeat;
+height: 100%;
+}
+body {
+background-color: transparent;
+padding-top: 50px;
+text-align: center;
+}
+.regform {
+background-color: #FFFFFF;
+border-radius: 20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+<div class="row">
+<div class="col-sm-offset-3 col-sm-6 regform">
+<h3>Rekisteröinti</h3>
+
+<spring:url value="/users" var="userActionURL" />
+
+<form:form class="form-horizontal" modelAttribute="userForm" action="${userActionUrl}" method="post">
+	
+	<form:hidden path="id" />
+	
+	<spring:bind path="firstname">
+		<div class="form-group ${status.error ? 'has-error' : ''}">
+			<label class="col-sm-2 control-label">Etunimi</label>
+			<div class="col-sm-10">
+				<form:input path="firstname" type="text" class="form-control" id="firstname" />
+				<form:errors path="firstname" class="control-label" />
+			</div>
+		</div>
+	</spring:bind>
+	
+	<spring:bind path="lastname">
+		<div class="form-group ${status.error ? 'has-error' : ''}">
+			<label class="col-sm-2 control-label">Sukunimi</label>
+			<div class="col-sm-10">
+				<form:input path="lastname" type="text" class="form-control" id="lastname" />
+				<form:errors path="lastname" class="control-label" />
+			</div>
+		</div>
+	</spring:bind>
+
+	<spring:bind path="email">
+		<div class="form-group ${status.error ? 'has-error' : ''}">
+			<label class="col-sm-2 control-label">Sähköposti</label>
+			<div class="col-sm-10">
+				<form:input path="email" class="form-control" id="email" />
+				<form:errors path="email" class="control-label" />
+			</div>
+		</div>
+	</spring:bind>
+	
+	<spring:bind path="phone">
+		<div class="form-group ${status.error ? 'has-error' : ''}">
+			<label class="col-sm-2 control-label">Puhelin</label>
+			<div class="col-sm-10">
+				<form:input path="phone" class="form-control" id="phone" />
+				<form:errors path="phone" class="control-label" />
+			</div>
+		</div>
+	</spring:bind>
+
+	<spring:bind path="password">
+		<div class="form-group ${status.error ? 'has-error' : ''}">
+			<label class="col-sm-2 control-label">Salasana</label>
+			<div class="col-sm-10">
+				<form:password path="password" class="form-control" id="password" />
+				<form:errors path="password" class="control-label" />
+			</div>
+		</div>
+	</spring:bind>
+
+	<spring:bind path="confirmPassword">
+		<div class="form-group ${status.error ? 'has-error' : ''}">
+			<label class="col-sm-2 control-label">Vahvista salasana</label>
+			<div class="col-sm-10">
+				<form:password path="confirmPassword" class="form-control" id="password" />
+				<form:errors path="confirmPassword" class="control-label" />
+			</div>
+		</div>
+	</spring:bind>
+	
+</form:form>
+
+</div>
+</div>
+</div>
+
+<!-- Script libraries -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>
