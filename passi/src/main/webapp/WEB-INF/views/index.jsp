@@ -248,7 +248,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 					<c:set var="feedbackContent" value="${worksheetAnswers.waypoints[loop.index].answerWaypointInstructorComment}" />
 					<c:choose>
 					<c:when test="${not empty feedbackContent}">
-						<div class="text-info"><p>Tämä vastaus on jo arvioitu. Voit halutessasi muuttaa palautetta.</p></div>
+						<div class="text-info hasFeedback"><p>Tämä vastaus on jo arvioitu. Voit halutessasi muuttaa palautetta.</p></div>
 					</c:when>
 					<c:otherwise>
 						<div class="text-info"><p>Arvio vastaus kirjallisesti sekä väripainikkeella</p></div>
@@ -268,20 +268,20 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 						<tr>
 							<td>
 								<div class="form-group">
-									<textarea style="width: 450px;" maxlength="1000" rows="5" id="instructorComment" name="instructorComment" class="form-control teacher-assesment-text-${wpID} assesment-textarea" placeholder="Anna palautetta"><c:out value="${feedbackContent}" /></textarea>
+									<textarea style="width: 450px;" maxlength="1000" rows="5" id="instructorComment" name="instructorComment" class="form-control teacher-assessment-text-${wpID} assessment-textarea" placeholder="Anna palautetta"><c:out value="${feedbackContent}" /></textarea>
 								</div>
 							</td>
 							<td>
 								<ul class="${not empty feedbackContent ? 'teacher-multichoice-selected' : ''} teacher-multichoices pull-left" id="multichoices-${wpID}">
-									<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='1';" class="custom-ball button-green ${instructorRating == 1 ? 'button-green-selected' : 'button-green'}" id="ball-${loop.index}"></li>
-									<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='2';" class="custom-ball button-yellow ${instructorRating == 2 ? 'button-yellow-selected' : 'button-yellow'}" id="ball-${loop.index}"></li>
-									<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='3';" class="custom-ball button-red ${instructorRating == 3 ? 'button-red-selected' : 'button-red'}" id="ball-${loop.index}"></li>
+								<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='1';" class="custom-ball button-green ${instructorRating == 1 ? 'button-green-selected' : 'button-green'}" id="ball-${loop.index}"></li>
+								<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='2';" class="custom-ball button-yellow ${instructorRating == 2 ? 'button-yellow-selected' : 'button-yellow'}" id="ball-${loop.index}"></li>
+								<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='3';" class="custom-ball button-red ${instructorRating == 3 ? 'button-red-selected' : 'button-red'}" id="ball-${loop.index}"></li>		
 								</ul>
 							</td>
 						</tr>
 					</table>
 					<button class="palaute btn btn-default btn-md" value="${wpID}">Lähetä</button>
-					<span class="label label-danger error-toast-${wpID}">Täytä molemmat kentät</span>
+					<span class="label label-danger error-toast-${wpID}">Ole hyvä ja vastaa molempiin kenttiin</span>
 					</form>
 					<span class="label label-success success-toast-${wpID}">Arviointi onnistui!</span>
 					</div>
@@ -303,10 +303,11 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 </div>
 
 <div id="lightbox">
-    <div id="content">
-        <img src="#" draggable="false" />
+	<div id="content">
+        <img src="#" class="rotateImage" draggable="false"/>
     </div>
 </div>
+	
 
 <!-- Script -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

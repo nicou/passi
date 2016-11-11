@@ -1,3 +1,6 @@
+/**
+ * @author Mika Ropponen
+ */
 package fi.softala.ttl.model;
 
 import java.io.Serializable;
