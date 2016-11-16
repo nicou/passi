@@ -32,25 +32,19 @@ public class UserFormValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-
+		
 		User user = (User) target;
-
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "NotEmpty.userForm.name");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastname", "NotEmpty.userForm.name");
+		
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "NotEmpty.userForm.firstname");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastname", "NotEmpty.userFormlast.name");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.userForm.email");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", "NotEmpty.userForm.phone");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty.userForm.password");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword","NotEmpty.userForm.confirmPassword");
-
-		if(!emailValidator.valid(user.getEmail())){
+		
+		if(!emailValidator.valid(user.getEmail())) {
 			errors.rejectValue("email", "Pattern.userForm.email");
 		}
-		
-		/*
-		if(user.getNumber() == null || user.getNumber() <= 0){
-			errors.rejectValue("number", "NotEmpty.userForm.number");
-		}
-		*/
 		
 		if (!user.getPassword().equals(user.getConfirmPassword())) {
 			errors.rejectValue("confirmPassword", "Diff.userform.confirmPassword");

@@ -30,10 +30,6 @@ import fi.softala.ttl.service.UserService;
 import fi.softala.ttl.validator.UserFormValidator;
 // import javax.validation.Valid;
 
-// http://www.tikalk.com/redirectattributes-new-feature-spring-mvc-31/
-// https://en.wikipedia.org/wiki/Post/Redirect/Get
-// http://www.oschina.net/translate/spring-mvc-flash-attribute-example
-
 @Controller
 public class UserController {
 
@@ -54,30 +50,21 @@ public class UserController {
 		this.userService = userService;
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public String index(Model model) {
 		logger.debug("index()");
-		return "redirect:/users";
-	}
-
-	// list page
-	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public String showAllUsers(Model model) {
-
-		logger.debug("showAllUsers()");
-		model.addAttribute("users", userService.findAll());
-		return "users/list";
-
+		model.addAttribute("userForm", new User());
+		return "registration";
 	}
 
 	// save or update user
-	@RequestMapping(value = "/users", method = RequestMethod.POST)
+	@RequestMapping(value = "/registration/users", method = RequestMethod.POST)
 	public String saveOrUpdateUser(@ModelAttribute("userForm") @Validated User user,
 			BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
 		logger.debug("saveOrUpdateUser() : {}", user);
 		if (result.hasErrors()) {
 			populateDefaultModel(model);
-			return "users/userform";
+			return "/registration/users/userform";
 		} else {
 			redirectAttributes.addFlashAttribute("css", "success");
 			if (user.isNew()) {
@@ -86,12 +73,12 @@ public class UserController {
 				redirectAttributes.addFlashAttribute("msg", "User updated successfully!");
 			}
 			userService.saveOrUpdate(user);
-			return "redirect:/users/" + user.getUserID();
+			return "redirect:/registration/users/" + user.getUserID();
 		}
 	}
 
 	// show add user form
-	@RequestMapping(value = "/users/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/registration/users/add", method = RequestMethod.GET)
 	public String showAddUserForm(Model model) {
 		logger.debug("showAddUserForm()");
 		User user = new User();
@@ -102,21 +89,21 @@ public class UserController {
 		//user.setConfirmPassword("123");
 		model.addAttribute("userForm", user);
 		populateDefaultModel(model);
-		return "users/userform";
+		return "/registration/users/userform";
 	}
 
 	// show update form
-	@RequestMapping(value = "/users/{id}/update", method = RequestMethod.GET)
+	@RequestMapping(value = "/registration/users/{id}/update", method = RequestMethod.GET)
 	public String showUpdateUserForm(@PathVariable("id") int id, Model model) {
 		logger.debug("showUpdateUserForm() : {}", id);
 		User user = userService.findById(id);
 		model.addAttribute("userForm", user);
 		populateDefaultModel(model);
-		return "users/userform";
+		return "/registration/users/userform";
 	}
 
 	// delete user
-	@RequestMapping(value = "/users/{id}/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/registration/users/{id}/delete", method = RequestMethod.POST)
 	public String deleteUser(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 		logger.debug("deleteUser() : {}", id);
 		userService.delete(id);
@@ -126,7 +113,7 @@ public class UserController {
 	}
 
 	// show user
-	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/registration/users/{id}", method = RequestMethod.GET)
 	public String showUser(@PathVariable("id") int id, Model model) {
 		logger.debug("showUser() id: {}", id);
 		User user = userService.findById(id);
@@ -135,7 +122,7 @@ public class UserController {
 			model.addAttribute("msg", "User not found");
 		}
 		model.addAttribute("user", user);
-		return "users/show";
+		return "/registration/users/show";
 	}
 
 	private void populateDefaultModel(Model model) {
@@ -174,7 +161,7 @@ public class UserController {
 		logger.debug("handleEmptyData()");
 		logger.error("Request: {}, error ", req.getRequestURL(), ex);
 		ModelAndView model = new ModelAndView();
-		model.setViewName("user/show");
+		model.setViewName("/registration/user/show");
 		model.addObject("msg", "user not found");
 		return model;
 	}

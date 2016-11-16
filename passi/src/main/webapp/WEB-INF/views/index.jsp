@@ -125,12 +125,12 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     				<c:forEach var="member" items="${groupMembers}">
     					<c:choose>
     						<c:when test="${isAnsweredMap[member.userID] == 1}">
-    							<tr onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit();" class="table-top-border ${selectedMember == member.userID ? 'bold' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
-    							<div style="float: right; color: green; font-weight: bold;">&#10003;</div></td></tr>   					
+    							<tr onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border ${selectedMember == member.userID ? 'bold' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
+    							<c:if test="${selectedWorksheet > 0}"><div style="float: right; color: green; font-weight: bold;">&#10003;</div></c:if></td></tr>   					
     						</c:when>
     						<c:otherwise>
-    							<tr onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit();" class="table-top-border ${selectedMember == member.userID ? 'bold' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
-    							<div style="float: right; color: red; font-weight: bold;">&#10007;</div></td></tr>
+    							<tr onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border ${selectedMember == member.userID ? 'bold' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
+    							<c:if test="${selectedWorksheet > 0}"><div style="float: right; color: red; font-weight: bold;">&#10007;</div></c:if></td></tr>
     						</c:otherwise>
     					</c:choose>
     				</c:forEach>
@@ -293,8 +293,8 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 		<div class="row">
   			<h2>Tehtäväkortit</h2>
   			<div class="alert alert-info">
-    			<strong>Käyttövinkki:</strong> Tee valinnat pudotusvalikoista vaiheittain ja valitse lopuksi ryhmän jäsen, joka on jo vastannut tehtäväkorttiin.<br /><br />
-    			<strong>Esimerkki:</strong> Lähihoidon opiskelijat, Kätilöopisto <strong>></strong> Ammatin työkykyvalmiudet <strong>></strong> Turvallisuuskävely <strong>></strong> Maija Talkanen
+    			<strong>Käyttövinkki<br /></strong> Tee valinnat pudotusvalikoista vaiheittain ja valitse lopuksi ryhmän jäsen, joka on jo vastannut tehtäväkorttiin.<br /><br />
+    			<strong>Esimerkki<br /></strong> Lähihoidon opiskelijat, Kätilöopisto <strong>></strong> Ammatin työkykyvalmiudet <strong>></strong> Turvallisuuskävely <strong>></strong> Maija Talkanen
   			</div>
   		</div>
 	</c:otherwise>
