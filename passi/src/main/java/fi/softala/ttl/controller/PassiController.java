@@ -120,13 +120,12 @@ public class PassiController {
 	}
 
 	@RequestMapping(value = "/index/{page}", method = RequestMethod.GET)
-	public ModelAndView pageNavigation(@PathVariable(value = "page") String page,
+	public String pageNavigation(Model model,
+			@PathVariable(value = "page") String page,
 			@ModelAttribute(value = "message") String message) {
-		ModelAndView model = new ModelAndView();
-		//model.addObject("groups", dao.getAllGroups());
-		model.addObject("message", message);
-		model.setViewName(page);
-		return model;
+		model.addAttribute("groups", passiService.getAllGroups());
+		model.addAttribute("message", message);
+		return page;
 	}
 
 	@RequestMapping(value = "/expired", method = RequestMethod.GET)

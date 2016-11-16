@@ -15,10 +15,9 @@
     	</div>
     	<div class="collapse navbar-collapse" id="myNavbar">
       		<ul class="nav navbar-nav">
-        		<li class="disabled ${param.currentPage == '/WEB-INF/views/index.jsp' ? 'active' : ''}"><a href="<c:url value="#" />">Tietohaku</a></li> <!-- /index -->
-        		<li class="disabled ${param.currentPage == '/WEB-INF/views/group.jsp' ? 'active' : ''}"><a href="#">Ryhmät</a></li>
-        		<li class="disabled ${param.currentPage == '/WEB-INF/views/student.jsp' ? 'active' : ''}"><a href="#">Jäsenet</a></li>
-        		<li class="disabled ${param.currentPage == '/WEB-INF/views/assess.jsp' ? 'active' : ''}"><a href="#">Arviointi</a></li>
+        		<li class="${param.currentPage == '/WEB-INF/views/index.jsp' ? 'active' : ''}"><a href="<c:url value="/index" />">Tietohaku</a></li>
+        		<li class="${param.currentPage == '/WEB-INF/views/group.jsp' ? 'active' : ''}"><a href="<c:url value="/index/group" />">Ryhmät</a></li>
+        		<li class="${param.currentPage == '/WEB-INF/views/student.jsp' ? 'active' : ''}"><a href="<c:url value="/index/student" />">Jäsenet</a></li>
      		</ul>
       		<ul class="nav navbar-nav navbar-right">
         		<li>
