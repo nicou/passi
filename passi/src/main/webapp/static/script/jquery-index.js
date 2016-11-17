@@ -98,26 +98,30 @@ $(document).ready(function() {
 		var image = '<img src="' + image_href + '" id="zImage"/>';
 			angle = 0;
 			$('#content').html(image);
-			/*for keeping the ratios
-			 * 
-			 * var imageWidth = $('#zImage').width() * 1,25;
-			 * var imageHeigth = $('#zImage').heigth() * 1,25;
-			 * 
-			 * var wWidth = $(window).width();
-			 * var wHeight = $(window).height();
-			 * 
-			 * while(imageWidth > wWidth || imageHeigth > wHeigth ) {
-			 * 	imageWidth *= .8;
-			 * 	imageHeigth *= .8;
-			 * }
-			 * 
-			 * $( '#zImage' ).css({
-				'width': imageWidth + "px",
-				'height': imageHeigth + "px" 
-				});
-			 * 
-			 * */
-			$('#zImage').appendChild('<span class="glyphicon glyphicon-repeat"></span>');
+			  var wWidth = $(window).width(), wHeight = $(window).height();
+			  /*
+			  width & height var's return 0 -_- ? -> should set them dynamically in while loop
+			    
+			  var imageWidth = $('#zImage').width();
+			  var imageHeigth = $('#zImage').height(); 
+			   
+			  if(imageWidth > wWidth || imageHeigth > wHeight){
+				  while(imageWidth > wWidth || imageHeigth > wHeight ) {
+					  	imageWidth *= 0,8;
+					  	imageHeigth *= 0,8;
+					  }
+			  }
+			*/
+			$( '#zImage' ).css({
+					'margin-top': (wHeight / 5) + "px",
+					'width': (wWidth / 1.75) + "px",
+					'height': (wHeight / 1.75 ) + "px"
+			});
+			
+			console.log($('#zImage').position());
+			if($('.glyphicon-repeat').length < 1){
+				$('#lightbox').append('<span class="glyphicon glyphicon-repeat" style="position:absolute;margin-top: 10em; color: #ffffff; font-size:25px; background-color:rgba(0,0,0,.5);padding:10px;"></span>');
+			}
 			$('#lightbox').show();
 		
 		/*	for creating #lightbox dynamically // NOT IN USE
