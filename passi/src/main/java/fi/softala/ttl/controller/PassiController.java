@@ -160,6 +160,7 @@ public class PassiController {
         
     	userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
+        	model.addAttribute("userForm", userForm);
             return "registration";
         }
         /*

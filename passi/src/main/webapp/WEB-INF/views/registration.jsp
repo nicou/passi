@@ -66,6 +66,14 @@ label {
 	
 	<form:hidden path="userID" />
 	
+	<spring:bind path="username">
+		<div class="form-group ${status.error ? 'has-error' : ''}">
+			<label class="control-label">Käyttäjätunnus</label>
+			<form:input path="username" type="text" class="form-control" id="firstname" />
+			<form:errors path="username" class="control-label" />
+		</div>
+	</spring:bind>
+	
 	<spring:bind path="firstname">
 		<div class="form-group ${status.error ? 'has-error' : ''}">
 			<label class="control-label">Etunimi</label>
@@ -114,7 +122,10 @@ label {
 		</div>
 	</spring:bind>
 	
-	<button class="btn btn-lg btn-primary btn-block" type="submit">Lähetä</button>
+	<div class="form-group">
+		<br />
+		<button class="btn btn-md btn-primary btn-block" type="submit">Lähetä</button>
+	</div>
 	
 </form:form>
 
