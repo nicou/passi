@@ -19,9 +19,7 @@
 
 <style>
 html {
-background-color: #07aa91;
-background: linear-gradient(to bottom, #e6e6e6 200px, #baccde 200px);
-background-repeat: no-repeat;
+background-color: #baccde;
 height: 100%;
 }
 body {
@@ -46,6 +44,7 @@ label {
 	background-color: #FFFFFF;
 	border-radius: 20px;
 	box-shadow: 0 0 10px #696969;
+	margin-bottom: 50px;
 	text-align: left;
 	padding-bottom: 30px;
 }
@@ -128,6 +127,13 @@ label {
 	</div>
 	
 </form:form>
+
+<c:url var="returnURL" value="/login" />
+<div style="text-align: center;">
+<br />
+<a href="${returnURL}">Palaa kirjautumiseen</a>
+<br />
+</div>
 
 </div>
 </div>
