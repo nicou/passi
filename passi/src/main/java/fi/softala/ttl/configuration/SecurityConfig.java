@@ -1,6 +1,5 @@
 package fi.softala.ttl.configuration;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;

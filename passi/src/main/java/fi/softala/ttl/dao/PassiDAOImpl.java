@@ -87,7 +87,8 @@ public class PassiDAOImpl implements PassiDAO {
 		final String SQL1 = "SELECT * FROM groups ORDER BY group_name";
 		final String SQL2 = "SELECT users.* FROM users "
 				+ "JOIN members ON members.user_id = users.user_id "
-				+ "WHERE users.role_id = 2 AND users.user_id != 1 AND members.group_id = ?";
+				+ "JOIN user_role ON users.user_id = user_role.user_id "
+				+ "WHERE user_role.role_id = 2 AND users.user_id != 1 AND members.group_id = ?";
 		RowMapper<Group> groupMapper = new GroupRowMapper();
 		List<Group> groups = jdbcTemplate.query(SQL1, groupMapper);
 		RowMapper<Instructor> instructorMapper = new InstructorRowMapper();
@@ -100,7 +101,8 @@ public class PassiDAOImpl implements PassiDAO {
 	public List<User> getGroupMembers(int groupID) {
 		final String SQL = "SELECT users.* FROM users "
 				+ "JOIN members ON members.user_id = users.user_id "
-				+ "WHERE users.role_id = 1 AND members.group_id = ? "
+				+ "JOIN user_role ON users.user_id = user_role.user_id "
+				+ "WHERE user_role.role_id = 1 AND members.group_id = ? "
 				+ "ORDER BY users.firstname";
 		RowMapper<User> userMapper = new UserRowMapper();
 		List<User> members = jdbcTemplate.query(SQL, new Object[] { groupID }, userMapper);
@@ -296,7 +298,8 @@ public class PassiDAOImpl implements PassiDAO {
 	public List<User> getInstructorsDetails(int groupID) {
 		final String SQL = "SELECT users.* FROM users "
 				+ "JOIN members ON members.user_id = users.user_id "
-				+ "WHERE members.group_id = ? AND users.role_id = 2";
+				+ "JOIN user_role ON users.user_id = user_role.user_id "
+				+ "WHERE members.group_id = ? AND user_role.role_id = 2";
 		RowMapper<User> userMapper = new UserRowMapper();
 		return jdbcTemplate.query(SQL, new Object[] { groupID }, userMapper);
 	}
