@@ -47,5 +47,9 @@ public interface PassiDAO {
 	public List<User> getInstructorsDetails(int groupID);
 	
 	public List<Group> getAllGroups();
+	
+	public boolean isUsernameExists(String username);
+	
+	public boolean isEmailExists(String email);
 
 }

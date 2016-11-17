@@ -342,4 +342,23 @@ public class PassiDAOImpl implements PassiDAO {
 		return jdbcTemplate.query(SQL, new Object[] { groupID }, userMapper);
 	}
 
+	@Override
+	public boolean isUsernameExists(String username) {
+		final String SQL = "SELECT EXISTS (SELECT 1 FROM users WHERE username = ?)";
+		int userExists = jdbcTemplate.queryForObject(SQL, new Object[] { username }, Integer.class);
+		if (userExists == 1) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isEmailExists(String email) {
+		final String SQL = "SELECT EXISTS (SELECT 1 FROM users WHERE email = ?)";
+		int emailExists = jdbcTemplate.queryForObject(SQL, new Object[] { email }, Integer.class);
+		if (emailExists == 1) {
+			return true;
+		}
+		return false;
+	}
 }

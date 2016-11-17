@@ -40,5 +40,9 @@ public interface PassiService {
 	public ArrayList<User> getInstructorsDetails(int groupID);
 	
 	public ArrayList<Group> getAllGroups();
+	
+	public boolean isUsernameExists(String username);
+	
+	public boolean isEmailExists(String email);
 
 }

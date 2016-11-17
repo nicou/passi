@@ -114,4 +114,14 @@ public class PassiServiceImpl implements PassiService {
 		return (ArrayList<Group>) dao.getAllGroups();
 	}
 
+	@Override
+	public boolean isUsernameExists(String username) {
+		return dao.isUsernameExists(username);
+	}
+
+	@Override
+	public boolean isEmailExists(String email) {
+		return dao.isEmailExists(email);
+	}
+
 }
