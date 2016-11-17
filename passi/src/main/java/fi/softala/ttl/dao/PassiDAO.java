@@ -43,5 +43,7 @@ public interface PassiDAO {
 	public User getMemberDetails(int userID);
 	
 	public List<User> getInstructorsDetails(int groupID);
+	
+	public List<Group> getAllGroups();
 
 }

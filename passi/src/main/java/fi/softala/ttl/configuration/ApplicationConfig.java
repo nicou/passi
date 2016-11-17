@@ -13,10 +13,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -92,9 +94,21 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 	}
 	
 	@Bean
+	public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate(BasicDataSource dataSource) {
+		return new NamedParameterJdbcTemplate(dataSource);
+	}
+	
+	@Bean
 	public DataSourceTransactionManager dataSourceTransactionManager(BasicDataSource dataSource) {
 	    DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
 	    dataSourceTransactionManager.setDataSource(dataSource);
 	    return dataSourceTransactionManager;
+	}
+	
+	@Bean
+	public ResourceBundleMessageSource messageSource() {
+		ResourceBundleMessageSource rb = new ResourceBundleMessageSource();
+		rb.setBasenames(new String[] { "messages/messages", "messages/validation" });
+		return rb;
 	}
 }

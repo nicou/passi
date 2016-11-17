@@ -10,6 +10,8 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private int userID;
+	private String password;
+	private String confirmPassword;
 	private String firstname;
 	private String lastname;
 	private String email;
@@ -24,9 +26,11 @@ public class User implements Serializable {
 		this.phone = "";
 	}
 
-	public User(int userID, String firstname, String lastname, String email, String phone) {
+	public User(int userID, String password, String confirmPassword, String firstname, String lastname, String email, String phone) {
 		super();
 		this.userID = userID;
+		this.password = password;
+		this.confirmPassword = confirmPassword;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
@@ -35,10 +39,16 @@ public class User implements Serializable {
 	
 	public void reset() {
 		this.userID = 0;
+		this.password = "";
+		this.confirmPassword = "";
 		this.firstname = "";
 		this.lastname = "";
 		this.email = "";
 		this.phone = "";
+	}
+	
+	public boolean isNew() {
+		return (this.userID == 0);
 	}
 
 	public int getUserID() {
@@ -47,6 +57,22 @@ public class User implements Serializable {
 
 	public void setUserID(int userID) {
 		this.userID = userID;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 	public String getFirstname() {
@@ -86,4 +112,5 @@ public class User implements Serializable {
 		return "User [userID=" + userID + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
 				+ ", phone=" + phone + "]";
 	}
+
 }
