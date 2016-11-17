@@ -1,5 +1,6 @@
 package fi.softala.ttl.configuration;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	DataSource dataSource;
+	
+	/*
+	@Resource(name = "authService")
+	private UserDetailsServiceImpl userDetailsService;
+
+	/*
+	 * @Bean(name = "authenticationManager")
+	 * 
+	 * @Override public AuthenticationManager authenticationManager() throws
+	 * Exception { return super.authenticationManagerBean(); }
+	 * 
+	 * @Override protected void configure(AuthenticationManagerBuilder auth)
+	 * throws Exception {
+	 * auth.userDetailsService(userDetailsService()).passwordEncoder(
+	 * passwordEncoder()); }
+	 */
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		PasswordEncoder encoder = new BCryptPasswordEncoder();
+		return encoder;
+	}
 
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
@@ -62,9 +85,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		repository.setSessionAttributeName("_csrf");
 		return repository;
 	}
-	
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
 }

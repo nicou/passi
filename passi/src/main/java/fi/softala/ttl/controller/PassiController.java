@@ -42,9 +42,6 @@ import fi.softala.ttl.model.Group;
 import fi.softala.ttl.dto.WorksheetDTO;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.service.PassiService;
-import fi.softala.ttl.service.SecurityService;
-import fi.softala.ttl.service.UserService;
-import fi.softala.ttl.validator.UserValidator;
 
 @EnableWebMvc
 @Controller
@@ -54,7 +51,8 @@ import fi.softala.ttl.validator.UserValidator;
 public class PassiController {
 
 	final static Logger logger = LoggerFactory.getLogger(PassiController.class);
-
+	
+	/*
 	@Autowired
     private UserService userService;
 
@@ -63,6 +61,7 @@ public class PassiController {
 
     @Autowired
     private UserValidator userValidator;
+    */
 	
 	@Autowired
 	ServletContext context;
@@ -156,12 +155,14 @@ public class PassiController {
 	
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
-        userValidator.validate(userForm, bindingResult);
+        /*
+    	userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
             return "registration";
         }
         userService.save(userForm);
         securityService.autologin(userForm.getUsername(), userForm.getConfirmPassword());
+        */
         return "redirect:/index";
     }
 
