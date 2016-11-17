@@ -4,12 +4,17 @@
 package fi.softala.ttl.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private int userID;
+	private String username;
+	private Set<Role> roles;
+	private String password;
+	private String confirmPassword;
 	private String firstname;
 	private String lastname;
 	private String email;
@@ -17,28 +22,20 @@ public class User implements Serializable {
 
 	public User() {
 		super();
-		this.userID = 0;
-		this.firstname = "";
-		this.lastname = "";
-		this.email = "";
-		this.phone = "";
-	}
-
-	public User(int userID, String firstname, String lastname, String email, String phone) {
-		super();
-		this.userID = userID;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.email = email;
-		this.phone = phone;
 	}
 	
 	public void reset() {
 		this.userID = 0;
+		this.password = "";
+		this.confirmPassword = "";
 		this.firstname = "";
 		this.lastname = "";
 		this.email = "";
 		this.phone = "";
+	}
+	
+	public boolean isNew() {
+		return (this.userID == 0);
 	}
 
 	public int getUserID() {
@@ -47,6 +44,39 @@ public class User implements Serializable {
 
 	public void setUserID(int userID) {
 		this.userID = userID;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	// Setter with BCrypt encoding
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 	public String getFirstname() {
@@ -80,10 +110,11 @@ public class User implements Serializable {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
+	
+	// without roles, password, confirmPassword
 	@Override
 	public String toString() {
-		return "User [userID=" + userID + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
-				+ ", phone=" + phone + "]";
+		return "User [userID=" + userID + ", username=" + username + ", firstname=" + firstname + ", lastname="
+				+ lastname + ", email=" + email + ", phone=" + phone + "]";
 	}
 }

@@ -9,10 +9,13 @@ import fi.softala.ttl.dto.GroupDTO;
 import fi.softala.ttl.dto.WorksheetDTO;
 import fi.softala.ttl.model.Answersheet;
 import fi.softala.ttl.model.Category;
+import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.model.Worksheet;
 
 public interface PassiService {
+	
+	public void saveUser(User user);
 	
 	public ArrayList<CategoryDTO> getCategoriesDTO();
 	
@@ -35,5 +38,11 @@ public interface PassiService {
 	public User getMemberDetails(int userID);
 	
 	public ArrayList<User> getInstructorsDetails(int groupID);
+	
+	public ArrayList<Group> getAllGroups();
+	
+	public boolean isUsernameExists(String username);
+	
+	public boolean isEmailExists(String email);
 
 }

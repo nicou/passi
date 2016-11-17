@@ -3,6 +3,8 @@
  */
 package fi.softala.ttl.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,7 +15,11 @@ import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -33,6 +39,8 @@ import fi.softala.ttl.model.Worksheet;
 
 @Component
 public class PassiDAOImpl implements PassiDAO {
+	
+	private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Inject
 	private JdbcTemplate jdbcTemplate;
@@ -47,6 +55,36 @@ public class PassiDAOImpl implements PassiDAO {
 	
 	@Autowired
 	private PlatformTransactionManager platformTransactionManager;
+
+	@Override
+	public void saveUser(User user) {
+		
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		
+		final String SQL1 = "INSERT INTO users (username, password, firstname, lastname, email, phone) "
+				+ "VALUES (?, ?, ?, ?, ?, ?)";
+		
+		jdbcTemplate.update(new PreparedStatementCreator() {
+
+			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+				PreparedStatement ps = connection.prepareStatement(SQL1, new String[] { "user_id" });
+				ps.setString(1, user.getUsername());
+				ps.setString(2, passwordEncoder.encode(user.getPassword()));
+				ps.setString(3, user.getFirstname());
+				ps.setString(4, user.getLastname());
+				ps.setString(5, user.getEmail());
+				ps.setString(6, user.getPhone());
+				return ps;
+			}
+		}, keyHolder);
+		
+		user.setUserID(keyHolder.getKey().intValue());
+		
+		final String SQL2 = "INSERT INTO user_role (user_id, role_id) VALUES (?, 2)";
+		
+		jdbcTemplate.update(SQL2, new Object[] { user.getUserID() });
+		
+	}
 	
 	public boolean addGroup(Group group){
 		DefaultTransactionDefinition paramTransactionDefinition = new DefaultTransactionDefinition();
@@ -87,7 +125,8 @@ public class PassiDAOImpl implements PassiDAO {
 		final String SQL1 = "SELECT * FROM groups ORDER BY group_name";
 		final String SQL2 = "SELECT users.* FROM users "
 				+ "JOIN members ON members.user_id = users.user_id "
-				+ "WHERE users.role_id = 2 AND users.user_id != 1 AND members.group_id = ?";
+				+ "JOIN user_role ON users.user_id = user_role.user_id "
+				+ "WHERE user_role.role_id = 2 AND users.user_id != 1 AND members.group_id = ?";
 		RowMapper<Group> groupMapper = new GroupRowMapper();
 		List<Group> groups = jdbcTemplate.query(SQL1, groupMapper);
 		RowMapper<Instructor> instructorMapper = new InstructorRowMapper();
@@ -100,7 +139,8 @@ public class PassiDAOImpl implements PassiDAO {
 	public List<User> getGroupMembers(int groupID) {
 		final String SQL = "SELECT users.* FROM users "
 				+ "JOIN members ON members.user_id = users.user_id "
-				+ "WHERE users.role_id = 1 AND members.group_id = ? "
+				+ "JOIN user_role ON users.user_id = user_role.user_id "
+				+ "WHERE user_role.role_id = 1 AND members.group_id = ? "
 				+ "ORDER BY users.firstname";
 		RowMapper<User> userMapper = new UserRowMapper();
 		List<User> members = jdbcTemplate.query(SQL, new Object[] { groupID }, userMapper);
@@ -296,8 +336,29 @@ public class PassiDAOImpl implements PassiDAO {
 	public List<User> getInstructorsDetails(int groupID) {
 		final String SQL = "SELECT users.* FROM users "
 				+ "JOIN members ON members.user_id = users.user_id "
-				+ "WHERE members.group_id = ? AND users.role_id = 2";
+				+ "JOIN user_role ON users.user_id = user_role.user_id "
+				+ "WHERE members.group_id = ? AND user_role.role_id = 2";
 		RowMapper<User> userMapper = new UserRowMapper();
 		return jdbcTemplate.query(SQL, new Object[] { groupID }, userMapper);
+	}
+
+	@Override
+	public boolean isUsernameExists(String username) {
+		final String SQL = "SELECT EXISTS (SELECT 1 FROM users WHERE username = ?)";
+		int userExists = jdbcTemplate.queryForObject(SQL, new Object[] { username }, Integer.class);
+		if (userExists == 1) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isEmailExists(String email) {
+		final String SQL = "SELECT EXISTS (SELECT 1 FROM users WHERE email = ?)";
+		int emailExists = jdbcTemplate.queryForObject(SQL, new Object[] { email }, Integer.class);
+		if (emailExists == 1) {
+			return true;
+		}
+		return false;
 	}
 }

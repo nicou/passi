@@ -91,18 +91,36 @@ $(document).ready(function() {
 		});
 		
 	 //for Displaying clicked image in lightbox
-	 //get the clicked image, reset angle for image rotation, set image css according window, append image and text, show lightbox
+	 //get the clicked image, reset angle for image rotation, set image css according window, append and scale image, show lightbox
 	$('.lightbox_trigger').on('click', function(e) {
 		e.preventDefault();
 		let image_href = $(this).attr("href");
-		let image = '<img src="' + image_href + '"/>';
+		var image = '<img src="' + image_href + '" id="zImage"/>';
 			angle = 0;
-				$( this ).css('max-width', '' + (window.innerWidth - 50) + 'px').css('max-height', '' + (window.innerHeigt - 50) + 'px');
-					$('#content').html(image);
-					$('#content').append('<p style="margin-top: 50px; color: white">Klikkaa kääntääksesi kuvaa</p>');
-					$('#lightbox').show();
+			$('#content').html(image);
+			/*for keeping the ratios
+			 * 
+			 * var imageWidth = $('#zImage').width() * 1,25;
+			 * var imageHeigth = $('#zImage').heigth() * 1,25;
+			 * 
+			 * var wWidth = $(window).width();
+			 * var wHeight = $(window).height();
+			 * 
+			 * while(imageWidth > wWidth || imageHeigth > wHeigth ) {
+			 * 	imageWidth *= .8;
+			 * 	imageHeigth *= .8;
+			 * }
+			 * 
+			 * $( '#zImage' ).css({
+				'width': imageWidth + "px",
+				'height': imageHeigth + "px" 
+				});
+			 * 
+			 * */
+			$('#zImage').appendChild('<span class="glyphicon glyphicon-repeat"></span>');
+			$('#lightbox').show();
 		
-		/*	for creating #lightbox dynamically
+		/*	for creating #lightbox dynamically // NOT IN USE
 		if ($('#lightbox').length > 0) {
 			} else {
 			var lightbox = 

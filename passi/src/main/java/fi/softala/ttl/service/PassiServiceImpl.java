@@ -7,6 +7,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import fi.softala.ttl.dao.PassiDAO;
@@ -15,13 +17,14 @@ import fi.softala.ttl.dto.WorksheetDTO;
 import fi.softala.ttl.dto.CategoryDTO;
 import fi.softala.ttl.model.Answersheet;
 import fi.softala.ttl.model.Category;
+import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.model.Worksheet;
 
 @Service("passiService")
 @Transactional
 public class PassiServiceImpl implements PassiService {
-	
+
 	private ArrayList<Answersheet> assistAnswersheet = new ArrayList<>();
 	private ArrayList<Worksheet> assistWorksheet = new ArrayList<>();
 
@@ -37,6 +40,12 @@ public class PassiServiceImpl implements PassiService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void saveUser(User user) {
+		dao.saveUser(user);
+	}
+
+	@Override
 	public List<Category> getCategories() {
 		return dao.getCategories();
 	}
@@ -45,20 +54,20 @@ public class PassiServiceImpl implements PassiService {
 	public ArrayList<GroupDTO> getGroupsDTO() {
 		return (ArrayList<GroupDTO>) dao.getGroupsDTO();
 	}
-	
+
 	@Override
 	public ArrayList<CategoryDTO> getCategoriesDTO() {
 		return (ArrayList<CategoryDTO>) dao.getCategoriesDTO();
 	}
-	
+
 	@Override
 	public ArrayList<WorksheetDTO> getWorksheetsDTO(int groupID, int categoryID) {
 		return (ArrayList<WorksheetDTO>) dao.getWorksheetsDTO(groupID, categoryID);
 	}
-	
+
 	@Override
 	public Worksheet getWorksheetContent(int worksheetID) {
-		assistWorksheet = (ArrayList<Worksheet>) dao.getWorksheetContent(worksheetID); // get first index
+		assistWorksheet = (ArrayList<Worksheet>) dao.getWorksheetContent(worksheetID);
 		if (!assistWorksheet.isEmpty()) {
 			return assistWorksheet.get(0);
 		} else {
@@ -70,15 +79,16 @@ public class PassiServiceImpl implements PassiService {
 	public ArrayList<User> getGroupMembers(int groupID) {
 		return (ArrayList<User>) dao.getGroupMembers(groupID);
 	}
-	
+
 	@Override
 	public HashMap<Integer, Integer> getIsAnsweredMap(int worksheetID, ArrayList<User> groupMembers) {
 		return dao.getIsAnsweredMap(worksheetID, groupMembers);
 	}
-	
+
 	@Override
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void saveFeadback(int answerWaypointID, int instructorRating, String instructorComment) {
-		dao.saveFeedback(answerWaypointID, instructorRating, instructorComment);	
+		dao.saveFeedback(answerWaypointID, instructorRating, instructorComment);
 	}
 
 	@Override
@@ -100,4 +110,20 @@ public class PassiServiceImpl implements PassiService {
 	public ArrayList<User> getInstructorsDetails(int groupID) {
 		return (ArrayList<User>) dao.getInstructorsDetails(groupID);
 	}
+
+	@Override
+	public ArrayList<Group> getAllGroups() {
+		return (ArrayList<Group>) dao.getAllGroups();
+	}
+
+	@Override
+	public boolean isUsernameExists(String username) {
+		return dao.isUsernameExists(username);
+	}
+
+	@Override
+	public boolean isEmailExists(String email) {
+		return dao.isEmailExists(email);
+	}
+
 }

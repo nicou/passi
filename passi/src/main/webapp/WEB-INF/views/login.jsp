@@ -12,7 +12,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 %>
 
 <!DOCTYPE html>
-<html>
+<html lang="fi">
 <head>
 <title>Työkykypassi&nbsp;&bull;&nbsp;Kirjaudu sisään</title>
 
@@ -50,6 +50,10 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <tr><td><button class="btn btn-lg btn-primary btn-block" type="submit" value="Kirjaudu">Kirjaudu</button></td></tr>
 </table>
 </form>
+
+<!-- Registration link -->
+<c:url var="registrationURL" value="/registration" />
+<p><a href="${registrationURL}">Rekisteröidy</a></p>
 
 </div>
 

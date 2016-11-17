@@ -17,6 +17,8 @@ import fi.softala.ttl.model.User;
 import fi.softala.ttl.model.Worksheet;
 
 public interface PassiDAO {
+	
+	public void saveUser(User user);
 
 	public boolean addGroup(Group group);
 
@@ -43,5 +45,11 @@ public interface PassiDAO {
 	public User getMemberDetails(int userID);
 	
 	public List<User> getInstructorsDetails(int groupID);
+	
+	public List<Group> getAllGroups();
+	
+	public boolean isUsernameExists(String username);
+	
+	public boolean isEmailExists(String email);
 
 }
