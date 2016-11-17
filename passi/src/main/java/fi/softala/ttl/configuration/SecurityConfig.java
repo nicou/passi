@@ -3,11 +3,14 @@ package fi.softala.ttl.configuration;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
@@ -29,7 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.usersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username = ?")
 				.authoritiesByUsernameQuery("SELECT users.username, roles.role_name FROM users "
 						+ "JOIN user_role ON users.user_id = user_role.user_id "
-						+ "JOIN roles ON user_role.role_id = roles.role_id " + "WHERE users.username = ?");
+						+ "JOIN roles ON user_role.role_id = roles.role_id " + "WHERE users.username = ?")
+				.passwordEncoder(passwordEncoder());
 	}
 
 	@Override
@@ -58,4 +62,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		repository.setSessionAttributeName("_csrf");
 		return repository;
 	}
+	
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

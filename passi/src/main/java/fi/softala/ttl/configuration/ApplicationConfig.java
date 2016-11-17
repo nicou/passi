@@ -111,4 +111,5 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 		rb.setBasenames(new String[] { "messages/messages", "messages/validation" });
 		return rb;
 	}
+
 }

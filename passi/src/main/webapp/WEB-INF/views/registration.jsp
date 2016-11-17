@@ -60,9 +60,9 @@ label {
 <div class="col-sm-offset-3 col-sm-6 regform">
 <h3>Ryhmänohjaajan rekisteröinti</h3>
 
-<spring:url value="/users" var="userActionURL" />
+<spring:url var="registrationURL" value="/registration" />
 
-<form:form class="form-horizontal" modelAttribute="userForm" action="${userActionUrl}" method="post">
+<form:form class="form-horizontal" modelAttribute="userForm" action="${registrationUrl}" method="POST">
 	
 	<form:hidden path="userID" />
 	
