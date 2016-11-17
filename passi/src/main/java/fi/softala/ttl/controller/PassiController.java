@@ -163,11 +163,13 @@ public class PassiController {
         	model.addAttribute("userForm", userForm);
             return "registration";
         }
-        /*
-        userService.save(userForm);
-        securityService.autologin(userForm.getUsername(), userForm.getConfirmPassword());
-        */
-        return "redirect:/index";
+        
+        passiService.saveUser(userForm);
+        // securityService.autologin(userForm.getUsername(), userForm.getConfirmPassword());
+        
+        model.addAttribute("message", "Rekisteröinti onnistui");
+        
+        return "login";
     }
 
 	// 1. SELECT GROUP

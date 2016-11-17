@@ -3,6 +3,8 @@
  */
 package fi.softala.ttl.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,7 +15,11 @@ import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -33,6 +39,8 @@ import fi.softala.ttl.model.Worksheet;
 
 @Component
 public class PassiDAOImpl implements PassiDAO {
+	
+	private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Inject
 	private JdbcTemplate jdbcTemplate;
@@ -47,6 +55,36 @@ public class PassiDAOImpl implements PassiDAO {
 	
 	@Autowired
 	private PlatformTransactionManager platformTransactionManager;
+
+	@Override
+	public void saveUser(User user) {
+		
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		
+		final String SQL1 = "INSERT INTO users (username, password, firstname, lastname, email, phone) "
+				+ "VALUES (?, ?, ?, ?, ?, ?)";
+		
+		jdbcTemplate.update(new PreparedStatementCreator() {
+
+			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+				PreparedStatement ps = connection.prepareStatement(SQL1, new String[] { "user_id" });
+				ps.setString(1, user.getUsername());
+				ps.setString(2, passwordEncoder.encode(user.getPassword()));
+				ps.setString(3, user.getFirstname());
+				ps.setString(4, user.getLastname());
+				ps.setString(5, user.getEmail());
+				ps.setString(6, user.getPhone());
+				return ps;
+			}
+		}, keyHolder);
+		
+		user.setUserID(keyHolder.getKey().intValue());
+		
+		final String SQL2 = "INSERT INTO user_role (user_id, role_id) VALUES (?, 2)";
+		
+		jdbcTemplate.update(SQL2, new Object[] { user.getUserID() });
+		
+	}
 	
 	public boolean addGroup(Group group){
 		DefaultTransactionDefinition paramTransactionDefinition = new DefaultTransactionDefinition();
@@ -303,4 +341,5 @@ public class PassiDAOImpl implements PassiDAO {
 		RowMapper<User> userMapper = new UserRowMapper();
 		return jdbcTemplate.query(SQL, new Object[] { groupID }, userMapper);
 	}
+
 }

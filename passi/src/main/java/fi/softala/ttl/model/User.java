@@ -22,26 +22,6 @@ public class User implements Serializable {
 
 	public User() {
 		super();
-		this.userID = 0;
-		this.username = "";
-		this.roles = null;
-		this.firstname = "";
-		this.lastname = "";
-		this.email = "";
-		this.phone = "";
-	}
-
-	public User(int userID, String username, Set<Role> roles, String password, String confirmPassword, String firstname, String lastname, String email, String phone) {
-		super();
-		this.userID = userID;
-		this.username = username;
-		this.roles = roles;
-		this.password = password;
-		this.confirmPassword = confirmPassword;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.email = email;
-		this.phone = phone;
 	}
 	
 	public void reset() {
@@ -86,6 +66,7 @@ public class User implements Serializable {
 		return password;
 	}
 	
+	// Setter with BCrypt encoding
 	public void setPassword(String password) {
 		this.password = password;
 	}

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import fi.softala.ttl.dao.PassiDAO;
@@ -35,6 +36,12 @@ public class PassiServiceImpl implements PassiService {
 
 	public void setDao(PassiDAO dao) {
 		this.dao = dao;
+	}
+
+	@Override
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
+	public void saveUser(User user) {
+		dao.saveUser(user);
 	}
 
 	@Override
@@ -106,4 +113,5 @@ public class PassiServiceImpl implements PassiService {
 	public ArrayList<Group> getAllGroups() {
 		return (ArrayList<Group>) dao.getAllGroups();
 	}
+
 }

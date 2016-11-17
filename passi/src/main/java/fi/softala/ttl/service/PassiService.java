@@ -15,6 +15,8 @@ import fi.softala.ttl.model.Worksheet;
 
 public interface PassiService {
 	
+	public void saveUser(User user);
+	
 	public ArrayList<CategoryDTO> getCategoriesDTO();
 	
 	public ArrayList<GroupDTO> getGroupsDTO();

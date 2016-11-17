@@ -65,7 +65,7 @@ label {
 <form:form class="form-horizontal" modelAttribute="userForm" action="${registrationUrl}" method="POST">
 	
 	<form:hidden path="userID" />
-	
+		
 	<spring:bind path="username">
 		<div class="form-group ${status.error ? 'has-error' : ''}">
 			<label class="control-label">Käyttäjätunnus</label>
