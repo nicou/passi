@@ -58,7 +58,7 @@ label {
 <div class="container">
 <div class="row">
 <div class="col-sm-offset-3 col-sm-6 regform">
-<h3>Rekisteröinti</h3>
+<h3>Ryhmänohjaajan rekisteröinti</h3>
 
 <spring:url value="/users" var="userActionURL" />
 
@@ -113,6 +113,8 @@ label {
 			<form:errors path="confirmPassword" class="control-label" />
 		</div>
 	</spring:bind>
+	
+	<button class="btn btn-lg btn-primary btn-block" type="submit">Lähetä</button>
 	
 </form:form>
 
