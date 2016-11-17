@@ -1,45 +1,39 @@
 package fi.softala.ttl.service;
 
-import java.util.List;
+import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import fi.softala.ttl.dao.UserDao;
+import fi.softala.ttl.dao.UserDAO;
 import fi.softala.ttl.model.User;
 
-@Service("userService")
+@Service
 public class UserServiceImpl implements UserService {
 
-	UserDao userDao;
+	@Inject
+	private UserDAO dao;
+
+	public UserDAO getDao() {
+		return dao;
+	}
+
+	public void setDao(UserDAO dao) {
+		this.dao = dao;
+	}
 
 	@Autowired
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	@Override
+	public void save(User user) {
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		user.setRoles(dao.findRolesByUserID(user.getUserID()));
+		dao.save(user);
 	}
 
 	@Override
-	public User findById(Integer id) {
-		return userDao.findById(id);
+	public User findByUsername(String username) {
+		return dao.findByUsername(username);
 	}
-
-	@Override
-	public List<User> findAll() {
-		return userDao.findAll();
-	}
-
-	@Override
-	public void saveOrUpdate(User user) {
-		if (findById(user.getUserID()) == null) {
-			userDao.save(user);
-		} else {
-			userDao.update(user);
-		}
-	}
-
-	@Override
-	public void delete(int id) {
-		userDao.delete(id);
-	}
-
 }

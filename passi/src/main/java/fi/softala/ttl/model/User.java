@@ -4,12 +4,15 @@
 package fi.softala.ttl.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private int userID;
+	private String username;
+	private Set<Role> roles;
 	private String password;
 	private String confirmPassword;
 	private String firstname;
@@ -20,15 +23,19 @@ public class User implements Serializable {
 	public User() {
 		super();
 		this.userID = 0;
+		this.username = "";
+		this.roles = null;
 		this.firstname = "";
 		this.lastname = "";
 		this.email = "";
 		this.phone = "";
 	}
 
-	public User(int userID, String password, String confirmPassword, String firstname, String lastname, String email, String phone) {
+	public User(int userID, String username, Set<Role> roles, String password, String confirmPassword, String firstname, String lastname, String email, String phone) {
 		super();
 		this.userID = userID;
+		this.username = username;
+		this.roles = roles;
 		this.password = password;
 		this.confirmPassword = confirmPassword;
 		this.firstname = firstname;
@@ -57,6 +64,22 @@ public class User implements Serializable {
 
 	public void setUserID(int userID) {
 		this.userID = userID;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 	
 	public String getPassword() {
@@ -106,11 +129,11 @@ public class User implements Serializable {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
+	
+	// without roles, password, confirmPassword
 	@Override
 	public String toString() {
-		return "User [userID=" + userID + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
-				+ ", phone=" + phone + "]";
+		return "User [userID=" + userID + ", username=" + username + ", firstname=" + firstname + ", lastname="
+				+ lastname + ", email=" + email + ", phone=" + phone + "]";
 	}
-
 }
