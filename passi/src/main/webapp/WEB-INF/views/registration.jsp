@@ -68,7 +68,7 @@ label {
 	<spring:bind path="username">
 		<div class="form-group ${status.error ? 'has-error' : ''}">
 			<label class="control-label">Käyttäjätunnus</label>
-			<form:input path="username" type="text" class="form-control" id="firstname" />
+			<form:input path="username" class="form-control" maxlength="20" />
 			<form:errors path="username" class="control-label" />
 		</div>
 	</spring:bind>
@@ -76,7 +76,7 @@ label {
 	<spring:bind path="firstname">
 		<div class="form-group ${status.error ? 'has-error' : ''}">
 			<label class="control-label">Etunimi</label>
-			<form:input path="firstname" type="text" class="form-control" id="firstname" />
+			<form:input path="firstname" class="form-control" maxlength="40" />
 			<form:errors path="firstname" class="control-label" />
 		</div>
 	</spring:bind>
@@ -84,7 +84,7 @@ label {
 	<spring:bind path="lastname">
 		<div class="form-group ${status.error ? 'has-error' : ''}">
 			<label class="control-label">Sukunimi</label>
-			<form:input path="lastname" type="text" class="form-control" id="lastname" />
+			<form:input path="lastname" class="form-control" maxlength="60" />
 			<form:errors path="lastname" class="control-label" />
 		</div>
 	</spring:bind>
@@ -92,7 +92,7 @@ label {
 	<spring:bind path="email">
 		<div class="form-group ${status.error ? 'has-error' : ''}">
 			<label class="control-label">Sähköposti</label>
-			<form:input path="email" class="form-control" id="email" />
+			<form:input path="email" class="form-control" maxlength="80" />
 			<form:errors path="email" class="control-label" />
 		</div>
 	</spring:bind>
@@ -100,7 +100,7 @@ label {
 	<spring:bind path="phone">
 		<div class="form-group ${status.error ? 'has-error' : ''}">
 			<label class="control-label">Puhelin</label>
-			<form:input path="phone" class="form-control" id="phone" />
+			<form:input path="phone" class="form-control" maxlength="40" />
 			<form:errors path="phone" class="control-label" />
 		</div>
 	</spring:bind>
@@ -108,7 +108,7 @@ label {
 	<spring:bind path="password">
 		<div class="form-group ${status.error ? 'has-error' : ''}">
 			<label class="control-label">Salasana</label>
-			<form:password path="password" class="form-control" id="password" />
+			<form:password path="password" class="form-control" maxlength="80" />
 			<form:errors path="password" class="control-label" />
 		</div>
 	</spring:bind>
@@ -116,7 +116,7 @@ label {
 	<spring:bind path="confirmPassword">
 		<div class="form-group ${status.error ? 'has-error' : ''}">
 			<label class="control-label">Vahvista salasana</label>
-			<form:password path="confirmPassword" class="form-control" id="password" />
+			<form:password path="confirmPassword" class="form-control" maxlength="80" />
 			<form:errors path="confirmPassword" class="control-label" />
 		</div>
 	</spring:bind>
