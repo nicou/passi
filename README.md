@@ -4,10 +4,12 @@ Client: Finnish Institute of Occupation Health
 
 Discription: Application for enhancing well-being, occupational health and environment of professionals in different areas.
 
+Project type: Open Source
+
 Consistence:
    - Android native mobile application for end-users
    - RESTful Web Service backend for mobile client
-   - MVC Web Application for group instructors
+   - MVC Web Application for group instructors **(this repository)**
 
 Mobile client technologies:
    - Native Android Java API
