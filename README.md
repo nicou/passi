@@ -1,4 +1,4 @@
-# passi
+# passi [open source project]
 
 Name: Työkykypassi - Working Ability Card
 
