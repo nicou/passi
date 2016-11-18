@@ -25,22 +25,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	DataSource dataSource;
-	
-	/*
-	@Resource(name = "authService")
-	private UserDetailsServiceImpl userDetailsService;
-
-	/*
-	 * @Bean(name = "authenticationManager")
-	 * 
-	 * @Override public AuthenticationManager authenticationManager() throws
-	 * Exception { return super.authenticationManagerBean(); }
-	 * 
-	 * @Override protected void configure(AuthenticationManagerBuilder auth)
-	 * throws Exception {
-	 * auth.userDetailsService(userDetailsService()).passwordEncoder(
-	 * passwordEncoder()); }
-	 */
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -73,7 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/resources/**", "/static/**", "/login*", "/expired", "/registration*").permitAll()
 				.antMatchers("/init", "/index/**").hasRole("ADMIN").anyRequest().authenticated().and().formLogin()
 				.loginPage("/login").permitAll().defaultSuccessUrl("/init").failureUrl("/login?error")
-				.usernameParameter("username").passwordParameter("password").and().logout()
+				.usernameParameter("username").passwordParameter("password")
+				.and().logout()
 				.logoutSuccessUrl("/login?logout").invalidateHttpSession(true).deleteCookies("JSESSIONID").and()
 				.sessionManagement().sessionAuthenticationErrorUrl("/login?error").maximumSessions(1)
 				.expiredUrl("/expired");
