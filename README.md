@@ -1,6 +1,4 @@
-# passi [open source project]
-
-Name: Työkykypassi - Working Ability Card
+# Työkykypassi - Working Ability Card
 
 Client: Finnish Institute of Occupation Health
 
