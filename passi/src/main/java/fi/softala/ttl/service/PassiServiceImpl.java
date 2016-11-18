@@ -125,5 +125,4 @@ public class PassiServiceImpl implements PassiService {
 	public boolean isEmailExists(String email) {
 		return dao.isEmailExists(email);
 	}
-
 }

@@ -47,7 +47,7 @@ import fi.softala.ttl.validator.UserValidator;
 @EnableWebMvc
 @Controller
 @Scope("session")
-@SessionAttributes({ "categories", "defaultGroup", "user", "groups", "groupMembers", "instructorsDetails", "isAnsweredMap", "message", "memberDetails", "newGroup", "newMember",
+@SessionAttributes({ "categories", "defaultGroup", "user", "userData", "groups", "groupMembers", "instructorsDetails", "isAnsweredMap", "message", "memberDetails", "newGroup", "newMember",
 		"selectedCategory", "selectedGroup", "selectedMember", "selectedWorksheet", "worksheets", "worksheetContent", "worksheetAnswers" })
 public class PassiController {
 
@@ -108,7 +108,11 @@ public class PassiController {
 		
 		// Authenticated user
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		redirectAttributes.addFlashAttribute("user", auth.getName());
+		String username = auth.getName();
+		redirectAttributes.addFlashAttribute("user", username);
+		
+		// Get user data
+		// User userData = passiService.getUserData(username);		
 		
 		// Session attributes for dropdown selection
 		redirectAttributes.addFlashAttribute("categories", passiService.getCategoriesDTO());
