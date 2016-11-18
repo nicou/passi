@@ -23,7 +23,13 @@ Server-side technologies:
    - Spring 4 TX Transaction management
 
 Web MVC front-end technologies:
+   - JSP, JSTL
+   - HTML5
+   - JavaScript, jQuery
    - Bootstrap
    - CSS
-   - HTML5
-   - JSP, JSTL
+
+Server:
+   - Ubuntu Server
+   - NginX
+   - Apache Tomcat
