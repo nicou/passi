@@ -291,9 +291,13 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 	</c:when>
 	<c:otherwise>
 		<div class="row">
-  			<h2>Tehtäväkortit</h2>
+  			<h2>Työterveyslaitoksen Työkykypassi</h2>
+  			<div class="alert alert-warning">
+   				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    			<strong>Tervetuloa työkykypassiin, <c:out value="${userDetails.firstname} ${userDetails.lastname}" /></strong>
+  			</div>
   			<div class="alert alert-info">
-    			<strong>Käyttövinkki<br /></strong> Tee valinnat pudotusvalikoista vaiheittain ja valitse lopuksi ryhmän jäsen, joka on jo vastannut tehtäväkorttiin.<br /><br />
+    			<strong>Käyttövinkki<br /></strong> Tee valinnat pudotusvalikoista vaiheittain ja valitse lopuksi ryhmän jäsen, jonka vastauksia haluat tarkastella.<br /><br />
     			<strong>Esimerkki<br /></strong> Lähihoidon opiskelijat, Kätilöopisto <strong>></strong> Ammatin työkykyvalmiudet <strong>></strong> Turvallisuuskävely <strong>></strong> Maija Talkanen
   			</div>
   		</div>

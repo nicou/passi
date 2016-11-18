@@ -42,21 +42,22 @@ import fi.softala.ttl.model.Group;
 import fi.softala.ttl.dto.WorksheetDTO;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.service.PassiService;
+import fi.softala.ttl.service.UserService;
 import fi.softala.ttl.validator.UserValidator;
 
 @EnableWebMvc
 @Controller
 @Scope("session")
-@SessionAttributes({ "categories", "defaultGroup", "user", "userData", "groups", "groupMembers", "instructorsDetails", "isAnsweredMap", "message", "memberDetails", "newGroup", "newMember",
+@SessionAttributes({ "categories", "defaultGroup", "user", "userDetails", "groups", "groupMembers", "instructorsDetails", "isAnsweredMap", "message", "memberDetails", "newGroup", "newMember",
 		"selectedCategory", "selectedGroup", "selectedMember", "selectedWorksheet", "worksheets", "worksheetContent", "worksheetAnswers" })
 public class PassiController {
 
 	final static Logger logger = LoggerFactory.getLogger(PassiController.class);
-	
-	/*
+
 	@Autowired
     private UserService userService;
-
+	
+	/*
     @Autowired
     private SecurityService securityService;
 	*/
@@ -112,7 +113,8 @@ public class PassiController {
 		redirectAttributes.addFlashAttribute("user", username);
 		
 		// Get user data
-		// User userData = passiService.getUserData(username);		
+		User userDetails = userService.findByUsername(username);
+		redirectAttributes.addFlashAttribute("userDetails", userDetails);
 		
 		// Session attributes for dropdown selection
 		redirectAttributes.addFlashAttribute("categories", passiService.getCategoriesDTO());
