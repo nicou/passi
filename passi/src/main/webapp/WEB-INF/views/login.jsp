@@ -16,7 +16,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <head>
 <title>Työkykypassi&nbsp;&bull;&nbsp;Kirjaudu sisään</title>
 
-<meta name="author" content="Roope Heinonen, Mika Ropponen" />
+<meta name="author" content="Mika Ropponen" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -58,6 +58,5 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 </div>
 
 </div>
-<pre id="login-credentials-style">username = admin<br />password = passw</pre>
 </body>
 </html>
