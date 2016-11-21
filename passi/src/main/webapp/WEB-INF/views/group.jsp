@@ -22,6 +22,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <!-- CSS -->
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/static/style/main.css" />" />
 </head>
 
 <body>
@@ -123,7 +124,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     	<div class="col-sm-8 text-left">
       		<c:choose>
       			<c:when test="${not empty groups}">
-      				<table class="table table-hover">
+      				<table class="table table">
       					<thead>
       						<tr><th class="text-center">ID</th><th>Ryhmän nimi&nbsp;&nbsp;[&nbsp;A - Ö&nbsp;]</th><th>Liittymisavain</th></tr>
       					</thead>

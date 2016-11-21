@@ -271,12 +271,12 @@ public class PassiController {
 	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
 	public ModelAndView addGroup(@ModelAttribute("newGroup") Group newGroup) {
 		ModelAndView model = new ModelAndView();
-		if (dao.addGroup(newGroup)) {
+		if (dao.addGroup(newGroup)) {  // fix to call via passiService
 			model.addObject("message", "Ryhmän lisääminen onnistui.");
 		} else {
 			model.addObject("message", "Ryhmän lisääminen EI onnistunut.");
 		}
-		//model.addObject("groups", dao.getAllGroups());
+		model.addObject("groups", dao.getAllGroups()); // fix to call via passiService
 		model.setViewName("group");
 		return model;
 	}
