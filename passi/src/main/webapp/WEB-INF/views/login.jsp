@@ -47,6 +47,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <table>		
 <tr><td><input type="text" id="username" name="username" class="form-control" placeholder="Käyttäjätunnus" autocomplete="off" required autofocus /></td></tr>
 <tr><td><input type="password" id="password" name="password" class="form-control" placeholder="Salasana" required /></td></tr>
+<tr><td>login: admin passwd: passw</td></tr>
 <tr><td><button class="btn btn-lg btn-primary btn-block" type="submit" value="Kirjaudu">Kirjaudu</button></td></tr>
 </table>
 </form>
