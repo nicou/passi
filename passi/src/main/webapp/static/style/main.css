@@ -74,7 +74,7 @@ h2 {
 select {
 	font-weight: bold;
 }
-table {
+.table-select-user {
 	cursor: pointer !important;
 }
 table.table-hover tr {

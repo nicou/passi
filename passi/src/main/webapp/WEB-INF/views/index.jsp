@@ -121,7 +121,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 					<form id="selectMember" action="${selectMemberURL}" method="POST" accept-charset="UTF-8">
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					<input type="hidden" id="userID" name="userID" value="" />
-   					<table class="table table-hover">
+   					<table class="table table-hover table-select-user">
     				<c:forEach var="member" items="${groupMembers}">
     					<c:choose>
     						<c:when test="${isAnsweredMap[member.userID] == 1}">
