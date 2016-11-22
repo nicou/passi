@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -273,6 +274,7 @@ public class PassiController {
 		ModelAndView model = new ModelAndView();
 		if (dao.addGroup(newGroup)) {  // fix to call via passiService
 			model.addObject("message", "Ryhmän lisääminen onnistui.");
+			model.addObject("newGroup", new Group());
 		} else {
 			model.addObject("message", "Ryhmän lisääminen EI onnistunut.");
 		}
@@ -292,5 +294,11 @@ public class PassiController {
 		}
 		model.setViewName("redirect:/index/group");
 		return model;
+	}
+	
+	@RequestMapping(value = "/groupInfo", method = RequestMethod.GET)
+	@ResponseBody
+	public Group getGroupInfo(@RequestParam int groupID) {
+		return dao.getGroup(groupID);
 	}
 }

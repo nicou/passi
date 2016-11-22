@@ -135,6 +135,16 @@ public class PassiDAOImpl implements PassiDAO {
 		}
 		return groups;
 	}
+	
+	public Group getGroup(int groupID) {
+		Group group = new Group();
+		final String SQL1 = "SELECT group_id, group_name, group_key FROM groups WHERE group_id = ?";
+		try {
+			return jdbcTemplate.query(SQL1, new Object[] { groupID }, new GroupRowMapper()).get(0);
+		} catch (Exception ex) {
+			return group;
+		}
+	}
 
 	public List<User> getGroupMembers(int groupID) {
 		final String SQL = "SELECT users.* FROM users "

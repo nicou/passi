@@ -29,6 +29,8 @@ public interface PassiDAO {
 	public List<Category> getCategories();
 
 	public List<GroupDTO> getGroupsDTO();
+	
+	public Group getGroup(int groupID);
 
 	public List<CategoryDTO> getCategoriesDTO();
 	
