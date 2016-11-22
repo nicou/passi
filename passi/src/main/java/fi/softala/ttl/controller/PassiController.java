@@ -12,6 +12,8 @@ import java.io.OutputStream;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -37,6 +39,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.fasterxml.jackson.databind.util.JSONPObject;
 
 import fi.softala.ttl.dao.PassiDAO;
 import fi.softala.ttl.model.Group;
@@ -300,5 +304,14 @@ public class PassiController {
 	@ResponseBody
 	public Group getGroupInfo(@RequestParam int groupID) {
 		return dao.getGroup(groupID);
+	}
+	
+	@RequestMapping(value = "/groupInfoUsers", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getGroupInfoWithUsers(@RequestParam int groupID) {
+		Map<String, Object> group = new HashMap<>();
+		group.put("group", dao.getGroup(groupID));
+		group.put("users", dao.getGroupMembers(groupID));
+		return group;
 	}
 }

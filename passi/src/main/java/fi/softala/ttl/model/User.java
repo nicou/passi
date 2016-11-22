@@ -6,19 +6,21 @@ package fi.softala.ttl.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private int userID;
-	private String username;
-	private Set<Role> roles;
-	private String password;
-	private String confirmPassword;
+	@JsonIgnore private String username;
+	@JsonIgnore private Set<Role> roles;
+	@JsonIgnore private String password;
+	@JsonIgnore private String confirmPassword;
 	private String firstname;
 	private String lastname;
-	private String email;
-	private String phone;
+	@JsonIgnore private String email;
+	@JsonIgnore private String phone;
 
 	public User() {
 		super();
@@ -34,7 +36,7 @@ public class User implements Serializable {
 		this.phone = "";
 	}
 	
-	public boolean isNew() {
+	@JsonIgnore public boolean isNew() {
 		return (this.userID == 0);
 	}
 

@@ -46,12 +46,13 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		<ul class="nav nav-tabs" id="navTabs">
     			<li class="${empty selectedTab ? 'active' : ''}"><a data-toggle="tab" href="#add" onclick="this.blur();">Luo uusi ryhmä</a></li>
     			<li class="${selectedTab == 'edit' ? 'active' : ''}"><a data-toggle="tab" href="#edit" onclick="this.blur();">Muokkaa ryhmää</a></li>
+    			<li class="${selectedTab == 'edit' ? 'active' : ''}"><a data-toggle="tab" href="#users" onclick="this.blur();">Ryhmän opiskelijat</a></li>
     		</ul>
     		
-    		<div class="tab-content">
+    		<div class="tab-content" style="padding: 15px;">
     		
     			<!-- tab: add group -->
-  				<div id="add" class="tab-pane fade in active" style="padding: 15px;">
+  				<div id="add" class="tab-pane fade in active">
     				<c:url value="/addGroup" var="addGroup" />
     				<form:form role="form" class="form-horizontal" modelAttribute="newGroup" action="${addGroup}" method="post" accept-charset="UTF-8">
   						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -66,13 +67,13 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 							<small class="text-muted">Käytä liittymisavaimena pienillä kirjaimilla kirjoitettu sanaa</small>
 						</div>
 						<div class="form-group">
-							<button type="submit" class="btn btn-default form-control">TALLENNA</button>
+							<button type="submit" class="btn btn-default form-control">Tallenna</button>
 						</div>
     				</form:form>
   				</div>
   				
   				<!-- tab: edit group -->
-  				<div id="edit" class="tab-pane fade" style="padding: 15px;">
+  				<div id="edit" class="tab-pane fade">
     				<c:url value="/editGroup" var="editGroup" />
     				<form:form role="form" class="form-horizontal" modelAttribute="newGroup" action="${editGroup}" method="post" accept-charset="UTF-8">
     					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -93,6 +94,37 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     					</div>
     				</form:form>
   				</div>
+  				
+  				<!-- tab: manage group users -->
+  				<div id="users" class="tab-pane fade" style="padding: 15px;">
+					<table class="table table-striped">
+						<thead>
+						<tr>
+							<td>Oppilas</td>
+							<td></td>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td>Jaakko Pavunvarsi</td>
+							<td>[x]</td>
+						</tr>
+						<tr>
+							<td>Jaakko Pavunvarsi</td>
+							<td>[x]</td>
+						</tr>
+						<tr>
+							<td>Jaakko Pavunvarsi</td>
+							<td>[x]</td>
+						</tr>
+						<tr>
+							<td>Jaakko Pavunvarsi</td>
+							<td>[x]</td>
+						</tr>
+						</tbody>
+					</table>
+  				</div>
+  				
 			</div>	
 			
 			<!-- Message panel -->
@@ -111,7 +143,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       			<c:when test="${not empty groups}">
       				<form:form action="/passi/delGroup" method="post" accept-charset="UTF-8">
 	      			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-      				<table class="table table">
+      				<table class="table table-striped">
       					<thead>
       						<tr>
 	      						<th class="text-center">ID</th>
@@ -127,7 +159,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 	      							<c:out value="${group.groupID}" />
 	      						</td>
 	      						<td class="text-nowrap">
-	      							<c:out value="${group.groupName}" />
+	      							<a href="#!"><c:out value="${group.groupName}" /></a>
 	      						</td>
 	      						<td class="text-left">
 	      							<c:out value="${group.groupKey}" />
@@ -160,31 +192,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <!-- Script -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="<c:url value="/static/script/index.js" />"></script>
-
-<script>
-var editGroup = function(id) {
-	console.log('Fetching group ' + id + ' data');
-	$.get('/passi/groupInfo?groupID=' + id, function(data) {
-		$('#editGroupID').val(data.groupID);
-		$('#editGroupName').val(data.groupName);
-		$('#editGroupKey').val(data.groupKey);
-		selectTab('edit');
-	});
-}
-
-var selectTab = function(tab) {
-	$('#navTabs a[href="#' + tab + '"]').tab('show');
-}
-
-var clearEditFields = function() {
-	$('#editGroupID').val(0);
-	$('#editGroupName').val('');
-	$('#editGroupKey').val('');
-	selectTab('add');
-}
-
-</script>
+<script src="<c:url value="/static/script/editgroup.js" />"></script>
 
 </body>
 </html>
