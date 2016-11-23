@@ -184,5 +184,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <script src="<c:url value="/static/script/editgroup.js" />"></script>
 <script src="<c:url value="/static/script/managemembers.js" />"></script>
 
+<c:set var="message" scope="session" value="" />
+
 </body>
 </html>

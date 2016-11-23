@@ -320,5 +320,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="<c:url value="/static/script/jquery-index.js" />"></script>
 
+<c:set var="message" scope="session" value="" />
+
 </body>
 </html>
