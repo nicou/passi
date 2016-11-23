@@ -44,11 +44,11 @@ var deleteGroupMember = function(userID, groupID) {
 var renderGroupInfo = function(group, studentCount) {
 	var groupName = group.groupName;
 	if (studentCount === 0) {
-		return '<strong>Ryhmä:</strong><br/>' + groupName + '<br/><br/>Ryhmässä ei ole vielä yhtään opiskelijaa.';
+		return '<strong>Ryhmän nimi ja tunnus:</strong><br/>' + groupName + '<br/><br/>Ryhmässä ei ole vielä yhtään opiskelijaa.';
 	}
 	var studentWord = 'opiskelijaa';
 	if (studentCount === 1) {
 		studentWord = 'opiskelija';
 	}
-	return '<strong>Ryhmä:</strong><br/>' + groupName + '<br /><br />Ryhmässä on yhteensä <strong>' + studentCount + '</strong> ' + studentWord + '.';
+	return '<strong>Ryhmän nimi ja tunnus:</strong><br/>' + groupName + '<br /><br />Ryhmässä on yhteensä <strong>' + studentCount + '</strong> ' + studentWord + '.';
 }
