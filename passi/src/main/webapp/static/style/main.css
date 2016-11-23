@@ -308,3 +308,7 @@ table.table-hover tr {
     height: 100%; 
     text-align: center;
 }
+
+.glyphicon-repeat {
+	pointer-events: none;
+}
