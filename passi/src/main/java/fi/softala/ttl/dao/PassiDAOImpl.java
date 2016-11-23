@@ -129,6 +129,17 @@ public class PassiDAOImpl implements PassiDAO {
 			return false;
 		}
 	}
+	
+	public boolean editGroup(Group group) {
+		final String SQL1 = "UPDATE groups SET group_name = ?, group_key = ? WHERE group_id = ?";
+		try {
+			return jdbcTemplate.update(SQL1,
+					new Object[] { group.getGroupName(), group.getGroupKey(), group.getGroupID() }) == 1;
+		} catch (Exception ex) {
+			return false;
+		}
+		
+	}
 
 	public List<Group> getAllGroups() {
 		final String SQL1 = "SELECT * FROM groups ORDER BY group_name";

@@ -21,6 +21,8 @@ public interface PassiDAO {
 	public void saveUser(User user);
 
 	public boolean addGroup(Group group);
+	
+	public boolean editGroup(Group group);
 
 	public boolean delGroup(int groupID);
 	

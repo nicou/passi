@@ -53,7 +53,7 @@ import fi.softala.ttl.validator.UserValidator;
 @EnableWebMvc
 @Controller
 @Scope("session")
-@SessionAttributes({ "categories", "defaultGroup", "user", "userDetails", "groups", "groupMembers", "instructorsDetails", "isAnsweredMap", "message", "memberDetails", "newGroup", "newMember",
+@SessionAttributes({ "categories", "defaultGroup", "user", "userDetails", "groups", "groupMembers", "instructorsDetails", "isAnsweredMap", "message", "memberDetails", "newGroup", "editedGroup", "newMember",
 		"selectedCategory", "selectedGroup", "selectedMember", "selectedWorksheet", "worksheets", "worksheetContent", "worksheetAnswers" })
 public class PassiController {
 
@@ -134,6 +134,7 @@ public class PassiController {
 		
 		redirectAttributes.addFlashAttribute("groupMembers", new ArrayList<User>());
 		redirectAttributes.addFlashAttribute("newGroup", new Group());
+		redirectAttributes.addFlashAttribute("editedGroup", new Group());
 		redirectAttributes.addFlashAttribute("newMember", new User());
 		
 		return "redirect:/index";
@@ -274,30 +275,25 @@ public class PassiController {
 	}
 
 	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
-	public ModelAndView addGroup(@ModelAttribute("newGroup") Group newGroup) {
-		ModelAndView model = new ModelAndView();
+	public String addGroup(@ModelAttribute("newGroup") Group newGroup, final RedirectAttributes ra) {
 		if (dao.addGroup(newGroup)) {  // fix to call via passiService
-			model.addObject("message", "Ryhmän lisääminen onnistui.");
-			model.addObject("newGroup", new Group());
+			ra.addFlashAttribute("message", "Ryhmän lisääminen onnistui.");
+			ra.addFlashAttribute("newGroup", new Group());
 		} else {
-			model.addObject("message", "Ryhmän lisääminen EI onnistunut.");
+			ra.addFlashAttribute("message", "Ryhmän lisääminen EI onnistunut.");
 		}
-		model.addObject("groups", dao.getAllGroups()); // fix to call via passiService
-		model.setViewName("group");
-		return model;
+		return "redirect:/index/group";
 	}
 
 	@RequestMapping(value = "/delGroup", method = RequestMethod.POST)
-	public ModelAndView delGroup(@RequestParam int groupID, @ModelAttribute("groups") ArrayList<Group> groups,
+	public String delGroup(@RequestParam int groupID, @ModelAttribute("groups") ArrayList<Group> groups,
 			final RedirectAttributes redirectAttributes) {
-		ModelAndView model = new ModelAndView();
 		if (dao.delGroup(groupID)) {
 			redirectAttributes.addFlashAttribute("message", "Ryhmän poistaminen onnistui.");
 		} else {
 			redirectAttributes.addFlashAttribute("message", "Ryhmän poistaminen EI onnistunut.");
 		}
-		model.setViewName("redirect:/index/group");
-		return model;
+		return "redirect:/index/group";
 	}
 	
 	@RequestMapping(value = "/groupInfo", method = RequestMethod.GET)
@@ -313,6 +309,17 @@ public class PassiController {
 		group.put("group", dao.getGroup(groupID));
 		group.put("users", dao.getGroupMembers(groupID));
 		return group;
+	}
+	
+	@RequestMapping(value = "/editGroup", method = RequestMethod.POST)
+	public String editGroup(@ModelAttribute("editedGroup") Group editedGroup, final RedirectAttributes ra) {
+		if (dao.editGroup(editedGroup)) {
+			ra.addFlashAttribute("message", "Ryhmän muokkaus onnistui.");
+			ra.addFlashAttribute("editedGroup", new Group());
+		} else {
+			ra.addFlashAttribute("message", "Ryhmän muokkaus EI onnistunut.");
+		}
+		return "redirect:/index/group";
 	}
 	
 	@RequestMapping(value = "/delGroupMember", method = RequestMethod.GET)

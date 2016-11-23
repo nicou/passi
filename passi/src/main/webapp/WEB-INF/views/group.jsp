@@ -75,7 +75,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				<!-- tab: edit group -->
   				<div id="edit" class="tab-pane fade">
     				<c:url value="/editGroup" var="editGroup" />
-    				<form:form role="form" class="form-horizontal" modelAttribute="newGroup" action="${editGroup}" method="post" accept-charset="UTF-8">
+    				<form:form role="form" class="form-horizontal" modelAttribute="editedGroup" action="${editGroup}" method="post" accept-charset="UTF-8">
     					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     					<form:input id="editGroupID" path="groupID" type="hidden" value="0" />
   						<div class="form-group">
@@ -96,7 +96,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				</div>
   				
   				<!-- tab: manage group users -->
-  				<div id="users" class="tab-pane fade" style="padding: 15px;">
+  				<div id="users" class="tab-pane fade">
   				<p id="group-users-info">
   				Valitse ryhmä oikealla näkyvästä valikosta nähdäksesi ryhmän opiskelijat.
   				</p>
@@ -155,7 +155,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 	      						</td>
 	      						<td>
 	      							<button onclick="editGroup(${group.groupID}); this.blur();" type="button" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></button>
-	      							<button value="${group.groupID}" name="groupID" type="submit" class="btn btn-default" onclick="if(!confirm('Haluatko varmasti poistaa ryhmän pysyvästi?')){return false;}else{this.submit()}; this.blur();"><span class="glyphicon glyphicon-trash"></span></button>
+	      							<button value="${group.groupID}" name="groupID" type="submit" class="btn btn-default" onclick="if(!confirm('Haluatko varmasti poistaa ryhmän pysyvästi?')){return false;}else{submit()}; this.blur();"><span class="glyphicon glyphicon-trash"></span></button>
 	      						</td>
       						</tr>    					
       						</c:forEach>
