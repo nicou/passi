@@ -32,48 +32,42 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 	<jsp:param name="currentPage" value="${pageContext.request.servletPath}" />
 </jsp:include>
 
-<div class="container-fluid">
-  	<div class="page-header text-left">
-    	<h2 class="cursor-default">Ryhmät</h2>
-  	</div>
-</div>
-
 <div class="container-fluid bg-3 text-center">
-  	<div class="row">
-    	<div class="col-sm-4 text-left">
-    		
+  	<div class="row">    	
+  	
+<div class="col-md-4 text-left">
     		<!-- Navigation tabs -->
-    		<ul class="nav nav-tabs" id="navTabs">
-    			<li class="${empty selectedTab ? 'active' : ''}"><a data-toggle="tab" href="#add" onclick="this.blur();">Uusi ryhmä</a></li>
-    			<li class="${selectedTab == 'edit' ? 'active' : ''}"><a data-toggle="tab" href="#edit" onclick="this.blur();">Muokkaa ryhmää</a></li>
-    			<li class="${selectedTab == 'edit' ? 'active' : ''}"><a data-toggle="tab" href="#users" onclick="this.blur();">Opiskelijat</a></li>
+    		<ul class="nav nav-tabs" id="navTabs" style="margin-top: 48px;">
+    			<li class="${empty selectedTab ? 'active' : ''}"><a data-toggle="tab" href="#users" onclick="this.blur();">Opiskelijat</a></li>
+    			<li class="${selectedTab == 'edit' ? 'active' : 'hidden'}" id="edit-group-tab"><a data-toggle="tab" href="#edit" onclick="this.blur();">Muokkaa ryhmää</a></li>
+    			<li class="${selectedTab == 'add' ? 'active' : ''}"><a data-toggle="tab" href="#add" onclick="this.blur();">Uusi ryhmä</a></li>
     		</ul>
     		
     		<div class="tab-content" style="padding: 15px;">
     		
-    			<!-- tab: add group -->
-  				<div id="add" class="tab-pane fade in active">
-    				<c:url value="/addGroup" var="addGroup" />
-    				<form:form role="form" class="form-horizontal" modelAttribute="newGroup" action="${addGroup}" method="post" accept-charset="UTF-8">
-  						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-  						<div class="form-group">
-							<label>Ryhmän nimi ja tunnus</label>
-							<form:input required="required" placeholder="Kirjoita ryhmän nimi ja tunnus" path="groupName" cssClass="form-control" autocomplete="off" maxlength="20" />
-							<small class="text-muted">Esimerkki: Autoalan perustutkinto, Omnian ammattiopisto: AUTB6</small>
-						</div>
-						<div class="form-group">
-							<label>Ryhmän liittymisavain</label>
-							<form:input required="required" placeholder="Kirjoita ryhmän liittymisavain" path="groupKey" cssClass="form-control" autocomplete="off" maxlength="50" />
-							<small class="text-muted">Käytä liittymisavaimena pienillä kirjaimilla kirjoitettu sanaa</small>
-						</div>
-						<div class="form-group">
-							<button type="submit" class="btn btn-default form-control">Tallenna</button>
-						</div>
-    				</form:form>
+  				<!-- tab: manage group users -->
+  				<div id="users" class="tab-pane fade  in active">
+  				<p id="group-users-info">
+  				Valitse ryhmä vasemmalla näkyvästä listasta nähdäksesi ryhmän opiskelijat.
+  				</p>
+  				<div id="group-users-table" class="hidden">
+					<table class="table">
+						<thead>
+						<tr>
+							<th class="col-sm-10">Opiskelija</th>
+							<th class="col-sm-2 text-center">Poista</th>
+						</tr>
+						</thead>
+						<tbody id="group-users-tbody">
+						</tbody>
+					</table>
+				</div>
   				</div>
   				
   				<!-- tab: edit group -->
   				<div id="edit" class="tab-pane fade">
+  					<p id="edit-group-info" class="hidden">Paina vasemmalla näkyvästä listasta ryhmän kohdalta 'muokkaa'-painiketta muuttaaksesi ryhmän tietoja.</p>
+  					<div id="edit-group-form" class="hidden">
     				<c:url value="/editGroup" var="editGroup" />
     				<form:form role="form" class="form-horizontal" modelAttribute="editedGroup" action="${editGroup}" method="post" accept-charset="UTF-8">
     					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -93,25 +87,28 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     					<button type="submit" class="btn btn-default pull-right" style="width: 45%;">Tallenna</button>
     					</div>
     				</form:form>
+    				</div>
   				</div>
-  				
-  				<!-- tab: manage group users -->
-  				<div id="users" class="tab-pane fade">
-  				<p id="group-users-info">
-  				Valitse ryhmä oikealla näkyvästä valikosta nähdäksesi ryhmän opiskelijat.
-  				</p>
-  				<div id="group-users-table" class="hidden">
-					<table class="table">
-						<thead>
-						<tr>
-							<th class="col-sm-10">Oppilas</th>
-							<th class="col-sm-2 text-center">Poista</th>
-						</tr>
-						</thead>
-						<tbody id="group-users-tbody">
-						</tbody>
-					</table>
-				</div>
+    		
+    			<!-- tab: add group -->
+  				<div id="add" class="tab-pane fade">
+    				<c:url value="/addGroup" var="addGroup" />
+    				<form:form role="form" class="form-horizontal" modelAttribute="newGroup" action="${addGroup}" method="post" accept-charset="UTF-8">
+  						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+  						<div class="form-group">
+							<label>Ryhmän nimi ja tunnus</label>
+							<form:input required="required" placeholder="Kirjoita ryhmän nimi ja tunnus" path="groupName" cssClass="form-control" autocomplete="off" maxlength="20" />
+							<small class="text-muted">Esimerkki: Autoalan perustutkinto, Omnian ammattiopisto: AUTB6</small>
+						</div>
+						<div class="form-group">
+							<label>Ryhmän liittymisavain</label>
+							<form:input required="required" placeholder="Kirjoita ryhmän liittymisavain" path="groupKey" cssClass="form-control" autocomplete="off" maxlength="50" />
+							<small class="text-muted">Käytä liittymisavaimena pienillä kirjaimilla kirjoitettu sanaa</small>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-default form-control">Tallenna uusi ryhmä</button>
+						</div>
+    				</form:form>
   				</div>
   				
 			</div>	
@@ -127,11 +124,13 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     	</div>
     	
     	<!-- group information table -->
-    	<div class="col-sm-8 text-left">
+    	<div class="col-md-8 text-left">
+    		<h2>Ryhmät</h2>
       		<c:choose>
       			<c:when test="${not empty groups}">
       				<form:form action="/passi/delGroup" method="post" accept-charset="UTF-8">
 	      			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	      			<div class="table-responsive">
       				<table class="table table-striped">
       					<thead>
       						<tr>
@@ -154,27 +153,25 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 	      							<c:out value="${group.groupKey}" />
 	      						</td>
 	      						<td>
-	      							<button onclick="editGroup(${group.groupID}); this.blur();" type="button" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></button>
-	      							<button value="${group.groupID}" name="groupID" type="submit" class="btn btn-default" onclick="if(!confirm('Haluatko varmasti poistaa ryhmän pysyvästi?')){return false;}else{submit()}; this.blur();"><span class="glyphicon glyphicon-trash"></span></button>
+	      							<button onclick="editGroup(${group.groupID}); this.blur();" type="button" class="btn btn-default" title="Muokkaa ryhmää"><span class="glyphicon glyphicon-edit"></span></button>
+	      							<button value="${group.groupID}" name="groupID" type="submit" class="btn btn-default" onclick="if(!confirm('Haluatko varmasti poistaa ryhmän pysyvästi?')){return false;}else{submit()}; this.blur();" title="Poista ryhmä"><span class="glyphicon glyphicon-trash"></span></button>
 	      						</td>
       						</tr>    					
       						</c:forEach>
       					</tbody>
       				</table>
+      				</div>
       				</form:form>
       			</c:when>
       			<c:otherwise>
-      				<table class="table">
-      					<thead>
-      						<tr><th class="text-left">ID</th><th>Ryhmän nimi&nbsp;&nbsp;[&nbsp;A - Ö&nbsp;]</th><th>Liittymisavain</th></tr>
-      					</thead>
-      					<tbody>
-      						<tr><td>Ei ryhmiä</td></tr>
-      					</tbody>
-      				</table>
+      				<div class="alert alert-warning" style="margin-top: 20px;">
+      				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      				Järjestelmässä ei ole yhtään ryhmää, tai niitä ei saatu haettua.
+      				</div>
       			</c:otherwise>
       		</c:choose>
     	</div>
+    	
   	</div>
 </div>
 

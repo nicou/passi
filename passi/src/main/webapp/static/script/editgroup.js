@@ -3,6 +3,8 @@ var editGroup = function(id) {
 		$('#editGroupID').val(data.groupID);
 		$('#editGroupName').val(data.groupName);
 		$('#editGroupKey').val(data.groupKey);
+		$('#edit-group-form, #edit-group-tab').removeClass('hidden');
+		//$('#edit-group-info').addClass('hidden');
 		selectTab('edit');
 	});
 }
@@ -15,5 +17,7 @@ var clearEditFields = function() {
 	$('#editGroupID').val(0);
 	$('#editGroupName').val('');
 	$('#editGroupKey').val('');
-	selectTab('add');
+	$('#edit-group-form, #edit-group-tab').addClass('hidden');
+	//$('#edit-group-info').removeClass('hidden');
+	selectTab('users');
 }
