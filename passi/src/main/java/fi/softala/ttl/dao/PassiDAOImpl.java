@@ -120,6 +120,15 @@ public class PassiDAOImpl implements PassiDAO {
 		}
 		return true;
 	}
+	
+	public boolean delGroupMember(int userID, int groupID) {
+		final String SQL1 = "DELETE FROM members WHERE user_id = ? AND group_id = ?";
+		try {
+			return jdbcTemplate.update(SQL1, new Object[] { userID, groupID }) == 1;
+		} catch (Exception ex) {
+			return false;
+		}
+	}
 
 	public List<Group> getAllGroups() {
 		final String SQL1 = "SELECT * FROM groups ORDER BY group_name";

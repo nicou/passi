@@ -314,4 +314,14 @@ public class PassiController {
 		group.put("users", dao.getGroupMembers(groupID));
 		return group;
 	}
+	
+	@RequestMapping(value = "/delGroupMember", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Boolean> delGroupMember(
+			@RequestParam(value="userID", required = true) int userID,
+			@RequestParam(value = "groupID", required = true) int groupID) {
+		Map<String, Boolean> status = new HashMap<>();
+		status.put("status", dao.delGroupMember(userID, groupID));
+		return status;
+	}
 }

@@ -182,7 +182,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="<c:url value="/static/script/editgroup.js" />"></script>
-<script src="<c:url value="/static/script/listusers.js" />"></script>
+<script src="<c:url value="/static/script/managemembers.js" />"></script>
 
 </body>
 </html>

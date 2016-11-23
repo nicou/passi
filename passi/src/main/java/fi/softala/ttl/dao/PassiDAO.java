@@ -23,6 +23,8 @@ public interface PassiDAO {
 	public boolean addGroup(Group group);
 
 	public boolean delGroup(int groupID);
+	
+	public boolean delGroupMember(int userID, int groupID);
 
 	public List<User> getGroupMembers(int groupID);
 
