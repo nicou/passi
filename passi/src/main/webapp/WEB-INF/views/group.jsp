@@ -48,7 +48,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				<!-- tab: manage group users -->
   				<div id="users" class="tab-pane fade  in active">
   				<p id="group-users-info">
-  				Valitse ryhmä vasemmalla näkyvästä listasta nähdäksesi ryhmän opiskelijat.
+  				Valitse ryhmä oikealla näkyvästä listasta nähdäksesi ryhmän opiskelijat.
   				</p>
   				<div id="group-users-table" class="hidden">
 					<table class="table">
@@ -66,7 +66,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				
   				<!-- tab: edit group -->
   				<div id="edit" class="tab-pane fade">
-  					<p id="edit-group-info" class="hidden">Paina vasemmalla näkyvästä listasta ryhmän kohdalta 'muokkaa'-painiketta muuttaaksesi ryhmän tietoja.</p>
+  					<p id="edit-group-info" class="hidden">Paina oikealla näkyvästä listasta ryhmän kohdalta 'muokkaa'-painiketta muuttaaksesi ryhmän tietoja.</p>
   					<div id="edit-group-form" class="hidden">
     				<c:url value="/editGroup" var="editGroup" />
     				<form:form role="form" class="form-horizontal" modelAttribute="editedGroup" action="${editGroup}" method="post" accept-charset="UTF-8">
