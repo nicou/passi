@@ -97,32 +97,21 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				
   				<!-- tab: manage group users -->
   				<div id="users" class="tab-pane fade" style="padding: 15px;">
-					<table class="table table-striped">
+  				<p id="group-users-info">
+  				Valitse ryhmä oikealla näkyvästä valikosta nähdäksesi ryhmän opiskelijat.
+  				</p>
+  				<div id="group-users-table" class="hidden">
+					<table class="table">
 						<thead>
 						<tr>
-							<td>Oppilas</td>
-							<td></td>
+							<th class="col-sm-10">Oppilas</th>
+							<th class="col-sm-2 text-center">Poista</th>
 						</tr>
 						</thead>
-						<tbody>
-						<tr>
-							<td>Jaakko Pavunvarsi</td>
-							<td>[x]</td>
-						</tr>
-						<tr>
-							<td>Jaakko Pavunvarsi</td>
-							<td>[x]</td>
-						</tr>
-						<tr>
-							<td>Jaakko Pavunvarsi</td>
-							<td>[x]</td>
-						</tr>
-						<tr>
-							<td>Jaakko Pavunvarsi</td>
-							<td>[x]</td>
-						</tr>
+						<tbody id="group-users-tbody">
 						</tbody>
 					</table>
+				</div>
   				</div>
   				
 			</div>	
@@ -159,7 +148,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 	      							<c:out value="${group.groupID}" />
 	      						</td>
 	      						<td class="text-nowrap">
-	      							<a href="#!"><c:out value="${group.groupName}" /></a>
+	      							<a href="#!" onclick="getGroupUsers(${group.groupID}); this.blur();"><c:out value="${group.groupName}" /></a>
 	      						</td>
 	      						<td class="text-left">
 	      							<c:out value="${group.groupKey}" />
@@ -193,6 +182,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="<c:url value="/static/script/editgroup.js" />"></script>
+<script src="<c:url value="/static/script/listusers.js" />"></script>
 
 </body>
 </html>
