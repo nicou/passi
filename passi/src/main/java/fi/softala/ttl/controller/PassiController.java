@@ -115,6 +115,7 @@ public class PassiController {
 		// Authenticated user
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
+		logger.info("Initializing session for user " + username);
 		redirectAttributes.addFlashAttribute("user", username);
 		
 		// Get user data
@@ -185,55 +186,58 @@ public class PassiController {
 
 	// 1. SELECT GROUP
 	@RequestMapping(value = "/selectGroup", method = RequestMethod.POST)
-	public String selectGroup(Model model, @RequestParam int groupID) {
-		model.addAttribute("groupMembers", passiService.getGroupMembers(groupID));
-		model.addAttribute("instructorsDetails", passiService.getInstructorsDetails(groupID));
-		model.addAttribute("selectedCategory", 0);
-		model.addAttribute("selectedGroup", groupID);
-		model.addAttribute("selectedMember", 0);
-		model.addAttribute("selectedWorksheet", 0);
+	public String selectGroup(@RequestParam int groupID, final RedirectAttributes ra) {
+		ra.addFlashAttribute("groupMembers", passiService.getGroupMembers(groupID));
+		ra.addFlashAttribute("instructorsDetails", passiService.getInstructorsDetails(groupID));
+		ra.addFlashAttribute("selectedCategory", 0);
+		ra.addFlashAttribute("selectedGroup", groupID);
+		ra.addFlashAttribute("selectedMember", 0);
+		ra.addFlashAttribute("selectedWorksheet", 0);
 		logger.info("selectGroup completed");
-		return "index";
+		return "redirect:/index";
 	}
 	
 	// 2. SELECT CATEGORY
 	@RequestMapping(value = "/selectCategory", method = RequestMethod.POST)
-	public String selectCategory(Model model, @RequestParam int categoryID,
+	public String selectCategory(@RequestParam int categoryID,
 			@ModelAttribute("selectedGroup") int groupID,
-			@ModelAttribute("worksheets") ArrayList<WorksheetDTO> worksheets) {
-		model.addAttribute("selectedCategory", categoryID);
-		model.addAttribute("selectedMember", 0);
-		model.addAttribute("selectedWorksheet", 0);
-		model.addAttribute("worksheets", passiService.getWorksheetsDTO(groupID, categoryID));
+			@ModelAttribute("worksheets") ArrayList<WorksheetDTO> worksheets,
+			final RedirectAttributes ra) {
+		ra.addFlashAttribute("selectedCategory", categoryID);
+		ra.addFlashAttribute("selectedMember", 0);
+		ra.addFlashAttribute("selectedWorksheet", 0);
+		ra.addFlashAttribute("worksheets", passiService.getWorksheetsDTO(groupID, categoryID));
 		logger.info("selectCategory completed");
-		return "index";
+		return "redirect:/index";
 	}
 	
 	// 3. SELECT WORKSHEET
 	@RequestMapping(value = "/selectWorksheet", method = RequestMethod.POST)
-	public String selectWorksheet(Model model, @RequestParam int worksheetID,
+	public String selectWorksheet(@RequestParam int worksheetID,
 			@ModelAttribute("groupMembers") ArrayList<User> groupMembers,
 			@ModelAttribute("selectedGroup") int groupID,
-			@ModelAttribute("selectedCategory") int categoryID) {
-		model.addAttribute("groupMembers", passiService.getGroupMembers(groupID));
-		model.addAttribute("isAnsweredMap", passiService.getIsAnsweredMap(worksheetID, groupMembers));
-		model.addAttribute("selectedMember", 0);
-		model.addAttribute("selectedWorksheet", worksheetID);
+			@ModelAttribute("selectedCategory") int categoryID,
+			final RedirectAttributes ra) {
+		ra.addFlashAttribute("groupMembers", passiService.getGroupMembers(groupID));
+		ra.addFlashAttribute("isAnsweredMap", passiService.getIsAnsweredMap(worksheetID, groupMembers));
+		ra.addFlashAttribute("selectedMember", 0);
+		ra.addFlashAttribute("selectedWorksheet", worksheetID);
 		logger.info("selectWorksheet completed");
-		return "index";
+		return "redirect:/index";
 	}
 
 	// 4. SELECT MEMBER (GET WORKSHEET WITH POSSIBLE ANSWERS)
 	@RequestMapping(value = "/selectMember", method = RequestMethod.POST)
-	public String selectMember(Model model, @RequestParam int userID,
+	public String selectMember(@RequestParam int userID,
 			@ModelAttribute("selectedGroup") int groupID,
-			@ModelAttribute("selectedWorksheet") int worksheetID) {
-		model.addAttribute("memberDetails", passiService.getMemberDetails(userID));
-		model.addAttribute("selectedMember", userID);
-		model.addAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, userID));
-		model.addAttribute("worksheetContent", passiService.getWorksheetContent(worksheetID));
+			@ModelAttribute("selectedWorksheet") int worksheetID,
+			final RedirectAttributes ra) {
+		ra.addFlashAttribute("memberDetails", passiService.getMemberDetails(userID));
+		ra.addFlashAttribute("selectedMember", userID);
+		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, userID));
+		ra.addFlashAttribute("worksheetContent", passiService.getWorksheetContent(worksheetID));
 		logger.info("selectMember completed");
-		return "index";
+		return "redirect:/index";
 	}
 
 	@RequestMapping(value = "/saveWaypointFeedback", method = RequestMethod.POST)

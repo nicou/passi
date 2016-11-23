@@ -7,9 +7,11 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <%
+/* Disabled for now to fix browser back-button function
 int timeout = session.getMaxInactiveInterval();
 String contextPath = request.getContextPath();
 response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
+*/
 %>
 
 <!DOCTYPE html>
