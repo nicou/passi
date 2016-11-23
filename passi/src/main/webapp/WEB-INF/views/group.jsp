@@ -44,9 +44,9 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		
     		<!-- Navigation tabs -->
     		<ul class="nav nav-tabs" id="navTabs">
-    			<li class="${empty selectedTab ? 'active' : ''}"><a data-toggle="tab" href="#add" onclick="this.blur();">Luo uusi ryhmä</a></li>
+    			<li class="${empty selectedTab ? 'active' : ''}"><a data-toggle="tab" href="#add" onclick="this.blur();">Uusi ryhmä</a></li>
     			<li class="${selectedTab == 'edit' ? 'active' : ''}"><a data-toggle="tab" href="#edit" onclick="this.blur();">Muokkaa ryhmää</a></li>
-    			<li class="${selectedTab == 'edit' ? 'active' : ''}"><a data-toggle="tab" href="#users" onclick="this.blur();">Ryhmän opiskelijat</a></li>
+    			<li class="${selectedTab == 'edit' ? 'active' : ''}"><a data-toggle="tab" href="#users" onclick="this.blur();">Opiskelijat</a></li>
     		</ul>
     		
     		<div class="tab-content" style="padding: 15px;">
