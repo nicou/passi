@@ -270,9 +270,10 @@ public class PassiController {
 	}
 
 	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
-	public ModelAndView addGroup(@ModelAttribute("newGroup") Group newGroup) {
+	public ModelAndView addGroup(@ModelAttribute("newGroup") Group newGroup,
+			@ModelAttribute("userDetails") User instructor) {
 		ModelAndView model = new ModelAndView();
-		if (dao.addGroup(newGroup)) {  // fix to call via passiService
+		if (dao.addGroup(newGroup, instructor)) {  // fix to call via passiService
 			model.addObject("message", "Ryhmän lisääminen onnistui.");
 			model.addObject("newGroup", new Group());
 		} else {
