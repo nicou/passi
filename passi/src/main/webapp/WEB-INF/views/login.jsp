@@ -23,14 +23,13 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <!-- Bootstrap -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <!-- Custom styles for this template -->
 <link href="<c:url value="/static/style/login.css" />" rel="stylesheet">
 
 </head>
 
-<body onload="document.login.username.focus();">
+<body onload="document.getElementById('username').focus();">
 
 <div class="container">
 
@@ -60,5 +59,10 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 </div>
 
 <pre style="display: inline-block; margin-top: 20px; padding: 10px 15px 10px 15px;">username = admin<br />password = passw</pre>
+
+<!-- Script -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </body>
 </html>
