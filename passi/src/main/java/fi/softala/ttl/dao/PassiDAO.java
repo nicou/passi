@@ -20,7 +20,7 @@ public interface PassiDAO {
 	
 	public void saveUser(User user);
 
-	public boolean addGroup(Group group);
+	public boolean addGroup(Group group, User instructor);
 	
 	public boolean editGroup(Group group);
 
