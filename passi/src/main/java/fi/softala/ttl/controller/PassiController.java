@@ -113,7 +113,7 @@ public class PassiController {
 		String username = auth.getName();
 		redirectAttributes.addFlashAttribute("user", username);
 		
-		// Get user data
+		// Get authenticated user data
 		User userDetails = userService.findByUsername(username);
 		redirectAttributes.addFlashAttribute("userDetails", userDetails);
 		
