@@ -77,12 +77,55 @@ $(document).ready(function() {
 			$('.error-toast-' + id).fadeIn(1000).delay(3000).fadeOut(1000);
 		}
 	});
+	
+	var wWidth, wHeight, iWidth, iHeigth, counter = 0;
+	
+	var scaleImage = function() {
+		   iWidth = $('#zImage').width();
+		   iHeigth = $('#zImage').height(); 
+		  if(counter % 2 === 0) {
+			  iWidth = iHeigth;
+			  iHeigth = iWidth;
+		  } else {
+			  iWidth = iWidth;
+			  iHeigth = iHeigth;
+		  }
+		  
+			$( '#zImage' ).css({
+				'max-width': (wWidth * 0.8) + "px",
+				'max-height': (wHeight * 0.8 ) + "px"
+			});
+	}
+	
+	var scaleRotateIcon = function(condition) {
+		$('.glyphicon-repeat').css({
+			'position': 'absolute',
+			'margin-top':  condition * 2 + "px"
+		});
+	}
 
 	//rotate image right 90 degrees, image and rotateButton should be inside a container div in order for the selector to work
 	var angle = 0;
 	var rotateImage = function(target) {
 		angle += 90
 		$(target).css('transform','rotate(' + angle + 'deg)');
+		
+		let condition = $('#zImage').position().top;
+		if(condition < 0 || counter % 2 === 0) {
+			counter++;
+			$( '#zImage' ).css({
+				'margin-top': condition * -1.1
+			});
+			scaleImage();
+			scaleRotateIcon();
+		} else{
+			counter++;
+			$( '#zImage' ).css({
+				'margin-top': condition
+			});
+			scaleImage();
+			scaleRotateIcon(condition);
+		}
 	};
 	
 	 $('#lightbox').on('click', function(e) {
@@ -98,12 +141,18 @@ $(document).ready(function() {
 		var image = '<img src="' + image_href + '" id="zImage"/>';
 			angle = 0;
 			$('#content').html(image);
-			  var wWidth = $(window).width(), wHeight = $(window).height();
+			wWidth = $(window).width(), wHeight = $(window).height();
+			  $(image).on('load', function(){
+				  scaleImage(wWidth, wHeight);
+				  
+					if($('.glyphicon-repeat').length < 1){
+						$('#lightbox').append('<span class="glyphicon glyphicon-repeat text-center" style="color: #ffffff; font-size:25px; background-color:rgba(0,0,0,.5);padding:10px;"></span>');
+						scaleRotateIcon();
+					}	
+				});
+			  
 			  /*
 			  width & height var's return 0 -_- ? -> should set them dynamically in while loop
-			    
-			  var imageWidth = $('#zImage').width();
-			  var imageHeigth = $('#zImage').height(); 
 			   
 			  if(imageWidth > wWidth || imageHeigth > wHeight){
 				  while(imageWidth > wWidth || imageHeigth > wHeight ) {
@@ -112,16 +161,8 @@ $(document).ready(function() {
 					  }
 			  }
 			*/
-			$( '#zImage' ).css({
-					'margin-top': (wHeight / 5) + "px",
-					'width': (wWidth / 1.75) + "px",
-					'height': (wHeight / 1.75 ) + "px"
-			});
-			
-			console.log($('#zImage').position());
-			if($('.glyphicon-repeat').length < 1){
-				$('#lightbox').append('<span class="glyphicon glyphicon-repeat" style="position:absolute;margin-top: 10em; color: #ffffff; font-size:25px; background-color:rgba(0,0,0,.5);padding:10px;"></span>');
-			}
+		
+		
 			$('#lightbox').show();
 		
 		/*	for creating #lightbox dynamically // NOT IN USE
