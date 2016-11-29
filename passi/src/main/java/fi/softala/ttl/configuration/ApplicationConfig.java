@@ -39,9 +39,6 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 	@Autowired
 	private Environment env;
 	
-	@Autowired
-	private WebFlowConfig webFlowConfig;
-	
 	@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
@@ -54,22 +51,6 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 		viewResolver.setPrefix("/WEB-INF/views/");
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
-	}
-	
-	@Bean
-	public FlowHandlerMapping flowHandlerMapping() {
-		FlowHandlerMapping handlerMapping = new FlowHandlerMapping();
-		handlerMapping.setOrder(-1);
-		handlerMapping.setFlowRegistry(this.webFlowConfig.flowRegistry());
-		return handlerMapping;
-	}
-
-	@Bean
-	public FlowHandlerAdapter flowHandlerAdapter() {
-		FlowHandlerAdapter handlerAdapter = new FlowHandlerAdapter();
-		handlerAdapter.setFlowExecutor(this.webFlowConfig.flowExecutor());
-		handlerAdapter.setSaveOutputToFlashScopeOnRedirect(true);
-		return handlerAdapter;
 	}
 	 
 	@Bean

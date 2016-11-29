@@ -155,7 +155,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     			<tr><th scope="row" class="text-right col-xs-2">Etunimi</th><td class="text-left col-xs-10"><c:out value="${memberDetails.firstname}" /></td></tr>
     			<tr><th scope="row" class="text-right col-xs-2">Sukunimi</th><td class="text-left col-xs-10"><c:out value="${memberDetails.lastname}" /></td></tr>
     			<tr><th scope="row" class="text-right col-xs-2">Sähköposti</th><td class="text-left col-xs-10"><c:out value="${memberDetails.email}" /></td></tr>
-    			<tr><th scope="row" class="text-right col-xs-2">Puhelin</th><td class="text-left col-xs-10"><c:out value="${memberDetails.phone}" /></td></tr>
     			</table>
     			</c:when>
     			<c:otherwise></c:otherwise>
@@ -171,7 +170,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     			<tr><th scope="row" class="text-right col-xs-2">Etunimi</th><td class="text-left col-xs-10"><c:out value="${instructor.firstname}" /></td></tr>
     			<tr><th scope="row" class="text-right col-xs-2">Sukunimi</th><td class="text-left col-xs-10"><c:out value="${instructor.lastname}" /></td></tr>
     			<tr><th scope="row" class="text-right col-xs-2">Sähköposti</th><td class="text-left col-xs-10"><c:out value="${instructor.email}" /></td></tr>
-    			<tr><th scope="row" class="text-right col-xs-2">Puhelin</th><td class="text-left col-xs-10"><c:out value="${instructor.phone}" /></td></tr>
     			<tr><th scope="row" class="text-right col-xs-2">&nbsp;</th><td class="text-left col-xs-10">&nbsp;</td></tr>
     			</c:forEach>
    				</table>

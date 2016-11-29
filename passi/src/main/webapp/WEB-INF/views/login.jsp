@@ -60,6 +60,10 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <pre style="display: inline-block; margin-top: 20px; padding: 10px 15px 10px 15px;">username = admin<br />password = passw</pre>
 
+<div class="frontinfo">
+
+</div>
+
 <!-- Script -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

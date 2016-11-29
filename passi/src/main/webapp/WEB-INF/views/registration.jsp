@@ -96,14 +96,6 @@ label {
 			<form:errors path="email" class="control-label" />
 		</div>
 	</spring:bind>
-	
-	<spring:bind path="phone">
-		<div class="form-group ${status.error ? 'has-error' : ''}">
-			<label class="control-label">Puhelin</label>
-			<form:input path="phone" class="form-control" maxlength="40" />
-			<form:errors path="phone" class="control-label" />
-		</div>
-	</spring:bind>
 
 	<spring:bind path="password">
 		<div class="form-group ${status.error ? 'has-error' : ''}">
