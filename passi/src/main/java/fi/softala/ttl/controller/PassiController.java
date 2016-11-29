@@ -13,7 +13,9 @@ import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -42,6 +44,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fi.softala.ttl.dao.PassiDAO;
 import fi.softala.ttl.model.Group;
+import fi.softala.ttl.model.Role;
 import fi.softala.ttl.dto.WorksheetDTO;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.service.PassiService;
@@ -172,12 +175,12 @@ public class PassiController {
         	model.addAttribute("userForm", userForm);
             return "registration";
         }
-        
+        Role role = new Role(2, "ROLE_ADMIN");
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        userForm.setRoles(roles);
         passiService.saveUser(userForm);
-        // securityService.autologin(userForm.getUsername(), userForm.getConfirmPassword());
-        
         model.addAttribute("message", "Rekisteröinti onnistui");
-        
         return "login";
     }
 
