@@ -61,7 +61,40 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <pre style="display: inline-block; margin-top: 20px; padding: 10px 15px 10px 15px;">username = admin<br />password = passw</pre>
 
 <div class="frontinfo">
+Työkykypassi – mobiilisovellus on kehitetty Työterveyslaitoksen koordinoimassa Combo -
 
+hankkeessa. Sovelluksen tarkoituksena on vahvistaa opiskelijoiden työkykyosaamista ammatillisissa
+
+oppilaitoksissa. Hanketta on rahoittanut Euroopan sosiaalirahasto (ESR) / Pohjois-Pohjanmaan
+
+elinkeino-, liikenne- ja ympäristökeskus. Sovellukseen kehittämiseen ovat osallistuneet Haaga-Helia
+
+Ammattikorkeakoulu, Työterveyslaitos, Saku Ry ja Stadin ammattiopisto.
+
+[Tekstin alapuolelle seuraavat kehittäjätaho logot: Haaga-Helia, Työterveyslaitos, Saku Ry, Stadin
+
+ammattiopisto, ESR – lippulogo, Uudenmaan Ely-keskus, Vipuvoimaa –logo]
+
+<img src="static/kehittaja_haaga-helia.jpg">
+<img src="static/kehittaja_ttl.jpg">
+<img src="static/saku.png">
+<img src="static/kehittaja_vipuvoimaa.png">
+<img src="static/kehittaja_eu_esr.png">
+<img src="static/ely.jpg">
+
+Sovelluksen sisällössä on hyödynnetty Alpo.fi-sivujen tehtäviä, jotka on aiemmin laadittu
+
+yhteistyössä seuraavien tahojen kanssa:
+
+[Tekstin alapuolelle seuraavat yhteistyötaho logot: Smart moves, Ehyt Ry, Mielenterveysseura, Yksi
+
+elämä, Sydänliitto, Nuorten Akatemia, Suomen mielenterveysseura]
+
+<img src="static/yhteistyo_smartmoves.png">
+<img src="static/yhteistyo_ehyt.jpg">
+<img src="static/yhteistyo_ye.jpg">
+<img src="static/yhteistyo_sydanliitto.jpg">
+<img src="static/yhteistyo_nuortenakatemia.jpg">
 </div>
 
 <!-- Script -->
