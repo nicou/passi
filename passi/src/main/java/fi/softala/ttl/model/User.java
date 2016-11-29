@@ -20,7 +20,6 @@ public class User implements Serializable {
 	private String firstname;
 	private String lastname;
 	@JsonIgnore private String email;
-	@JsonIgnore private String phone;
 
 	public User() {
 		super();
@@ -33,7 +32,6 @@ public class User implements Serializable {
 		this.firstname = "";
 		this.lastname = "";
 		this.email = "";
-		this.phone = "";
 	}
 	
 	@JsonIgnore public boolean isNew() {
@@ -104,19 +102,11 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
 	
 	// without roles, password, confirmPassword
 	@Override
 	public String toString() {
 		return "User [userID=" + userID + ", username=" + username + ", firstname=" + firstname + ", lastname="
-				+ lastname + ", email=" + email + ", phone=" + phone + "]";
+				+ lastname + ", email=" + email + "]";
 	}
 }

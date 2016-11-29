@@ -60,7 +60,7 @@ public class PassiDAOImpl implements PassiDAO {
 		
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
-		final String SQL1 = "INSERT INTO users (username, password, firstname, lastname, email, phone) "
+		final String SQL1 = "INSERT INTO users (username, password, firstname, lastname, email) "
 				+ "VALUES (?, ?, ?, ?, ?, ?)";
 		
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -72,7 +72,6 @@ public class PassiDAOImpl implements PassiDAO {
 				ps.setString(3, user.getFirstname());
 				ps.setString(4, user.getLastname());
 				ps.setString(5, user.getEmail());
-				ps.setString(6, user.getPhone());
 				return ps;
 			}
 		}, keyHolder);
