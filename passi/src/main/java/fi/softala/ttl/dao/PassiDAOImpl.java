@@ -30,7 +30,6 @@ import fi.softala.ttl.dto.GroupDTO;
 import fi.softala.ttl.dto.WorksheetDTO;
 import fi.softala.ttl.model.Answerpoint;
 import fi.softala.ttl.model.Answersheet;
-import fi.softala.ttl.model.Category;
 import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.model.Waypoint;
@@ -214,22 +213,6 @@ public class PassiDAOImpl implements PassiDAO {
 		RowMapper<User> userMapper = new UserRowMapper();
 		List<User> members = jdbcTemplate.query(SQL, new Object[] { groupID }, userMapper);
 		return members;
-	}
-	
-	@Override
-	public List<Category> getCategories() {
-		final String SQL = "SELECT category_id, category_name FROM categories ORDER BY category_name";
-		List<Category> categories = jdbcTemplate.query(SQL, new RowMapper<Category>() {
-			
-			@Override
-			public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Category category = new Category();
-				category.setCategoryID(rs.getInt("category_id"));
-				category.setCategoryName(rs.getString("category_name"));
-				return category;
-			}			
-		});
-		return categories;
 	}
 	
 	@Override
