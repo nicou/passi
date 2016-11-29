@@ -60,41 +60,32 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <pre style="display: inline-block; margin-top: 20px; padding: 10px 15px 10px 15px;">username = admin<br />password = passw</pre>
 
-<div class="frontinfo">
-Työkykypassi – mobiilisovellus on kehitetty Työterveyslaitoksen koordinoimassa Combo -
+<div class="row">
+<div class="col-xs-12 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3 front-info">
+<p>
+Työkykypassi – mobiilisovellus on kehitetty Työterveyslaitoksen koordinoimassa Combo -hankkeessa. Sovelluksen tarkoituksena on vahvistaa opiskelijoiden työkykyosaamista ammatillisissa oppilaitoksissa. Hanketta on rahoittanut Euroopan sosiaalirahasto (ESR) / Pohjois-Pohjanmaan elinkeino-, liikenne- ja ympäristökeskus. Sovellukseen kehittämiseen ovat osallistuneet Haaga-Helia Ammattikorkeakoulu, Työterveyslaitos, Saku Ry ja Stadin ammattiopisto. [Tekstin alapuolelle seuraavat kehittäjätaho logot: Haaga-Helia, Työterveyslaitos, Saku Ry, Stadin ammattiopisto, ESR – lippulogo, Uudenmaan Ely-keskus, Vipuvoimaa –logo]
+</p>
 
-hankkeessa. Sovelluksen tarkoituksena on vahvistaa opiskelijoiden työkykyosaamista ammatillisissa
+<img class="front-logo" src="static/img/kehittaja_haaga-helia.jpg" alt="Haaga-Helia Logo">
+<img class="front-logo" src="static/img/kehittaja_ttl.jpg" alt="TTL Logo">
+<img class="front-logo" src="static/img/kehittaja_saku.png" alt="Saku Logo">
+<img class="front-logo" src="static/img/kehittaja_vipuvoimaa.png" alt="Vipuvoimaa logo">
+<img class="front-logo" src="static/img/kehittaja_eu_esr.png" alt="EU ESR Logo">
+<img class="front-logo" src="static/img/ely.jpg" alt="ELY Logo">
 
-oppilaitoksissa. Hanketta on rahoittanut Euroopan sosiaalirahasto (ESR) / Pohjois-Pohjanmaan
+<p>
+Sovelluksen sisällössä on hyödynnetty Alpo.fi-sivujen tehtäviä, jotka on aiemmin laadittu yhteistyössä seuraavien tahojen kanssa: [Tekstin alapuolelle seuraavat yhteistyötaho logot: Smart moves, Ehyt Ry, Mielenterveysseura, Yksi elämä, Sydänliitto, Nuorten Akatemia, Suomen mielenterveysseura]
+</p>
 
-elinkeino-, liikenne- ja ympäristökeskus. Sovellukseen kehittämiseen ovat osallistuneet Haaga-Helia
+<img class="front-logo" src="static/img/yhteistyo_smartmoves.png" alt="Smartmoves logo">
+<img class="front-logo" src="static/img/yhteistyo_ehyt.jpg" alt="Ehyt logo">
+<img class="front-logo" src="static/img/yhteistyo_ye.jpg" alt="YE Logo">
+<img class="front-logo" src="static/img/yhteistyo_sydanliitto.jpg" alt="Sydänliitto logo">
+<img class="front-logo" src="static/img/yhteistyo_nuortenakatemia.jpg" alt="Nuorten akatemia logo">
 
-Ammattikorkeakoulu, Työterveyslaitos, Saku Ry ja Stadin ammattiopisto.
+<br /><br />
 
-[Tekstin alapuolelle seuraavat kehittäjätaho logot: Haaga-Helia, Työterveyslaitos, Saku Ry, Stadin
-
-ammattiopisto, ESR – lippulogo, Uudenmaan Ely-keskus, Vipuvoimaa –logo]
-
-<img src="static/img/kehittaja_haaga-helia.jpg">
-<img src="static/img/kehittaja_ttl.jpg">
-<img src="static/img/saku.png">
-<img src="static/img/kehittaja_vipuvoimaa.png">
-<img src="static/img/kehittaja_eu_esr.png">
-<img src="static/img/ely.jpg">
-
-Sovelluksen sisällössä on hyödynnetty Alpo.fi-sivujen tehtäviä, jotka on aiemmin laadittu
-
-yhteistyössä seuraavien tahojen kanssa:
-
-[Tekstin alapuolelle seuraavat yhteistyötaho logot: Smart moves, Ehyt Ry, Mielenterveysseura, Yksi
-
-elämä, Sydänliitto, Nuorten Akatemia, Suomen mielenterveysseura]
-
-<img src="static/img/yhteistyo_smartmoves.png">
-<img src="static/img/yhteistyo_ehyt.jpg">
-<img src="static/img/yhteistyo_ye.jpg">
-<img src="static/img/yhteistyo_sydanliitto.jpg">
-<img src="static/img/yhteistyo_nuortenakatemia.jpg">
+</div>
 </div>
 
 <!-- Script -->
