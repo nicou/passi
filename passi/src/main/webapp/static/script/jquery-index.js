@@ -148,7 +148,7 @@ $(document).ready(function() {
 			  $(image).on('load', function(){
 				  scaleImage(false);
 					if($('.glyphicon-repeat').length < 1){
-						$('#content').append('<p style="color:#ffffff; margin-left: 15px;">click image to</p><span class="glyphicon glyphicon-repeat text-center" style="color:#ffffff; background-color: rgba(0,0,0,.4); padding: 10px;"></span>');
+						$('#content').append('<div id="rotateiconContainer"><span class="glyphicon glyphicon-repeat text-center"></span><p>Klikkaa kuvaa</p></div>');
 					}	
 				});
 			  
