@@ -83,6 +83,12 @@ public class PassiServiceImpl implements PassiService {
 	public void saveFeadback(int answerWaypointID, int instructorRating, String instructorComment) {
 		dao.saveFeedback(answerWaypointID, instructorRating, instructorComment);
 	}
+	
+	@Override
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void saveInstructorComment(int answersheetID, String instructorComment) {
+		dao.saveInstructorComment(answersheetID, instructorComment);
+	}
 
 	@Override
 	public Answersheet getWorksheetAnswers(int worksheetID, int userID) {

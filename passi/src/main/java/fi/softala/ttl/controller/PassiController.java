@@ -251,6 +251,18 @@ public class PassiController {
 		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember));
 		return "redirect:/index";
 	}
+	
+	@RequestMapping(value = "/saveInstructorComment", method = RequestMethod.POST)
+	public String saveInstructorComment(Model model,
+			@RequestParam(value = "instructorComment", required = true) String instructorComment,
+			@RequestParam(value = "answerID", required = true) int answersheetID,
+			@ModelAttribute("selectedWorksheet") int worksheetID,
+			@ModelAttribute("selectedMember") int selectedMember,
+			final RedirectAttributes ra) {
+		passiService.saveInstructorComment(answersheetID, instructorComment);
+		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember));
+		return "redirect:/index";
+	}
 
 	@RequestMapping(value = "/download/{name}/{type}", method = RequestMethod.GET)
 	public void downloadFile(HttpServletResponse response, @PathVariable("name") String name,

@@ -364,6 +364,11 @@ public class PassiDAOImpl implements PassiDAO {
 		final String SQL = "UPDATE answerpoints SET instructor_comment = ?, instructor_rating = ? WHERE answerpoint_id = ?";
 		jdbcTemplate.update(SQL, new Object[] {instructorComment, instructorRating, answerWaypointID});
 	}
+	
+	@Override public void saveInstructorComment(int answersheetID, String instructorComment) {
+		final String SQL = "UPDATE answersheets SET instructor_comment = ? WHERE answersheet_id = ?";
+		jdbcTemplate.update(SQL, new Object[] { instructorComment, answersheetID });
+	}
 
 	@Override
 	public HashMap<Integer, Integer> getIsAnsweredMap(int worksheetID, ArrayList<User> groupMembers) {

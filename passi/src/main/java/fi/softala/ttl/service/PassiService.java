@@ -31,6 +31,8 @@ public interface PassiService {
 		
 	public void saveFeadback(int answerWaypointID, int instructorRating, String instructorComment);
 	
+	public void saveInstructorComment(int answersheetID, String instructorComment);
+	
 	public User getMemberDetails(int userID);
 	
 	public ArrayList<User> getInstructorsDetails(int groupID);

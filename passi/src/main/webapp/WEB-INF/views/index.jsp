@@ -277,7 +277,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 						</ul>
 					</div>
 					<div class="col-xs-6 text-right">
-						<button class="palaute btn btn-default btn-md" value="${wpID}">Lähetä</button><br />
+						<button class="palaute btn btn-default btn-md" value="${wpID}">Tallenna</button><br />
 					</div>
 
 					</div>
@@ -305,6 +305,28 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 				</div>
 			</div>
   		</c:forEach>
+  		
+  		  		<div class="row row-padding">
+  				<div class="panel panel-default">
+  				<div class="panel-heading"><strong>Koko tehtäväkortin koostepalaute</strong></div>
+  				<div class="panel-body">
+  				
+  				<form action="saveInstructorComment" method="post" accept-charset="UTF-8">
+  				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+  				<input type="hidden" name="answerID" value="${worksheetAnswers.answerID }" />
+  				<div class="row">
+  				<div class="col-xs-12 form-group">
+  					<textarea name="instructorComment" class="form-control" rows="7" maxlength="1000" placeholder="Anna koostepalaute"><c:if test="${not empty worksheetAnswers.answerInstructorComment }"><c:out value="${worksheetAnswers.answerInstructorComment}" /></c:if></textarea>
+  				</div>
+  				<div class="col-xs-12 text-right">
+  					<button class="btn btn-secondary" type="submit">Lähetä</button>
+  				</div>
+  				</div>
+  				</form>
+  				
+  				</div>
+  				</div>
+  				</div>
 	</c:when>
 	<c:otherwise>
 		<div class="row">
