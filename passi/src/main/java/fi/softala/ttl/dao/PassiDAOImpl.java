@@ -179,14 +179,14 @@ public class PassiDAOImpl implements PassiDAO {
 		
 	}
 
-	public List<Group> getAllGroups() {
-		final String SQL1 = "SELECT * FROM groups ORDER BY group_name";
+	public List<Group> getAllGroups(String username) {
+		final String SQL1 = "SELECT groups.* FROM groups JOIN members USING (group_id) JOIN user_role USING (user_id) WHERE user_id = (SELECT user_id FROM users WHERE username = ?) AND user_role.role_id = 2 ORDER BY group_name";
 		final String SQL2 = "SELECT users.* FROM users "
 				+ "JOIN members ON members.user_id = users.user_id "
 				+ "JOIN user_role ON users.user_id = user_role.user_id "
 				+ "WHERE user_role.role_id = 2 AND users.user_id != 1 AND members.group_id = ?";
 		RowMapper<Group> groupMapper = new GroupRowMapper();
-		List<Group> groups = jdbcTemplate.query(SQL1, groupMapper);
+		List<Group> groups = jdbcTemplate.query(SQL1, new Object[] { username }, groupMapper);
 		RowMapper<User> userRowMapper = new UserRowMapper();
 		for (Group group : groups) {
 			group.setInstructors((ArrayList<User>) jdbcTemplate.query(SQL2, new Object[] { group.getGroupID() }, userRowMapper));
@@ -216,9 +216,10 @@ public class PassiDAOImpl implements PassiDAO {
 	}
 	
 	@Override
-	public List<GroupDTO> getGroupsDTO() {
-		final String SQL = "SELECT group_id, group_name FROM groups ORDER BY group_name";
-		List<GroupDTO> groups = jdbcTemplate.query(SQL, new RowMapper<GroupDTO>() {
+	public List<GroupDTO> getGroupsDTO(String username) {
+		//final String SQL = "SELECT group_id, group_name FROM groups ORDER BY group_name";
+		final String SQL = "SELECT g.group_id, g.group_name FROM groups g JOIN members USING (group_id) JOIN user_role USING (user_id) WHERE user_id = (SELECT user_id FROM users WHERE username = ?) AND user_role.role_id = 2";
+		List<GroupDTO> groups = jdbcTemplate.query(SQL, new Object[] { username }, new RowMapper<GroupDTO>() {
 			
 			@Override
 			public GroupDTO mapRow(ResultSet rs, int rowNum) throws SQLException {

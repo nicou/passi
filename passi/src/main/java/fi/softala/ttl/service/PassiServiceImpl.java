@@ -44,8 +44,8 @@ public class PassiServiceImpl implements PassiService {
 	}
 
 	@Override
-	public ArrayList<GroupDTO> getGroupsDTO() {
-		return (ArrayList<GroupDTO>) dao.getGroupsDTO();
+	public ArrayList<GroupDTO> getGroupsDTO(String username) {
+		return (ArrayList<GroupDTO>) dao.getGroupsDTO(username);
 	}
 
 	@Override
@@ -105,8 +105,8 @@ public class PassiServiceImpl implements PassiService {
 	}
 
 	@Override
-	public ArrayList<Group> getAllGroups() {
-		return (ArrayList<Group>) dao.getAllGroups();
+	public ArrayList<Group> getAllGroups(String username) {
+		return (ArrayList<Group>) dao.getAllGroups(username);
 	}
 
 	@Override
