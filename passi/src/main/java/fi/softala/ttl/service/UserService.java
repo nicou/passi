@@ -7,7 +7,7 @@ import fi.softala.ttl.model.User;
 
 public interface UserService {
 	
-    void save(User user);
+    public void save(User user);
 
-    User findByUsername(String username);
+    public User findByUsername(String username);
 }

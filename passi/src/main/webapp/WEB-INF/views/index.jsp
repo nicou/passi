@@ -151,34 +151,32 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		<c:choose>
 				<c:when test="${selectedMember > 0}">
 				<h4 class="cursor-default">Jäsentiedot</h4>
-    			<table class="table table-condensed">
-    			<tr><th scope="row" class="text-right">Etunimi</th><td class="text-left" style="width: 100%;"><c:out value="${memberDetails.firstname}" /></td></tr>
-    			<tr><th scope="row" class="text-right">Sukunimi</th><td class="text-left" style="width: 100%;"><c:out value="${memberDetails.lastname}" /></td></tr>
-    			<tr><th scope="row" class="text-right">Sähköposti</th><td class="text-left" style="width: 100%;"><c:out value="${memberDetails.email}" /></td></tr>
-    			<tr><th scope="row" class="text-right">Puhelin</th><td class="text-left" style="width: 100%;"><c:out value="${memberDetails.phone}" /></td></tr>
+    			<table class="table table-condensed table-sidebar">
+    			<tr><th scope="row" class="text-right col-xs-2">Etunimi</th><td class="text-left col-xs-10"><c:out value="${memberDetails.firstname}" /></td></tr>
+    			<tr><th scope="row" class="text-right col-xs-2">Sukunimi</th><td class="text-left col-xs-10"><c:out value="${memberDetails.lastname}" /></td></tr>
+    			<tr><th scope="row" class="text-right col-xs-2">Sähköposti</th><td class="text-left col-xs-10"><c:out value="${memberDetails.email}" /></td></tr>
     			</table>
     			</c:when>
     			<c:otherwise></c:otherwise>
     		</c:choose>
 		</div>
 		
-		<div class="row">
+			<div class="row">
     		<c:choose>
     			<c:when test="${selectedGroup > 0}">
     			<h4><c:out value="${fn:length(instructorsDetails) > 1 ? 'Ohjaajat' : 'Ohjaaja'}" /></h4>
-    			<table class="table table-condensed" class="hide-in-mobile">
+    			<table class="table table-condensed table-sidebar" class="hide-in-mobile" style="display: block;">
     			<c:forEach var="instructor" items="${instructorsDetails}">
-    			<tr><th scope="row" class="text-right">Etunimi</th><td class="text-left" style="width: 100%;"><c:out value="${instructor.firstname}" /></td></tr>
-    			<tr><th scope="row" class="text-right">Sukunimi</th><td class="text-left" style="width: 100%;"><c:out value="${instructor.lastname}" /></td></tr>
-    			<tr><th scope="row" class="text-right">Sähköposti</th><td class="text-left" style="width: 100%;"><c:out value="${instructor.email}" /></td></tr>
-    			<tr><th scope="row" class="text-right">Puhelin</th><td class="text-left" style="width: 100%;"><c:out value="${instructor.phone}" /></td></tr>
-    			<tr><th scope="row" class="text-right">&nbsp;</th><td class="text-left" style="width: 100%;">&nbsp;</td></tr>
+    			<tr><th scope="row" class="text-right col-xs-2">Etunimi</th><td class="text-left col-xs-10"><c:out value="${instructor.firstname}" /></td></tr>
+    			<tr><th scope="row" class="text-right col-xs-2">Sukunimi</th><td class="text-left col-xs-10"><c:out value="${instructor.lastname}" /></td></tr>
+    			<tr><th scope="row" class="text-right col-xs-2">Sähköposti</th><td class="text-left col-xs-10"><c:out value="${instructor.email}" /></td></tr>
+    			<tr><th scope="row" class="text-right col-xs-2">&nbsp;</th><td class="text-left col-xs-10">&nbsp;</td></tr>
     			</c:forEach>
    				</table>
     			</c:when>
     			<c:otherwise></c:otherwise>
     		</c:choose>
-		</div>
+    		</div>
 
 	</div>
 	

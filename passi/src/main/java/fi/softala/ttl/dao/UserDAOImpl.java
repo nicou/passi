@@ -78,8 +78,8 @@ public class UserDAOImpl implements UserDAO {
 		
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
-		final String SQL1 = "INSERT INTO users (username, password, firstname, lastname, email, phone) "
-				+ "VALUES ( :username, :password, :password, :firstname, :lastname, :email, :phone)";
+		final String SQL1 = "INSERT INTO users (username, password, firstname, lastname, email) "
+				+ "VALUES ( :username, :password, :password, :firstname, :lastname, :email)";
 		
 		namedParameterJdbcTemplate.update(SQL1, getSqlParameterByModel(user), keyHolder);
 		user.setUserID(keyHolder.getKey().intValue());
@@ -98,7 +98,6 @@ public class UserDAOImpl implements UserDAO {
 		paramSource.addValue("firstname", user.getFirstname());
 		paramSource.addValue("lastname", user.getLastname());
 		paramSource.addValue("email", user.getEmail());
-		paramSource.addValue("phone", user.getPhone());
 		return paramSource;
 	}
 
@@ -125,7 +124,6 @@ public class UserDAOImpl implements UserDAO {
 			user.setFirstname(rs.getString("firstname"));
 			user.setLastname(rs.getString("lastname"));
 			user.setEmail(rs.getString("email"));
-			user.setPhone(rs.getString("phone"));
 			return user;
 		}
 	}

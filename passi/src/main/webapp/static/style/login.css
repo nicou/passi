@@ -96,3 +96,12 @@ table tr:nth-child(2) td, table tr:nth-child(3) td {
 	margin-top: 20px;
 	padding: 10px 15px 10px 15px;
 }
+
+.front-info {
+	font-size: 0.8em;
+}
+
+.front-logo {
+	max-width: 100px;
+	height: auto;
+}

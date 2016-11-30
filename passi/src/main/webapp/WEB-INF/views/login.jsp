@@ -23,14 +23,13 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <!-- Bootstrap -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <!-- Custom styles for this template -->
 <link href="<c:url value="/static/style/login.css" />" rel="stylesheet">
 
 </head>
 
-<body onload="document.login.username.focus();">
+<body onload="document.getElementById('username').focus();">
 
 <div class="container">
 
@@ -47,7 +46,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <table>		
 <tr><td><input type="text" id="username" name="username" class="form-control" placeholder="Käyttäjätunnus" autocomplete="off" required autofocus /></td></tr>
 <tr><td><input type="password" id="password" name="password" class="form-control" placeholder="Salasana" required /></td></tr>
-<tr><td>login: admin passwd: passw</td></tr>
 <tr><td><button class="btn btn-lg btn-primary btn-block" type="submit" value="Kirjaudu">Kirjaudu</button></td></tr>
 </table>
 </form>
@@ -59,5 +57,40 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 </div>
 
 </div>
+
+<pre style="display: inline-block; margin-top: 20px; padding: 10px 15px 10px 15px;">username = admin<br />password = passw</pre>
+
+<div class="row">
+<div class="col-xs-12 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3 front-info">
+<p>
+Työkykypassi – mobiilisovellus on kehitetty Työterveyslaitoksen koordinoimassa Combo -hankkeessa. Sovelluksen tarkoituksena on vahvistaa opiskelijoiden työkykyosaamista ammatillisissa oppilaitoksissa. Hanketta on rahoittanut Euroopan sosiaalirahasto (ESR) / Pohjois-Pohjanmaan elinkeino-, liikenne- ja ympäristökeskus. Sovellukseen kehittämiseen ovat osallistuneet Haaga-Helia Ammattikorkeakoulu, Työterveyslaitos, Saku Ry ja Stadin ammattiopisto. [Tekstin alapuolelle seuraavat kehittäjätaho logot: Haaga-Helia, Työterveyslaitos, Saku Ry, Stadin ammattiopisto, ESR – lippulogo, Uudenmaan Ely-keskus, Vipuvoimaa –logo]
+</p>
+
+<img class="front-logo" src="static/img/kehittaja_haaga-helia.jpg" alt="Haaga-Helia Logo">
+<img class="front-logo" src="static/img/kehittaja_ttl.jpg" alt="TTL Logo">
+<img class="front-logo" src="static/img/kehittaja_saku.png" alt="Saku Logo">
+<img class="front-logo" src="static/img/kehittaja_vipuvoimaa.png" alt="Vipuvoimaa logo">
+<img class="front-logo" src="static/img/kehittaja_eu_esr.png" alt="EU ESR Logo">
+<img class="front-logo" src="static/img/ely.jpg" alt="ELY Logo">
+
+<p>
+Sovelluksen sisällössä on hyödynnetty Alpo.fi-sivujen tehtäviä, jotka on aiemmin laadittu yhteistyössä seuraavien tahojen kanssa: [Tekstin alapuolelle seuraavat yhteistyötaho logot: Smart moves, Ehyt Ry, Mielenterveysseura, Yksi elämä, Sydänliitto, Nuorten Akatemia, Suomen mielenterveysseura]
+</p>
+
+<img class="front-logo" src="static/img/yhteistyo_smartmoves.png" alt="Smartmoves logo">
+<img class="front-logo" src="static/img/yhteistyo_ehyt.jpg" alt="Ehyt logo">
+<img class="front-logo" src="static/img/yhteistyo_ye.jpg" alt="YE Logo">
+<img class="front-logo" src="static/img/yhteistyo_sydanliitto.jpg" alt="Sydänliitto logo">
+<img class="front-logo" src="static/img/yhteistyo_nuortenakatemia.jpg" alt="Nuorten akatemia logo">
+
+<br /><br />
+
+</div>
+</div>
+
+<!-- Script -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </body>
 </html>

@@ -84,7 +84,7 @@ table.table-hover tr {
 	padding: 15px 20px 15px 20px;
 }
 .bold {
-	background-color: #FFFFFF;
+	background-color: rgba(255, 255, 255, 0.4);
 	font-weight: bold;
 }
 .col-content {
@@ -113,10 +113,10 @@ table.table-hover tr {
 	margin: 0;
 }
 .row {
-	padding: 20px 30px 0 30px;
+	padding: 20px 15px 0 15px;
 }
 .table-hover tr:hover {
-	background-color: #FFFFFF !important;
+	background-color: rgba(255, 255, 255, 0.4) !important;
 }
 .well {
 	margin: 0;
@@ -285,6 +285,15 @@ table.table-hover tr {
 	.row {
 		padding: 10px 10px 0 10px;
 	}
+}
+
+.table-sidebar td {
+	word-wrap: break-word;
+	word-break: break-all;
+}
+
+.table-sidebar td, .table-sidebar th {
+	border-top-color: #c2e0ec !important;
 }
 
 /* IMAGE POPUP */

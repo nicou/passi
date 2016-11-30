@@ -11,7 +11,6 @@ import fi.softala.ttl.dto.CategoryDTO;
 import fi.softala.ttl.dto.GroupDTO;
 import fi.softala.ttl.dto.WorksheetDTO;
 import fi.softala.ttl.model.Answersheet;
-import fi.softala.ttl.model.Category;
 import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.model.Worksheet;
@@ -20,7 +19,7 @@ public interface PassiDAO {
 	
 	public void saveUser(User user);
 
-	public boolean addGroup(Group group);
+	public boolean addGroup(Group group, User instructor);
 	
 	public boolean editGroup(Group group);
 
@@ -29,8 +28,6 @@ public interface PassiDAO {
 	public boolean delGroupMember(int userID, int groupID);
 
 	public List<User> getGroupMembers(int groupID);
-
-	public List<Category> getCategories();
 
 	public List<GroupDTO> getGroupsDTO();
 	

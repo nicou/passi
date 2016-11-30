@@ -26,8 +26,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
-import org.springframework.webflow.mvc.servlet.FlowHandlerAdapter;
-import org.springframework.webflow.mvc.servlet.FlowHandlerMapping;
 
 @EnableWebMvc
 @Configuration
@@ -38,9 +36,6 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 
 	@Autowired
 	private Environment env;
-	
-	@Autowired
-	private WebFlowConfig webFlowConfig;
 	
 	@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -54,22 +49,6 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 		viewResolver.setPrefix("/WEB-INF/views/");
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
-	}
-	
-	@Bean
-	public FlowHandlerMapping flowHandlerMapping() {
-		FlowHandlerMapping handlerMapping = new FlowHandlerMapping();
-		handlerMapping.setOrder(-1);
-		handlerMapping.setFlowRegistry(this.webFlowConfig.flowRegistry());
-		return handlerMapping;
-	}
-
-	@Bean
-	public FlowHandlerAdapter flowHandlerAdapter() {
-		FlowHandlerAdapter handlerAdapter = new FlowHandlerAdapter();
-		handlerAdapter.setFlowExecutor(this.webFlowConfig.flowExecutor());
-		handlerAdapter.setSaveOutputToFlashScopeOnRedirect(true);
-		return handlerAdapter;
 	}
 	 
 	@Bean

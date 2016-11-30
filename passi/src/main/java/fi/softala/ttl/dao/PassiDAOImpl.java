@@ -30,9 +30,7 @@ import fi.softala.ttl.dto.GroupDTO;
 import fi.softala.ttl.dto.WorksheetDTO;
 import fi.softala.ttl.model.Answerpoint;
 import fi.softala.ttl.model.Answersheet;
-import fi.softala.ttl.model.Category;
 import fi.softala.ttl.model.Group;
-import fi.softala.ttl.model.Instructor;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.model.Waypoint;
 import fi.softala.ttl.model.Worksheet;
@@ -61,8 +59,8 @@ public class PassiDAOImpl implements PassiDAO {
 		
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
-		final String SQL1 = "INSERT INTO users (username, password, firstname, lastname, email, phone) "
-				+ "VALUES (?, ?, ?, ?, ?, ?)";
+		final String SQL1 = "INSERT INTO users (username, password, firstname, lastname, email) "
+				+ "VALUES (?, ?, ?, ?, ?)";
 		
 		jdbcTemplate.update(new PreparedStatementCreator() {
 
@@ -73,7 +71,6 @@ public class PassiDAOImpl implements PassiDAO {
 				ps.setString(3, user.getFirstname());
 				ps.setString(4, user.getLastname());
 				ps.setString(5, user.getEmail());
-				ps.setString(6, user.getPhone());
 				return ps;
 			}
 		}, keyHolder);
@@ -86,17 +83,58 @@ public class PassiDAOImpl implements PassiDAO {
 		
 	}
 	
-	public boolean addGroup(Group group){
+	public boolean addGroup(Group group, User instructor){
+		
 		DefaultTransactionDefinition paramTransactionDefinition = new DefaultTransactionDefinition();
 		TransactionStatus status = platformTransactionManager.getTransaction(paramTransactionDefinition);
 		
-		final String SQL1 = "INSERT INTO groups(group_name, group_key) VALUES (?, ?)";	
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		
+		final String SQL1 = "INSERT INTO groups (group_name, group_key) VALUES (?, ?)";
+		final String SQL2 = "SELECT worksheet_id FROM worksheets;";
+		final String SQL3 = "INSERT INTO distros VALUES (?, ?)";
+		final String SQL4 = "INSERT INTO members (user_id, group_id) VALUES (?, ?)";
+		
 		try {
-			jdbcTemplate.update(SQL1, new Object[] {group.getGroupName(), group.getGroupKey()});
+			
+			// Add new group into group table
+			jdbcTemplate.update(new PreparedStatementCreator() {
+
+				public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+					PreparedStatement ps = connection.prepareStatement(SQL1, new String[] { "group_id" });
+					ps.setString(1, group.getGroupName());
+					ps.setString(2, group.getGroupKey());
+					return ps;
+				}
+			}, keyHolder);
+			
+			group.setGroupID(keyHolder.getKey().intValue());
+			
+			// Get all worksheet IDs from worksheet table
+			List<Integer> ids = jdbcTemplate.query(SQL2, new RowMapper<Integer>() {
+				
+				@Override
+				public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+					Integer id = rs.getInt("worksheet_id");
+					return id;
+				}
+			});
+			
+			// Add worksheet IDs of the new group into distros table
+			for (Integer id : ids) {
+				jdbcTemplate.update(SQL3, new Object[] { group.getGroupID(), id });
+			}
+			
+			// Add instructor into members table
+			jdbcTemplate.update(SQL4, new Object[] { instructor.getUserID(), group.getGroupID() });
+					
 			platformTransactionManager.commit(status);
+			
 		} catch (Exception e) {
+			
 			platformTransactionManager.rollback(status);
 			return false;
+			
 		} 
 		return true;
 	}
@@ -149,9 +187,9 @@ public class PassiDAOImpl implements PassiDAO {
 				+ "WHERE user_role.role_id = 2 AND users.user_id != 1 AND members.group_id = ?";
 		RowMapper<Group> groupMapper = new GroupRowMapper();
 		List<Group> groups = jdbcTemplate.query(SQL1, groupMapper);
-		RowMapper<Instructor> instructorMapper = new InstructorRowMapper();
+		RowMapper<User> userRowMapper = new UserRowMapper();
 		for (Group group : groups) {
-			group.setInstructors((ArrayList<Instructor>) jdbcTemplate.query(SQL2, new Object[] { group.getGroupID() }, instructorMapper));
+			group.setInstructors((ArrayList<User>) jdbcTemplate.query(SQL2, new Object[] { group.getGroupID() }, userRowMapper));
 		}
 		return groups;
 	}
@@ -175,22 +213,6 @@ public class PassiDAOImpl implements PassiDAO {
 		RowMapper<User> userMapper = new UserRowMapper();
 		List<User> members = jdbcTemplate.query(SQL, new Object[] { groupID }, userMapper);
 		return members;
-	}
-	
-	@Override
-	public List<Category> getCategories() {
-		final String SQL = "SELECT category_id, category_name FROM categories ORDER BY category_name";
-		List<Category> categories = jdbcTemplate.query(SQL, new RowMapper<Category>() {
-			
-			@Override
-			public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Category category = new Category();
-				category.setCategoryID(rs.getInt("category_id"));
-				category.setCategoryName(rs.getString("category_name"));
-				return category;
-			}			
-		});
-		return categories;
 	}
 	
 	@Override

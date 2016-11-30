@@ -2,7 +2,6 @@ package fi.softala.ttl.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -16,7 +15,6 @@ import fi.softala.ttl.dto.GroupDTO;
 import fi.softala.ttl.dto.WorksheetDTO;
 import fi.softala.ttl.dto.CategoryDTO;
 import fi.softala.ttl.model.Answersheet;
-import fi.softala.ttl.model.Category;
 import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.model.Worksheet;
@@ -43,11 +41,6 @@ public class PassiServiceImpl implements PassiService {
 	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void saveUser(User user) {
 		dao.saveUser(user);
-	}
-
-	@Override
-	public List<Category> getCategories() {
-		return dao.getCategories();
 	}
 
 	@Override

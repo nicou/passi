@@ -13,17 +13,17 @@ public class Group implements Serializable {
 	private int groupID;
 	private String groupName;
 	private String groupKey;
-	private ArrayList<Instructor> instructors;
+	private ArrayList<User> instructors;
 
 	public Group() {
 		super();
 		this.groupID = 0;
 		this.groupName = "";
 		this.groupKey = "";
-		this.instructors = new ArrayList<Instructor>();
+		this.instructors = new ArrayList<User>();
 	}
 	
-	public Group(int groupID, String groupName, String groupKey, ArrayList<Instructor> instructors) {
+	public Group(int groupID, String groupName, String groupKey, ArrayList<User> instructors) {
 		super();
 		this.groupID = groupID;
 		this.groupName = groupName;
@@ -59,11 +59,11 @@ public class Group implements Serializable {
 		this.groupKey = groupKey;
 	}
 
-	public ArrayList<Instructor> getInstructors() {
+	public ArrayList<User> getInstructors() {
 		return instructors;
 	}
 
-	public void setInstructors(ArrayList<Instructor> instructors) {
+	public void setInstructors(ArrayList<User> instructors) {
 		this.instructors = instructors;
 	}
 

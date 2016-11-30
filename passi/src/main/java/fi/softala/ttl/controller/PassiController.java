@@ -13,7 +13,9 @@ import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -40,10 +42,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-
 import fi.softala.ttl.dao.PassiDAO;
 import fi.softala.ttl.model.Group;
+import fi.softala.ttl.model.Role;
 import fi.softala.ttl.dto.WorksheetDTO;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.service.PassiService;
@@ -115,7 +116,6 @@ public class PassiController {
 		// Authenticated user
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		logger.info("Initializing session for user " + username);
 		redirectAttributes.addFlashAttribute("user", username);
 		
 		// Get user data
@@ -135,8 +135,8 @@ public class PassiController {
 		
 		redirectAttributes.addFlashAttribute("groupMembers", new ArrayList<User>());
 		redirectAttributes.addFlashAttribute("newGroup", new Group());
-		redirectAttributes.addFlashAttribute("editedGroup", new Group());
 		redirectAttributes.addFlashAttribute("newMember", new User());
+		redirectAttributes.addFlashAttribute("editedGroup", new Group());
 		
 		return "redirect:/index";
 	}
@@ -175,12 +175,12 @@ public class PassiController {
         	model.addAttribute("userForm", userForm);
             return "registration";
         }
-        
+        Role role = new Role(2, "ROLE_ADMIN");
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        userForm.setRoles(roles);
         passiService.saveUser(userForm);
-        // securityService.autologin(userForm.getUsername(), userForm.getConfirmPassword());
-        
         model.addAttribute("message", "Rekisteröinti onnistui");
-        
         return "login";
     }
 
@@ -279,8 +279,11 @@ public class PassiController {
 	}
 
 	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
-	public String addGroup(@ModelAttribute("newGroup") Group newGroup, final RedirectAttributes ra) {
-		if (dao.addGroup(newGroup)) {  // fix to call via passiService
+	public String addGroup(
+			@ModelAttribute("newGroup") Group newGroup,
+			@ModelAttribute("userDetails") User instructor,
+			final RedirectAttributes ra) {
+		if (dao.addGroup(newGroup, instructor)) {  // fix to call via passiService
 			ra.addFlashAttribute("message", "Ryhmän lisääminen onnistui.");
 			ra.addFlashAttribute("newGroup", new Group());
 		} else {
@@ -309,7 +312,7 @@ public class PassiController {
 	@RequestMapping(value = "/groupInfoUsers", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> getGroupInfoWithUsers(@RequestParam int groupID) {
-		Map<String, Object> group = new HashMap<>();
+		Map<String, Object> group = new HashMap<String, Object>();
 		group.put("group", dao.getGroup(groupID));
 		group.put("users", dao.getGroupMembers(groupID));
 		return group;

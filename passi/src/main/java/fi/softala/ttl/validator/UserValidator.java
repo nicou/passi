@@ -16,7 +16,6 @@ public class UserValidator implements Validator {
     private PassiService passiService;
 	
 	private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$";
-	private static final String PHONE_PATTERN = "^[\\d\\s()-+]{3,}+$";
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -52,11 +51,6 @@ public class UserValidator implements Validator {
         }
         if (passiService.isEmailExists(user.getEmail())) {
             errors.rejectValue("email", "Duplicate.userForm.email");
-        }
-        
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", "NotEmpty");
-        if (!user.getPhone().matches(PHONE_PATTERN)) {
-            errors.rejectValue("phone", "Match.userForm.phone");
         }
         
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
