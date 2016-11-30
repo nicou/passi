@@ -78,56 +78,60 @@ $(document).ready(function() {
 		}
 	});
 	
-	var wWidth, wHeight, iWidth, iHeigth, counter = 0;
+	var scaleImage = function(rotated) {
+		var $img = $('#zImage'),
+	    maxWidth = $(window).width(),
+	    maxHeight = $(window).height(),
+	    widthRatio = maxWidth / imageWidth,
+	    heightRatio = maxHeight / imageHeight;
+	//toggle width and height properties if image rotated	
+		if(rotated) {
+			var imageWidth = $img[0].height,
+		    	imageHeight =  $img[0].width
+		} else {
+			var imageWidth = $img[0].width,
+		    	imageHeight = $img[0].height
+		}
+
+	var ratio = widthRatio;
+
+		if (widthRatio * imageHeight > maxHeight) {
+			ratio = heightRatio;
+		}
 	
-	var scaleImage = function() {
-		   iWidth = $('#zImage').width();
-		   iHeigth = $('#zImage').height(); 
-		  if(counter % 2 === 0) {
-			  iWidth = iHeigth;
-			  iHeigth = iWidth;
-		  } else {
-			  iWidth = iWidth;
-			  iHeigth = iHeigth;
-		  }
-		  
-			$( '#zImage' ).css({
-				'max-width': (wWidth * 0.8) + "px",
-				'max-height': (wHeight * 0.8 ) + "px"
-			});
-	}
-	
-	var scaleRotateIcon = function(condition) {
-		$('.glyphicon-repeat').css({
-			'position': 'absolute',
-			'margin-top':  condition * 2 + "px"
+	//resize the image relative to the ratio
+		$img.attr('width', imageWidth * ratio)
+	    	.attr('height', imageHeight * ratio);
+
+	//align the image vertically and horizontally
+		$img.css({
+			margin: 'auto',
+			position: 'absolute',
+			top: 0,
+			bottom: 0,
+			left: 0,
+			right: 0
 		});
 	}
-
-	//rotate image right 90 degrees, image and rotateButton should be inside a container div in order for the selector to work
+	
+	var counter = 0;
+	
+	//rotate image right 90 degrees, scale the image accordingly (swap height, and width properties)
 	var angle = 0;
 	var rotateImage = function(target) {
 		angle += 90
 		$(target).css('transform','rotate(' + angle + 'deg)');
-		
 		let condition = $('#zImage').position().top;
-		if(condition < 0 || counter % 2 === 0) {
+		if(counter % 2 === 0) {
 			counter++;
-			$( '#zImage' ).css({
-				'margin-top': condition * -1.1
-			});
-			scaleImage();
-			scaleRotateIcon();
-		} else{
+			scaleImage(true);
+		} else {
 			counter++;
-			$( '#zImage' ).css({
-				'margin-top': condition
-			});
-			scaleImage();
-			scaleRotateIcon(condition);
+			scaleImage(false);
 		}
 	};
 	
+	//click event listener for rotating or hiding the image/lightbox
 	 $('#lightbox').on('click', function(e) {
 		 let target = $(e.target);
 		 target.is('img') ? rotateImage(target) : $('#lightbox').hide();
@@ -141,19 +145,16 @@ $(document).ready(function() {
 		var image = '<img src="' + image_href + '" id="zImage"/>';
 			angle = 0;
 			$('#content').html(image);
-			wWidth = $(window).width(), wHeight = $(window).height();
 			  $(image).on('load', function(){
-				  scaleImage(wWidth, wHeight);
-				  
+				  scaleImage(false);
 					if($('.glyphicon-repeat').length < 1){
-						$('#lightbox').append('<span class="glyphicon glyphicon-repeat text-center" style="color: #ffffff; font-size:25px; background-color:rgba(0,0,0,.5);padding:10px;"></span>');
-						scaleRotateIcon();
+						$('#content').append('<p style="color:#ffffff; margin-left: 15px;">click image to</p><span class="glyphicon glyphicon-repeat text-center" style="color:#ffffff; background-color: rgba(0,0,0,.4); padding: 10px;"></span>');
 					}	
 				});
 			  
 			  /*
-			  width & height var's return 0 -_- ? -> should set them dynamically in while loop
-			   
+			   * if needed init in lightbox_trigger: //wWidth = $(window).width(), wHeight = $(window).height();
+			 var  wWidth, wHeight, iWidth, iHeigth
 			  if(imageWidth > wWidth || imageHeigth > wHeight){
 				  while(imageWidth > wWidth || imageHeigth > wHeight ) {
 					  	imageWidth *= 0,8;
@@ -165,7 +166,7 @@ $(document).ready(function() {
 		
 			$('#lightbox').show();
 		
-		/*	for creating #lightbox dynamically // NOT IN USE
+		/*	for creating #lightbox dynamically // NOT IN USE, DELETE?
 		if ($('#lightbox').length > 0) {
 			} else {
 			var lightbox = 
