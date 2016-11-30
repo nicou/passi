@@ -1,14 +1,9 @@
-html {
-	background-color: #07aa91;
-	background: linear-gradient(to bottom, #e6e6e6 200px, #baccde 200px);
-	background-repeat: no-repeat;
-	height: 100%;
-}
-
 body {
-	background-color: transparent;
-	padding-top: 50px;
 	text-align: center;
+	background: #fff;
+	background: linear-gradient(#e6e6e6, #fff, #fff);
+	background-repeat: no-repeat;
+	overflow-x: hidden;
 }
 
 h2 {
@@ -31,11 +26,6 @@ table tr:nth-child(2) td, table tr:nth-child(3) td {
 
 .color-red {
 	color: red;
-}
-
-.container {
-	text-align: center;
-	background-color: transparent !important;
 }
 
 .form-signin {
@@ -83,6 +73,7 @@ table tr:nth-child(2) td, table tr:nth-child(3) td {
 	border-radius: 10px;
 	box-shadow: 0 0 10px #696969;
 	display: inline-block;
+	margin-top: 30px;
 	padding: 20px;
 }
 
@@ -98,10 +89,13 @@ table tr:nth-child(2) td, table tr:nth-child(3) td {
 }
 
 .front-info {
+	margin-top: 30px;
+	color: #333;
 	font-size: 0.8em;
 }
 
 .front-logo {
-	max-width: 100px;
+	max-width: 110px;
 	height: auto;
+	margin: 5px 15px;
 }

@@ -29,7 +29,7 @@ public interface PassiDAO {
 
 	public List<User> getGroupMembers(int groupID);
 
-	public List<GroupDTO> getGroupsDTO();
+	public List<GroupDTO> getGroupsDTO(String username);
 	
 	public Group getGroup(int groupID);
 
@@ -49,7 +49,7 @@ public interface PassiDAO {
 	
 	public List<User> getInstructorsDetails(int groupID);
 	
-	public List<Group> getAllGroups();
+	public List<Group> getAllGroups(String username);
 	
 	public boolean isUsernameExists(String username);
 	

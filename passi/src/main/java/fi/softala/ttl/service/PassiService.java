@@ -17,7 +17,7 @@ public interface PassiService {
 	
 	public ArrayList<CategoryDTO> getCategoriesDTO();
 	
-	public ArrayList<GroupDTO> getGroupsDTO();
+	public ArrayList<GroupDTO> getGroupsDTO(String username);
 	
 	public ArrayList<WorksheetDTO> getWorksheetsDTO(int groupID, int categoryID);
 
@@ -35,7 +35,7 @@ public interface PassiService {
 	
 	public ArrayList<User> getInstructorsDetails(int groupID);
 	
-	public ArrayList<Group> getAllGroups();
+	public ArrayList<Group> getAllGroups(String username);
 	
 	public boolean isUsernameExists(String username);
 	

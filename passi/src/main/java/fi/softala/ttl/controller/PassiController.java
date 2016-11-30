@@ -114,8 +114,7 @@ public class PassiController {
 	public String init(final RedirectAttributes redirectAttributes) {
 		
 		// Authenticated user
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String username = auth.getName();
+		String username = getAuthUsername();
 		redirectAttributes.addFlashAttribute("user", username);
 		
 		// Get user data
@@ -124,7 +123,7 @@ public class PassiController {
 		
 		// Session attributes for dropdown selection
 		redirectAttributes.addFlashAttribute("categories", passiService.getCategoriesDTO());
-		redirectAttributes.addFlashAttribute("groups", passiService.getGroupsDTO());
+		redirectAttributes.addFlashAttribute("groups", passiService.getGroupsDTO(username));
 		redirectAttributes.addFlashAttribute("worksheets", new ArrayList<WorksheetDTO>());
 		
 		// Session attributes for selections
@@ -150,7 +149,7 @@ public class PassiController {
 	public String pageNavigation(Model model,
 			@PathVariable(value = "page") String page,
 			@ModelAttribute(value = "message") String message) {
-		model.addAttribute("groups", passiService.getAllGroups());
+		model.addAttribute("groups", passiService.getAllGroups(getAuthUsername()));
 		model.addAttribute("message", message);
 		return page;
 	}
@@ -246,10 +245,11 @@ public class PassiController {
 			@RequestParam String instructorComment,
 			@RequestParam int instructorRating,
 			@ModelAttribute("selectedWorksheet") int worksheetID,
-			@ModelAttribute("selectedMember") int selectedMember) {
+			@ModelAttribute("selectedMember") int selectedMember,
+			final RedirectAttributes ra) {
 		passiService.saveFeadback(answerWaypointID, instructorRating, instructorComment);
-		model.addAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember));
-		return "index";
+		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember));
+		return "redirect:/index";
 	}
 
 	@RequestMapping(value = "/download/{name}/{type}", method = RequestMethod.GET)
@@ -337,5 +337,10 @@ public class PassiController {
 		Map<String, Boolean> status = new HashMap<>();
 		status.put("status", dao.delGroupMember(userID, groupID));
 		return status;
+	}
+	
+	public String getAuthUsername() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return auth.getName();
 	}
 }
