@@ -1,9 +1,19 @@
+<%@page import="org.springframework.security.core.authority.SimpleGrantedAuthority"%>
+<%@page import="org.springframework.security.core.context.SecurityContextHolder"%>
+<%@page import="org.springframework.security.core.Authentication"%>
 <%@ page session="true" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+
+<%
+Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+if (auth.isAuthenticated() && auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+	pageContext.forward("/init");
+}
+%>
 
 <%
 int timeout = session.getMaxInactiveInterval();
