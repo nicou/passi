@@ -305,7 +305,26 @@ table.table-hover tr {
 	pointer-events: none;
 }
 
-/* Fixed positions for toasts */
+#rotateiconContainer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	background-color: rgba(0,0,0,.4);
+	padding: 1em;
+}
+
+#rotateiconContainer > p {
+	color: #ffffff;
+	margin-left: 15px;
+}
+
+#rotateiconContainer > span {
+	color: #ffffff;
+	margin-left: 15px;
+}
+
 .toast {
 	position: fixed;
 	top: 0;
