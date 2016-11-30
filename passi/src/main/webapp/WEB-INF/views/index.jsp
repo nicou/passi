@@ -41,7 +41,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 	<div class="col-sm-3 text-left col-selections" style="border: 1px solid #92d3ed; border-radius: 15px; background-color: #d3edf8; padding-bottom: 15px;">
     	
-		<div class="row">
+		<div class="row row-padding">
 			<h4>1. Valitse Ryhmä</h4>	
 			<c:url var="selectGroupURL" value="/selectGroup" />
 			<form action="${selectGroupURL}" method="POST" accept-charset="UTF-8">
@@ -57,7 +57,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		</form>	
 		</div>
 
-		<div class="row">
+		<div class="row row-padding">
 			<h4>2. Valitse Kategoria</h4>
 			<c:choose>
 			<c:when test="${selectedGroup > 0}">
@@ -86,7 +86,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 			</c:choose>
 		</div>
 
-		<div class="row">
+		<div class="row row-padding">
 			<h4>3. Valitse Tehtäväkortti</h4>
 			<c:choose>
 			<c:when test="${selectedCategory > 0 && fn:length(worksheets) > 0}">
@@ -115,7 +115,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 			</c:choose>
 		</div>
 		
-		<div class="row">
+		<div class="row row-padding">
 			<h4 class="cursor-default">4. Valitse Jäsen</h4>
    		 	<c:choose>
     			<c:when test="${not empty groupMembers}">
@@ -147,7 +147,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		</c:choose>
 		</div>
 		
-		<div class="row">
+		<div class="row row-padding">
     		<c:choose>
 				<c:when test="${selectedMember > 0}">
 				<h4 class="cursor-default">Jäsentiedot</h4>
@@ -161,7 +161,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		</c:choose>
 		</div>
 		
-			<div class="row">
+			<div class="row row-padding">
     		<c:choose>
     			<c:when test="${selectedGroup > 0}">
     			<h4><c:out value="${fn:length(instructorsDetails) > 1 ? 'Ohjaajat' : 'Ohjaaja'}" /></h4>
@@ -185,7 +185,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 	
 	<c:choose>
 	<c:when test="${selectedMember > 0}">  
-		<div class="row">
+		<div class="row row-padding">
   			<h2><c:out value="${worksheetContent.worksheetHeader}" />&nbsp;&nbsp;&bull;&nbsp; <c:out value="${memberDetails.firstname}" />&nbsp;<c:out value="${memberDetails.lastname}" /></h2>		
   			<p class="lead"><c:out value="${worksheetContent.worksheetPreface}" /></p>
   			<p class="lead"><c:out value="${worksheetContent.worksheetPlanning}" /></p>
@@ -202,24 +202,24 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
  		</div>
  					
   		<c:forEach var="waypoint" items="${worksheetContent.waypoints}" varStatus="loop">
-  			<div class="row">
+  			<div class="row row-padding">
   				<div class="panel panel-default">
   				<div class="panel-heading"><strong><c:out value="${loop.count}" />.&nbsp;<c:out value="${waypoint.waypointTask}" /></strong></div>
   				<div class="panel-body">
 
   				<c:choose>
   				<c:when test="${worksheetAnswers.answerID > 0}">
-  					<div style="border: 0px dashed #696969; display: block; position: relative; height: auto; overflow: auto;">
+  					<div class="row row-padding">
+  					<div class="col-xs-12 col-md-3">
   					<c:set var="imageName" value="${waypoint.waypointID}-${worksheetAnswers.userID}" />
   					<c:url var="imageLink" value="/download/${imageName}/jpg" />
   					<div class="well-image-container">
-  					
   					<!-- ANSWER IMAGE -->
   					<a href="${imageLink}" class="lightbox_trigger"><img src="${imageLink}" onerror="this.style.display='none'" class="well-image" draggable="false" /></a><br />
   					<div class="image-click">Klikkaa</div>
-  					<!-- FEEDBACK BUTTON -->
-  					<button type="button" data-toggle="collapse" data-target="#arviointi-${loop.index}" class="btn btn-info btn-sm assessment-button">Arviointi</button>
-					</div>								
+					</div>
+					</div>
+					<div class="col-xs-12 col-md-9">						
   					<p>
   					Monivalinnan vastaus:&nbsp;
   					<c:choose>
@@ -233,6 +233,61 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   					</p>
   					<span class="consolas"><c:out value="${worksheetAnswers.waypoints[loop.index].answerWaypointText}" /></span>
   					
+  					
+  					<!-- Feedback section -->
+  					<c:set var="feedbackContent" value="${worksheetAnswers.waypoints[loop.index].answerWaypointInstructorComment}" />
+					<c:set var="wpID" value="${worksheetAnswers.waypoints[loop.index].answerWaypointID}" />
+					<c:set var="instructorRating" value="${worksheetAnswers.waypoints[loop.index].answerWaypointInstructorRating}" />
+  					<div>
+  					<hr />
+  					<h5 style="font-weight: bold;">Arviointi</h5>
+  					<span class="label label-danger toast error-toast-${wpID}">Ole hyvä ja vastaa molempiin kenttiin</span>
+					<span class="label label-success toast success-toast-${wpID}">Arviointi onnistui!</span>
+					<c:choose>
+					<c:when test="${not empty feedbackContent}">
+						<div class="hasFeedback">
+						<p>
+							<span class="consolas"><c:out value="${feedbackContent}" /></span>
+							<br /><br />
+							<button type="button" class="btn btn-sm btn-secondary" onClick="$('#feedback-div-${wpID}').slideToggle(); this.blur();">Näytä arviointilomake</button>
+						</p>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="text-info"><p>Arvio vastaus kirjallisesti sekä väripainikkeella</p></div>
+					</c:otherwise>
+					</c:choose>
+					
+					<c:url var="saveWaypointFeedback" value="/saveWaypointFeedback" />
+					<form id="saveFeedback-${wpID}" action="${saveWaypointFeedback}" method="post" accept-charset="UTF-8">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+					<input type="hidden" name="answerWaypointID" value="${wpID}" />
+					<input type="hidden" name="instructorRating" value="${instructorRating}" />
+					<div class="row" id="feedback-div-${wpID}" style="${not empty feedbackContent ? 'display: none;' : ''}">
+					<div class="col-xs-12">
+					</div>
+					<div class="col-xs-12 form-group">
+						<textarea maxlength="1000" rows="5" id="instructorComment" name="instructorComment" class="form-control teacher-assessment-text-${wpID} assessment-textarea" placeholder="Anna palautetta"><c:out value="${feedbackContent}" /></textarea>
+					</div>
+					<div class="col-xs-6">
+						<ul class="${not empty feedbackContent ? 'teacher-multichoice-selected' : ''} teacher-multichoices" id="multichoices-${wpID}">
+							<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='1';" class="custom-ball button-green ${instructorRating == 1 ? 'button-green-selected' : 'button-green'}" id="ball-${loop.index}"></li>
+							<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='2';" class="custom-ball button-yellow ${instructorRating == 2 ? 'button-yellow-selected' : 'button-yellow'}" id="ball-${loop.index}"></li>
+							<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='3';" class="custom-ball button-red ${instructorRating == 3 ? 'button-red-selected' : 'button-red'}" id="ball-${loop.index}"></li>		
+						</ul>
+					</div>
+					<div class="col-xs-6 text-right">
+						<button class="palaute btn btn-default btn-md" value="${wpID}">Lähetä</button><br />
+					</div>
+
+					</div>
+
+					</form>
+  					
+  					</div>
+  					
+  					</div>
+  					
   					</div>
   				</c:when>
   				<c:otherwise>
@@ -245,45 +300,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				<!-- FEEDBACK SECTION -->
 				<div style="padding: 0 0 0 15px; display: block; position: relative;">
 					<div style="padding-top: 10px;" id="arviointi-${loop.index}" class="collapse">
-					<c:set var="feedbackContent" value="${worksheetAnswers.waypoints[loop.index].answerWaypointInstructorComment}" />
-					<c:choose>
-					<c:when test="${not empty feedbackContent}">
-						<div class="text-info hasFeedback"><p>Tämä vastaus on jo arvioitu. Voit halutessasi muuttaa palautetta.</p></div>
-					</c:when>
-					<c:otherwise>
-						<div class="text-info"><p>Arvio vastaus kirjallisesti sekä väripainikkeella</p></div>
-					</c:otherwise>
-					</c:choose>
-					
-					<!-- variables -->
-					<c:set var="wpID" value="${worksheetAnswers.waypoints[loop.index].answerWaypointID}" />
-					<c:set var="instructorRating" value="${worksheetAnswers.waypoints[loop.index].answerWaypointInstructorRating}" />
-					
-					<c:url var="saveWaypointFeedback" value="/saveWaypointFeedback" />
-					<form id="saveFeedback-${wpID}" action="${saveWaypointFeedback}" method="post" accept-charset="UTF-8">
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-					<input type="hidden" id="answerWaypointID" name="answerWaypointID" value="${wpID}" />
-					<input type="hidden" id="instructorRating" name="instructorRating" value="${instructorRating}" />
-					<table>
-						<tr>
-							<td>
-								<div class="form-group">
-									<textarea style="width: 450px;" maxlength="1000" rows="5" id="instructorComment" name="instructorComment" class="form-control teacher-assessment-text-${wpID} assessment-textarea" placeholder="Anna palautetta"><c:out value="${feedbackContent}" /></textarea>
-								</div>
-							</td>
-							<td>
-								<ul class="${not empty feedbackContent ? 'teacher-multichoice-selected' : ''} teacher-multichoices pull-left" id="multichoices-${wpID}">
-								<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='1';" class="custom-ball button-green ${instructorRating == 1 ? 'button-green-selected' : 'button-green'}" id="ball-${loop.index}"></li>
-								<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='2';" class="custom-ball button-yellow ${instructorRating == 2 ? 'button-yellow-selected' : 'button-yellow'}" id="ball-${loop.index}"></li>
-								<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='3';" class="custom-ball button-red ${instructorRating == 3 ? 'button-red-selected' : 'button-red'}" id="ball-${loop.index}"></li>		
-								</ul>
-							</td>
-						</tr>
-					</table>
-					<button class="palaute btn btn-default btn-md" value="${wpID}">Lähetä</button>
-					<span class="label label-danger error-toast-${wpID}">Ole hyvä ja vastaa molempiin kenttiin</span>
-					</form>
-					<span class="label label-success success-toast-${wpID}">Arviointi onnistui!</span>
+
 					</div>
 				</div>
 			</div>

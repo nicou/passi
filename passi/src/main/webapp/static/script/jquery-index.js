@@ -68,10 +68,9 @@ $(document).ready(function() {
 		e.preventDefault();
 		var id = $(this).val();
 		var textarea = $(".teacher-assessment-text-" + id).val().trim().length > 0;
-		var multichoice = $('#multichoices-'+ id).children().is('.teacher-multichoice-selected');
+		var multichoice = $('#saveFeedback-' + id).find('input[name*="instructorRating"]').first().val() > 0;
 		if (textarea && multichoice){
 			$('#saveFeedback-' + id).submit();
-			console.log(id);
 			$('.success-toast-' + id).delay(2000).fadeIn(1000).delay(2000).fadeOut(1000);
 		} else {
 			$('.error-toast-' + id).fadeIn(1000).delay(3000).fadeOut(1000);

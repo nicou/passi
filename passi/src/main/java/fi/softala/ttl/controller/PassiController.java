@@ -245,10 +245,11 @@ public class PassiController {
 			@RequestParam String instructorComment,
 			@RequestParam int instructorRating,
 			@ModelAttribute("selectedWorksheet") int worksheetID,
-			@ModelAttribute("selectedMember") int selectedMember) {
+			@ModelAttribute("selectedMember") int selectedMember,
+			final RedirectAttributes ra) {
 		passiService.saveFeadback(answerWaypointID, instructorRating, instructorComment);
-		model.addAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember));
-		return "index";
+		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember));
+		return "redirect:/index";
 	}
 
 	@RequestMapping(value = "/download/{name}/{type}", method = RequestMethod.GET)

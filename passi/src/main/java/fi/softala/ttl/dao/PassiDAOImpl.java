@@ -217,8 +217,8 @@ public class PassiDAOImpl implements PassiDAO {
 	
 	@Override
 	public List<GroupDTO> getGroupsDTO(String username) {
-		//final String SQL = "SELECT group_id, group_name FROM groups ORDER BY group_name";
-		final String SQL = "SELECT g.group_id, g.group_name FROM groups g JOIN members USING (group_id) JOIN user_role USING (user_id) WHERE user_id = (SELECT user_id FROM users WHERE username = ?) AND user_role.role_id = 2";
+		final String SQL = "SELECT group_id, group_name FROM groups WHERE group_name != ? ORDER BY group_name";
+		//final String SQL = "SELECT g.group_id, g.group_name FROM groups g JOIN members USING (group_id) JOIN user_role USING (user_id) WHERE user_id = (SELECT user_id FROM users WHERE username = ?) AND user_role.role_id = 2";
 		List<GroupDTO> groups = jdbcTemplate.query(SQL, new Object[] { username }, new RowMapper<GroupDTO>() {
 			
 			@Override
