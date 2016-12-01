@@ -1,4 +1,7 @@
 var showToast = function(target, message) {
+	if ($(target).queue().length > 0) {
+		return;
+	}
 	$(target).text(message);
 	$(target).fadeIn(1000).delay(2000).fadeOut(1000);
 }
@@ -23,6 +26,7 @@ var getGroupUsers = function(id) {
 		$('#group-users-info').html(renderGroupInfo(data.group, data.users.length));;
 		$('#group-users-tbody').html(memberRows);
 		$('#group-supervisors-tbody').html(supervisorRows);
+		$('#group-supervisors-table').removeClass('hidden');
 		$('#add-supervisor-btn').val(id);
 		selectTab('users');
 	});
@@ -30,6 +34,10 @@ var getGroupUsers = function(id) {
 
 var addSupervisor = function(groupID) {
 	var username = $('#supervisorusername').val().trim();
+	if (username.length < 3) { 
+		showToast('#errortoast', 'Liian lyhyt käyttäjänimi');
+		return;
+	}
 	$.get('/passi/addGroupSupervisor?supervisorUsername=' + username + '&groupID=' + groupID, function(data) {
 		if (data.status === true) {
 			$('#supervisorusername').val('');

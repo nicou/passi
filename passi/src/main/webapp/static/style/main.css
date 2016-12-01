@@ -128,7 +128,7 @@ table.table-hover tr {
 	width: 152px;    
 }
 .well-image {
-	border-radius: 6px 6px 0 0;
+	border-radius: 10px;
 	display: inline-block;
 	height: 150px;
 	margin: 0;
@@ -312,12 +312,13 @@ table.table-hover tr {
 	width: 100%;
 	text-align: center;
 	background-color: rgba(0,0,0,.4);
-	padding: 1em;
+	padding: 0.5em;
 }
 
 #rotateiconContainer > p {
-	color: #ffffff;
-	margin-left: 15px;
+	color: #fff;
+	margin: 0;
+	padding: 0;
 }
 
 #rotateiconContainer > span {
@@ -330,4 +331,9 @@ table.table-hover tr {
 	top: 0;
 	right: 0;
 	margin: 15px;
+}
+
+.bold {
+	font-weight: bold;
+	background: none;
 }

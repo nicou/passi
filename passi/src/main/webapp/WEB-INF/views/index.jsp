@@ -151,7 +151,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		<c:choose>
 				<c:when test="${selectedMember > 0}">
 				<h4 style="font-weight: bold;" class="cursor-default">Jäsentiedot</h4>
-    			<c:out value="${memberDetails.firstname} ${memberDetails.lastname }" /><br />
+    			<span class="bold"><c:out value="${memberDetails.firstname} ${memberDetails.lastname }" /></span><br />
     			<c:out value="${memberDetails.email}" />
     			</c:when>
     			<c:otherwise></c:otherwise>
@@ -163,7 +163,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     			<c:when test="${selectedGroup > 0}">
     			<h4 style="font-weight: bold;"><c:out value="${fn:length(instructorsDetails) > 1 ? 'Ohjaajat' : 'Ohjaaja'}" /></h4>
     			<c:forEach var="instructor" items="${instructorsDetails}">
-    			<c:out value="${instructor.firstname} ${instructor.lastname }" /><br />
+    			<span class="bold"><c:out value="${instructor.firstname} ${instructor.lastname }" /></span><br />
     			<c:out value="${instructor.email}" />
     			<br /><br />
     			</c:forEach>

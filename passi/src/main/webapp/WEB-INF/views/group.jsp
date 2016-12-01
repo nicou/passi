@@ -62,7 +62,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 						</tbody>
 					</table>
 				</div>
-				<div id="group-supervisors-table">
+				<div id="group-supervisors-table" class="hidden">
 					<table class="table">
 						<thead>
 						<tr>
