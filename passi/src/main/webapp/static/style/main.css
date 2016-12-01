@@ -328,12 +328,19 @@ table.table-hover tr {
 
 .toast {
 	position: fixed;
-	top: 0;
+	bottom: 0;
 	right: 0;
 	margin: 15px;
+	font-size: 1.1em;
 }
 
 .bold {
 	font-weight: bold;
 	background: none;
+}
+
+hr {
+	margin: 10px auto;
+	padding: 0;
+	border: 1px solid #c2e0ec;
 }

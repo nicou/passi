@@ -18,12 +18,9 @@
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 
 <style>
-html {
-background-color: #baccde;
-height: 100%;
-}
 body {
-background-color: transparent;
+background: #fff;
+background: linear-gradient(#e6e6e6, #fff, #fff);
 padding-top: 50px;
 text-align: center;
 }
