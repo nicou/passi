@@ -329,7 +329,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				</div>
 	</c:when>
 	<c:otherwise>
-		<div class="row">
+		<div class="row row-padding">
   			<h2>Työterveyslaitoksen Työkykypassi</h2>
   			<div class="alert alert-warning">
    				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
