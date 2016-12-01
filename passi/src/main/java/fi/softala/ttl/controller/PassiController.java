@@ -247,7 +247,9 @@ public class PassiController {
 			@ModelAttribute("selectedWorksheet") int worksheetID,
 			@ModelAttribute("selectedMember") int selectedMember,
 			final RedirectAttributes ra) {
-		passiService.saveFeadback(answerWaypointID, instructorRating, instructorComment);
+		if (passiService.saveFeedback(answerWaypointID, instructorRating, instructorComment)) {
+			ra.addFlashAttribute("message", "Tehtävän palaute tallennettu!");
+		}
 		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember));
 		return "redirect:/index";
 	}
@@ -259,7 +261,9 @@ public class PassiController {
 			@ModelAttribute("selectedWorksheet") int worksheetID,
 			@ModelAttribute("selectedMember") int selectedMember,
 			final RedirectAttributes ra) {
-		passiService.saveInstructorComment(answersheetID, instructorComment);
+		if (passiService.saveInstructorComment(answersheetID, instructorComment)) {
+			ra.addFlashAttribute("message", "Koostepalaute tallennettu!");
+		}
 		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember));
 		return "redirect:/index";
 	}

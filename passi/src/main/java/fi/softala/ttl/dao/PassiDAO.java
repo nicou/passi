@@ -43,9 +43,9 @@ public interface PassiDAO {
 	
 	public HashMap<Integer, Integer> getIsAnsweredMap(int worksheetID, ArrayList<User> groupMembers);
 
-	public void saveFeedback(int waypointID, int instructorRating, String instructorComment);
+	public boolean saveFeedback(int waypointID, int instructorRating, String instructorComment);
 	
-	public void saveInstructorComment(int answersheetID, String instructorComment);
+	public boolean saveInstructorComment(int answersheetID, String instructorComment);
 	
 	public User getMemberDetails(int userID);
 	

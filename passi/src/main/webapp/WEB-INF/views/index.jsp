@@ -339,6 +339,8 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 </div>
 </div>
 
+<c:out value="${message }"></c:out>
+
 <div id="lightbox">
 	<div id="content">
         <img src="#" class="rotateImage" draggable="false"/>
@@ -350,6 +352,11 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="<c:url value="/static/script/jquery-index.js" />"></script>
+
+<c:if test="${not empty message }">
+<span class="label label-success toast" id="successtoast"><c:out value="${message }"></c:out></span>
+<script type="text/javascript">$('#successtoast').fadeIn(1000).delay(2000).fadeOut(1000);</script>
+</c:if>
 
 <c:set var="message" scope="session" value="" />
 

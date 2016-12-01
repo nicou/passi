@@ -29,9 +29,9 @@ public interface PassiService {
 	
 	public HashMap<Integer, Integer> getIsAnsweredMap(int worksheetID, ArrayList<User> groupMembers);
 		
-	public void saveFeadback(int answerWaypointID, int instructorRating, String instructorComment);
+	public boolean saveFeedback(int answerWaypointID, int instructorRating, String instructorComment);
 	
-	public void saveInstructorComment(int answersheetID, String instructorComment);
+	public boolean saveInstructorComment(int answersheetID, String instructorComment);
 	
 	public User getMemberDetails(int userID);
 	

@@ -360,14 +360,14 @@ public class PassiDAOImpl implements PassiDAO {
 	}
 
 	@Override
-	public void saveFeedback(int answerWaypointID, int instructorRating, String instructorComment) {
+	public boolean saveFeedback(int answerWaypointID, int instructorRating, String instructorComment) {
 		final String SQL = "UPDATE answerpoints SET instructor_comment = ?, instructor_rating = ? WHERE answerpoint_id = ?";
-		jdbcTemplate.update(SQL, new Object[] {instructorComment, instructorRating, answerWaypointID});
+		return jdbcTemplate.update(SQL, new Object[] {instructorComment, instructorRating, answerWaypointID}) == 1;
 	}
 	
-	@Override public void saveInstructorComment(int answersheetID, String instructorComment) {
+	@Override public boolean saveInstructorComment(int answersheetID, String instructorComment) {
 		final String SQL = "UPDATE answersheets SET instructor_comment = ? WHERE answersheet_id = ?";
-		jdbcTemplate.update(SQL, new Object[] { instructorComment, answersheetID });
+		return jdbcTemplate.update(SQL, new Object[] { instructorComment, answersheetID }) == 1;
 	}
 
 	@Override
