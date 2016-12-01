@@ -328,10 +328,12 @@ public class PassiController {
 	@RequestMapping(value = "/groupInfoUsers", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> getGroupInfoWithUsers(@RequestParam int groupID) {
-		Map<String, Object> group = new HashMap<String, Object>();
-		group.put("group", dao.getGroup(groupID));
-		group.put("users", dao.getGroupMembers(groupID));
-		return group;
+		Map<String, Object> groupMap = new HashMap<String, Object>();
+		Group group = dao.getGroup(groupID);
+		group.setInstructors(dao.getInstructorsDetails(groupID));
+		groupMap.put("group", group);
+		groupMap.put("users", dao.getGroupMembers(groupID));
+		return groupMap;
 	}
 	
 	@RequestMapping(value = "/editGroup", method = RequestMethod.POST)
@@ -352,6 +354,16 @@ public class PassiController {
 			@RequestParam(value = "groupID", required = true) int groupID) {
 		Map<String, Boolean> status = new HashMap<>();
 		status.put("status", dao.delGroupMember(userID, groupID));
+		return status;
+	}
+	
+	@RequestMapping(value = "/addGroupSupervisor", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Boolean> addGroupSupervisor(
+			@RequestParam(value = "supervisorUsername", required = true) String newSupervisor,
+			@RequestParam(value = "groupID", required = true) int groupID) {
+		Map<String, Boolean> status = new HashMap<>();
+		status.put("status", passiService.addGroupInstructor(groupID, newSupervisor, getAuthUsername()));
 		return status;
 	}
 	

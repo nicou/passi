@@ -139,6 +139,19 @@ public class PassiDAOImpl implements PassiDAO {
 		return true;
 	}
 	
+	public boolean addGroupInstructor(int groupID, String newSupervisor, String username) {
+		final String SQL1 = "SELECT 1 FROM members JOIN user_role USING (user_id) WHERE group_id = ? AND user_id = (SELECT user_id FROM users WHERE username = ?) AND role_id = 2";
+		final String SQL2 = "INSERT INTO members (user_id, group_id) VALUES ((SELECT user_id FROM users JOIN user_role USING (user_id) WHERE username = ? AND role_id = 2), ?)";
+		try {
+			if (jdbcTemplate.queryForObject(SQL1, new Object[] { groupID, username }, Integer.class) == 0) {
+				return false;
+			}
+			return jdbcTemplate.update(SQL2, new Object[] { newSupervisor, groupID }) == 1;
+		} catch (Exception ex) {
+			return false;
+		}
+	}
+	
 	public boolean delGroup(int groupID){
 		DefaultTransactionDefinition paramTransactionDefinition = new DefaultTransactionDefinition();
 		TransactionStatus status = platformTransactionManager.getTransaction(paramTransactionDefinition);

@@ -5,6 +5,7 @@ package fi.softala.ttl.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Group implements Serializable {
 
@@ -13,7 +14,7 @@ public class Group implements Serializable {
 	private int groupID;
 	private String groupName;
 	private String groupKey;
-	private ArrayList<User> instructors;
+	private List<User> instructors;
 
 	public Group() {
 		super();
@@ -23,7 +24,7 @@ public class Group implements Serializable {
 		this.instructors = new ArrayList<User>();
 	}
 	
-	public Group(int groupID, String groupName, String groupKey, ArrayList<User> instructors) {
+	public Group(int groupID, String groupName, String groupKey, List<User> instructors) {
 		super();
 		this.groupID = groupID;
 		this.groupName = groupName;
@@ -59,11 +60,11 @@ public class Group implements Serializable {
 		this.groupKey = groupKey;
 	}
 
-	public ArrayList<User> getInstructors() {
+	public List<User> getInstructors() {
 		return instructors;
 	}
 
-	public void setInstructors(ArrayList<User> instructors) {
+	public void setInstructors(List<User> instructors) {
 		this.instructors = instructors;
 	}
 

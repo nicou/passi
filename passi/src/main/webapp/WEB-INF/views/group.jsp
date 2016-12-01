@@ -38,7 +38,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <div class="col-md-4 text-left">
     		<!-- Navigation tabs -->
     		<ul class="nav nav-tabs" id="navTabs" style="margin-top: 48px;">
-    			<li class="${empty selectedTab ? 'active' : ''}"><a data-toggle="tab" href="#users" onclick="this.blur();">Opiskelijat</a></li>
+    			<li class="${empty selectedTab ? 'active' : ''}"><a data-toggle="tab" href="#users" onclick="this.blur();">Jäsenet</a></li>
     			<li class="${selectedTab == 'edit' ? 'active' : 'hidden'}" id="edit-group-tab"><a data-toggle="tab" href="#edit" onclick="this.blur();">Muokkaa ryhmää</a></li>
     			<li class="${selectedTab == 'add' ? 'active' : ''}"><a data-toggle="tab" href="#add" onclick="this.blur();">Uusi ryhmä</a></li>
     		</ul>
@@ -48,7 +48,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				<!-- tab: manage group users -->
   				<div id="users" class="tab-pane fade  in active">
   				<p id="group-users-info">
-  				Valitse ryhmä oikealla näkyvästä listasta nähdäksesi ryhmän opiskelijat.
+  				Valitse ryhmä oikealla näkyvästä listasta nähdäksesi ryhmän jäsenet.
   				</p>
   				<div id="group-users-table" class="hidden">
 					<table class="table">
@@ -61,6 +61,30 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 						<tbody id="group-users-tbody">
 						</tbody>
 					</table>
+				</div>
+				<div id="group-supervisors-table">
+					<table class="table">
+						<thead>
+						<tr>
+							<th class="col-sm-10">Ohjaaja</th>
+							<th class="col-sm-2 text-center">Poista</th>
+						</tr>
+						</thead>
+						<tbody id="group-supervisors-tbody">
+						</tbody>
+					</table>
+					
+					<h4>Ohjaajan lisäys ryhmään</h4>
+					<div class="row">
+					<div class="col-xs-12">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Käyttäjätunnus" id="supervisorusername"/>
+						<div class="input-group-btn">
+							<button type="button" id="add-supervisor-btn" class="btn btn-secondary" onclick="addSupervisor(this.value)" value="0">Lisää</button>
+						</div>
+					</div>
+					</div>
+					</div>
 				</div>
   				</div>
   				
@@ -181,6 +205,8 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <script src="<c:url value="/static/script/editgroup.js" />"></script>
 <script src="<c:url value="/static/script/managemembers.js" />"></script>
 
+<span class="label label-success toast" id="successtoast"></span>
+<span class="label label-danger toast" id="errortoast"></span>
 <c:set var="message" scope="session" value="" />
 
 </body>

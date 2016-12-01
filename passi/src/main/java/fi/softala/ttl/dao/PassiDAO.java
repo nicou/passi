@@ -21,6 +21,8 @@ public interface PassiDAO {
 
 	public boolean addGroup(Group group, User instructor);
 	
+	public boolean addGroupInstructor(int groupID, String newSupervisor, String username);
+	
 	public boolean editGroup(Group group);
 
 	public boolean delGroup(int groupID);

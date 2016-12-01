@@ -1,6 +1,12 @@
+var showToast = function(target, message) {
+	$(target).text(message);
+	$(target).fadeIn(1000).delay(2000).fadeOut(1000);
+}
+
 var getGroupUsers = function(id) {
 	$.get('/passi/groupInfoUsers?groupID=' + id, function(data) {
 		var memberRows = '';
+		var supervisorRows = '';
 		if (data.users.length === 0) {
 			$('#group-users-table').addClass('hidden');
 		} else {
@@ -9,34 +15,53 @@ var getGroupUsers = function(id) {
 		for (var i = 0; i < data.users.length; i++) {
 			memberRows += renderMemberRow(data.users[i], data.group.groupID);
 		}
+		
+		for (var i = 0; i < data.group.instructors.length; i++) {
+			supervisorRows += renderMemberRow(data.group.instructors[i], data.group.groupID);
+		}
+		
 		$('#group-users-info').html(renderGroupInfo(data.group, data.users.length));;
 		$('#group-users-tbody').html(memberRows);
+		$('#group-supervisors-tbody').html(supervisorRows);
+		$('#add-supervisor-btn').val(id);
 		selectTab('users');
+	});
+}
+
+var addSupervisor = function(groupID) {
+	var username = $('#supervisorusername').val().trim();
+	$.get('/passi/addGroupSupervisor?supervisorUsername=' + username + '&groupID=' + groupID, function(data) {
+		if (data.status === true) {
+			$('#supervisorusername').val('');
+			showToast('#successtoast', 'Ohjaaja lisätty ryhmään!');
+			getGroupUsers(groupID);
+		} else {
+			showToast('#errortoast', 'Ohjaajaa ei löytynyt!')
+		}
 	});
 }
 
 var renderMemberRow = function(user, groupID) {
 	var memberFullname = user.firstname + ' ' + user.lastname;
-	var deleteMemberButton = '<button onclick="confirmMemberRemoval(' + user.userID + ', ' + groupID + ', \'' + memberFullname +'\'); this.blur();" type="button" class="btn btn-secondary" title="Poista opiskelija ryhmästä"><span class="glyphicon glyphicon-remove"></span></button>';
+	var deleteMemberButton = '<button onclick="confirmMemberRemoval(' + user.userID + ', ' + groupID + ', \'' + memberFullname +'\'); this.blur();" type="button" class="btn btn-secondary" title="Poista jäsen ryhmästä"><span class="glyphicon glyphicon-remove"></span></button>';
 	return '<tr><td>' + memberFullname + '</td><td class="text-center">' + deleteMemberButton + '</td></tr>';
 }
 
 var confirmMemberRemoval = function(userID, groupID, memberFullname) {
-	var confirmationMessage = 'Haluatko varmasti poistaa opiskelijan ' + memberFullname + ' ryhmästä?';
+	var confirmationMessage = 'Haluatko varmasti poistaa jäsenen ' + memberFullname + ' ryhmästä?';
 	if (confirm(confirmationMessage)) {
 		deleteGroupMember(userID, groupID);
 	}
 }
 
 var deleteGroupMember = function(userID, groupID) {
-	console.log('Poistetaan opiskelija ID ' + userID + ' ryhmästä ID ' + groupID);
 	var params = 'userID=' + userID + '&groupID=' + groupID;
 	$.get('/passi/delGroupMember?' + params, function(data) {
 		if (data.status === true) {
-			console.log('Opiskelija poistettu onnistuneesti!');
+			showToast('#successtoast', 'Jäsen poistettu onnistuneesti!');
 			getGroupUsers(groupID);
 		} else {
-			console.log('Opiskelijan poistossa tapahtui virhe!');
+			showToast('#errortoast', 'Jäsenen poistossa tapahtui virhe!');
 		}
 	});
 }

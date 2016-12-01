@@ -39,6 +39,8 @@ public interface PassiService {
 	
 	public ArrayList<Group> getAllGroups(String username);
 	
+	public boolean addGroupInstructor(int groupID, String newSupervisor, String username);
+	
 	public boolean isUsernameExists(String username);
 	
 	public boolean isEmailExists(String email);
