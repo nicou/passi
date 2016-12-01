@@ -21,6 +21,7 @@
 body {
 background: #fff;
 background: linear-gradient(#e6e6e6, #fff, #fff);
+background-repeat: no-repeat;
 padding-top: 50px;
 text-align: center;
 }
