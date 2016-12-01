@@ -328,8 +328,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 </div>
 </div>
 
-<c:out value="${message }"></c:out>
-
 <div id="lightbox">
 	<div id="content">
         <img src="#" class="rotateImage" draggable="false"/>
