@@ -93,7 +93,10 @@ Sovelluksen sisällössä on hyödynnetty Alpo.fi-sivujen tehtäviä, jotka on a
 <img class="front-logo" src="static/img/yhteistyo_sydanliitto.jpg" alt="Sydänliitto logo">
 <img class="front-logo" src="static/img/yhteistyo_nuortenakatemia.jpg" alt="Nuorten akatemia logo">
 
-<br /><br />
+<p>
+Rekisteriseloste on saatavilla <a href="/passi/static/combo_rekisteriseloste.pdf" target="_blank" rel="noopener">täältä</a>
+</p>
+<br />
 
 </div>
 </div>
