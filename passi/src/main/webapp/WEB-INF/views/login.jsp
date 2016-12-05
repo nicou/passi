@@ -62,7 +62,13 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <!-- Registration link -->
 <c:url var="registrationURL" value="/registration" />
-<p><a href="${registrationURL}">Rekisteröidy</a></p>
+<p>
+	<a href="${registrationURL}">Rekisteröidy</a>
+	<br/>
+	<small>
+	<a href="passrestore">Salasanan palautus</a>
+	</small>
+	</p>
 
 </div>
 
