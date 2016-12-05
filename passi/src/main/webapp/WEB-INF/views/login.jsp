@@ -81,7 +81,8 @@ Työkykypassi – mobiilisovellus on kehitetty Työterveyslaitoksen koordinoimas
 <img class="front-logo" src="static/img/kehittaja_saku.png" alt="Saku Logo">
 <img class="front-logo" src="static/img/kehittaja_vipuvoimaa.png" alt="Vipuvoimaa logo">
 <img class="front-logo" src="static/img/kehittaja_eu_esr.png" alt="EU ESR Logo">
-<img class="front-logo" src="static/img/ely.jpg" alt="ELY Logo">
+<img class="front-logo" src="static/img/kehittaja_ely.jpg" alt="ELY Logo">
+<img class="front-logo" src="static/img/kehittaja_stadin_ammattiopisto.jpg" alt="Stadin ammattiopisto Logo">
 
 <p>
 Sovelluksen sisällössä on hyödynnetty Alpo.fi-sivujen tehtäviä, jotka on aiemmin laadittu yhteistyössä seuraavien tahojen kanssa:
