@@ -22,7 +22,7 @@ body {
 background: #fff;
 background: linear-gradient(#e6e6e6, #fff, #fff);
 background-repeat: no-repeat;
-padding-top: 50px;
+padding-top: 30px;
 text-align: center;
 }
 h3 {
@@ -66,7 +66,7 @@ label {
 	<spring:bind path="username">
 		<div class="form-group ${status.error ? 'has-error' : ''}">
 			<label class="control-label">Käyttäjätunnus</label>
-			<form:input path="username" class="form-control" maxlength="20" />
+			<form:input path="username" class="form-control" maxlength="20" placeholder="Käyttäjätunnus" />
 			<form:errors path="username" class="control-label" />
 		</div>
 	</spring:bind>
@@ -74,7 +74,7 @@ label {
 	<spring:bind path="firstname">
 		<div class="form-group ${status.error ? 'has-error' : ''}">
 			<label class="control-label">Etunimi</label>
-			<form:input path="firstname" class="form-control" maxlength="40" />
+			<form:input path="firstname" class="form-control" maxlength="40" placeholder="Etunimi" />
 			<form:errors path="firstname" class="control-label" />
 		</div>
 	</spring:bind>
@@ -82,7 +82,7 @@ label {
 	<spring:bind path="lastname">
 		<div class="form-group ${status.error ? 'has-error' : ''}">
 			<label class="control-label">Sukunimi</label>
-			<form:input path="lastname" class="form-control" maxlength="60" />
+			<form:input path="lastname" class="form-control" maxlength="60" placeholder="Sukunimi" />
 			<form:errors path="lastname" class="control-label" />
 		</div>
 	</spring:bind>
@@ -90,7 +90,7 @@ label {
 	<spring:bind path="email">
 		<div class="form-group ${status.error ? 'has-error' : ''}">
 			<label class="control-label">Sähköposti</label>
-			<form:input path="email" class="form-control" maxlength="80" />
+			<form:input path="email" class="form-control" maxlength="80" placeholder="Sähköposti" />
 			<form:errors path="email" class="control-label" />
 		</div>
 	</spring:bind>
@@ -98,7 +98,7 @@ label {
 	<spring:bind path="password">
 		<div class="form-group ${status.error ? 'has-error' : ''}">
 			<label class="control-label">Salasana</label>
-			<form:password path="password" class="form-control" maxlength="80" />
+			<form:password path="password" class="form-control" maxlength="80" placeholder="Salasana" />
 			<form:errors path="password" class="control-label" />
 		</div>
 	</spring:bind>
@@ -106,7 +106,7 @@ label {
 	<spring:bind path="confirmPassword">
 		<div class="form-group ${status.error ? 'has-error' : ''}">
 			<label class="control-label">Vahvista salasana</label>
-			<form:password path="confirmPassword" class="form-control" maxlength="80" />
+			<form:password path="confirmPassword" class="form-control" maxlength="80" placeholder="Salasana uudelleen" />
 			<form:errors path="confirmPassword" class="control-label" />
 		</div>
 	</spring:bind>
@@ -132,8 +132,6 @@ label {
 <!-- Script libraries -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<c:set var="message" scope="session" value="" />
 
 </body>
 </html>
