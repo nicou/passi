@@ -369,6 +369,17 @@ public class PassiController {
 		return status;
 	}
 	
+	@RequestMapping(value = "/passrestore", method = RequestMethod.GET)
+	public String passwordRestorePage() {
+		return "passrestore";
+	}
+	
+	@RequestMapping(value = "/passrestore", method = RequestMethod.POST)
+	public String passwordRestore(@RequestParam(value = "identifier", required = true) String identifier) {
+		System.out.println("Received password reset request with identifier " + identifier);
+		return "redirect:/login";
+	}
+	
 	public String getAuthUsername() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		return auth.getName();

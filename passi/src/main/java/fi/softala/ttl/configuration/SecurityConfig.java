@@ -55,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().csrfTokenRepository(csrfTokenRepository());
 
 		http.authorizeRequests()
-				.antMatchers("/", "/resources/**", "/static/**", "/login*", "/expired", "/registration*").permitAll()
+				.antMatchers("/", "/resources/**", "/static/**", "/login*", "/expired", "/registration*", "/passrestore*").permitAll()
 				.antMatchers("/init", "/index/**").hasRole("ADMIN").anyRequest().authenticated().and().formLogin()
 				.loginPage("/login").permitAll().defaultSuccessUrl("/init").failureUrl("/login?error")
 				.usernameParameter("username").passwordParameter("password")
