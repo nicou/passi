@@ -19,6 +19,7 @@ public class Answersheet implements Serializable {
 	private int groupID;
 	private int userID;
 	private ArrayList<Answerpoint> waypoints;
+	private boolean feedbackComplete;
 
 	public Answersheet() {
 		super();
@@ -30,10 +31,11 @@ public class Answersheet implements Serializable {
 		this.groupID = 0;
 		this.userID = 0;
 		this.waypoints = null;
+		this.feedbackComplete = false;
 	}
 
 	public Answersheet(int answerID, String answerPlanning, String answerInstructorComment, Timestamp answerTimestamp,
-			int worksheetID, int groupID, int userID, ArrayList<Answerpoint> waypoints) {
+			int worksheetID, int groupID, int userID, ArrayList<Answerpoint> waypoints, boolean feedbackComplete) {
 		super();
 		this.answerID = answerID;
 		this.answerPlanning = answerPlanning;
@@ -43,6 +45,7 @@ public class Answersheet implements Serializable {
 		this.groupID = groupID;
 		this.userID = userID;
 		this.waypoints = waypoints;
+		this.feedbackComplete = feedbackComplete;
 	}
 
 	public int getAnswerID() {
@@ -109,10 +112,20 @@ public class Answersheet implements Serializable {
 		this.waypoints = waypoints;
 	}
 
+	public boolean isFeedbackComplete() {
+		return feedbackComplete;
+	}
+
+	public void setFeedbackComplete(boolean feedbackComplete) {
+		this.feedbackComplete = feedbackComplete;
+	}
+
 	@Override
 	public String toString() {
 		return "Answersheet [answerID=" + answerID + ", answerPlanning=" + answerPlanning + ", answerInstructorComment="
 				+ answerInstructorComment + ", answerTimestamp=" + answerTimestamp + ", worksheetID=" + worksheetID
-				+ ", groupID=" + groupID + ", userID=" + userID + ", waypoints=" + waypoints + "]";
+				+ ", groupID=" + groupID + ", userID=" + userID + ", waypoints=" + waypoints + ", feedbackComplete="
+				+ feedbackComplete + "]";
 	}
+
 }

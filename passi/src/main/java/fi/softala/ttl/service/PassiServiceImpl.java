@@ -95,6 +95,12 @@ public class PassiServiceImpl implements PassiService {
 	public boolean addGroupInstructor(int groupID, String newSupervisor, String username) {
 		return dao.addGroupInstructor(groupID, newSupervisor, username);
 	}
+	
+	@Override
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public boolean setFeedbackComplete(int answersheetID, boolean feedbackComplete) {
+		return dao.setFeedbackComplete(answersheetID, feedbackComplete);
+	}
 
 	@Override
 	public Answersheet getWorksheetAnswers(int worksheetID, int userID) {

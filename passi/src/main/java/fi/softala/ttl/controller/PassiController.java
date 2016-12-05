@@ -258,11 +258,13 @@ public class PassiController {
 	public String saveInstructorComment(Model model,
 			@RequestParam(value = "instructorComment", required = true) String instructorComment,
 			@RequestParam(value = "answerID", required = true) int answersheetID,
+			@RequestParam(value = "feedback_complete", required = false) boolean feedbackComplete,
 			@ModelAttribute("selectedWorksheet") int worksheetID,
 			@ModelAttribute("selectedMember") int selectedMember,
 			final RedirectAttributes ra) {
-		if (passiService.saveInstructorComment(answersheetID, instructorComment)) {
-			ra.addFlashAttribute("message", "Koostepalaute tallennettu!");
+		if (passiService.saveInstructorComment(answersheetID, instructorComment)
+				&& passiService.setFeedbackComplete(answersheetID, feedbackComplete)) {
+			ra.addFlashAttribute("message", "Palaute tallennettu!");
 		}
 		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember));
 		return "redirect:/index";

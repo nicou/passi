@@ -301,6 +301,7 @@ public class PassiDAOImpl implements PassiDAO {
 				answersheet.setWorksheetID(rs.getInt("worksheet_id"));
 				answersheet.setGroupID(rs.getInt("group_id"));
 				answersheet.setUserID(rs.getInt("user_id"));
+				answersheet.setFeedbackComplete(rs.getBoolean("feedback_complete"));
 				return answersheet;
 			}
 		});
@@ -381,6 +382,12 @@ public class PassiDAOImpl implements PassiDAO {
 	@Override public boolean saveInstructorComment(int answersheetID, String instructorComment) {
 		final String SQL = "UPDATE answersheets SET instructor_comment = ? WHERE answersheet_id = ?";
 		return jdbcTemplate.update(SQL, new Object[] { instructorComment, answersheetID }) == 1;
+	}
+	
+	@Override
+	public boolean setFeedbackComplete(int answersheetID, boolean feedbackComplete) {
+		final String SQL = "UPDATE answersheets SET feedback_complete = ? WHERE answersheet_id = ?";
+		return jdbcTemplate.update(SQL, new Object[] { feedbackComplete, answersheetID }) == 1;
 	}
 
 	@Override

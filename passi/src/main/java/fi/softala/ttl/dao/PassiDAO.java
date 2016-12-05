@@ -49,6 +49,8 @@ public interface PassiDAO {
 	
 	public boolean saveInstructorComment(int answersheetID, String instructorComment);
 	
+	public boolean setFeedbackComplete(int answersheetID, boolean feedbackComplete);
+	
 	public User getMemberDetails(int userID);
 	
 	public List<User> getInstructorsDetails(int groupID);

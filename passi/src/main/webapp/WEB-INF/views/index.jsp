@@ -147,7 +147,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		</c:choose>
 		</div>
 		
-		<div class="row row-padding">
+		<div class="row row-padding sidebar-instructors">
     	<c:choose>
     		<c:when test="${selectedGroup > 0}">
     		<h4 style="font-weight: bold; margin-top: 0; padding-top: 0;"><c:out value="${fn:length(instructorsDetails) > 1 ? 'Ohjaajat' : 'Ohjaaja'}" /></h4>
@@ -302,6 +302,9 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   					<textarea name="instructorComment" class="form-control" rows="7" maxlength="1000" placeholder="Anna koostepalaute"><c:if test="${not empty worksheetAnswers.answerInstructorComment }"><c:out value="${worksheetAnswers.answerInstructorComment}" /></c:if></textarea>
   				</div>
   				<div class="col-xs-12 text-right">
+  					<label style="margin-right: 15px;">
+						<input type="checkbox" name="feedback_complete" value="true" <c:if test="${worksheetAnswers.feedbackComplete }">checked</c:if>/> Merkitse koko tehtäväkortti arvostelluksi
+					</label>
   					<button class="btn btn-secondary" type="submit">Lähetä</button>
   				</div>
   				</div>

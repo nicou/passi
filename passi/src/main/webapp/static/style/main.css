@@ -339,7 +339,7 @@ table.table-hover tr {
 	background: none;
 }
 
-hr {
+.sidebar-instructors hr {
 	margin: 10px auto;
 	padding: 0;
 	border: 1px solid #c2e0ec;
