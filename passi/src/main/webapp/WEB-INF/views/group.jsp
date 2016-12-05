@@ -66,7 +66,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 					<table class="table">
 						<thead>
 						<tr>
-							<th class="col-sm-10">Ohjaaja</th>
+							<th class="col-sm-10">Työkykypassiryhmän ohjaaja</th>
 							<th class="col-sm-2 text-center">Poista</th>
 						</tr>
 						</thead>
@@ -74,7 +74,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 						</tbody>
 					</table>
 					
-					<h4>Ohjaajan lisäys ryhmään</h4>
+					<h4>Työkykypassiryhmän ohjaajan lisäys</h4>
 					<div class="row">
 					<div class="col-xs-12">
 					<div class="input-group">

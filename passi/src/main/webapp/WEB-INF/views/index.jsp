@@ -150,7 +150,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 		<div class="row row-padding sidebar-instructors">
     	<c:choose>
     		<c:when test="${selectedGroup > 0}">
-    		<h4 style="font-weight: bold; margin-top: 0; padding-top: 0;"><c:out value="${fn:length(instructorsDetails) > 1 ? 'Ohjaajat' : 'Ohjaaja'}" /></h4>
+    		<h4 style="font-weight: bold; margin-top: 0; padding-top: 0;"><c:out value="${fn:length(instructorsDetails) > 1 ? 'Työkykypassiryhmän ohjaajat' : 'Työkykypassiryhmän ohjaaja'}" /></h4>
     		<c:forEach var="instructor" items="${instructorsDetails}">
     		<span class="bold"><c:out value="${instructor.firstname} ${instructor.lastname }" /></span><br />
     		<c:out value="${instructor.email}" />
