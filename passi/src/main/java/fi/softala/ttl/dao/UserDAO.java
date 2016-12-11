@@ -21,5 +21,9 @@ public interface UserDAO {
 	public void delete(int id);
 	
 	public Set<Role> findRolesByUserID(int userID);
+	
+	public boolean setPasswordResetToken(String email, String token);
+	
+	public boolean resetUserPassword(String token, String password);
 
 }

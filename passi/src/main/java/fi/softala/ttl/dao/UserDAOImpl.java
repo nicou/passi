@@ -5,8 +5,11 @@ package fi.softala.ttl.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -149,6 +152,43 @@ public class UserDAOImpl implements UserDAO {
 		Set<Role> roles = new HashSet<Role>(result);
 		
 		return roles;
+	}
+	
+	@Override
+	public boolean setPasswordResetToken(String email, String token) {
+		String SQL = "INSERT INTO password_reset (user_id, token, expiration_date) VALUES ((SELECT user_id FROM users WHERE email = :email), :token, :expiration)";
+		try {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Date());
+			cal.add(Calendar.DATE, 1);
+			Date expiration = cal.getTime();
+			Map<String, Object> params = new HashMap<>();
+			params.put("email", email);
+			params.put("token", token);
+			params.put("expiration", expiration);
+			return namedParameterJdbcTemplate.update(SQL, params) == 1;
+		} catch (Exception ex) {
+			System.out.println(ex);
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean resetUserPassword(String token, String password) {
+		String SQL1 = "UPDATE users SET password = :password WHERE user_id = (SELECT user_id FROM password_reset WHERE token = :token AND expiration_date >= :date)";
+		String SQL2 = "DELETE FROM password_reset WHERE token = :token";
+		Map<String, Object> params = new HashMap<>();
+		params.put("password", password);
+		params.put("token", token);
+		params.put("date", new Timestamp(new Date().getTime()));
+		try {
+			if (namedParameterJdbcTemplate.update(SQL1, params) == 1) {
+				return namedParameterJdbcTemplate.update(SQL2, params) == 1;
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return false;
 	}
 
 	@SuppressWarnings("unused")

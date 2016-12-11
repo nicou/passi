@@ -46,6 +46,8 @@ import fi.softala.ttl.dao.PassiDAO;
 import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.Role;
 import fi.softala.ttl.dto.WorksheetDTO;
+import fi.softala.ttl.helper.Emailer;
+import fi.softala.ttl.helper.TokenGenerator;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.service.PassiService;
 import fi.softala.ttl.service.UserService;
@@ -370,13 +372,40 @@ public class PassiController {
 	}
 	
 	@RequestMapping(value = "/passrestore", method = RequestMethod.GET)
-	public String passwordRestorePage() {
+	public String passwordRestorePage(@RequestParam(value = "token", required = false) String token, Model model) {
+		if (token != null && token.length() <= 64) {
+			model.addAttribute("token", token);
+			return "passreset";
+		}
 		return "passrestore";
 	}
 	
 	@RequestMapping(value = "/passrestore", method = RequestMethod.POST)
-	public String passwordRestore(@RequestParam(value = "identifier", required = true) String identifier) {
-		System.out.println("Received password reset request with identifier " + identifier);
+	public String passwordRestore(@RequestParam(value = "email", required = true) String email) {
+		TokenGenerator tg = new TokenGenerator();
+		String token = tg.generateToken();
+		if (userService.setPasswordResetToken(email, token)) {
+			Emailer emailer = new Emailer();
+			emailer.sendPasswordResetMessage(email, token);
+		}
+		return "redirect:/login";
+	}
+	
+	@RequestMapping(value = "/passreset", method = RequestMethod.POST)
+	public String resetPassword(@RequestParam(value = "password", required = true) String pw1,
+			@RequestParam(value = "passwordagain", required = true) String pw2,
+			@RequestParam(value = "token", required = true) String token,
+			final RedirectAttributes ra) {
+		
+		// TODO: Same validation criteria for passwords during registration and password reset
+		if (pw1.length() < 6 || pw2.length() < 6 || !pw1.equals(pw2)) {
+			ra.addFlashAttribute("message", "Uusi salasana on alle 6 merkkiä pitkä, tai salasanat eivät täsmää.");
+			return "redirect:/passrestore?token=" + token;
+		}
+		if (userService.resetUserPassword(token, pw1)) {
+			ra.addFlashAttribute("message", "Salasanasi on vaihdettu onnistuneesti!");
+		}
+		
 		return "redirect:/login";
 	}
 	

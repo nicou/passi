@@ -34,7 +34,6 @@ label {
 	white-space: no-wrap !important;
 }
 .form-group {
-	margin: 0;
 	padding-left: 30px;
 	padding-right: 30px;
 }
@@ -57,15 +56,21 @@ label {
 <div class="col-sm-offset-3 col-sm-6 regform">
 <h3 class="text-center">Salasanan palautus</h3>
 
-<p class="text-center" style="margin: 25px auto;">Syötä alla olevaan kenttään sähköpostiosoitteesi jolla olet rekisteröitynyt työkykypassiin. Linkki salasanan vaihtoon lähetetään sinulle sähköpostitse.</p>
+<p class="text-center" style="margin: 25px auto;">Kirjoita uusi salasanasi.</p>
 
-<form class="form-horizontal" action="passrestore" method="POST">
+<form class="form-horizontal" action="passreset" method="POST">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-		<div class="input-group">
-			<input type="email" name="email" class="form-control" maxlength="50" placeholder="Sähköpostiosoite" />
-			<div class="input-group-btn">
-				<button class="btn btn-primary" type="submit" name="action" value="sendlink">Lähetä</button>
-			</div>
+		<input type="hidden" name="token" value="${token }" />
+		<div class="form-group">
+			<label class="control-label">Salasana</label>
+			<input type="password" name="password" class="form-control" placeholder="Salasana" />
+		</div>
+		<div class="form-group">
+			<label class="control-label">Salasana uudelleen</label>
+			<input type="password" name="passwordagain" class="form-control" placeholder="Salasana uudelleen" />
+		</div>
+		<div class="form-group">
+			<button class="btn btn-primary btn-block" type="submit" name="action" name="resetpass">Lähetä</button>
 		</div>
 </form>
 

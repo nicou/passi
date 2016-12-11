@@ -34,4 +34,14 @@ public class UserServiceImpl implements UserService {
 	public User findByUsername(String username) {
 		return dao.findByUsername(username);
 	}
+	
+	@Override
+	public boolean setPasswordResetToken(String email, String token) {
+		return dao.setPasswordResetToken(email, token);
+	}
+	
+	@Override
+	public boolean resetUserPassword(String token, String password) {
+		return dao.resetUserPassword(token, passwordEncoder.encode(password));
+	}
 }
