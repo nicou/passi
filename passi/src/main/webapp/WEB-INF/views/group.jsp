@@ -209,6 +209,9 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="<c:url value="/static/script/bootstrap.min.js" />"></script>
 <script src="<c:url value="/static/script/groups.js" />"></script>
+<!--[if lt IE 9]>
+  <script src="<c:url value="/static/script/ie.js" />"></script>
+<![endif]-->
 
 <span class="label label-success toast" id="successtoast"></span>
 <span class="label label-danger toast" id="errortoast"></span>

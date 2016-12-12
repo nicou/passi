@@ -11,7 +11,7 @@ $(document).ready(function() {
 	//display selected ball in the GUI
 	//removes all selected classes only from the current answer, check which button was clicked and add selected classes
 	$('.custom-ball').on('click', function (){
-		let balls = $(this).closest("ul").children();
+		var balls = $(this).closest("ul").children();
 		$(balls).removeClass('button-green-selected button-yellow-selected button-red-selected');
 		
 		switch($( this ).attr('class').split(' ')[1]){
@@ -120,7 +120,7 @@ $(document).ready(function() {
 	var rotateImage = function(target) {
 		angle += 90
 		$(target).css('transform','rotate(' + angle + 'deg)');
-		let condition = $('#zImage').position().top;
+		var condition = $('#zImage').position().top;
 		if(counter % 2 === 0) {
 			counter++;
 			scaleImage(true);
@@ -132,7 +132,7 @@ $(document).ready(function() {
 	
 	//click event listener for rotating or hiding the image/lightbox
 	 $('#lightbox').on('click', function(e) {
-		 let target = $(e.target);
+		 var target = $(e.target);
 		 target.is('img') ? rotateImage(target) : $('#lightbox').hide();
 		});
 		
@@ -140,7 +140,7 @@ $(document).ready(function() {
 	 //get the clicked image, reset angle for image rotation, set image css according window, append and scale image, show lightbox
 	$('.lightbox_trigger').on('click', function(e) {
 		e.preventDefault();
-		let image_href = $(this).attr("href");
+		var image_href = $(this).attr("href");
 		var image = '<img src="' + image_href + '" id="zImage"/>';
 			angle = 0;
 			$('#content').html(image);

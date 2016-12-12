@@ -115,8 +115,16 @@ Rekisteriseloste on saatavilla <a href="/passi/static/combo_rekisteriseloste.pdf
 <!-- Script -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="<c:url value="/static/script/bootstrap.min.js" />"></script>
+<!--[if lt IE 9]>
+  <script src="<c:url value="/static/script/ie.js" />"></script>
+<![endif]-->
 
 <c:set var="message" scope="session" value="" />
+<script>
+$.get("/passi/init", function(data) {
+	return;
+}));
+</script>
 
 </body>
 </html>
