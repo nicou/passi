@@ -1,0 +1,8 @@
+select {
+	z-index: 99999;
+}
+
+select:focus {
+    width: auto;
+    position: relative;
+}

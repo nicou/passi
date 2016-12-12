@@ -9,14 +9,14 @@
 <!DOCTYPE html>
 <html lang="fi">
 <head>
-<meta name="author" content="Mika Ropponen" />
+<meta name="author" content="Mika Ropponen, Nico Hagelberg" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Työkykypassi&nbsp;&bull;&nbsp;Rekisteröinti</title>
 
-<!-- Styles -->
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-
+<!-- CSS -->
+<link rel="stylesheet" href="<c:url value="/static/style/bootstrap.min.css" />" />
 <style>
 body {
 background: #fff;
@@ -47,7 +47,10 @@ label {
 	padding-bottom: 30px;
 }
 </style>
-
+<!--[if lt IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
 </head>
 
 <body>
@@ -129,9 +132,9 @@ label {
 </div>
 </div>
 
-<!-- Script libraries -->
+<!-- Script -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="<c:url value="/static/script/bootstrap.min.js" />"></script>
 
 </body>
 </html>

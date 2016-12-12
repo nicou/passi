@@ -15,14 +15,20 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="author" content="Mika Ropponen, Roope Heinonen" />
+<meta name="author" content="Mika Ropponen, Nico Hagelberg" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Työkykypassi&nbsp;&bull;&nbsp;Ryhmähallinta</title>
 
 <!-- CSS -->
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" href="<c:url value="/static/style/bootstrap.min.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/static/style/main.css" />" />
+
+<!--[if lt IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
 </head>
 
 <body>
@@ -46,7 +52,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		<div class="tab-content" style="padding: 15px;">
     		
   				<!-- tab: manage group users -->
-  				<div id="users" class="tab-pane fade  in active">
+  				<div id="users" class="tab-pane fade in active">
   				<p id="group-users-info">
   				Valitse ryhmä oikealla näkyvästä listasta nähdäksesi ryhmän jäsenet.
   				</p>
@@ -93,9 +99,9 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   					<p id="edit-group-info" class="hidden">Paina oikealla näkyvästä listasta ryhmän kohdalta 'muokkaa'-painiketta muuttaaksesi ryhmän tietoja.</p>
   					<div id="edit-group-form" class="hidden">
     				<c:url value="/editGroup" var="editGroup" />
-    				<form:form role="form" class="form-horizontal" modelAttribute="editedGroup" action="${editGroup}" method="post" accept-charset="UTF-8">
+    				<form:form class="form-horizontal" modelAttribute="editedGroup" action="${editGroup}" method="post" accept-charset="UTF-8">
     					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-    					<form:input id="editGroupID" path="groupID" type="hidden" value="0" />
+    					<form:input id="editGroupID" path="groupID" type="hidden" />
   						<div class="form-group">
   							<label>Ryhmän nimi ja tunnus</label>
 							<form:input id="editGroupName" required="required" placeholder="Kirjoita ryhmän nimi ja tunnus" path="groupName" cssClass="form-control" autocomplete="off" maxlength="20" />
@@ -117,7 +123,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     			<!-- tab: add group -->
   				<div id="add" class="tab-pane fade">
     				<c:url value="/addGroup" var="addGroup" />
-    				<form:form role="form" class="form-horizontal" modelAttribute="newGroup" action="${addGroup}" method="post" accept-charset="UTF-8">
+    				<form:form class="form-horizontal" modelAttribute="newGroup" action="${addGroup}" method="post" accept-charset="UTF-8">
   						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
   						<div class="form-group">
 							<label>Ryhmän nimi ja tunnus</label>
@@ -201,9 +207,8 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <!-- Script -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="<c:url value="/static/script/editgroup.js" />"></script>
-<script src="<c:url value="/static/script/managemembers.js" />"></script>
+<script src="<c:url value="/static/script/bootstrap.min.js" />"></script>
+<script src="<c:url value="/static/script/groups.js" />"></script>
 
 <span class="label label-success toast" id="successtoast"></span>
 <span class="label label-danger toast" id="errortoast"></span>

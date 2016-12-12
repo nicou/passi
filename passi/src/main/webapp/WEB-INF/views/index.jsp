@@ -17,17 +17,21 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="author" content="Mika Ropponen, Roope Heinonen" />
+<meta name="author" content="Mika Ropponen, Nico Hagelberg" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Työkykypassi&nbsp;&bull;&nbsp;Tietohaku</title>
 
 <!-- CSS -->
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" href="<c:url value="/static/style/bootstrap.min.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/static/style/main.css" />" />
 
-<style>
-
-</style>
+<!--[if lt IE 9]>
+  <link rel="stylesheet" href="<c:url value="/static/style/ie.css" />" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
 </head>
 
 <body>
@@ -198,7 +202,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   					<c:url var="imageLink" value="/download/${imageName}/jpg" />
   					<div class="well-image-container">
   					<!-- ANSWER IMAGE -->
-  					<a href="${imageLink}" class="lightbox_trigger"><img src="${imageLink}" onerror="this.style.display='none'" class="well-image" draggable="false" /></a><br />
+  					<a href="${imageLink}" class="lightbox_trigger"><img src="${imageLink}" onerror="this.style.display='none'" class="well-image" draggable="false" alt="Valokuva" /></a><br />
   					<div class="image-click">Klikkaa</div>
 					</div>
 					</div>
@@ -333,21 +337,25 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <div id="lightbox">
 	<div id="content">
-        <img src="#" class="rotateImage" draggable="false"/>
+        <img src="#" class="rotateImage" draggable="false" alt="Valokuva"/>
     </div>
 </div>
 	
 
 <!-- Script -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="<c:url value="/static/script/bootstrap.min.js" />"></script>
 <script src="<c:url value="/static/script/jquery-index.js" />"></script>
 
 <c:if test="${not empty message }">
 <span class="label label-success toast" id="successtoast"><c:out value="${message }"></c:out></span>
 <script type="text/javascript">$('#successtoast').fadeIn(1000).delay(2000).fadeOut(1000);</script>
 </c:if>
-
+<script>
+$('select').change(function() {
+	$(this).blur();
+});
+</script>
 <c:set var="message" scope="session" value="" />
 
 </body>
