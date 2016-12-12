@@ -104,7 +104,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     					<form:input id="editGroupID" path="groupID" type="hidden" />
   						<div class="form-group">
   							<label>Ryhmän nimi ja tunnus</label>
-							<form:input id="editGroupName" required="required" placeholder="Kirjoita ryhmän nimi ja tunnus" path="groupName" cssClass="form-control" autocomplete="off" maxlength="20" />
+							<form:input id="editGroupName" required="required" placeholder="Kirjoita ryhmän nimi ja tunnus" path="groupName" cssClass="form-control" autocomplete="off" maxlength="80" />
 							<small class="text-muted">Esimerkki: Autoalan perustutkinto, Omnian ammattiopisto: AUTB6</small>
 						</div>
 						<div class="form-group">
@@ -127,7 +127,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
   						<div class="form-group">
 							<label>Ryhmän nimi ja tunnus</label>
-							<form:input required="required" placeholder="Kirjoita ryhmän nimi ja tunnus" path="groupName" cssClass="form-control" autocomplete="off" maxlength="20" />
+							<form:input required="required" placeholder="Kirjoita ryhmän nimi ja tunnus" path="groupName" cssClass="form-control" autocomplete="off" maxlength="80" />
 							<small class="text-muted">Esimerkki: Autoalan perustutkinto, Omnian ammattiopisto: AUTB6</small>
 						</div>
 						<div class="form-group">

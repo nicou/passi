@@ -344,18 +344,3 @@ table.table-hover tr {
 	padding: 0;
 	border: 1px solid #c2e0ec;
 }
-
-.ie-select {
-    position: relative;
-}
-
-.ie-select select {
-    position: absolute;
-    width: auto;
-    max-width: 100%;
-}
-
-.ie-select select:focus {
-    max-width: none;
-}
-}

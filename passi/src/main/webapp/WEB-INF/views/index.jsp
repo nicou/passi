@@ -62,7 +62,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 		</div>
 
 		<div class="row row-padding">
-			<h4>2. Valitse Kategoria</h4>
+			<h4>2. Valitse tehtäväalue</h4>
 			<c:choose>
 			<c:when test="${selectedGroup > 0}">
 				<c:url var="selectCategoryURL" value="/selectCategory" />
@@ -70,7 +70,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     			<div class="form-group">
       				<select class="form-control ${selectedGroup > 0 && selectedCategory == 0 ? 'highlight' : ''}" id="categoryID" name="categoryID" onchange="this.form.submit();">
-      					<option value="0" ${selectedCategory == 0 ? 'selected' : ''}> --- Valitse Kategoria --- </option>
+      					<option value="0" ${selectedCategory == 0 ? 'selected' : ''}> --- Valitse tehtäväalue --- </option>
       					<c:forEach var="c" items="${categories}">
         					<option value="${c.categoryID}" ${selectedCategory == c.categoryID ? 'selected' : ''}><c:out value="${c.categoryName}" /></option>
         				</c:forEach>
@@ -199,7 +199,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   					<div class="row row-padding">
   					<div class="col-xs-12 col-md-3">
   					<c:set var="imageName" value="${waypoint.waypointID}-${worksheetAnswers.userID}" />
-  					<c:url var="imageLink" value="/download/${imageName}/jpg" />
+  					<c:url var="imageLink" value="/static/img/passi-images/${imageName}.jpg" />
   					<div class="well-image-container">
   					<!-- ANSWER IMAGE -->
   					<a href="${imageLink}" class="lightbox_trigger"><img src="${imageLink}" onerror="this.style.display='none'" class="well-image" draggable="false" alt="Valokuva" /></a><br />
