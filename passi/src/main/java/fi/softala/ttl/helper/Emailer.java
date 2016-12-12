@@ -17,10 +17,10 @@ public class Emailer {
 	public void sendPasswordResetMessage(String email, String token) {
 		String host = "localhost";
 		Properties props = System.getProperties();
-		String resetUrl = "http://localhost:8080/passi/passrestore?token=" + token;
+		String resetUrl = "http://proto384.haaga-helia.fi/passi/passrestore?token=" + token;
 		
 		props.put("mail.smtp.host", host);
-		props.put("mail.debug", "false");
+		props.put("mail.debug", "true");
 		//props.put("mail.smtp.port", 8025);
 		
 		Session session = Session.getInstance(props);
@@ -28,7 +28,7 @@ public class Emailer {
 		MimeMessage message = new MimeMessage(session);
 		
 		try {
-			message.setFrom(new InternetAddress("noreply@tyokykypassi.com"));
+			message.setFrom(new InternetAddress("noreply@proto384.haaga-helia.fi"));
 			message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(email));
 			message.setSubject("Työkykypassi - Salasanan palautus", "UTF-8");
 			message.setContent("Voit vaihtaa salasanasi klikkaamalla alla olevaa linkkiä:"
