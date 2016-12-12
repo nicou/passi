@@ -199,7 +199,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   					<div class="row row-padding">
   					<div class="col-xs-12 col-md-3">
   					<c:set var="imageName" value="${waypoint.waypointID}-${worksheetAnswers.userID}" />
-  					<c:url var="imageLink" value="/static/img/passi-images/${imageName}.jpg" />
+  					<c:url var="imageLink" value="/download/${imageName}/jpg" />
   					<div class="well-image-container">
   					<!-- ANSWER IMAGE -->
   					<a href="${imageLink}" class="lightbox_trigger"><img src="${imageLink}" onerror="this.style.display='none'" class="well-image" draggable="false" alt="Valokuva" /></a><br />
