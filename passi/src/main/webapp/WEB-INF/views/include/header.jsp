@@ -10,7 +10,8 @@
         	<span class="icon-bar"></span>
         	<span class="icon-bar"></span>
       		</button>
-      		<span class="navbar-brand cursor-default">Hallintasivut</span>
+      		<img src="<c:url value="/static/favicon/favicon-96x96.png" />" alt="Työkykypassi logo" class="passi-nav-logo"/>
+      		<span class="navbar-brand cursor-default">Työkykypassin hallinta</span>
     	</div>
     	</div>
     	<div class="collapse navbar-collapse" id="myNavbar">
