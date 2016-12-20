@@ -15,7 +15,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="author" content="Roope Heinonen, Mika Ropponen" />
+<meta name="author" content="Mika Ropponen, Roope Heinonen, Nico Hagelberg" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>Työkykypassi&nbsp;&bull;&nbsp;Jäsenhallinta</title>
@@ -23,6 +23,12 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <!-- CSS -->
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/static/style/main.css" />" />
+
+<!-- Favicons -->
+<link rel="icon" type="image/png" sizes="32x32" href="<c:url value="/static/favicon/favicon-32x32.png" />">
+<link rel="icon" type="image/png" sizes="96x96" href="<c:url value="/static/favicon/favicon-96x96.png" />">
+<link rel="icon" type="image/png" sizes="16x16" href="<c:url value="/static/favicon/favicon-16x16.png" />">
+
 </head>
 
 <body>
