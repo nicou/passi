@@ -358,3 +358,10 @@ table.table-hover tr {
 .nopadding {
 	padding: 3px 0;
 }
+
+.greentext {
+	color: #449d44;
+}
+.redtext {
+	color: #c9302c;
+}

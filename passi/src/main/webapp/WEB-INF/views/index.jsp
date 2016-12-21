@@ -360,8 +360,8 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 		  						<tr>
 		  							<td><c:out value="${entry.category }"></c:out></td>
 		  							<td><c:out value="${entry.worksheetHeader }"></c:out></td>
-		  							<td class="text-center"><c:out value="${entry.turnedInCount }"></c:out></td>
-		  							<td class="text-center"><c:out value="${entry.noFeedbackCount }"></c:out></td>
+		  							<td class="text-center"><c:out value="${entry.turnedInCount }"></c:out>&nbsp;/&nbsp;<c:out value="${groupMemberCount}" /></td>
+		  							<td class="${entry.noFeedbackCount == 0 ? 'text-center greentext' : 'text-center redtext'}"><c:out value="${entry.noFeedbackCount }"></c:out></td>
 		  						</tr>
 		  					</c:forEach>
 		  				</tbody>
