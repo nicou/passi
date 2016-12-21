@@ -108,9 +108,12 @@ public class PassiController {
 			model.addObject("message", "");
 		}
 		model.setViewName("login");
-		/* if (logger.isDebugEnabled()) {logger.debug("loginPage is executed!");}
-		   logger.error("This is Error message", new Exception("Testing")); */
 		return model;
+	}
+	
+	@RequestMapping(value = { "/init" }, method = RequestMethod.POST)
+	public String initPost(final RedirectAttributes redirectAttributes) {
+		return init(redirectAttributes);
 	}
 
 	// Initiate session variables right after login

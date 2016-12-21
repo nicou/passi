@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.antMatchers("/", "/resources/**", "/static/**", "/login*", "/expired", "/registration*", "/passrestore*", "/passreset*").permitAll()
 				.antMatchers("/init", "/index/**").hasRole("ADMIN").anyRequest().authenticated().and().formLogin()
-				.loginPage("/login").permitAll().defaultSuccessUrl("/init").failureUrl("/login?error")
+				.loginPage("/login").permitAll().successForwardUrl("/init").failureUrl("/login?error")
 				.usernameParameter("username").passwordParameter("password")
 				.and().logout()
 				.logoutSuccessUrl("/login?logout").invalidateHttpSession(true).deleteCookies("JSESSIONID").and()
