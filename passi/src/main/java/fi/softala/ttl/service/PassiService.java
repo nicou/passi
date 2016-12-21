@@ -41,6 +41,8 @@ public interface PassiService {
 	
 	public boolean addGroupInstructor(int groupID, String newSupervisor, String username);
 	
+	public boolean delGroupInstructor(int userID, int groupID);
+	
 	public boolean setFeedbackComplete(int answersheetID, boolean feedbackComplete);
 	
 	public boolean isUsernameExists(String username);

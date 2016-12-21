@@ -48,11 +48,11 @@ var getGroupUsers = function(id) {
 			$('#group-users-table').removeClass('hidden');
 		}
 		for (var i = 0; i < data.users.length; i++) {
-			memberRows += renderMemberRow(data.users[i], data.group.groupID);
+			memberRows += renderMemberRow(data.users[i], data.group.groupID, 1);
 		}
 		
 		for (var i = 0; i < data.group.instructors.length; i++) {
-			supervisorRows += renderMemberRow(data.group.instructors[i], data.group.groupID);
+			supervisorRows += renderMemberRow(data.group.instructors[i], data.group.groupID, 2);
 		}
 		
 		$('#group-users-info').html(renderGroupInfo(data.group, data.users.length));;
@@ -81,16 +81,26 @@ var addSupervisor = function(groupID) {
 	});
 }
 
-var renderMemberRow = function(user, groupID) {
+var renderMemberRow = function(user, groupID, roleID) {
 	var memberFullname = user.firstname + ' ' + user.lastname;
-	var deleteMemberButton = '<button onclick="confirmMemberRemoval(' + user.userID + ', ' + groupID + ', \'' + memberFullname +'\'); this.blur();" type="button" class="btn btn-secondary" title="Poista jäsen ryhmästä"><span class="glyphicon glyphicon-remove"></span></button>';
+	var deleteMemberButton = '<button onclick="confirmMemberRemoval(' + user.userID + ', ' + groupID + ', \'' + memberFullname + '\', ' + roleID + '); this.blur();" type="button" class="btn btn-secondary btn-xs" title="Poista jäsen ryhmästä"><span class="glyphicon glyphicon-remove"></span></button>';
+	if (roleID == 2) {
+		deleteMemberButton = '<button onclick="confirmMemberRemoval(' + user.userID + ', ' + groupID + ', \'' + memberFullname + ',\', ' + roleID + '); this.blur();" type="button" class="btn btn-secondary btn-xs" title="Poista työkykypassiryhmän ohjaaja ryhmästä"><span class="glyphicon glyphicon-remove"></span></button>';
+	}
 	return '<tr><td>' + memberFullname + '</td><td class="text-center">' + deleteMemberButton + '</td></tr>';
 }
 
-var confirmMemberRemoval = function(userID, groupID, memberFullname) {
-	var confirmationMessage = 'Haluatko varmasti poistaa jäsenen ' + memberFullname + ' ryhmästä?';
-	if (confirm(confirmationMessage)) {
-		deleteGroupMember(userID, groupID);
+var confirmMemberRemoval = function(userID, groupID, memberFullname, roleID) {
+	if (roleID == 1) {
+		var confirmationMessage = 'Haluatko varmasti poistaa ryhmästä jäsenen ' + memberFullname + '?';
+		if (confirm(confirmationMessage)) {
+			deleteGroupMember(userID, groupID);
+		}
+	} else if (roleID == 2) {
+		var confirmationMessage = 'Haluatko varmasti poistaa ryhmästä ohjaajan ' + memberFullname + ' ?';
+		if (confirm(confirmationMessage)) {
+			deleteGroupInstructor(userID, groupID);
+		}
 	}
 }
 
@@ -102,6 +112,18 @@ var deleteGroupMember = function(userID, groupID) {
 			getGroupUsers(groupID);
 		} else {
 			showToast('#errortoast', 'Jäsenen poistossa tapahtui virhe!');
+		}
+	});
+}
+
+var deleteGroupInstructor = function(userID, groupID) {
+	var params = 'userID=' + userID + '&groupID=' + groupID;
+	$.get('/passi/delGroupInstructor?' + params, function(data) {
+		if (data.status === true) {
+			showToast('#successtoast', 'Ohjaaja poistettu onnistuneesti!');
+			getGroupUsers(groupID);
+		} else {
+			showToast('#errortoast', 'Ohjaajan poistossa tapahtui virhe!');
 		}
 	});
 }

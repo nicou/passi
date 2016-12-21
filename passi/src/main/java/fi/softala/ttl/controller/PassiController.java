@@ -361,6 +361,16 @@ public class PassiController {
 		return status;
 	}
 	
+	@RequestMapping(value = "/delGroupInstructor", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Boolean> delGroupInstructor(
+			@RequestParam(value="userID", required = true) int userID,
+			@RequestParam(value = "groupID", required = true) int groupID) {
+		Map<String, Boolean> status = new HashMap<>();
+		status.put("status", passiService.delGroupInstructor(userID, groupID));
+		return status;
+	}
+	
 	@RequestMapping(value = "/addGroupSupervisor", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Boolean> addGroupSupervisor(

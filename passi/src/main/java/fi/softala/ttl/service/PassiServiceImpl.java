@@ -97,6 +97,12 @@ public class PassiServiceImpl implements PassiService {
 	}
 	
 	@Override
+	@Transactional(readOnly = false, isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public boolean delGroupInstructor(int userID, int groupID) {
+		return dao.delGroupInstructor(userID, groupID);
+	}
+	
+	@Override
 	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public boolean setFeedbackComplete(int answersheetID, boolean feedbackComplete) {
 		return dao.setFeedbackComplete(answersheetID, feedbackComplete);

@@ -125,11 +125,6 @@ Rekisteriseloste on saatavilla <a href="/passi/static/combo_rekisteriseloste.pdf
 <![endif]-->
 
 <c:set var="message" scope="session" value="" />
-<script>
-$.get("/passi/init", function(data) {
-	return;
-}));
-</script>
 
 </body>
 </html>

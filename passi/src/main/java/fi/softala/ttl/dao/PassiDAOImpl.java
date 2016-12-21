@@ -173,9 +173,22 @@ public class PassiDAOImpl implements PassiDAO {
 	}
 	
 	public boolean delGroupMember(int userID, int groupID) {
-		final String SQL1 = "DELETE FROM members WHERE user_id = ? AND group_id = ?";
+		final String SQL1 = "DELETE members FROM members JOIN user_role USING (user_id) WHERE user_id = ? AND group_id = ? AND role_id = 1";
 		try {
 			return jdbcTemplate.update(SQL1, new Object[] { userID, groupID }) == 1;
+		} catch (Exception ex) {
+			return false;
+		}
+	}
+	
+	public boolean delGroupInstructor(int userID, int groupID) {
+		final String SQL1 = "SELECT COUNT(*) FROM members JOIN user_role USING (user_id) WHERE group_id = ? AND role_id = 2";
+		final String SQL2 = "DELETE FROM members WHERE user_id = ? AND group_id = ?";
+		try {
+			if (jdbcTemplate.queryForObject(SQL1, new Object[] { groupID }, Integer.class) > 1) {
+				return jdbcTemplate.update(SQL2, new Object[] { userID, groupID }) == 1;
+			}
+			return false;
 		} catch (Exception ex) {
 			return false;
 		}
