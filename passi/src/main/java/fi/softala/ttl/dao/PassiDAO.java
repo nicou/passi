@@ -14,6 +14,7 @@ import fi.softala.ttl.model.Answersheet;
 import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.model.Worksheet;
+import fi.softala.ttl.model.WorksheetTableEntry;
 
 public interface PassiDAO {
 	
@@ -41,17 +42,19 @@ public interface PassiDAO {
 	
 	public List<WorksheetDTO> getWorksheetsDTO(int groupID, int categoryID);
 	
-	public List<Answersheet> getWorksheetAnswers(int worksheetID, int userID);
+	public List<Answersheet> getWorksheetAnswers(int worksheetID, int userID, int groupID);
 
 	public List<Worksheet> getWorksheetContent(int worksheetID);
 	
-	public HashMap<Integer, Integer> getIsAnsweredMap(int worksheetID, ArrayList<User> groupMembers);
+	public HashMap<Integer, Integer> getIsAnsweredMap(int worksheetID, ArrayList<User> groupMembers, int groupID);
 
 	public boolean saveFeedback(int waypointID, int instructorRating, String instructorComment);
 	
 	public boolean saveInstructorComment(int answersheetID, String instructorComment);
 	
 	public boolean setFeedbackComplete(int answersheetID, boolean feedbackComplete);
+	
+	public List<WorksheetTableEntry> getGroupWorksheetSummary(int groupID, String username);
 	
 	public User getMemberDetails(int userID);
 	

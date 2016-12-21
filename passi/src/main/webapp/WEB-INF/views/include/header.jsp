@@ -20,6 +20,9 @@
         		<li class="${param.currentPage == '/WEB-INF/views/group.jsp' ? 'active' : ''}"><a href="<c:url value="/index/group" />">Ryhmät</a></li>
      		</ul>
       		<ul class="nav navbar-nav navbar-right">
+      		<li>
+      			<p class="navbar-text"><span class="glyphicon glyphicon-user"></span>&nbsp;<c:out value="${userDetails.firstname} ${userDetails.lastname}" /></p>
+      		</li>
         		<li>
         		<c:url value="/logout" var="logoutUrl" />
         		<form id="logout" action="${logoutUrl}" method="post">

@@ -39,6 +39,7 @@ import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.model.Waypoint;
 import fi.softala.ttl.model.Worksheet;
+import fi.softala.ttl.model.WorksheetTableEntry;
 
 @Component
 public class PassiDAOImpl implements PassiDAO {
@@ -306,15 +307,15 @@ public class PassiDAOImpl implements PassiDAO {
 	}
 	
 	@Override
-	public List<Answersheet> getWorksheetAnswers(int worksheetID, int userID) {
+	public List<Answersheet> getWorksheetAnswers(int worksheetID, int userID, int groupID) {
 		
-		final String SQL1 = "SELECT * FROM answersheets WHERE worksheet_id = ? AND user_id = ?";
+		final String SQL1 = "SELECT * FROM answersheets WHERE worksheet_id = ? AND user_id = ? AND group_id = ?";
 		
 		final String SQL2 = "SELECT * FROM answerpoints "
 				+ "JOIN options ON answerpoints.option_id = options.option_id "
 				+ "WHERE answersheet_id = ?";
 		
-		List<Answersheet> answersheets = jdbcTemplate.query(SQL1, new Object[] { worksheetID, userID }, new RowMapper<Answersheet>() {
+		List<Answersheet> answersheets = jdbcTemplate.query(SQL1, new Object[] { worksheetID, userID, groupID }, new RowMapper<Answersheet>() {
 			
 			@Override
 			public Answersheet mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -352,6 +353,31 @@ public class PassiDAOImpl implements PassiDAO {
 			answersheet.setWaypoints((ArrayList<Answerpoint>) answerpoints);
 		}
 		return answersheets; 
+	}
+	
+	@Override
+	public List<WorksheetTableEntry> getGroupWorksheetSummary(int groupID, String username) {
+		List<WorksheetTableEntry> worksheetTableEntries = new ArrayList<>();
+		
+		final String SQL1 = "SELECT EXISTS (SELECT user_id FROM members JOIN user_role USING (user_id) WHERE user_id = (SELECT user_id FROM users WHERE username = ?) AND role_id = 2 AND group_id = ?)";
+		final String SQL2 = "SELECT header, category_name, (SELECT COUNT(*) FROM answersheets WHERE worksheet_id = w.worksheet_id AND group_id = ?) AS turned_in, (SELECT COUNT(*) FROM answersheets WHERE worksheet_id = w.worksheet_id AND group_id = ? AND feedback_complete = 0) AS no_feedback FROM worksheets w JOIN categories c USING (category_id)";
+		if (jdbcTemplate.queryForObject(SQL1, new Object[] { username, groupID }, Integer.class) == 0) {
+			return worksheetTableEntries;
+		}
+		
+		worksheetTableEntries = jdbcTemplate.query(SQL2, new Object[] { groupID, groupID }, new RowMapper<WorksheetTableEntry>() {
+			@Override
+			public WorksheetTableEntry mapRow(ResultSet rs, int rowNum) throws SQLException {
+				WorksheetTableEntry entry = new WorksheetTableEntry();
+				entry.setWorksheetHeader(rs.getString("header"));
+				entry.setCategory(rs.getString("category_name"));
+				entry.setNoFeedbackCount(rs.getInt("no_feedback"));
+				entry.setTurnedInCount(rs.getInt("turned_in"));
+				return entry;
+			}
+		});
+		
+		return worksheetTableEntries;
 	}
 
 	@Override
@@ -416,7 +442,7 @@ public class PassiDAOImpl implements PassiDAO {
 	}
 
 	@Override
-	public HashMap<Integer, Integer> getIsAnsweredMap(int worksheetID, ArrayList<User> groupMembers) {
+	public HashMap<Integer, Integer> getIsAnsweredMap(int worksheetID, ArrayList<User> groupMembers, int groupID) {
 		
 		ArrayList<Integer> userIDs = new ArrayList<>();
 		for (int i = 0; i < groupMembers.size(); i++) {
@@ -425,8 +451,9 @@ public class PassiDAOImpl implements PassiDAO {
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("userids", userIDs);
 		parameters.addValue("worksheetid", worksheetID);
+		parameters.addValue("groupid", groupID);
 		
-		final String SQL1 = "SELECT user_id, feedback_complete FROM answersheets WHERE worksheet_id = :worksheetid AND user_id IN (:userids)";
+		final String SQL1 = "SELECT user_id, feedback_complete FROM answersheets WHERE worksheet_id = :worksheetid AND user_id IN (:userids) AND group_id = :groupid";
 		
 		List<Map<String, Object>> results = namedParameterJdbcTemplate.queryForList(SQL1, parameters);
 		

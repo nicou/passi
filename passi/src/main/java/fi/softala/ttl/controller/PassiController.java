@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -49,6 +50,7 @@ import fi.softala.ttl.dto.WorksheetDTO;
 import fi.softala.ttl.helper.Emailer;
 import fi.softala.ttl.helper.TokenGenerator;
 import fi.softala.ttl.model.User;
+import fi.softala.ttl.model.WorksheetTableEntry;
 import fi.softala.ttl.service.PassiService;
 import fi.softala.ttl.service.UserService;
 import fi.softala.ttl.validator.UserValidator;
@@ -57,7 +59,7 @@ import fi.softala.ttl.validator.UserValidator;
 @Controller
 @Scope("session")
 @SessionAttributes({ "categories", "defaultGroup", "user", "userDetails", "groups", "groupMembers", "instructorsDetails", "isAnsweredMap", "message", "memberDetails", "newGroup", "editedGroup", "newMember",
-		"selectedCategory", "selectedGroup", "selectedMember", "selectedWorksheet", "worksheets", "worksheetContent", "worksheetAnswers" })
+		"selectedCategory", "selectedGroup", "selectedMember", "selectedWorksheet", "worksheets", "worksheetContent", "worksheetAnswers", "groupWorksheetSummary" })
 public class PassiController {
 
 	final static Logger logger = LoggerFactory.getLogger(PassiController.class);
@@ -139,6 +141,9 @@ public class PassiController {
 		redirectAttributes.addFlashAttribute("newMember", new User());
 		redirectAttributes.addFlashAttribute("editedGroup", new Group());
 		
+		// Session attribute for group worksheet summary
+		redirectAttributes.addFlashAttribute("groupWorksheetSummary", new ArrayList<WorksheetTableEntry>());
+		
 		return "redirect:/index";
 	}
 
@@ -190,6 +195,7 @@ public class PassiController {
 	public String selectGroup(@RequestParam int groupID, final RedirectAttributes ra) {
 		ra.addFlashAttribute("groupMembers", passiService.getGroupMembers(groupID));
 		ra.addFlashAttribute("instructorsDetails", passiService.getInstructorsDetails(groupID));
+		ra.addFlashAttribute("groupWorksheetSummary", passiService.getGroupWorksheetSummary(groupID, getAuthUsername()));
 		ra.addFlashAttribute("selectedCategory", 0);
 		ra.addFlashAttribute("selectedGroup", groupID);
 		ra.addFlashAttribute("selectedMember", 0);
@@ -220,7 +226,7 @@ public class PassiController {
 			@ModelAttribute("selectedCategory") int categoryID,
 			final RedirectAttributes ra) {
 		ra.addFlashAttribute("groupMembers", passiService.getGroupMembers(groupID));
-		ra.addFlashAttribute("isAnsweredMap", passiService.getIsAnsweredMap(worksheetID, groupMembers));
+		ra.addFlashAttribute("isAnsweredMap", passiService.getIsAnsweredMap(worksheetID, groupMembers, groupID));
 		ra.addFlashAttribute("selectedMember", 0);
 		ra.addFlashAttribute("selectedWorksheet", worksheetID);
 		logger.info("selectWorksheet completed");
@@ -235,7 +241,7 @@ public class PassiController {
 			final RedirectAttributes ra) {
 		ra.addFlashAttribute("memberDetails", passiService.getMemberDetails(userID));
 		ra.addFlashAttribute("selectedMember", userID);
-		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, userID));
+		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, userID, groupID));
 		ra.addFlashAttribute("worksheetContent", passiService.getWorksheetContent(worksheetID));
 		logger.info("selectMember completed");
 		return "redirect:/index";
@@ -248,11 +254,12 @@ public class PassiController {
 			@RequestParam int instructorRating,
 			@ModelAttribute("selectedWorksheet") int worksheetID,
 			@ModelAttribute("selectedMember") int selectedMember,
+			@ModelAttribute("selectedGroup") int groupID,
 			final RedirectAttributes ra) {
 		if (passiService.saveFeedback(answerWaypointID, instructorRating, instructorComment)) {
 			ra.addFlashAttribute("message", "Tehtävän palaute tallennettu!");
 		}
-		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember));
+		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember, groupID));
 		return "redirect:/index";
 	}
 	
@@ -264,6 +271,7 @@ public class PassiController {
 			@ModelAttribute("selectedWorksheet") int worksheetID,
 			@ModelAttribute("selectedMember") int selectedMember,
 			@ModelAttribute("isAnsweredMap") Map<Integer, Integer> isAnsweredMap,
+			@ModelAttribute("selectedGroup") int groupID,
 			final RedirectAttributes ra) {
 		if (passiService.saveInstructorComment(answersheetID, instructorComment)
 				&& passiService.setFeedbackComplete(answersheetID, feedbackComplete)) {
@@ -271,7 +279,7 @@ public class PassiController {
 			isAnsweredMap.put(selectedMember, feedbackComplete ? 2 : 1);
 			ra.addFlashAttribute("isAnsweredMap", isAnsweredMap);
 		}
-		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember));
+		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember, groupID));
 		return "redirect:/index";
 	}
 

@@ -2,6 +2,7 @@ package fi.softala.ttl.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -18,6 +19,7 @@ import fi.softala.ttl.model.Answersheet;
 import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.model.Worksheet;
+import fi.softala.ttl.model.WorksheetTableEntry;
 
 @Service("passiService")
 @Transactional
@@ -74,8 +76,8 @@ public class PassiServiceImpl implements PassiService {
 	}
 
 	@Override
-	public HashMap<Integer, Integer> getIsAnsweredMap(int worksheetID, ArrayList<User> groupMembers) {
-		return dao.getIsAnsweredMap(worksheetID, groupMembers);
+	public HashMap<Integer, Integer> getIsAnsweredMap(int worksheetID, ArrayList<User> groupMembers, int groupID) {
+		return dao.getIsAnsweredMap(worksheetID, groupMembers, groupID);
 	}
 
 	@Override
@@ -107,10 +109,16 @@ public class PassiServiceImpl implements PassiService {
 	public boolean setFeedbackComplete(int answersheetID, boolean feedbackComplete) {
 		return dao.setFeedbackComplete(answersheetID, feedbackComplete);
 	}
+	
+	@Override
+	@Transactional(readOnly = false, isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public List<WorksheetTableEntry> getGroupWorksheetSummary(int groupID, String username) {
+		return dao.getGroupWorksheetSummary(groupID, username);
+	}
 
 	@Override
-	public Answersheet getWorksheetAnswers(int worksheetID, int userID) {
-		assistAnswersheet = (ArrayList<Answersheet>) dao.getWorksheetAnswers(worksheetID, userID);
+	public Answersheet getWorksheetAnswers(int worksheetID, int userID, int groupID) {
+		assistAnswersheet = (ArrayList<Answersheet>) dao.getWorksheetAnswers(worksheetID, userID, groupID);
 		if (!assistAnswersheet.isEmpty()) {
 			return assistAnswersheet.get(0);
 		} else {

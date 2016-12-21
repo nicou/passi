@@ -41,6 +41,8 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <body>
 
+<c:set var="selectedGroupName" value=""></c:set>
+
 <!-- Header embedded with currentPage parameter [/WEB-INF/views/pagename.jsp] -->
 <jsp:include page="include/header.jsp">
 	<jsp:param name="currentPage" value="${pageContext.request.servletPath}" />
@@ -59,6 +61,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       		<select class="form-control ${selectedGroup == 0 ? 'highlight' : ''}" id="groupID" name="groupID" onchange="this.form.submit();">
       			<option value="0" ${selectedGroup == 0 ? 'selected' : ''}> --- Valitse Ryhmä --- </option>
       			<c:forEach var="group" items="${groups}">
+      				<c:if test="${selectedGroup == group.groupID}"><c:set var="selectedGroupName" value="${group.groupName}"></c:set></c:if>
         			<option value="${group.groupID}" ${selectedGroup == group.groupID ? 'selected' : ''}><c:out value="${group.groupName}" /></option>
         		</c:forEach>
       		</select>
@@ -329,14 +332,50 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 	</c:when>
 	<c:otherwise>
 		<div class="row row-padding">
-  			<h2>Työterveyslaitoksen Työkykypassi</h2>
-  			<div class="alert alert-warning">
-   				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    			<strong>Tervetuloa työkykypassiin, <c:out value="${userDetails.firstname} ${userDetails.lastname}" /></strong>
-  			</div>
-  			<div class="alert alert-info">
-    			<strong>Käyttövinkki<br /></strong> Tee valinnat pudotusvalikoista vaiheittain ja valitse lopuksi ryhmän jäsen, jonka vastauksia haluat tarkastella.<br /><br />
-    			<strong>Esimerkki<br /></strong> Lähihoidon opiskelijat, Kätilöopisto <strong>></strong> Ammatin työkykyvalmiudet <strong>></strong> Turvallisuuskävely <strong>></strong> Maija Talkanen
+  			<h2 style="margin-bottom: 5px;">Työterveyslaitoksen Työkykypassi</h2>
+  			<c:choose>
+	  			<c:when test="${selectedGroup == 0 }">
+	  			<div class="col-sm-12 nopadding" style="margin-top: 10px;">
+	  			<div class="alert alert-warning">
+	   				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	    			<strong>Tervetuloa työkykypassiin, <c:out value="${userDetails.firstname} ${userDetails.lastname}" /></strong>
+				</div>
+				</div>
+	  			</c:when>
+	  			<c:otherwise>
+		  			<div class="col-sm-12 nopadding">
+		  				<h3><c:out value="${selectedGroupName}" /></h3>
+		  				<c:set var="groupMemberCount" value="0" />
+		  				<c:if test="${fn:length(groupMembers) > 0}"><c:set var="groupMemberCount" value="${fn:length(groupMembers)}" /></c:if>
+		  				Työkykypassiryhmässä opiskelijoita yhteensä <strong><c:out value="${groupMemberCount}" />kpl</strong>
+		  				<table class="table table-condensed table-striped" style="margin-top: 30px;">
+		  				<thead>
+		  					<tr>
+		  						<th>Tehtäväalue</th>
+		  						<th>Tehtäväkortti</th>
+		  						<th class="text-center">Palautuksia</th>
+		  						<th class="text-center">Arvostelematta</th>
+		  					</tr>
+		  				</thead>
+		  				<tbody>
+		  					<c:forEach items="${groupWorksheetSummary }" var="entry">
+		  						<tr>
+		  							<td><c:out value="${entry.category }"></c:out></td>
+		  							<td><c:out value="${entry.worksheetHeader }"></c:out></td>
+		  							<td class="text-center"><c:out value="${entry.turnedInCount }"></c:out></td>
+		  							<td class="text-center"><c:out value="${entry.noFeedbackCount }"></c:out></td>
+		  						</tr>
+		  					</c:forEach>
+		  				</tbody>
+		  				</table>
+		  			</div>
+	  			</c:otherwise>
+  			</c:choose>
+  			<div class="col-sm-12 nopadding">
+	  			<div class="alert alert-info">
+	    			<strong>Käyttövinkki<br /></strong> Tee valinnat pudotusvalikoista vaiheittain ja valitse lopuksi ryhmän jäsen, jonka vastauksia haluat tarkastella.<br /><br />
+	    			<strong>Esimerkki<br /></strong> Lähihoidon opiskelijat, Kätilöopisto <strong>></strong> Ammatin työkykyvalmiudet <strong>></strong> Turvallisuuskävely <strong>></strong> Maija Talkanen
+	  			</div>
   			</div>
   		</div>
 	</c:otherwise>

@@ -2,6 +2,7 @@ package fi.softala.ttl.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import fi.softala.ttl.dto.CategoryDTO;
 import fi.softala.ttl.dto.GroupDTO;
@@ -10,6 +11,7 @@ import fi.softala.ttl.model.Answersheet;
 import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.model.Worksheet;
+import fi.softala.ttl.model.WorksheetTableEntry;
 
 public interface PassiService {
 	
@@ -23,11 +25,13 @@ public interface PassiService {
 
 	public Worksheet getWorksheetContent(int worksheetID);
 	
-	public Answersheet getWorksheetAnswers(int worksheetID, int userID);
+	public Answersheet getWorksheetAnswers(int worksheetID, int userID, int groupID);
+	
+	public List<WorksheetTableEntry> getGroupWorksheetSummary(int groupID, String username);
 	
 	public ArrayList<User> getGroupMembers(int groupID);
 	
-	public HashMap<Integer, Integer> getIsAnsweredMap(int worksheetID, ArrayList<User> groupMembers);
+	public HashMap<Integer, Integer> getIsAnsweredMap(int worksheetID, ArrayList<User> groupMembers, int groupID);
 		
 	public boolean saveFeedback(int answerWaypointID, int instructorRating, String instructorComment);
 	
