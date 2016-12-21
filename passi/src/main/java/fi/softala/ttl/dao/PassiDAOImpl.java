@@ -432,7 +432,7 @@ public class PassiDAOImpl implements PassiDAO {
 		
 		HashMap<Integer, Integer> isAnsweredMap = new HashMap<>();
 		
-		for (Map m : results) {
+		for (Map<String, Object> m : results) {
 			int userid = Integer.valueOf(m.get("user_id").toString());
 			int status = Integer.valueOf(m.get("feedback_complete").toString());
 			isAnsweredMap.put(userid, status == 1 ? 2 : 1);

@@ -263,10 +263,13 @@ public class PassiController {
 			@RequestParam(value = "feedback_complete", required = false) boolean feedbackComplete,
 			@ModelAttribute("selectedWorksheet") int worksheetID,
 			@ModelAttribute("selectedMember") int selectedMember,
+			@ModelAttribute("isAnsweredMap") Map<Integer, Integer> isAnsweredMap,
 			final RedirectAttributes ra) {
 		if (passiService.saveInstructorComment(answersheetID, instructorComment)
 				&& passiService.setFeedbackComplete(answersheetID, feedbackComplete)) {
 			ra.addFlashAttribute("message", "Palaute tallennettu!");
+			isAnsweredMap.put(selectedMember, feedbackComplete ? 2 : 1);
+			ra.addFlashAttribute("isAnsweredMap", isAnsweredMap);
 		}
 		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember));
 		return "redirect:/index";
