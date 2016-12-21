@@ -85,7 +85,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 						</tbody>
 					</table>
 					
-					<h4>Työkykypassiryhmän ohjaajan lisäys</h4>
+					<h4 style="font-weight: bold;">Työkykypassiryhmän ohjaajan lisäys</h4>
 					<div class="row">
 					<div class="col-xs-12">
 					<div class="input-group">
@@ -94,6 +94,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 							<button type="button" id="add-supervisor-btn" class="btn btn-secondary" onclick="addSupervisor(this.value)" value="0">Lisää</button>
 						</div>
 					</div>
+					<br /><br />
 					</div>
 					</div>
 				</div>

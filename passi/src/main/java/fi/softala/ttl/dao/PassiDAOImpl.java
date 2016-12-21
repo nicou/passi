@@ -8,15 +8,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -49,6 +54,13 @@ public class PassiDAOImpl implements PassiDAO {
 
 	public void JdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
+	}
+	
+	NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+	@Autowired
+	public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) throws DataAccessException {
+		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
 	}
 	
 	@Autowired
@@ -406,12 +418,32 @@ public class PassiDAOImpl implements PassiDAO {
 	@Override
 	public HashMap<Integer, Integer> getIsAnsweredMap(int worksheetID, ArrayList<User> groupMembers) {
 		
-		final String SQL = "SELECT EXISTS (SELECT 1 FROM answersheets WHERE worksheet_id = ? AND user_id = ?)";
+		ArrayList<Integer> userIDs = new ArrayList<>();
+		for (int i = 0; i < groupMembers.size(); i++) {
+			userIDs.add(groupMembers.get(i).getUserID());
+		}
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("userids", userIDs);
+		parameters.addValue("worksheetid", worksheetID);
+		
+		final String SQL1 = "SELECT user_id, feedback_complete FROM answersheets WHERE worksheet_id = :worksheetid AND user_id IN (:userids)";
+		
+		List<Map<String, Object>> results = namedParameterJdbcTemplate.queryForList(SQL1, parameters);
 		
 		HashMap<Integer, Integer> isAnsweredMap = new HashMap<>();
-		for (User member : groupMembers) {
-			isAnsweredMap.put(member.getUserID(), jdbcTemplate.queryForObject(SQL, new Object[] { worksheetID, member.getUserID() }, Integer.class));
+		
+		for (Map m : results) {
+			int userid = Integer.valueOf(m.get("user_id").toString());
+			int status = Integer.valueOf(m.get("feedback_complete").toString());
+			isAnsweredMap.put(userid, status == 1 ? 2 : 1);
 		}
+		
+		for (Integer i : userIDs) {
+			if (!isAnsweredMap.containsKey(i)) {
+				isAnsweredMap.put(i, 0);
+			}
+		}
+		
 		return isAnsweredMap;
 	}
 
