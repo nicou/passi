@@ -230,18 +230,53 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   					</p>
   					<span class="consolas"><c:out value="${worksheetAnswers.waypoints[loop.index].answerWaypointText}" /></span>
   					
+  					</div>  					
+					<div class="col-xs-12">
+  					<hr />
   					
   					<!-- Feedback section -->
+  					<c:url var="saveWaypointFeedback" value="/saveWaypointFeedback" />
   					<c:set var="feedbackContent" value="${worksheetAnswers.waypoints[loop.index].answerWaypointInstructorComment}" />
 					<c:set var="wpID" value="${worksheetAnswers.waypoints[loop.index].answerWaypointID}" />
 					<c:set var="instructorRating" value="${worksheetAnswers.waypoints[loop.index].answerWaypointInstructorRating}" />
-  					<div>
-  					<hr />
-  					<h5 style="font-weight: bold;">Arviointi</h5>
+  					<form id="saveFeedback-${wpID}" action="${saveWaypointFeedback }" method="post" accept-charset="UTF-8">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+					<input type="hidden" name="answerWaypointID" value="${wpID}" />
+  					
+  					<div class="row">
+  					<c:if test="${not empty feedbackContent}"></c:if>
+  					</div>
+  					<div class="row">					
+					<div class="col-xs-12 col-md-3">
+						<h5 class="arviointi">Arvostelu:</h5>
+						<div class="has-success">
+							<div class="radio">
+								<label>
+									<input type="radio" name="instructorRating" value="1" aria-label="Kiitettävä" ${instructorRating == 1 ? 'checked' : '' } /> Kiitettävä
+								</label>
+							</div>
+						</div>
+						<div class="has-warning">
+							<div class="radio">
+								<label>
+									<input type="radio" name="instructorRating" value="2" aria-label="Tyydyttävä" ${instructorRating == 2 ? 'checked' : '' } /> Tyydyttävä
+								</label>
+							</div>
+						</div>
+						<div class="has-error">
+							<div class="radio">
+								<label>
+									<input type="radio" name="instructorRating" value="3" aria-label="Hylätty" ${instructorRating == 3 ? 'checked' : '' } /> Hylätty
+								</label>
+							</div>
+						</div>
+					</div>
+					
+  					<div class="col-xs-12 col-md-9">
   					<span class="label label-danger toast error-toast-${wpID}">Ole hyvä ja vastaa molempiin kenttiin</span>
 					<span class="label label-success toast success-toast-${wpID}">Arviointi onnistui!</span>
-					<c:choose>
-					<c:when test="${not empty feedbackContent}">
+					<h5 class="arviointi">Kirjallinen palaute:</h5>
+					<c:if test="${not empty feedbackContent}">
 						<div class="hasFeedback">
 						<p>
 							<span class="consolas"><c:out value="${feedbackContent}" /></span>
@@ -249,57 +284,36 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 							<button type="button" class="btn btn-sm btn-secondary" onClick="$('#feedback-div-${wpID}').slideToggle(); this.blur();">Näytä arviointilomake</button>
 						</p>
 						</div>
-					</c:when>
-					<c:otherwise>
-						<div class="text-info"><p>Arvio vastaus kirjallisesti sekä väripainikkeella</p></div>
-					</c:otherwise>
-					</c:choose>
+					</c:if>
 					
-					<c:url var="saveWaypointFeedback" value="/saveWaypointFeedback" />
-					<form id="saveFeedback-${wpID}" action="${saveWaypointFeedback}" method="post" accept-charset="UTF-8">
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-					<input type="hidden" name="answerWaypointID" value="${wpID}" />
-					<input type="hidden" name="instructorRating" value="${instructorRating}" />
 					<div class="row" id="feedback-div-${wpID}" style="${not empty feedbackContent ? 'display: none;' : ''}">
-					<div class="col-xs-12">
-					</div>
 					<div class="col-xs-12 form-group">
-						<textarea maxlength="1000" rows="5" id="instructorComment" name="instructorComment" class="form-control teacher-assessment-text-${wpID} assessment-textarea" placeholder="Anna palautetta"><c:out value="${feedbackContent}" /></textarea>
+						<textarea maxlength="1000" rows="5" name="instructorComment" class="form-control teacher-assessment-text-${wpID} assessment-textarea" placeholder="Anna palautetta"><c:out value="${feedbackContent}" /></textarea>
 					</div>
-					<div class="col-xs-6">
-						<ul class="${not empty feedbackContent ? 'teacher-multichoice-selected' : ''} teacher-multichoices" id="multichoices-${wpID}">
-							<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='1';" class="custom-ball button-green ${instructorRating == 1 ? 'button-green-selected' : 'button-green'}" id="ball-${loop.index}"></li>
-							<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='2';" class="custom-ball button-yellow ${instructorRating == 2 ? 'button-yellow-selected' : 'button-yellow'}" id="ball-${loop.index}"></li>
-							<li onclick="document.forms['saveFeedback-${wpID}'].elements['instructorRating'].value='3';" class="custom-ball button-red ${instructorRating == 3 ? 'button-red-selected' : 'button-red'}" id="ball-${loop.index}"></li>		
-						</ul>
-					</div>
-					<div class="col-xs-6 text-right">
+					<div class="col-xs-12 text-right">
 						<button class="palaute btn btn-default btn-md" value="${wpID}">Tallenna</button><br />
 					</div>
 
 					</div>
-
-					</form>
   					
   					</div>
   					
   					</div>
   					
+  					</form>
+  					
   					</div>
+  					
+  					</div>
+  					
   				</c:when>
   				<c:otherwise>
   					<span class="consol">Ei vastausta</span>
   				</c:otherwise>
   				</c:choose>
   				</div>
-  				</div>
   				
-  				<!-- FEEDBACK SECTION -->
-				<div style="padding: 0 0 0 15px; display: block; position: relative;">
-					<div style="padding-top: 10px;" id="arviointi-${loop.index}" class="collapse">
-
-					</div>
-				</div>
+			</div>
 			</div>
   		</c:forEach>
   		

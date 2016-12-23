@@ -85,7 +85,7 @@ var renderMemberRow = function(user, groupID, roleID) {
 	var memberFullname = user.firstname + ' ' + user.lastname;
 	var deleteMemberButton = '<button onclick="confirmMemberRemoval(' + user.userID + ', ' + groupID + ', \'' + memberFullname + '\', ' + roleID + '); this.blur();" type="button" class="btn btn-default btn-sm" title="Poista jäsen ryhmästä"><span class="glyphicon glyphicon-remove"></span></button>';
 	if (roleID == 2) {
-		deleteMemberButton = '<button onclick="confirmMemberRemoval(' + user.userID + ', ' + groupID + ', \'' + memberFullname + ',\', ' + roleID + '); this.blur();" type="button" class="btn btn-default btn-sm" title="Poista työkykypassiryhmän ohjaaja ryhmästä"><span class="glyphicon glyphicon-remove"></span></button>';
+		deleteMemberButton = '<button onclick="confirmMemberRemoval(' + user.userID + ', ' + groupID + ', \'' + memberFullname + '\', ' + roleID + '); this.blur();" type="button" class="btn btn-default btn-sm" title="Poista työkykypassiryhmän ohjaaja ryhmästä"><span class="glyphicon glyphicon-remove"></span></button>';
 	}
 	return '<tr><td>' + memberFullname + '</td><td class="text-center">' + deleteMemberButton + '</td></tr>';
 }

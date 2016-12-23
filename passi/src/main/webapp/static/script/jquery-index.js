@@ -1,55 +1,7 @@
 $(document).ready(function() {
 	
 	/* keep scroll position fixed over page refresh */
-	(function(b){window.onbeforeunload=function(a){window.name+=" ["+b(window).scrollTop().toString()+"["+b(window).scrollLeft().toString()};b.maintainscroll=function(){if(0<window.name.indexOf("[")){var a=window.name.split("[");window.name=b.trim(a[0]);window.scrollTo(parseInt(a[a.length-1]),parseInt(a[a.length-2]))}};b.maintainscroll()})(jQuery);
-
-/* WAYPOINT SECTION */	
-	
-	/* indicate selected ball
-	   send the ball value to right/current answer (select by id) */
-
-	//display selected ball in the GUI
-	//removes all selected classes only from the current answer, check which button was clicked and add selected classes
-	$('.custom-ball').on('click', function (){
-		let balls = $(this).closest("ul").children();
-		$(balls).removeClass('button-green-selected button-yellow-selected button-red-selected');
-		
-		switch($( this ).attr('class').split(' ')[1]){
-			case 'button-green':
-				$(this).addClass('button-green-selected').addClass('teacher-multichoice-selected');
-				break;
-			case 'button-yellow':
-				$(this).addClass('button-yellow-selected').addClass('teacher-multichoice-selected');
-				break;
-			case 'button-red':
-				$(this).addClass('button-red-selected').addClass('teacher-multichoice-selected');
-				break;
-			}
-		var currentAnswerId = $(this).closest("div").prop("id");
-		var currentBallValue = $(this).val();
-		$('#' + currentAnswerId).val(currentBallValue);
-	});
-	
-	/* WORKING CUSTOMBALL SELECTION DISPLAYER FUNCTION - OLD SOLUTION
-	 $('.custom-ball').on('click', function (){
-		let balls = $(this).closest("ul").children();
-		$(balls).removeClass('button-green-selected button-yellow-selected button-red-selected');
-		if ($(this).hasClass('button-green')) {
-			$(this).addClass('button-green-selected');
-			$(this).addClass('teacher-multichoice-selected');
-		} else if ($(this).hasClass('button-yellow')) {
-			$(this).addClass('button-yellow-selected');
-			$(this).addClass('teacher-multichoice-selected');
-		} else if ($(this).hasClass('button-red')) {
-			$(this).addClass('button-red-selected');
-			$(this).addClass('teacher-multichoice-selected');
-		}
-		var currentAnswerId = $(this).closest("div").prop("id");
-		var currentBallValue = $(this).val();
-		$('#' + currentAnswerId).val(currentBallValue);
-	});
-	 */
-	
+	(function(b){window.onbeforeunload=function(a){window.name+=" ["+b(window).scrollTop().toString()+"["+b(window).scrollLeft().toString()};b.maintainscroll=function(){if(0<window.name.indexOf("[")){var a=window.name.split("[");window.name=b.trim(a[0]);window.scrollTo(parseInt(a[a.length-1]),parseInt(a[a.length-2]))}};b.maintainscroll()})(jQuery);	
 
 	// change the text in the submit button when clicking
 	$('.assessment-button').on('click', function (){
@@ -68,12 +20,14 @@ $(document).ready(function() {
 		e.preventDefault();
 		var id = $(this).val();
 		var textarea = $(".teacher-assessment-text-" + id).val().trim().length > 0;
-		var multichoice = $('#saveFeedback-' + id).find('input[name*="instructorRating"]').first().val() > 0;
+		var multichoice = $('#saveFeedback-' + id).find('input[name="instructorRating"]:checked').val() > 0;
 		if (textarea && multichoice){
 			$('#saveFeedback-' + id).submit();
 			$('.success-toast-' + id).delay(2000).fadeIn(1000).delay(2000).fadeOut(1000);
 		} else {
-			$('.error-toast-' + id).fadeIn(1000).delay(3000).fadeOut(1000);
+			if ($('.error-toast-' + id).queue().length < 1) {
+				$('.error-toast-' + id).fadeIn(1000).delay(3000).fadeOut(1000);
+			}
 		}
 	});
 	

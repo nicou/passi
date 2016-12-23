@@ -95,6 +95,12 @@ table.table-hover tr {
 .consolas {
 	font-family: Consolas, monaco, monospace !important;
 	font-size: 15px;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	-webkit-hyphens: auto;
+	-ms-hyphens: auto;
+	-moz-hyphens: auto;
+	hyphens: auto;
 }
 .highlight {
 	box-shadow: 0 0 20px #2196c4;
@@ -364,4 +370,8 @@ table.table-hover tr {
 }
 .redtext {
 	color: #c9302c;
+}
+
+.arviointi {
+	font-weight: bold;
 }
