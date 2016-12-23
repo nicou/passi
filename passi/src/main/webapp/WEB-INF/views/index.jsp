@@ -183,7 +183,13 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 	<c:choose>
 	<c:when test="${selectedMember > 0}">  
 		<div class="row row-padding">
-  			<h2><c:out value="${worksheetContent.worksheetHeader}" />&nbsp;&nbsp;&bull;&nbsp; <c:out value="${memberDetails.firstname}" />&nbsp;<c:out value="${memberDetails.lastname}" /></h2>		
+			<form action="resetSelectedMember" method="post" accept-charset="utf-8">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+  			<h2>
+  				<c:out value="${worksheetContent.worksheetHeader}" />&nbsp;&nbsp;&bull;&nbsp; <c:out value="${memberDetails.firstname}" />&nbsp;<c:out value="${memberDetails.lastname}" />
+  				<button style="float: right;" type="submit" class="btn btn-sm btn-default" title="Takaisin ryhmän yhteenvetoon"><span class="glyphicon glyphicon-remove"></span></button>
+  			</h2>
+  			</form>
   			<p class="lead"><c:out value="${worksheetContent.worksheetPreface}" /></p>
   			<p class="lead"><c:out value="${worksheetContent.worksheetPlanning}" /></p>
   			<div class="well consolas">
@@ -201,7 +207,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   		<c:forEach var="waypoint" items="${worksheetContent.waypoints}" varStatus="loop">
   			<div class="row row-padding">
   				<div class="panel panel-default">
-  				<div class="panel-heading"><strong><c:out value="${loop.count}" />.&nbsp;<c:out value="${waypoint.waypointTask}" /></strong></div>
+  				<div class="panel-heading"><strong><c:out value="${waypoint.waypointTask}" /></strong></div>
   				<div class="panel-body">
 
   				<c:choose>
@@ -232,7 +238,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   					
   					</div>  					
 					<div class="col-xs-12">
-  					<hr />
+  					<hr class="feedback-hr"/>
   					
   					<!-- Feedback section -->
   					<c:url var="saveWaypointFeedback" value="/saveWaypointFeedback" />
@@ -317,6 +323,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 			</div>
   		</c:forEach>
   		
+  				<c:if test="${worksheetAnswers.answerID > 0}">
   		  		<div class="row row-padding">
   				<div class="panel panel-default">
   				<div class="panel-heading"><strong>Koko tehtäväkortin koostepalaute</strong></div>
@@ -339,6 +346,13 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				</form>
   				
   				</div>
+  				</div>
+  				</div>
+  				</c:if>
+  				
+  				<div class="row" style="margin-top: 15px;">
+  				<div class="col-sm-12">
+  					<a href="#" onclick="this.blur();"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;Palaa sivun alkuun</a>
   				</div>
   				</div>
 	</c:when>

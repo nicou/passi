@@ -248,6 +248,12 @@ public class PassiController {
 		logger.info("selectMember completed");
 		return "redirect:/index";
 	}
+	
+	@RequestMapping(value = "/resetSelectedMember", method = RequestMethod.POST)
+	public String resetSelectedMember(final RedirectAttributes ra) {
+		ra.addFlashAttribute("selectedMember", 0);
+		return "redirect:/index";
+	}
 
 	@RequestMapping(value = "/saveWaypointFeedback", method = RequestMethod.POST)
 	public String saveWaypointFeedback(Model model,
