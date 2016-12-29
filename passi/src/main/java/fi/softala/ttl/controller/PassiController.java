@@ -195,7 +195,7 @@ public class PassiController {
 	// 1. SELECT GROUP
 	@RequestMapping(value = "/selectGroup", method = RequestMethod.POST)
 	public String selectGroup(@RequestParam int groupID, final RedirectAttributes ra) {
-		if (!passiService.userIsGroupInstructor(groupID, getAuthUsername())) {
+		if (groupID != 0 && !passiService.userIsGroupInstructor(groupID, getAuthUsername())) {
 			logger.info(getAuthUsername() + " attempted unauthorized access to group data");
 			return "redirect:/index";
 		}
