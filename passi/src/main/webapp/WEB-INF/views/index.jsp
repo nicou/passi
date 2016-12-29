@@ -258,7 +258,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 						<div class="has-success">
 							<div class="radio">
 								<label>
-									<input type="radio" name="instructorRating" value="1" aria-label="Kiitettävä" ${instructorRating == 1 ? 'checked' : '' } /> Kiitettävä
+									<input type="radio" name="instructorRating" value="3" aria-label="Kiitettävä" ${instructorRating == 1 ? 'checked' : '' } /> Kiitettävä
 								</label>
 							</div>
 						</div>
@@ -272,7 +272,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 						<div class="has-error">
 							<div class="radio">
 								<label>
-									<input type="radio" name="instructorRating" value="3" aria-label="Hylätty" ${instructorRating == 3 ? 'checked' : '' } /> Hylätty
+									<input type="radio" name="instructorRating" value="1" aria-label="Hylätty" ${instructorRating == 3 ? 'checked' : '' } /> Hylätty
 								</label>
 							</div>
 						</div>
