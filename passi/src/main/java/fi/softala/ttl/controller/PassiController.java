@@ -286,6 +286,7 @@ public class PassiController {
 			ra.addFlashAttribute("message", "Palaute tallennettu!");
 			isAnsweredMap.put(selectedMember, feedbackComplete ? 2 : 1);
 			ra.addFlashAttribute("isAnsweredMap", isAnsweredMap);
+			ra.addFlashAttribute("groupWorksheetSummary", passiService.getGroupWorksheetSummary(groupID, getAuthUsername()));
 		}
 		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember, groupID));
 		return "redirect:/index";
