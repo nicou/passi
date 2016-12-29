@@ -323,6 +323,7 @@ public class PassiController {
 			@ModelAttribute("newGroup") Group newGroup,
 			@ModelAttribute("userDetails") User instructor,
 			final RedirectAttributes ra) {
+		newGroup.setGroupKey(newGroup.getGroupKey().toLowerCase());
 		if (dao.addGroup(newGroup, instructor)) {  // fix to call via passiService
 			ra.addFlashAttribute("message", "Ryhmän lisääminen onnistui.");
 			ra.addFlashAttribute("newGroup", new Group());
@@ -362,6 +363,7 @@ public class PassiController {
 	
 	@RequestMapping(value = "/editGroup", method = RequestMethod.POST)
 	public String editGroup(@ModelAttribute("editedGroup") Group editedGroup, final RedirectAttributes ra) {
+		editedGroup.setGroupKey(editedGroup.getGroupKey().toLowerCase());
 		if (dao.editGroup(editedGroup)) {
 			ra.addFlashAttribute("message", "Ryhmän muokkaus onnistui.");
 			ra.addFlashAttribute("editedGroup", new Group());
