@@ -195,6 +195,10 @@ public class PassiController {
 	// 1. SELECT GROUP
 	@RequestMapping(value = "/selectGroup", method = RequestMethod.POST)
 	public String selectGroup(@RequestParam int groupID, final RedirectAttributes ra) {
+		if (!passiService.userIsGroupInstructor(groupID, getAuthUsername())) {
+			logger.info(getAuthUsername() + " attempted unauthorized access to group data");
+			return "redirect:/index";
+		}
 		ra.addFlashAttribute("groupMembers", passiService.getGroupMembers(groupID));
 		ra.addFlashAttribute("instructorsDetails", passiService.getInstructorsDetails(groupID));
 		ra.addFlashAttribute("groupWorksheetSummary", passiService.getGroupWorksheetSummary(groupID, getAuthUsername()));
@@ -212,6 +216,10 @@ public class PassiController {
 			@ModelAttribute("selectedGroup") int groupID,
 			@ModelAttribute("worksheets") ArrayList<WorksheetDTO> worksheets,
 			final RedirectAttributes ra) {
+		if (!passiService.userIsGroupInstructor(groupID, getAuthUsername())) {
+			logger.info(getAuthUsername() + " attempted unauthorized access to group data");
+			return "redirect:/index";
+		}
 		ra.addFlashAttribute("selectedCategory", categoryID);
 		ra.addFlashAttribute("selectedMember", 0);
 		ra.addFlashAttribute("selectedWorksheet", 0);
@@ -227,6 +235,10 @@ public class PassiController {
 			@ModelAttribute("selectedGroup") int groupID,
 			@ModelAttribute("selectedCategory") int categoryID,
 			final RedirectAttributes ra) {
+		if (!passiService.userIsGroupInstructor(groupID, getAuthUsername())) {
+			logger.info(getAuthUsername() + " attempted unauthorized access to group data");
+			return "redirect:/index";
+		}
 		ra.addFlashAttribute("groupMembers", passiService.getGroupMembers(groupID));
 		ra.addFlashAttribute("isAnsweredMap", passiService.getIsAnsweredMap(worksheetID, groupMembers, groupID));
 		ra.addFlashAttribute("selectedMember", 0);
@@ -241,6 +253,10 @@ public class PassiController {
 			@ModelAttribute("selectedGroup") int groupID,
 			@ModelAttribute("selectedWorksheet") int worksheetID,
 			final RedirectAttributes ra) {
+		if (!passiService.userIsGroupInstructor(groupID, getAuthUsername())) {
+			logger.info(getAuthUsername() + " attempted unauthorized access to group data");
+			return "redirect:/index";
+		}
 		ra.addFlashAttribute("memberDetails", passiService.getMemberDetails(userID));
 		ra.addFlashAttribute("selectedMember", userID);
 		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, userID, groupID));
@@ -264,6 +280,10 @@ public class PassiController {
 			@ModelAttribute("selectedMember") int selectedMember,
 			@ModelAttribute("selectedGroup") int groupID,
 			final RedirectAttributes ra) {
+		if (!passiService.userIsGroupInstructor(groupID, getAuthUsername())) {
+			ra.addFlashAttribute("message", "Virhe! Et kuulu ryhmän ohjaajiin.");
+			return "redirect:/index";
+		}
 		if (passiService.saveFeedback(answerWaypointID, instructorRating, instructorComment)) {
 			ra.addFlashAttribute("message", "Tehtävän palaute tallennettu!");
 		}
@@ -281,6 +301,10 @@ public class PassiController {
 			@ModelAttribute("isAnsweredMap") Map<Integer, Integer> isAnsweredMap,
 			@ModelAttribute("selectedGroup") int groupID,
 			final RedirectAttributes ra) {
+		if (!passiService.userIsGroupInstructor(groupID, getAuthUsername())) {
+			ra.addFlashAttribute("message", "Virhe! Et kuulu ryhmän ohjaajiin.");
+			return "redirect:/index";
+		}
 		if (passiService.saveInstructorComment(answersheetID, instructorComment)
 				&& passiService.setFeedbackComplete(answersheetID, feedbackComplete)) {
 			ra.addFlashAttribute("message", "Palaute tallennettu!");
@@ -335,11 +359,15 @@ public class PassiController {
 
 	@RequestMapping(value = "/delGroup", method = RequestMethod.POST)
 	public String delGroup(@RequestParam int groupID, @ModelAttribute("groups") ArrayList<Group> groups,
-			final RedirectAttributes redirectAttributes) {
+			final RedirectAttributes ra) {
+		if (!passiService.userIsGroupInstructor(groupID, getAuthUsername())) {
+			ra.addFlashAttribute("message", "Virhe! Et kuulu ryhmän ohjaajiin.");
+			return "redirect:/index/group";
+		}
 		if (dao.delGroup(groupID)) {
-			redirectAttributes.addFlashAttribute("message", "Ryhmän poistaminen onnistui.");
+			ra.addFlashAttribute("message", "Ryhmän poistaminen onnistui.");
 		} else {
-			redirectAttributes.addFlashAttribute("message", "Ryhmän poistaminen EI onnistunut.");
+			ra.addFlashAttribute("message", "Ryhmän poistaminen EI onnistunut.");
 		}
 		return "redirect:/index/group";
 	}
@@ -347,6 +375,9 @@ public class PassiController {
 	@RequestMapping(value = "/groupInfo", method = RequestMethod.GET)
 	@ResponseBody
 	public Group getGroupInfo(@RequestParam int groupID) {
+		if (!passiService.userIsGroupInstructor(groupID, getAuthUsername())) {
+			return new Group();
+		}
 		return dao.getGroup(groupID);
 	}
 	
@@ -354,6 +385,9 @@ public class PassiController {
 	@ResponseBody
 	public Map<String, Object> getGroupInfoWithUsers(@RequestParam int groupID) {
 		Map<String, Object> groupMap = new HashMap<String, Object>();
+		if (!passiService.userIsGroupInstructor(groupID, getAuthUsername())) {
+			return groupMap;
+		}
 		Group group = dao.getGroup(groupID);
 		group.setInstructors(dao.getInstructorsDetails(groupID));
 		groupMap.put("group", group);
@@ -363,6 +397,10 @@ public class PassiController {
 	
 	@RequestMapping(value = "/editGroup", method = RequestMethod.POST)
 	public String editGroup(@ModelAttribute("editedGroup") Group editedGroup, final RedirectAttributes ra) {
+		if (!passiService.userIsGroupInstructor(editedGroup.getGroupID(), getAuthUsername())) {
+			ra.addFlashAttribute("message", "Virhe! Et kuulu ryhmän ohjaajiin.");
+			return "redirect:/index/group";
+		}
 		editedGroup.setGroupKey(editedGroup.getGroupKey().toLowerCase());
 		if (dao.editGroup(editedGroup)) {
 			ra.addFlashAttribute("message", "Ryhmän muokkaus onnistui.");
@@ -379,6 +417,10 @@ public class PassiController {
 			@RequestParam(value="userID", required = true) int userID,
 			@RequestParam(value = "groupID", required = true) int groupID) {
 		Map<String, Boolean> status = new HashMap<>();
+		if (!passiService.userIsGroupInstructor(groupID, getAuthUsername())) {
+			status.put("status", false);
+			return status;
+		}
 		status.put("status", dao.delGroupMember(userID, groupID));
 		return status;
 	}
@@ -389,6 +431,10 @@ public class PassiController {
 			@RequestParam(value="userID", required = true) int userID,
 			@RequestParam(value = "groupID", required = true) int groupID) {
 		Map<String, Boolean> status = new HashMap<>();
+		if (!passiService.userIsGroupInstructor(groupID, getAuthUsername())) {
+			status.put("status", false);
+			return status;
+		}
 		status.put("status", passiService.delGroupInstructor(userID, groupID));
 		return status;
 	}
@@ -399,6 +445,10 @@ public class PassiController {
 			@RequestParam(value = "supervisorUsername", required = true) String newSupervisor,
 			@RequestParam(value = "groupID", required = true) int groupID) {
 		Map<String, Boolean> status = new HashMap<>();
+		if (!passiService.userIsGroupInstructor(groupID, getAuthUsername())) {
+			status.put("status", false);
+			return status;
+		}
 		status.put("status", passiService.addGroupInstructor(groupID, newSupervisor, getAuthUsername()));
 		return status;
 	}

@@ -65,5 +65,7 @@ public interface PassiDAO {
 	public boolean isUsernameExists(String username);
 	
 	public boolean isEmailExists(String email);
+	
+	public boolean userIsGroupInstructor(int groupID, String username);
 
 }

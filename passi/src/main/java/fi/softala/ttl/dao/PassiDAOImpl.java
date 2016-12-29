@@ -510,4 +510,10 @@ public class PassiDAOImpl implements PassiDAO {
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean userIsGroupInstructor(int groupID, String username) {
+		final String SQL = "SELECT COUNT(*) FROM members WHERE user_id = (SELECT user_id FROM users WHERE username = ?) AND group_id = ?";
+		return jdbcTemplate.queryForObject(SQL, new Object[] { username, groupID }, Integer.class) == 1;
+	}
 }

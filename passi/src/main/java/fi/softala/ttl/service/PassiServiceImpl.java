@@ -115,6 +115,12 @@ public class PassiServiceImpl implements PassiService {
 	public List<WorksheetTableEntry> getGroupWorksheetSummary(int groupID, String username) {
 		return dao.getGroupWorksheetSummary(groupID, username);
 	}
+	
+	@Override
+	@Transactional(readOnly = false, isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public boolean userIsGroupInstructor(int groupID, String username) {
+		return dao.userIsGroupInstructor(groupID, username);
+	}
 
 	@Override
 	public Answersheet getWorksheetAnswers(int worksheetID, int userID, int groupID) {
