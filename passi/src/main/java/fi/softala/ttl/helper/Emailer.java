@@ -13,22 +13,23 @@ import org.slf4j.LoggerFactory;
 public class Emailer {
 	
 	final static Logger logger = LoggerFactory.getLogger(Emailer.class);
+	final static String PROTOCOL = "http://";
+	final static String DOMAIN = "juslin.org";
 	
 	public void sendPasswordResetMessage(String email, String token) {
 		String host = "localhost";
 		Properties props = System.getProperties();
-		String resetUrl = "http://proto384.haaga-helia.fi/passi/passrestore?token=" + token;
+		String resetUrl =  PROTOCOL + DOMAIN + "/passi/passrestore?token=" + token;
 		
 		props.put("mail.smtp.host", host);
-		props.put("mail.debug", "true");
-		//props.put("mail.smtp.port", 8025);
+		props.put("mail.debug", "false");
 		
 		Session session = Session.getInstance(props);
 		
 		MimeMessage message = new MimeMessage(session);
 		
 		try {
-			message.setFrom(new InternetAddress("noreply@proto384.haaga-helia.fi"));
+			message.setFrom(new InternetAddress("noreply@" + DOMAIN));
 			message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(email));
 			message.setSubject("Työkykypassi - Salasanan palautus", "UTF-8");
 			message.setContent("Voit vaihtaa salasanasi klikkaamalla alla olevaa linkkiä:"
