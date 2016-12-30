@@ -416,8 +416,6 @@ public class PassiController {
 			return "redirect:/index/group";
 		}
 		editedGroup.setGroupKey(editedGroup.getGroupKey().toLowerCase().trim());
-		
-		System.out.println(editedGroup.getGroupKey() + " = " + groupKeyValidator.validate(editedGroup.getGroupKey()));
 		if (!groupKeyValidator.validate(editedGroup.getGroupKey())) {
 			ra.addFlashAttribute("message", "Virheellinen liittymisavain");
 		} else if (dao.editGroup(editedGroup)) {
