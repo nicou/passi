@@ -116,6 +116,14 @@ public class UserDAOImpl implements UserDAO {
 		String sql = "DELETE FROM users WHERE user_id = :id";
 		namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource("id", id));
 	}
+	
+	@Override
+	public boolean isCorrectInstructorKey(String instructorKey) {
+		String SQL = "SELECT COUNT(*) FROM configuration WHERE config_name = 'instructor_key' AND config_value = :instructor_key";
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("instructor_key", instructorKey);
+		return namedParameterJdbcTemplate.queryForObject(SQL, params, Integer.class) == 1;
+	}
 
 	private static final class UserMapper implements RowMapper<User> {
 

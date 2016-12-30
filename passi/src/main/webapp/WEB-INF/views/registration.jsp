@@ -121,9 +121,20 @@ label {
 	</spring:bind>
 	
 	<div class="form-group">
+		<label class="control-label">Rekisteröintiavain</label>
+		<input type="text" name="instructorKey" class="form-control" maxlength="80" placeholder="Rekisteröintiavain" />
+	</div>
+	
+	<div class="form-group">
 		<br />
 		<button class="btn btn-md btn-primary btn-block" type="submit">Lähetä</button>
 	</div>
+	
+	<c:if test="${not empty errormessage }">
+		<div style="margin: 20px 15px 0px 15px;" class="alert alert-danger" role="alert">
+		<strong>Virhe!</strong>&nbsp;<c:out value="${errormessage }" />
+		</div>
+	</c:if>
 	
 </form:form>
 

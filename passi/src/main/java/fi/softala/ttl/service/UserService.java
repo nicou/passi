@@ -15,4 +15,6 @@ public interface UserService {
     
     public boolean resetUserPassword(String token, String password);
     
+    public boolean isCorrectInstructorKey(String instructorKey);
+    
 }

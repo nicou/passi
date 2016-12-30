@@ -44,4 +44,9 @@ public class UserServiceImpl implements UserService {
 	public boolean resetUserPassword(String token, String password) {
 		return dao.resetUserPassword(token, passwordEncoder.encode(password));
 	}
+	
+	@Override
+	public boolean isCorrectInstructorKey(String instructorKey) {
+		return dao.isCorrectInstructorKey(instructorKey);
+	}
 }

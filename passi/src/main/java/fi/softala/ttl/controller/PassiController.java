@@ -43,6 +43,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fi.softala.ttl.dao.PassiDAO;
+import fi.softala.ttl.dao.UserDAO;
 import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.Role;
 import fi.softala.ttl.dto.WorksheetDTO;
@@ -177,11 +178,19 @@ public class PassiController {
     }
 	
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
+    public String registration(@ModelAttribute("userForm") User userForm,
+    		BindingResult bindingResult,
+    		Model model,
+    		@RequestParam(value = "instructorKey", required = true) String instructorKey) {
     	userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
         	model.addAttribute("userForm", userForm);
             return "registration";
+        }
+        if (instructorKey != null && !userService.isCorrectInstructorKey(instructorKey)) {
+        	model.addAttribute("userForm", userForm);
+        	model.addAttribute("errormessage", "Virheellinen liittymisavain.");
+        	return "registration";
         }
         Role role = new Role(2, "ROLE_ADMIN");
         Set<Role> roles = new HashSet<>();

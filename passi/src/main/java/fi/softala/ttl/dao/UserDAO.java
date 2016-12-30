@@ -25,5 +25,7 @@ public interface UserDAO {
 	public boolean setPasswordResetToken(String email, String token);
 	
 	public boolean resetUserPassword(String token, String password);
+	
+	public boolean isCorrectInstructorKey(String instructorKey);
 
 }
