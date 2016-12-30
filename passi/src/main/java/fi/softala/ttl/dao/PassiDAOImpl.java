@@ -103,12 +103,18 @@ public class PassiDAOImpl implements PassiDAO {
 		
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
+		final String SQL = "SELECT COUNT(*) FROM groups WHERE group_key = ?";
 		final String SQL1 = "INSERT INTO groups (group_name, group_key) VALUES (?, ?)";
 		final String SQL2 = "SELECT worksheet_id FROM worksheets;";
 		final String SQL3 = "INSERT INTO distros VALUES (?, ?)";
 		final String SQL4 = "INSERT INTO members (user_id, group_id) VALUES (?, ?)";
 		
 		try {
+			
+			// Check for duplicate group_key
+			if (jdbcTemplate.queryForObject(SQL, new Object[] { group.getGroupKey() }, Integer.class) == 1) {
+				return false;
+			}
 			
 			// Add new group into group table
 			jdbcTemplate.update(new PreparedStatementCreator() {
@@ -208,9 +214,14 @@ public class PassiDAOImpl implements PassiDAO {
 	}
 	
 	public boolean editGroup(Group group) {
-		final String SQL1 = "UPDATE groups SET group_name = ?, group_key = ? WHERE group_id = ?";
+		final String SQL1 = "SELECT COUNT(*) FROM groups WHERE group_key = ?";
+		final String SQL2 = "UPDATE groups SET group_name = ?, group_key = ? WHERE group_id = ?";
 		try {
-			return jdbcTemplate.update(SQL1,
+			// Check for duplicate group_key
+			if (jdbcTemplate.queryForObject(SQL1, new Object[] { group.getGroupKey() }, Integer.class) == 1) {
+				return false;
+			}
+			return jdbcTemplate.update(SQL2,
 					new Object[] { group.getGroupName(), group.getGroupKey(), group.getGroupID() }) == 1;
 		} catch (Exception ex) {
 			return false;
