@@ -189,7 +189,7 @@ public class PassiController {
         }
         if (instructorKey != null && !userService.isCorrectInstructorKey(instructorKey)) {
         	model.addAttribute("userForm", userForm);
-        	model.addAttribute("errormessage", "Virheellinen liittymisavain.");
+        	model.addAttribute("errormessage", "Virheellinen rekisteröitymisavain.");
         	return "registration";
         }
         Role role = new Role(2, "ROLE_ADMIN");

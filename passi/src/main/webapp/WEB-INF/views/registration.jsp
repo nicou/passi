@@ -121,8 +121,8 @@ label {
 	</spring:bind>
 	
 	<div class="form-group">
-		<label class="control-label">Rekisteröintiavain</label>
-		<input type="text" name="instructorKey" class="form-control" maxlength="80" placeholder="Rekisteröintiavain" />
+		<label class="control-label">Rekisteröitymisavain</label>
+		<input type="text" name="instructorKey" class="form-control" maxlength="80" placeholder="Rekisteröitymisavain" />
 	</div>
 	
 	<div class="form-group">
