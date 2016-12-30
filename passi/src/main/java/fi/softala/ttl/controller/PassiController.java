@@ -53,6 +53,7 @@ import fi.softala.ttl.model.User;
 import fi.softala.ttl.model.WorksheetTableEntry;
 import fi.softala.ttl.service.PassiService;
 import fi.softala.ttl.service.UserService;
+import fi.softala.ttl.validator.GroupKeyValidator;
 import fi.softala.ttl.validator.UserValidator;
 
 @EnableWebMvc
@@ -75,6 +76,8 @@ public class PassiController {
     @Autowired
     private UserValidator userValidator;
     
+    @Autowired
+    private GroupKeyValidator groupKeyValidator;
 	
 	@Autowired
 	ServletContext context;
@@ -356,8 +359,10 @@ public class PassiController {
 			@ModelAttribute("newGroup") Group newGroup,
 			@ModelAttribute("userDetails") User instructor,
 			final RedirectAttributes ra) {
-		newGroup.setGroupKey(newGroup.getGroupKey().toLowerCase());
-		if (dao.addGroup(newGroup, instructor)) {  // fix to call via passiService
+		newGroup.setGroupKey(newGroup.getGroupKey().toLowerCase().trim());
+		if (!groupKeyValidator.validate(newGroup.getGroupKey())) {
+			ra.addFlashAttribute("message", "Virheellinen liittymisavain");
+		} else if (dao.addGroup(newGroup, instructor)) {
 			ra.addFlashAttribute("message", "Ryhmän lisääminen onnistui.");
 			ra.addFlashAttribute("newGroup", new Group());
 		} else {
@@ -410,8 +415,12 @@ public class PassiController {
 			ra.addFlashAttribute("message", "Virhe! Et kuulu ryhmän ohjaajiin.");
 			return "redirect:/index/group";
 		}
-		editedGroup.setGroupKey(editedGroup.getGroupKey().toLowerCase());
-		if (dao.editGroup(editedGroup)) {
+		editedGroup.setGroupKey(editedGroup.getGroupKey().toLowerCase().trim());
+		
+		System.out.println(editedGroup.getGroupKey() + " = " + groupKeyValidator.validate(editedGroup.getGroupKey()));
+		if (!groupKeyValidator.validate(editedGroup.getGroupKey())) {
+			ra.addFlashAttribute("message", "Virheellinen liittymisavain");
+		} else if (dao.editGroup(editedGroup)) {
 			ra.addFlashAttribute("message", "Ryhmän muokkaus onnistui.");
 			ra.addFlashAttribute("editedGroup", new Group());
 		} else {

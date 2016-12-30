@@ -116,7 +116,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 						<div class="form-group">
 							<label>Ryhmän liittymisavain</label>
 							<form:input id="editGroupKey" required="required" placeholder="Kirjoita ryhmän liittymisavain" path="groupKey" cssClass="form-control" autocomplete="off" maxlength="50" />
-							<small class="text-muted">Käytä liittymisavaimena pienillä kirjaimilla kirjoitettu sanaa</small>
+							<small class="text-muted">Käytä liittymisavaimena pienillä kirjaimilla kirjoitettua sanaa (4-20 merkkiä)</small>
 						</div>
     					<div class="form-group">
     					<button type="button" onclick="clearEditFields()" class="btn btn-default pull-left" style="width: 45%">Peruuta</button>
@@ -139,7 +139,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 						<div class="form-group">
 							<label>Ryhmän liittymisavain</label>
 							<form:input required="required" placeholder="Kirjoita ryhmän liittymisavain" path="groupKey" cssClass="form-control" autocomplete="off" maxlength="50" />
-							<small class="text-muted">Käytä liittymisavaimena pienillä kirjaimilla kirjoitettu sanaa</small>
+							<small class="text-muted">Käytä liittymisavaimena pienillä kirjaimilla kirjoitettua sanaa (4-20 merkkiä)</small>
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-default form-control">Tallenna uusi ryhmä</button>
@@ -153,7 +153,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     		<c:if test="${not empty message}">
     			<div class="alert alert-info">
    					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    				<strong>Info!</strong>&nbsp;&nbsp;<c:out value="${message}" />
+    				<c:out value="${message}" />
   				</div>
     		</c:if>
     			
