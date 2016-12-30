@@ -360,7 +360,7 @@ public class PassiDAOImpl implements PassiDAO {
 		List<WorksheetTableEntry> worksheetTableEntries = new ArrayList<>();
 		
 		final String SQL1 = "SELECT EXISTS (SELECT user_id FROM members JOIN user_role USING (user_id) WHERE user_id = (SELECT user_id FROM users WHERE username = ?) AND role_id = 2 AND group_id = ?)";
-		final String SQL2 = "SELECT header, category_name, (SELECT COUNT(*) FROM answersheets WHERE worksheet_id = w.worksheet_id AND group_id = ?) AS turned_in, (SELECT COUNT(*) FROM answersheets WHERE worksheet_id = w.worksheet_id AND group_id = ? AND feedback_complete = 0) AS no_feedback FROM worksheets w JOIN categories c USING (category_id)";
+		final String SQL2 = "SELECT header, category_name, (SELECT COUNT(*) FROM answersheets WHERE worksheet_id = w.worksheet_id AND group_id = ?) AS turned_in, (SELECT COUNT(*) FROM answersheets WHERE worksheet_id = w.worksheet_id AND group_id = ? AND feedback_complete = 0) AS no_feedback FROM worksheets w JOIN categories c USING (category_id) ORDER BY category_name ASC, header ASC";
 		if (jdbcTemplate.queryForObject(SQL1, new Object[] { username, groupID }, Integer.class) == 0) {
 			return worksheetTableEntries;
 		}
