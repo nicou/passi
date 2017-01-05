@@ -187,7 +187,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
   			<h2>
   				<c:out value="${worksheetContent.worksheetHeader}" />&nbsp;&nbsp;&bull;&nbsp; <c:out value="${memberDetails.firstname}" />&nbsp;<c:out value="${memberDetails.lastname}" />
-  				<button style="float: right;" type="submit" class="btn btn-sm btn-default" title="Takaisin ryhmän yhteenvetoon"><span class="glyphicon glyphicon-remove"></span></button>
+  				<button style="float: right;" type="submit" class="btn btn-sm btn-default" title="Palaa takaisin ryhmän yhteenvetoon"><span class="glyphicon glyphicon-remove"></span> Palaa yhteenvetoon</button>
   			</h2>
   			</form>
   			<p class="lead"><c:out value="${worksheetContent.worksheetPreface}" /></p>
@@ -340,7 +340,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   					<label style="margin-right: 15px;">
 						<input type="checkbox" name="feedback_complete" value="true" <c:if test="${worksheetAnswers.feedbackComplete }">checked</c:if>/> Merkitse koko tehtäväkortti arvostelluksi
 					</label>
-  					<button class="btn btn-secondary" type="submit">Lähetä</button>
+  					<button class="btn btn-default" type="submit">Tallenna</button>
   				</div>
   				</div>
   				</form>
