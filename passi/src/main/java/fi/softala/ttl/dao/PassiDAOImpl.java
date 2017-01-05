@@ -455,6 +455,11 @@ public class PassiDAOImpl implements PassiDAO {
 	@Override
 	public HashMap<Integer, Integer> getIsAnsweredMap(int worksheetID, ArrayList<User> groupMembers, int groupID) {
 		
+		HashMap<Integer, Integer> isAnsweredMap = new HashMap<>();
+		if (groupMembers.size() == 0) {
+			return isAnsweredMap;
+		}
+		
 		ArrayList<Integer> userIDs = new ArrayList<>();
 		for (int i = 0; i < groupMembers.size(); i++) {
 			userIDs.add(groupMembers.get(i).getUserID());
@@ -467,8 +472,6 @@ public class PassiDAOImpl implements PassiDAO {
 		final String SQL1 = "SELECT user_id, feedback_complete FROM answersheets WHERE worksheet_id = :worksheetid AND user_id IN (:userids) AND group_id = :groupid";
 		
 		List<Map<String, Object>> results = namedParameterJdbcTemplate.queryForList(SQL1, parameters);
-		
-		HashMap<Integer, Integer> isAnsweredMap = new HashMap<>();
 		
 		for (Map<String, Object> m : results) {
 			int userid = Integer.valueOf(m.get("user_id").toString());
