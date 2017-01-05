@@ -83,8 +83,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 </div>
 
-<pre style="display: inline-block; margin-top: 20px; padding: 10px 15px 10px 15px;">username = admin<br />password = passw</pre>
-
 <div class="row">
 <div class="col-xs-12 col-md-8 col-md-push-2 front-info">
 <p>
