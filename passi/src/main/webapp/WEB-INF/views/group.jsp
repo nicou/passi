@@ -202,7 +202,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
       			<c:otherwise>
       				<div class="alert alert-warning" style="margin-top: 20px;">
       				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-      				Järjestelmässä ei ole yhtään ryhmää, tai niitä ei saatu haettua.
+      				Sinä et vielä kuulu yhteenkään ryhmään, tai ryhmiä ei saatu haettua järjestelmästä.
       				</div>
       			</c:otherwise>
       		</c:choose>
