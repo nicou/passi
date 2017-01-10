@@ -43,7 +43,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fi.softala.ttl.dao.PassiDAO;
-import fi.softala.ttl.dao.UserDAO;
 import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.Role;
 import fi.softala.ttl.dto.WorksheetDTO;
@@ -67,11 +66,6 @@ public class PassiController {
 
 	@Autowired
     private UserService userService;
-	
-	/*
-    @Autowired
-    private SecurityService securityService;
-	*/
 	
     @Autowired
     private UserValidator userValidator;
@@ -511,4 +505,5 @@ public class PassiController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		return auth.getName();
 	}
+	
 }
