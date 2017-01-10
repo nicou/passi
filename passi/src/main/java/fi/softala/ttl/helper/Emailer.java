@@ -9,12 +9,19 @@ import javax.mail.internet.MimeMessage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Emailer {
 	
 	final static Logger logger = LoggerFactory.getLogger(Emailer.class);
-	final static String PROTOCOL = "http://";
-	final static String DOMAIN = "juslin.org";
+	
+	@Value("${passi.protocol}")
+	private String PROTOCOL;
+	
+	@Value("${passi.domain}")
+	private String DOMAIN;
 	
 	public void sendPasswordResetMessage(String email, String token) {
 		String host = "localhost";
