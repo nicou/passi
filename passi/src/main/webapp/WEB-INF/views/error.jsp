@@ -12,7 +12,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Työkykypassi&nbsp;&nbsp;&bull;&nbsp;&nbsp;Expired</title>
+<title>Työkykypassi&nbsp;&nbsp;&bull;&nbsp;&nbsp;Virhe</title>
 <!-- CSS -->
 <link rel="stylesheet" href="<c:url value="/static/style/bootstrap.min.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/static/style/main.css" />" />
