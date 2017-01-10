@@ -72,6 +72,9 @@ public class PassiController {
     
     @Autowired
     private GroupKeyValidator groupKeyValidator;
+    
+    @Autowired
+    private Emailer emailer;
 	
 	@Autowired
 	ServletContext context;
@@ -477,7 +480,6 @@ public class PassiController {
 		TokenGenerator tg = new TokenGenerator();
 		String token = tg.generateToken();
 		if (userService.setPasswordResetToken(email, token)) {
-			Emailer emailer = new Emailer();
 			emailer.sendPasswordResetMessage(email, token);
 		}
 		return "redirect:/login";

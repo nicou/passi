@@ -10,9 +10,13 @@ import javax.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Component
+@ComponentScan({"fi.softala.ttl.*"})
+@PropertySource("classpath:data.properties")
 public class Emailer {
 	
 	final static Logger logger = LoggerFactory.getLogger(Emailer.class);
@@ -48,6 +52,10 @@ public class Emailer {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+	
+	public void test() {
+		System.out.println(PROTOCOL + " - " + DOMAIN);
 	}
 
 }
