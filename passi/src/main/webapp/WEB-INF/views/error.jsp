@@ -34,7 +34,7 @@
 				<h1>PASSI</h1>
 				<h2>Pyynnön käsittelyssä tapahtui virhe</h2>
 				<p style="margin-top: 20px;">
-				Jos ongelma toistuu, ota yhteyttä Mikko Nykäseen <small>(mikko.nykanen@ttl.fi)</small>
+				Jos ongelma toistuu, ota yhteyttä Mikko Nykäseen <small>(mikko.nykanen (at) ttl.fi)</small>
 				</p>
 				<button type="button" onclick="window.history.back();" class="btn btn-primary" style="margin-top: 10px;">Palaa takaisin</button>
 			</div>

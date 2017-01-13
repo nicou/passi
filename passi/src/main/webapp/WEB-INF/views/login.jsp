@@ -52,6 +52,8 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <div class="container">
 
+<h1>Työkykypassin sovelluksen opettajan käyttöliittymä</h1>
+
 <div class="login-panel">
 			
 <div id="login-panel-style">
