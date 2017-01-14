@@ -503,7 +503,7 @@ public class PassiController {
 			final RedirectAttributes ra) {
 		
 		// TODO: Same validation criteria for passwords during registration and password reset
-		if (pw1.length() < 6 || pw2.length() < 6 || !pw1.equals(pw2)) {
+		if (pw1.length() < 5 || pw2.length() < 5 || !pw1.equals(pw2)) {
 			ra.addFlashAttribute("message", "Uusi salasana on alle 6 merkkiä pitkä, tai salasanat eivät täsmää.");
 			return "redirect:/passrestore?token=" + token;
 		}
