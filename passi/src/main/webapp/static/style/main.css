@@ -386,7 +386,7 @@ table.table-hover tr {
 }
 
 /* Spinning icon when saving feedback */
-.glyphicon-repeat {
+.spinner {
 	-webkit-animation: glyphicon-spin-r 1s infinite linear;
 	animation: glyphicon-spin-r 1s infinite linear;
 }

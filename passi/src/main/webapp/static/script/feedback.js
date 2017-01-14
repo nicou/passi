@@ -85,7 +85,7 @@ function setWorking(working) {
 	currentlyWorking = working;
 	if (working) {
 		$('#feedback-btn').addClass('disabled');
-		$('#feedback-btn').html('<span class=\'glyphicon glyphicon-repeat\'></span> Tallenna');
+		$('#feedback-btn').html('<span class=\'glyphicon glyphicon-repeat spinner\'></span> Tallenna');
 	} else {
 		$('#feedback-btn').removeClass('disabled');
 		$('#feedback-btn').html('Tallenna');
