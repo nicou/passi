@@ -25,6 +25,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -33,6 +36,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,6 +47,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fi.softala.ttl.dao.PassiDAO;
+import fi.softala.ttl.model.Answerpoint;
+import fi.softala.ttl.model.Answersheet;
 import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.Role;
 import fi.softala.ttl.dto.WorksheetDTO;
@@ -279,50 +285,51 @@ public class PassiController {
 		ra.addFlashAttribute("selectedMember", 0);
 		return "redirect:/index";
 	}
-
-	@RequestMapping(value = "/saveWaypointFeedback", method = RequestMethod.POST)
-	public String saveWaypointFeedback(Model model,
-			@RequestParam int answerWaypointID,
-			@RequestParam String instructorComment,
-			@RequestParam int instructorRating,
-			@ModelAttribute("selectedWorksheet") int worksheetID,
-			@ModelAttribute("selectedMember") int selectedMember,
+	
+	@RequestMapping(value = "/saveFeedback", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> saveFeedback(
+			@RequestBody Answersheet answersheet,
 			@ModelAttribute("selectedGroup") int groupID,
-			final RedirectAttributes ra) {
+			@ModelAttribute("isAnsweredMap") Map<Integer, Integer> isAnsweredMap,
+			@ModelAttribute("selectedMember") int selectedMember) {
+		
 		if (!passiService.userIsGroupInstructor(groupID, getAuthUsername())) {
-			ra.addFlashAttribute("message", "Virhe! Et kuulu ryhmän ohjaajiin.");
-			return "redirect:/index";
+			logger.error("Ohjaaja yritti tallentaa palautteen ryhmään johon ei kuulu");
+			return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
 		}
-		if (passiService.saveFeedback(answerWaypointID, instructorRating, instructorComment)) {
-			ra.addFlashAttribute("message", "Tehtävän palaute tallennettu!");
+		
+		boolean success = true;
+
+		try {
+			// Saving instructor feedback
+			if (passiService.saveInstructorComment(answersheet.getAnswerID(),answersheet.getAnswerInstructorComment())
+					&& passiService.setFeedbackComplete(answersheet.getAnswerID(), answersheet.isFeedbackComplete())) {
+				isAnsweredMap.put(selectedMember, answersheet.isFeedbackComplete() ? 2 : 1);
+			} else {
+				success = false;
+			}
+			
+			for (Answerpoint ap : answersheet.getWaypoints()) {
+				if (!passiService.saveFeedback(ap.getAnswerWaypointID(), ap.getAnswerWaypointInstructorRating(), ap.getAnswerWaypointInstructorComment())) {
+					success = false;
+				}
+			}
+			
+		} catch (Exception ex) {
+			logger.error("Error saving feedback: ", ex);
 		}
-		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember, groupID));
-		return "redirect:/index";
+		
+		if (success) {
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
+		return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
 	}
 	
-	@RequestMapping(value = "/saveInstructorComment", method = RequestMethod.POST)
-	public String saveInstructorComment(Model model,
-			@RequestParam(value = "instructorComment", required = true) String instructorComment,
-			@RequestParam(value = "answerID", required = true) int answersheetID,
-			@RequestParam(value = "feedback_complete", required = false) boolean feedbackComplete,
-			@ModelAttribute("selectedWorksheet") int worksheetID,
-			@ModelAttribute("selectedMember") int selectedMember,
-			@ModelAttribute("isAnsweredMap") Map<Integer, Integer> isAnsweredMap,
-			@ModelAttribute("selectedGroup") int groupID,
-			final RedirectAttributes ra) {
-		if (!passiService.userIsGroupInstructor(groupID, getAuthUsername())) {
-			ra.addFlashAttribute("message", "Virhe! Et kuulu ryhmän ohjaajiin.");
-			return "redirect:/index";
-		}
-		if (passiService.saveInstructorComment(answersheetID, instructorComment)
-				&& passiService.setFeedbackComplete(answersheetID, feedbackComplete)) {
-			ra.addFlashAttribute("message", "Palaute tallennettu!");
-			isAnsweredMap.put(selectedMember, feedbackComplete ? 2 : 1);
-			ra.addFlashAttribute("isAnsweredMap", isAnsweredMap);
-			ra.addFlashAttribute("groupWorksheetSummary", passiService.getGroupWorksheetSummary(groupID, getAuthUsername()));
-		}
-		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember, groupID));
-		return "redirect:/index";
+	@RequestMapping(value = "/feedbackok", method = RequestMethod.GET)
+	public String feedbackOk(@ModelAttribute("selectedGroup") int groupID, RedirectAttributes ra) {
+		ra.addFlashAttribute("groupWorksheetSummary", passiService.getGroupWorksheetSummary(groupID, getAuthUsername()));
+		ra.addFlashAttribute("selectedMember", 0);
+		return "redirect:/index#top";
 	}
 
 	@RequestMapping(value = "/download/{name}/{type}", method = RequestMethod.GET)

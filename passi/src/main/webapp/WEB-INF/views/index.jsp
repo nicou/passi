@@ -13,7 +13,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 %>
 
 <!DOCTYPE html>
-<html>
+<html lang="fi">
 <head>
 <meta name="author" content="Mika Ropponen, Roope Heinonen, Nico Hagelberg" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -241,12 +241,10 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   					<hr class="feedback-hr"/>
   					
   					<!-- Feedback section -->
-  					<c:url var="saveWaypointFeedback" value="/saveWaypointFeedback" />
   					<c:set var="feedbackContent" value="${worksheetAnswers.waypoints[loop.index].answerWaypointInstructorComment}" />
 					<c:set var="wpID" value="${worksheetAnswers.waypoints[loop.index].answerWaypointID}" />
 					<c:set var="instructorRating" value="${worksheetAnswers.waypoints[loop.index].answerWaypointInstructorRating}" />
-  					<form id="saveFeedback-${wpID}" action="${saveWaypointFeedback }" method="post" accept-charset="UTF-8">
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+  					<form id="saveFeedback-${wpID}" accept-charset="UTF-8" class="waypointform">
 					<input type="hidden" name="answerWaypointID" value="${wpID}" />
   					
   					<div class="row">
@@ -279,8 +277,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 					</div>
 					
   					<div class="col-xs-12 col-md-9">
-  					<span class="label label-danger toast error-toast-${wpID}">Ole hyvä ja vastaa molempiin kenttiin</span>
-					<span class="label label-success toast success-toast-${wpID}">Arviointi onnistui!</span>
 					<h5 class="arviointi">Kirjallinen palaute:</h5>
 					<c:if test="${not empty feedbackContent}">
 						<div class="hasFeedback">
@@ -295,9 +291,6 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 					<div class="row" id="feedback-div-${wpID}" style="${not empty feedbackContent ? 'display: none;' : ''}">
 					<div class="col-xs-12 form-group">
 						<textarea maxlength="1000" rows="5" name="instructorComment" class="form-control teacher-assessment-text-${wpID} assessment-textarea" placeholder="Anna palautetta"><c:out value="${feedbackContent}" /></textarea>
-					</div>
-					<div class="col-xs-12 text-right">
-						<button class="palaute btn btn-default btn-md" value="${wpID}">Tallenna</button><br />
 					</div>
 
 					</div>
@@ -329,18 +322,19 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				<div class="panel-heading"><strong>Koko tehtäväkortin koostepalaute</strong></div>
   				<div class="panel-body">
   				
-  				<form action="saveInstructorComment" method="post" accept-charset="UTF-8">
-  				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-  				<input type="hidden" name="answerID" value="${worksheetAnswers.answerID }" />
+  				<form accept-charset="UTF-8">
+  				<input type="hidden" id="csrf-token" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				<input type="hidden" id="csrf-header" value="${_csrf.headerName}" />
+  				<input type="hidden" name="answerID" class="answersheet-id" value="${worksheetAnswers.answerID }" />
   				<div class="row">
   				<div class="col-xs-12 form-group">
-  					<textarea name="instructorComment" class="form-control" rows="7" maxlength="1000" placeholder="Anna koostepalaute"><c:if test="${not empty worksheetAnswers.answerInstructorComment }"><c:out value="${worksheetAnswers.answerInstructorComment}" /></c:if></textarea>
+  					<textarea name="instructorComment" class="form-control" id="instructor-comment" rows="7" maxlength="1000" placeholder="Anna koostepalaute"><c:if test="${not empty worksheetAnswers.answerInstructorComment }"><c:out value="${worksheetAnswers.answerInstructorComment}" /></c:if></textarea>
   				</div>
   				<div class="col-xs-12 text-right">
   					<label style="margin-right: 15px;">
-						<input type="checkbox" name="feedback_complete" value="true" <c:if test="${worksheetAnswers.feedbackComplete }">checked</c:if>/> Merkitse koko tehtäväkortti arvostelluksi
+						<input type="checkbox" name="feedback_complete" class="feedback-complete" value="true" <c:if test="${worksheetAnswers.feedbackComplete }">checked</c:if>/> Merkitse koko tehtäväkortti arvostelluksi
 					</label>
-  					<button class="btn btn-default" type="submit">Tallenna</button>
+  					<button class="btn btn-default" type="button" onClick="submitFeedback(); this.blur();" title="Tallenna palaute" id="feedback-btn">Tallenna</button>
   				</div>
   				</div>
   				</form>
@@ -420,6 +414,9 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="<c:url value="/static/script/bootstrap.min.js" />"></script>
 <script src="<c:url value="/static/script/jquery-index.js" />"></script>
+<c:if test="${worksheetAnswers.answerID > 0}">
+<script src="<c:url value="/static/script/feedback.js" />"></script>
+</c:if>
 <!--[if lt IE 9]>
   <script src="<c:url value="/static/script/ie.js" />"></script>
 <![endif]-->
@@ -433,6 +430,8 @@ $('select').change(function() {
 	$(this).blur();
 });
 </script>
+<span class="label label-danger toast error-toast" style="display: none;">Palautteen tallennuksessa tapahtui virhe!</span>
+<span class="label label-success toast success-toast" style="display: none;">Palaute tallennettu!<br /><small style="font-weight: normal;">Sivu ladataan uudelleen</small></span>
 <c:set var="message" scope="session" value="" />
 
 </body>
