@@ -1,5 +1,10 @@
 var currentlyWorking = false;
 
+// Fix console for IE
+if (typeof console == 'undefined') {
+	this.console = { log: function() {} };
+}
+
 function submitFeedback() {
 	// Don't run if request is pending
 	if (currentlyWorking) return;
@@ -7,15 +12,15 @@ function submitFeedback() {
 	
 	// Initialize values
 	var waypoints = [];
-	var answersheetFeedbackText = document.getElementById('instructor-comment').value.trim().length > 0 ? document.getElementById('instructor-comment').value.trim() : '';
-	var feedbackComplete = document.getElementsByClassName('feedback-complete')[0].checked;
-	var answersheetId = document.getElementsByClassName('answersheet-id')[0].value;
+	var answersheetFeedbackText = document.getElementById('instructor-comment').value;
+	var feedbackComplete = document.querySelectorAll('.feedback-complete')[0].checked;
+	var answersheetId = document.querySelectorAll('.answersheet-id')[0].value;
 	
 	// Get waypoint feedback values
-	var forms = document.getElementsByClassName('waypointform');
+	var forms = document.querySelectorAll('.waypointform');
 	for (var i = 0; i < forms.length; i++) {
 		var inputs = forms[i].getElementsByTagName('input');
-		var textarea = forms[i].getElementsByTagName('textarea')[0].value.trim().length > 0 ? forms[i].getElementsByTagName('textarea')[0].value.trim() : '';
+		var textarea = forms[i].getElementsByTagName('textarea')[0].value;
 		var waypointId = null;
 		var instructorRating = null;
 		for (var j = 0; j < inputs.length; j++) {

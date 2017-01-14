@@ -302,15 +302,16 @@ public class PassiController {
 
 		try {
 			// Saving instructor feedback
-			if (passiService.saveInstructorComment(answersheet.getAnswerID(),answersheet.getAnswerInstructorComment())
+			if (passiService.saveInstructorComment(answersheet.getAnswerID(),answersheet.getAnswerInstructorComment().trim())
 					&& passiService.setFeedbackComplete(answersheet.getAnswerID(), answersheet.isFeedbackComplete())) {
 				isAnsweredMap.put(selectedMember, answersheet.isFeedbackComplete() ? 2 : 1);
 			} else {
 				success = false;
 			}
 			
+			// Save feedback of all answerpoints
 			for (Answerpoint ap : answersheet.getWaypoints()) {
-				if (!passiService.saveFeedback(ap.getAnswerWaypointID(), ap.getAnswerWaypointInstructorRating(), ap.getAnswerWaypointInstructorComment())) {
+				if (!passiService.saveFeedback(ap.getAnswerWaypointID(), ap.getAnswerWaypointInstructorRating(), ap.getAnswerWaypointInstructorComment().trim())) {
 					success = false;
 				}
 			}
