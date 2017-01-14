@@ -28,6 +28,10 @@
 	cursor: pointer;
 }
 
+.not-clickable {
+	cursor: default !important;
+}
+
 .assesment-textarea {
 	min-width: auto;
 	min-height: auto;

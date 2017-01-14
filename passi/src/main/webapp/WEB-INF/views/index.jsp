@@ -137,15 +137,15 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     				<c:forEach var="member" items="${groupMembers}">
     					<c:choose>
     						<c:when test="${isAnsweredMap[member.userID] == 1}">
-    							<tr title="Tehtäväkortti palautettu, ei arvosteltu" onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border ${selectedMember == member.userID ? 'bold' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
+    							<tr title="Tehtäväkortti palautettu, ei arvosteltu" onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border${selectedMember == member.userID ? ' bold' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
     							<c:if test="${selectedWorksheet > 0}"><div style="float: right; color: #ec971f; font-weight: bold;">&#10003;</div></c:if></td></tr>   					
     						</c:when>
     						<c:when test="${isAnsweredMap[member.userID] == 2}">
-    							<tr title="Tehtäväkortti arvosteltu" onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border ${selectedMember == member.userID ? 'bold' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
+    							<tr title="Tehtäväkortti arvosteltu" onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border${selectedMember == member.userID ? ' bold' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
     							<c:if test="${selectedWorksheet > 0}"><div style="float: right; color: green; font-weight: bold;">&#10003;</div></c:if></td></tr>   					
     						</c:when>
     						<c:otherwise>
-    							<tr title="Tehtäväkortti palauttamatta" onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border ${selectedMember == member.userID ? 'bold' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
+    							<tr title="${selectedWorksheet == 0 ? 'Valitse ensin tehtäväkortti' : 'Tehtäväkortti palauttamatta'}" onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border${selectedMember == member.userID ? ' bold' : ''}${selectedWorksheet == 0 ? ' not-clickable' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
     							<c:if test="${selectedWorksheet > 0}"><div style="float: right; color: red; font-weight: bold;">&#10007;</div></c:if></td></tr>
     						</c:otherwise>
     					</c:choose>
@@ -218,7 +218,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   					<c:url var="imageLink" value="/download/${imageName}/jpg" />
   					<div class="well-image-container">
   					<!-- ANSWER IMAGE -->
-  					<a href="${imageLink}" class="lightbox_trigger"><img src="${imageLink}" onerror="this.style.display='none'" class="well-image" draggable="false" alt="Valokuva" /></a><br />
+  					<a href="${imageLink}" class="lightbox_trigger" target="_blank"><img src="${imageLink}" onerror="this.style.display='none'" class="well-image" draggable="false" alt="Valokuva" /></a><br />
   					<div class="image-click">Klikkaa</div>
 					</div>
 					</div>
