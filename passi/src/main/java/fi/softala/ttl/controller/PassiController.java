@@ -326,9 +326,13 @@ public class PassiController {
 	}
 	
 	@RequestMapping(value = "/feedbackok", method = RequestMethod.GET)
-	public String feedbackOk(@ModelAttribute("selectedGroup") int groupID, RedirectAttributes ra) {
+	public String feedbackOk(
+			@ModelAttribute("selectedGroup") int groupID,
+			@ModelAttribute("selectedWorksheet") int worksheetID,
+			@ModelAttribute("selectedMember") int selectedMember,
+			RedirectAttributes ra) {
 		ra.addFlashAttribute("groupWorksheetSummary", passiService.getGroupWorksheetSummary(groupID, getAuthUsername()));
-		ra.addFlashAttribute("selectedMember", 0);
+		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember, groupID));
 		return "redirect:/index#top";
 	}
 
