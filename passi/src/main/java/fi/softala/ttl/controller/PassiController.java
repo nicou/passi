@@ -188,6 +188,7 @@ public class PassiController {
     		BindingResult bindingResult,
     		Model model,
     		@RequestParam(value = "instructorKey", required = true) String instructorKey) {
+    	userForm.trim();
     	userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
         	model.addAttribute("userForm", userForm);

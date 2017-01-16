@@ -16,7 +16,8 @@ public class UserValidator implements Validator {
     private PassiService passiService;
 	
 	private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$";
-
+	private static final String USERNAME_PATTERN = "^[A-z-._]{0,30}$";
+	
     @Override
     public boolean supports(Class<?> aClass) {
         return User.class.equals(aClass);
@@ -31,8 +32,12 @@ public class UserValidator implements Validator {
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
-        if (user.getUsername().length() < 6 || user.getUsername().length() > 20) {
+        if (user.getUsername().length() < 6 || user.getUsername().length() > 30) {
             errors.rejectValue("username", "Size.userForm.username");
+        }
+        
+        if (!user.getUsername().matches(USERNAME_PATTERN)) {
+        	errors.rejectValue("username", "Match.userForm.username");
         }
         
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "NotEmpty");

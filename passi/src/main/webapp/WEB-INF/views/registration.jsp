@@ -75,7 +75,7 @@ label {
 	<spring:bind path="username">
 		<div class="form-group ${status.error ? 'has-error' : ''}">
 			<label class="control-label">Käyttäjätunnus</label>
-			<form:input path="username" class="form-control" maxlength="20" placeholder="Käyttäjätunnus" />
+			<form:input path="username" class="form-control" maxlength="30" placeholder="Käyttäjätunnus" />
 			<form:errors path="username" class="control-label" />
 		</div>
 	</spring:bind>

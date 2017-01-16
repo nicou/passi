@@ -102,6 +102,13 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public void trim() {
+		this.username = username.trim();
+		this.firstname = firstname.trim();
+		this.lastname = lastname.trim();
+		this.email = email.trim();
+	}
 
 	@Override
 	public String toString() {
