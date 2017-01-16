@@ -335,6 +335,7 @@ public class PassiController {
 			RedirectAttributes ra) {
 		ra.addFlashAttribute("groupWorksheetSummary", passiService.getGroupWorksheetSummary(groupID, getAuthUsername()));
 		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember, groupID));
+		ra.addFlashAttribute("message", "Palaute tallennettu!");
 		return "redirect:/index#top";
 	}
 

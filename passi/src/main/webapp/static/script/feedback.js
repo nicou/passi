@@ -61,9 +61,7 @@ function saveWorksheetFeedback(feedback) {
 		success: function(response) {
 			// Reload page if feedback is saved succesfully
 			console.log('Feedback saved succesfully', response);
-			$('.success-toast').fadeIn(200).delay(1100).fadeOut(200);
-			var location = window.location.href.substring(0, window.location.href.lastIndexOf('/')) + '/feedbackok';
-			window.setTimeout(function() { window.location.href = location }, 1500);
+			window.location.href = window.location.href.substring(0, window.location.href.lastIndexOf('/')) + '/feedbackok';
 		}
 	}).always(function() {
 		setWorking(false);
