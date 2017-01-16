@@ -32,7 +32,7 @@ public class UserValidator implements Validator {
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
-        if (user.getUsername().length() < 6 || user.getUsername().length() > 30) {
+        if (user.getUsername().length() < 3 || user.getUsername().length() > 30) {
             errors.rejectValue("username", "Size.userForm.username");
         }
         
@@ -59,7 +59,7 @@ public class UserValidator implements Validator {
         }
         
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
-        if (user.getPassword().length() < 5 || user.getPassword().length() > 32) {
+        if (user.getPassword().length() < 5 || user.getPassword().length() > 128) {
             errors.rejectValue("password", "Size.userForm.password");
         }
         
