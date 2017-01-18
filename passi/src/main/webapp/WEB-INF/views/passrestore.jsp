@@ -66,17 +66,29 @@ label {
 <div class="col-sm-offset-3 col-sm-6 regform">
 <h3 class="text-center">Salasanan palautus</h3>
 
-<p class="text-center" style="margin: 25px auto;">Syötä alla olevaan kenttään sähköpostiosoitteesi jolla olet rekisteröitynyt työkykypassiin. Linkki salasanan vaihtoon lähetetään sinulle sähköpostitse.</p>
-
-<form class="form-horizontal" action="passrestore" method="POST">
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-		<div class="input-group">
-			<input type="email" name="email" class="form-control" maxlength="50" placeholder="Sähköpostiosoite" />
-			<div class="input-group-btn">
-				<button class="btn btn-primary" type="submit" name="action" value="sendlink">Lähetä</button>
+<c:choose>
+<c:when test="${not empty msg}">
+	<p class="text-center" style="margin: 25px auto;">
+		<c:out value="${msg }" />
+		<c:if test="${not empty success && !success }">
+			<br /><br />
+			<a href="<c:url value="/passrestore" />">Palaa salasanan palautukseen</a>
+		</c:if>
+	</p>
+</c:when>
+<c:otherwise>
+	<p class="text-center" style="margin: 25px auto;">Syötä alla olevaan kenttään sähköpostiosoitteesi jolla olet rekisteröitynyt työkykypassiin. Linkki salasanan vaihtoon lähetetään sinulle sähköpostitse.</p>
+	<form class="form-horizontal" action="passrestore" method="POST">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			<div class="input-group">
+				<input type="email" name="email" class="form-control" maxlength="50" placeholder="Sähköpostiosoite" />
+				<div class="input-group-btn">
+					<button class="btn btn-primary" type="submit" name="action" value="sendlink">Lähetä</button>
+				</div>
 			</div>
-		</div>
-</form>
+	</form>
+</c:otherwise>
+</c:choose>
 
 <c:url var="returnURL" value="/login" />
 <div style="text-align: center;">

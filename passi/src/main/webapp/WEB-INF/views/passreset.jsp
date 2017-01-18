@@ -65,23 +65,37 @@ label {
 <div class="col-sm-offset-3 col-sm-6 regform">
 <h3 class="text-center">Salasanan palautus</h3>
 
-<p class="text-center" style="margin: 25px auto;">Kirjoita uusi salasanasi.</p>
-
-<form class="form-horizontal" action="passreset" method="POST">
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-		<input type="hidden" name="token" value="${token }" />
-		<div class="form-group">
-			<label class="control-label">Salasana</label>
-			<input type="password" name="password" class="form-control" placeholder="Salasana" />
-		</div>
-		<div class="form-group">
-			<label class="control-label">Salasana uudelleen</label>
-			<input type="password" name="passwordagain" class="form-control" placeholder="Salasana uudelleen" />
-		</div>
-		<div class="form-group">
-			<button class="btn btn-primary btn-block" type="submit" name="action" name="resetpass">Lähetä</button>
-		</div>
-</form>
+<c:choose>
+<c:when test="${not empty success && success && not empty msg}">
+	<p class="text-center" style="margin: 25px auto;">
+		<c:out value="${msg }" />
+	</p>
+</c:when>
+<c:otherwise>
+	<p class="text-center" style="margin: 25px auto;">
+	Kirjoita uusi salasanasi.
+	<c:if test="${not empty success && !success && not empty msg}">
+		<br /><br />
+		<c:out value="${msg }" />
+	</c:if>
+	</p>
+	<form class="form-horizontal" action="passreset" method="POST">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			<input type="hidden" name="token" value="${token }" />
+			<div class="form-group${not empty success && !success ? ' has-error' : '' }">
+				<label class="control-label">Salasana</label>
+				<input type="password" name="password" class="form-control" placeholder="Salasana" />
+			</div>
+			<div class="form-group${not empty success && !success ? ' has-error' : '' }">
+				<label class="control-label">Salasana uudelleen</label>
+				<input type="password" name="passwordagain" class="form-control" placeholder="Salasana uudelleen" />
+			</div>
+			<div class="form-group">
+				<button class="btn btn-primary btn-block" type="submit" name="action" name="resetpass">Lähetä</button>
+			</div>
+	</form>
+</c:otherwise>
+</c:choose>
 
 <c:url var="returnURL" value="/login" />
 <div style="text-align: center;">

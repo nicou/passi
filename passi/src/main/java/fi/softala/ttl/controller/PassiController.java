@@ -490,13 +490,20 @@ public class PassiController {
 	}
 	
 	@RequestMapping(value = "/passrestore", method = RequestMethod.POST)
-	public String passwordRestore(@RequestParam(value = "email", required = true) String email) {
+	public String passwordRestore(
+			@RequestParam(value = "email", required = true) String email,
+			RedirectAttributes ra) {
 		TokenGenerator tg = new TokenGenerator();
 		String token = tg.generateToken();
 		if (userService.setPasswordResetToken(email, token)) {
 			emailer.sendPasswordResetMessage(email, token);
+			ra.addFlashAttribute("msg", "Sähköpostiisi on lähetetty linkki, jonka kautta voit vaihtaa salasanasi. Linkki on voimassa 24 tuntia.");
+			ra.addFlashAttribute("success", true);
+		} else {
+			ra.addFlashAttribute("msg", "Sähköpostiosoitetta vastaavaa käyttäjätiliä ei löytynyt.");
+			ra.addFlashAttribute("success", false);
 		}
-		return "redirect:/login";
+		return "redirect:/passrestore";
 	}
 	
 	@RequestMapping(value = "/passreset", method = RequestMethod.POST)
@@ -507,14 +514,16 @@ public class PassiController {
 		
 		// TODO: Same validation criteria for passwords during registration and password reset
 		if (pw1.length() < 5 || pw2.length() < 5 || !pw1.equals(pw2)) {
-			ra.addFlashAttribute("message", "Uusi salasana on alle 6 merkkiä pitkä, tai salasanat eivät täsmää.");
+			ra.addFlashAttribute("msg", "Uusi salasana on alle 5 merkkiä pitkä, tai salasanat eivät täsmää.");
+			ra.addFlashAttribute("success", false);
 			return "redirect:/passrestore?token=" + token;
 		}
 		if (userService.resetUserPassword(token, pw1)) {
-			ra.addFlashAttribute("message", "Salasanasi on vaihdettu onnistuneesti!");
+			ra.addFlashAttribute("msg", "Salasanasi on vaihdettu onnistuneesti! Voit nyt kirjautua uudella salasanallasi.");
+			ra.addFlashAttribute("success", true);
 		}
 		
-		return "redirect:/login";
+		return "redirect:/passrestore";
 	}
 	
 	public String getAuthUsername() {
