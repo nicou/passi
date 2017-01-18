@@ -52,7 +52,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 
 <div class="container">
 
-<h1>Työkykypassin sovelluksen opettajan käyttöliittymä</h1>
+<h1>Työkykypassi -sovelluksen opettajan käyttöliittymä</h1>
 
 <div class="login-panel">
 			

@@ -352,7 +352,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 	</c:when>
 	<c:otherwise>
 		<div class="row row-padding">
-  			<h2 style="margin-bottom: 5px;">Työkykypassin sovelluksen opettajan käyttöliittymä</h2>
+  			<h2 style="margin-bottom: 5px;">Työkykypassi -sovelluksen opettajan käyttöliittymä</h2>
   			<c:choose>
 	  			<c:when test="${selectedGroup == 0 }">
 	  			<div class="col-sm-12 nopadding" style="margin-top: 10px;">
