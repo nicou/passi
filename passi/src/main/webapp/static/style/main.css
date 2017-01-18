@@ -385,6 +385,10 @@ table.table-hover tr {
 	margin-top: 0;
 }
 
+.no-photo {
+	margin-bottom: 20px;
+}
+
 /* Spinning icon when saving feedback */
 .spinner {
 	-webkit-animation: glyphicon-spin-r 1s infinite linear;
