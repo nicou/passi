@@ -14,6 +14,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -65,7 +66,7 @@ import fi.softala.ttl.validator.UserValidator;
 @Controller
 @Scope("session")
 @SessionAttributes({ "categories", "defaultGroup", "user", "userDetails", "groups", "groupMembers", "instructorsDetails", "isAnsweredMap", "message", "memberDetails", "newGroup", "editedGroup", "newMember",
-		"selectedCategory", "selectedGroup", "selectedMember", "selectedWorksheet", "worksheets", "worksheetContent", "worksheetAnswers", "groupWorksheetSummary" })
+		"selectedCategory", "selectedGroup", "selectedMember", "selectedWorksheet", "worksheets", "worksheetContent", "worksheetAnswers", "groupWorksheetSummary", "nextMember", "previousMember" })
 public class PassiController {
 
 	final static Logger logger = LoggerFactory.getLogger(PassiController.class);
@@ -152,6 +153,9 @@ public class PassiController {
 		
 		// Session attribute for group worksheet summary
 		redirectAttributes.addFlashAttribute("groupWorksheetSummary", new ArrayList<WorksheetTableEntry>());
+		
+		redirectAttributes.addFlashAttribute("nextMember", 0);
+		redirectAttributes.addFlashAttribute("previousMember", 0);
 		
 		return "redirect:/index";
 	}
@@ -268,6 +272,7 @@ public class PassiController {
 	public String selectMember(@RequestParam int userID,
 			@ModelAttribute("selectedGroup") int groupID,
 			@ModelAttribute("selectedWorksheet") int worksheetID,
+			@ModelAttribute("isAnsweredMap") Map<Integer, Integer> isAnsweredMap,
 			final RedirectAttributes ra) {
 		if (!passiService.userIsGroupInstructor(groupID, getAuthUsername())) {
 			logger.info(getAuthUsername() + " attempted unauthorized access to group data");
@@ -277,8 +282,42 @@ public class PassiController {
 		ra.addFlashAttribute("selectedMember", userID);
 		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, userID, groupID));
 		ra.addFlashAttribute("worksheetContent", passiService.getWorksheetContent(worksheetID));
+		ra.addFlashAttribute("previousMember", getPreviousMember(isAnsweredMap, userID));
+		ra.addFlashAttribute("nextMember", getNextMember(isAnsweredMap, userID));
 		logger.info("selectMember completed");
 		return "redirect:/index";
+	}
+	
+	private int getNextMember(Map isAnsweredMap, int selectedMember) {
+		Iterator it = isAnsweredMap.entrySet().iterator();
+		boolean currentFound = false;
+		while (it.hasNext()) {
+			Map.Entry<Integer, Integer> pair = (Map.Entry<Integer, Integer>) it.next();
+			if (pair.getValue() == 1) {
+				if (pair.getKey() == selectedMember) {
+					currentFound = true;
+				} else if (currentFound) {
+					return pair.getKey();
+				}
+			}
+		}
+		return 0;
+	}
+	
+	private int getPreviousMember(Map isAnsweredMap, int selectedMember) {
+		Iterator it = isAnsweredMap.entrySet().iterator();
+		int user = 0;
+		boolean currentFound = false;
+		while (it.hasNext()) {
+			Map.Entry<Integer, Integer> pair = (Map.Entry<Integer, Integer>) it.next();
+			if (pair.getValue() == 1) {
+				if (pair.getKey() == selectedMember) {
+					return user;
+				}
+				user = pair.getKey();
+			}
+		}
+		return user;
 	}
 	
 	@RequestMapping(value = "/resetSelectedMember", method = RequestMethod.POST)

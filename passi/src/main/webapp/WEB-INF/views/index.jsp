@@ -347,6 +347,23 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
   				</c:if>
   				
   				<div class="row" style="margin-top: 15px;">
+  				<div class="col-sm-12 col-md-6 text-left">
+  					<form id="selectMember" action="${selectMemberURL}" method="POST" accept-charset="UTF-8">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+						<input type="hidden" id="userID" name="userID" value="${previousMember }" />
+  						<button type="${previousMember == 0 ? 'button' : 'submit' }" class="btn btn-default${previousMember == 0 ? ' disabled' : '' }" title="${previousMember == 0 ? 'Ei enempää palautuksia arvostelematta' : 'Edellinen arvostelematon palautus' }">&lt; Edellinen</button>
+  					</form>
+  				</div>
+  				<div class="col-sm-12 col-md-6 text-right">
+  					<form id="selectMember" action="${selectMemberURL}" method="POST" accept-charset="UTF-8">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+						<input type="hidden" id="userID" name="userID" value="${nextMember }" />
+  						<button type="${nextMember == 0 ? 'button' : 'submit' }" class="btn btn-default${nextMember == 0 ? ' disabled' : '' }" title="${nextMember == 0 ? 'Ei enempää palautuksia arvostelematta' : 'Seuraava arvostelematon palautus' }">Seuraava &gt;</button>
+  					</form>
+  				</div>
+  				</div>
+  				
+  				<div class="row" style="margin-top: 15px;">
   				<div class="col-sm-12">
   					<a href="#" onclick="this.blur();"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;Palaa sivun alkuun</a>
   				</div>
