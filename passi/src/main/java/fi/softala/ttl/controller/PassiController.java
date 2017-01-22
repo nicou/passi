@@ -161,7 +161,18 @@ public class PassiController {
 	}
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String indexPage(Model model) {
+	public String indexPage(
+			Model model,
+			@ModelAttribute("selectedGroup") int groupID,
+			@ModelAttribute("selectedWorksheet") int selectedWorksheet,
+			@ModelAttribute("groupMembers") ArrayList<User> groupMembers) {
+		if (groupID > 0) {
+			model.addAttribute("groupMembers", passiService.getGroupMembers(groupID));
+			model.addAttribute("groupWorksheetSummary", passiService.getGroupWorksheetSummary(groupID, getAuthUsername()));
+		}
+		if (groupID > 0 && selectedWorksheet > 0 && groupMembers != null && groupMembers.size() > 0) {
+			model.addAttribute("isAnsweredMap", passiService.getIsAnsweredMap(selectedWorksheet, groupMembers, groupID));
+		}
 		return "index";
 	}
 
@@ -372,7 +383,6 @@ public class PassiController {
 			@ModelAttribute("selectedWorksheet") int worksheetID,
 			@ModelAttribute("selectedMember") int selectedMember,
 			RedirectAttributes ra) {
-		ra.addFlashAttribute("groupWorksheetSummary", passiService.getGroupWorksheetSummary(groupID, getAuthUsername()));
 		ra.addFlashAttribute("worksheetAnswers", passiService.getWorksheetAnswers(worksheetID, selectedMember, groupID));
 		ra.addFlashAttribute("message", "Palaute tallennettu!");
 		return "redirect:/index#top";
