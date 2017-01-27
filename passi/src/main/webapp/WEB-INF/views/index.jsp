@@ -125,7 +125,18 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 			</c:choose>
 		</div>
 		
-		<div class="row row-padding">
+		<div class="row row-padding" style="padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0;">
+			<div class="checkbox">
+			<form id="toggleNames" action="<c:url value="/toggleNames" />" method="POST" accept-charset="UTF-8">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				<label>
+					<input name="names" type="checkbox" onclick="document.forms['toggleNames'].submit()"${showNames ? '' : ' checked' }/> Piilota jäsenten nimet
+				</label>
+			</form>
+			</div>
+		</div>
+		
+		<div class="row row-padding" style="margin-top: 8px; padding-top: 0;">
 			<h4 class="cursor-default">4. Valitse Jäsen</h4>
    		 	<c:choose>
     			<c:when test="${not empty groupMembers}">
@@ -135,17 +146,18 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 					<input type="hidden" id="userID" name="userID" value="" />
    					<table class="table table-hover table-select-user">
     				<c:forEach var="member" items="${groupMembers}">
+    				<c:set var="memberFullName" value="${member.firstname} ${member.lastname}" />
     					<c:choose>
     						<c:when test="${isAnsweredMap[member.userID] == 1}">
-    							<tr title="Tehtäväkortti palautettu, ei arvosteltu" onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border${selectedMember == member.userID ? ' bold' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
+    							<tr title="Tehtäväkortti palautettu, ei arvosteltu" onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border${selectedMember == member.userID ? ' bold' : ''}"><td><c:out value="${showNames ? memberFullName : member.userID }" />
     							<c:if test="${selectedWorksheet > 0}"><div style="float: right; color: #ec971f; font-weight: bold;">&#10003;</div></c:if></td></tr>   					
     						</c:when>
     						<c:when test="${isAnsweredMap[member.userID] == 2}">
-    							<tr title="Tehtäväkortti arvosteltu" onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border${selectedMember == member.userID ? ' bold' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
+    							<tr title="Tehtäväkortti arvosteltu" onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border${selectedMember == member.userID ? ' bold' : ''}"><td><c:out value="${showNames ? memberFullName : member.userID }" />
     							<c:if test="${selectedWorksheet > 0}"><div style="float: right; color: green; font-weight: bold;">&#10003;</div></c:if></td></tr>   					
     						</c:when>
     						<c:otherwise>
-    							<tr title="${selectedWorksheet == 0 ? 'Valitse ensin tehtäväkortti' : 'Tehtäväkortti palauttamatta'}" onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border${selectedMember == member.userID ? ' bold' : ''}${selectedWorksheet == 0 ? ' not-clickable' : ''}"><td><c:out value="${member.firstname}" />&nbsp;<c:out value="${member.lastname}" />
+    							<tr title="${selectedWorksheet == 0 ? 'Valitse ensin tehtäväkortti' : 'Tehtäväkortti palauttamatta'}" onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border${selectedMember == member.userID ? ' bold' : ''}${selectedWorksheet == 0 ? ' not-clickable' : ''}"><td><c:out value="${showNames ? memberFullName : member.userID }" />
     							<c:if test="${selectedWorksheet > 0}"><div style="float: right; color: red; font-weight: bold;">&#10007;</div></c:if></td></tr>
     						</c:otherwise>
     					</c:choose>
@@ -185,8 +197,9 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 		<div class="row row-padding">
 			<form action="resetSelectedMember" method="post" accept-charset="utf-8">
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			<c:set var="memberFullName" value="${memberDetails.firstname} ${memberDetails.lastname}" />
   			<h2>
-  				<c:out value="${worksheetContent.worksheetHeader}" />&nbsp;&nbsp;&bull;&nbsp; <c:out value="${memberDetails.firstname}" />&nbsp;<c:out value="${memberDetails.lastname}" />
+  				<c:out value="${worksheetContent.worksheetHeader}" />&nbsp;&bull;&nbsp;<c:out value="${showNames ? memberFullName : memberDetails.userID }" />
   				<button style="float: right;" type="submit" class="btn btn-sm btn-default" title="Palaa takaisin ryhmän yhteenvetoon"><span class="glyphicon glyphicon-remove"></span> Palaa yhteenvetoon</button>
   			</h2>
   			</form>
@@ -386,7 +399,7 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
 		  				<h3><c:out value="${selectedGroupName}" /></h3>
 		  				<c:set var="groupMemberCount" value="0" />
 		  				<c:if test="${fn:length(groupMembers) > 0}"><c:set var="groupMemberCount" value="${fn:length(groupMembers)}" /></c:if>
-		  				Työkykypassiryhmässä opiskelijoita yhteensä <strong><c:out value="${groupMemberCount}" />kpl</strong>
+		  				Työkykypassiryhmässä on yhteensä <strong><c:out value="${groupMemberCount}" /></strong>&nbsp;<c:out value="${groupMemberCount == 1 ? 'jäsen' : 'jäsentä' }" />
 		  				<table class="table table-condensed table-striped" style="margin-top: 30px;">
 		  				<thead>
 		  					<tr>

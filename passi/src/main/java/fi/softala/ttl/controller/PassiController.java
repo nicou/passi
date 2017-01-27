@@ -66,7 +66,7 @@ import fi.softala.ttl.validator.UserValidator;
 @Controller
 @Scope("session")
 @SessionAttributes({ "categories", "defaultGroup", "user", "userDetails", "groups", "groupMembers", "instructorsDetails", "isAnsweredMap", "message", "memberDetails", "newGroup", "editedGroup", "newMember",
-		"selectedCategory", "selectedGroup", "selectedMember", "selectedWorksheet", "worksheets", "worksheetContent", "worksheetAnswers", "groupWorksheetSummary", "nextMember", "previousMember" })
+		"selectedCategory", "selectedGroup", "selectedMember", "selectedWorksheet", "worksheets", "worksheetContent", "worksheetAnswers", "groupWorksheetSummary", "nextMember", "previousMember", "showNames" })
 public class PassiController {
 
 	final static Logger logger = LoggerFactory.getLogger(PassiController.class);
@@ -156,6 +156,8 @@ public class PassiController {
 		
 		redirectAttributes.addFlashAttribute("nextMember", 0);
 		redirectAttributes.addFlashAttribute("previousMember", 0);
+		
+		redirectAttributes.addFlashAttribute("showNames", true);
 		
 		return "redirect:/index";
 	}
@@ -573,6 +575,14 @@ public class PassiController {
 		}
 		
 		return "redirect:/passrestore";
+	}
+	
+	@RequestMapping(value = "/toggleNames", method = RequestMethod.POST)
+	public String toggleNames(
+			@RequestParam(value = "names", required = false) boolean names,
+			RedirectAttributes ra) {
+		ra.addFlashAttribute("showNames", !names);
+		return "redirect:/index";
 	}
 	
 	public String getAuthUsername() {
