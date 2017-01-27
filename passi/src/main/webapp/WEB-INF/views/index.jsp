@@ -149,15 +149,15 @@ response.setHeader("Refresh", timeout + "; URL = " + contextPath + "/expired");
     				<c:set var="memberFullName" value="${member.firstname} ${member.lastname}" />
     					<c:choose>
     						<c:when test="${isAnsweredMap[member.userID] == 1}">
-    							<tr title="Tehtäväkortti palautettu, ei arvosteltu" onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border${selectedMember == member.userID ? ' bold' : ''}"><td><c:out value="${showNames ? memberFullName : member.userID }" />
+    							<tr title="Tehtäväkortti palautettu, ei arvosteltu" onclick="document.querySelector('#userID').value='${member.userID}';document.querySelector('#selectMember').submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border${selectedMember == member.userID ? ' bold' : ''}"><td><c:out value="${showNames ? memberFullName : member.userID }" />
     							<c:if test="${selectedWorksheet > 0}"><div style="float: right; color: #ec971f; font-weight: bold;">&#10003;</div></c:if></td></tr>   					
     						</c:when>
     						<c:when test="${isAnsweredMap[member.userID] == 2}">
-    							<tr title="Tehtäväkortti arvosteltu" onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border${selectedMember == member.userID ? ' bold' : ''}"><td><c:out value="${showNames ? memberFullName : member.userID }" />
+    							<tr title="Tehtäväkortti arvosteltu" onclick="document.querySelector('#userID').value='${member.userID}';document.querySelector('#selectMember').submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border${selectedMember == member.userID ? ' bold' : ''}"><td><c:out value="${showNames ? memberFullName : member.userID }" />
     							<c:if test="${selectedWorksheet > 0}"><div style="float: right; color: green; font-weight: bold;">&#10003;</div></c:if></td></tr>   					
     						</c:when>
     						<c:otherwise>
-    							<tr title="${selectedWorksheet == 0 ? 'Valitse ensin tehtäväkortti' : 'Tehtäväkortti palauttamatta'}" onclick="document.forms['selectMember'].elements['userID'].value='${member.userID}';document.forms['selectMember'].submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border${selectedMember == member.userID ? ' bold' : ''}${selectedWorksheet == 0 ? ' not-clickable' : ''}"><td><c:out value="${showNames ? memberFullName : member.userID }" />
+    							<tr title="${selectedWorksheet == 0 ? 'Valitse ensin tehtäväkortti' : 'Tehtäväkortti palauttamatta'}" onclick="document.querySelector('#userID').value='${member.userID}';document.querySelector('#selectMember').submit(${selectedWorksheet == 0 ? 'return false;' : ''});" class="table-top-border${selectedMember == member.userID ? ' bold' : ''}${selectedWorksheet == 0 ? ' not-clickable' : ''}"><td><c:out value="${showNames ? memberFullName : member.userID }" />
     							<c:if test="${selectedWorksheet > 0}"><div style="float: right; color: red; font-weight: bold;">&#10007;</div></c:if></td></tr>
     						</c:otherwise>
     					</c:choose>
