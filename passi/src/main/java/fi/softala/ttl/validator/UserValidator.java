@@ -16,7 +16,7 @@ public class UserValidator implements Validator {
     private PassiService passiService;
 	
 	private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$";
-	private static final String USERNAME_PATTERN = "^[A-z-._]{0,30}$";
+	private static final String USERNAME_PATTERN = "^[A-zÄÖäöÅå0-9-._]{0,30}$";
 	
     @Override
     public boolean supports(Class<?> aClass) {
