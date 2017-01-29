@@ -182,6 +182,18 @@ public class UserDAOImpl implements UserDAO {
 	}
 	
 	@Override
+	public int getUserIdWithToken(String token) {
+		String SQL = "SELECT user_id FROM password_reset WHERE token = :token";
+		Map<String, String> params = new HashMap<>();
+		params.put("token", token);
+		try {
+			return namedParameterJdbcTemplate.queryForObject(SQL, params, Integer.class);
+		} catch (Exception ex) {
+			return 0;
+		}
+	}
+	
+	@Override
 	public boolean resetUserPassword(String token, String password) {
 		String SQL1 = "UPDATE users SET password = :password WHERE user_id = (SELECT user_id FROM password_reset WHERE token = :token AND expiration_date >= :date)";
 		String SQL2 = "DELETE FROM password_reset WHERE token = :token";

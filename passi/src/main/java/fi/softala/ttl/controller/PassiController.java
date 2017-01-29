@@ -54,6 +54,7 @@ import fi.softala.ttl.model.Group;
 import fi.softala.ttl.model.Role;
 import fi.softala.ttl.dto.WorksheetDTO;
 import fi.softala.ttl.helper.Emailer;
+import fi.softala.ttl.helper.RestBridge;
 import fi.softala.ttl.helper.TokenGenerator;
 import fi.softala.ttl.model.User;
 import fi.softala.ttl.model.WorksheetTableEntry;
@@ -563,13 +564,22 @@ public class PassiController {
 			@RequestParam(value = "token", required = true) String token,
 			final RedirectAttributes ra) {
 		
+		int userID = userService.getUserIdWithToken(token);
+		
 		// TODO: Same validation criteria for passwords during registration and password reset
 		if (pw1.length() < 5 || pw2.length() < 5 || !pw1.equals(pw2)) {
 			ra.addFlashAttribute("msg", "Uusi salasana on alle 5 merkkiä pitkä, tai salasanat eivät täsmää.");
 			ra.addFlashAttribute("success", false);
 			return "redirect:/passrestore?token=" + token;
+		} else if (userID == 0) {
+			ra.addFlashAttribute("msg", "Salasanan vaihdon linkki ei ole enää voimassa!");
+			ra.addFlashAttribute("success", false);
+			return "redirect:/passrestore?token=" + token;
 		}
+		
 		if (userService.resetUserPassword(token, pw1)) {
+			RestBridge rb = new RestBridge();
+			rb.updateRestPassword(userService.getUserIdWithToken(token));
 			ra.addFlashAttribute("msg", "Salasanasi on vaihdettu onnistuneesti! Voit nyt kirjautua uudella salasanallasi.");
 			ra.addFlashAttribute("success", true);
 		}

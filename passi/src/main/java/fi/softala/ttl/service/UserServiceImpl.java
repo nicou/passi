@@ -41,6 +41,11 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public int getUserIdWithToken(String token) {
+		return dao.getUserIdWithToken(token);
+	}
+	
+	@Override
 	public boolean resetUserPassword(String token, String password) {
 		return dao.resetUserPassword(token, passwordEncoder.encode(password));
 	}

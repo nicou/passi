@@ -13,6 +13,8 @@ public interface UserService {
     
     public boolean setPasswordResetToken(String email, String token);
     
+    public int getUserIdWithToken(String token);
+    
     public boolean resetUserPassword(String token, String password);
     
     public boolean isCorrectInstructorKey(String instructorKey);
