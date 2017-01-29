@@ -579,7 +579,7 @@ public class PassiController {
 		
 		if (userService.resetUserPassword(token, pw1)) {
 			RestBridge rb = new RestBridge();
-			rb.updateRestPassword(userService.getUserIdWithToken(token));
+			rb.updateRestPassword(userID);
 			ra.addFlashAttribute("msg", "Salasanasi on vaihdettu onnistuneesti! Voit nyt kirjautua uudella salasanallasi.");
 			ra.addFlashAttribute("success", true);
 		}
