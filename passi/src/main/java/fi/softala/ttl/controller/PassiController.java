@@ -547,6 +547,7 @@ public class PassiController {
 			RedirectAttributes ra) {
 		TokenGenerator tg = new TokenGenerator();
 		String token = tg.generateToken();
+		System.out.println("JUKKA1 " + email);
 		if (userService.setPasswordResetToken(email, token)) {
 			emailer.sendPasswordResetMessage(email, token);
 			ra.addFlashAttribute("msg", "Sähköpostiisi on lähetetty linkki, jonka kautta voit vaihtaa salasanasi. Linkki on voimassa 24 tuntia.");

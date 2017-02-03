@@ -29,6 +29,7 @@ public class Emailer {
 	
 	public void sendPasswordResetMessage(String email, String token) {
 		String host = "localhost";
+		System.out.println("JUKKA2 sending:" +  email);
 		Properties props = System.getProperties();
 		String resetUrl =  PROTOCOL + DOMAIN + "/passi/passrestore?token=" + token;
 		
